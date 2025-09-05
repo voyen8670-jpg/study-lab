@@ -9,7 +9,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url("space.jpg") no-repeat center center fixed;
+      background: url("universe.jpg") no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-align: center;
@@ -42,15 +42,15 @@
 
     /* Icon */
     .icon {
-      width: 80px;
-      height: 80px;
+      font-size: 60px;
       margin-bottom: 15px;
+      display: inline-block;
       filter: drop-shadow(0 0 6px rgba(0, 234, 255, 0.6));
       transition: transform 0.3s, filter 0.3s;
     }
 
     .card:hover .icon {
-      transform: scale(1.15);
+      transform: scale(1.2);
       filter: drop-shadow(0 0 12px rgba(0, 234, 255, 1));
     }
 
@@ -78,22 +78,22 @@
   <h1>Study Lab</h1>
   <div class="container">
     <div class="card" onclick="location.href='physics.html'">
-      <img src="icons/physics.png" alt="Vật lý" class="icon">
+      <div class="icon">⚡</div>
       <h2>Vật lý</h2>
       <p>Khám phá các thí nghiệm mô phỏng vật lý.</p>
     </div>
     <div class="card" onclick="location.href='chemistry.html'">
-      <img src="icons/chemistry.png" alt="Hóa học" class="icon">
+      <div class="icon">🧪</div>
       <h2>Hóa học</h2>
       <p>Thí nghiệm hóa học trực quan và thú vị.</p>
     </div>
     <div class="card" onclick="location.href='biology.html'">
-      <img src="icons/biology.png" alt="Sinh học" class="icon">
+      <div class="icon">🧬</div>
       <h2>Sinh học</h2>
       <p>Khám phá thế giới sinh học qua mô phỏng.</p>
     </div>
     <div class="card" onclick="location.href='math.html'">
-      <img src="icons/math.png" alt="Toán học" class="icon">
+      <div class="icon">📐</div>
       <h2>Toán học</h2>
       <p>Trực quan hóa các khái niệm toán học.</p>
     </div>
