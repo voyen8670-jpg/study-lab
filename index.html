@@ -3,55 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Lab</title>
+  <title>Study Lab - Giới thiệu</title>
   <style>
     body {
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
       height: 100vh;
+      background: url("space.jpg") no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      font-family: Arial, sans-serif;
       color: white;
-      background: url("space.jpg") no-repeat center center/cover;
+      text-align: center;
     }
 
     .overlay {
       background: rgba(0, 0, 0, 0.6);
       padding: 40px;
-      border-radius: 15px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 234, 255, 0.8);
     }
 
     h1 {
-      font-size: 3em;
-      color: cyan;
-      text-shadow: 0 0 15px cyan;
+      font-size: 60px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(0, 234, 255, 1);
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: normal;
+      color: #00eaff;
     }
 
     p {
-      font-size: 1.2em;
-      margin-top: 10px;
-      line-height: 1.6;
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #ddd;
     }
 
     .start-btn {
       display: inline-block;
-      margin-top: 20px;
-      background: cyan;
-      color: black;
-      text-decoration: none;
       padding: 12px 25px;
-      border-radius: 25px;
-      font-size: 1.1em;
-      font-weight: bold;
-      transition: 0.3s;
+      font-size: 18px;
+      color: black;
+      background: #00eaff;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
     }
 
     .start-btn:hover {
-      background: #00bcd4;
-      transform: scale(1.05);
+      background: #00c4d6;
+      transform: scale(1.1);
     }
   </style>
 </head>
@@ -60,8 +67,8 @@
     <h1>Study Lab</h1>
     <h2>Khám phá khoa học qua mô phỏng trực tuyến</h2>
     <p>
-      Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và Toán học trực quan,<br>
-      giúp học sinh THPT dễ dàng tiếp cận kiến thức.
+      Nơi bạn có thể học tập, khám phá và trải nghiệm các thí nghiệm Vật lý, 
+      Hóa học, Sinh học và Toán học theo cách trực quan và sinh động nhất.
     </p>
     <a href="menu.html" class="start-btn">Bắt đầu ngay</a>
   </div>
