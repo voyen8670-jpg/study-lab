@@ -5,74 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Study Lab</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: white;
-  background: url("./18a6b57843aa30f1fb247554fe0681fd.jpg") no-repeat center center/cover;
-  overflow: hidden;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url("space.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
     }
+
     .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 0;
-    }
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 700px;
+      background: rgba(0, 0, 0, 0.6); /* Lớp mờ để dễ đọc chữ */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       padding: 20px;
     }
+
     h1 {
-      font-size: 4rem;
-      margin-bottom: 20px;
-      color: #00d9ff;
-      text-shadow: 0 0 20px rgba(0, 217, 255, 0.9);
+      font-size: 3em;
+      color: cyan;
+      text-shadow: 0px 0px 15px cyan;
+      margin: 10px 0;
     }
+
     h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 1.8em;
+      margin: 10px 0 20px;
     }
+
     p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
+      font-size: 1.2em;
+      max-width: 700px;
       line-height: 1.6;
-      color: #f0f0f0;
     }
-    .btn {
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      background: #00d9ff;
-      color: black;
+
+    button {
+      background: cyan;
       border: none;
-      border-radius: 30px;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-size: 1.1em;
       cursor: pointer;
+      margin-top: 20px;
       transition: 0.3s;
-      text-decoration: none;
     }
-    .btn:hover {
-      background: #00aacc;
+
+    button:hover {
+      background: #00bcd4;
       transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <div class="container">
+  <div class="overlay">
     <h1>Study Lab</h1>
     <h2>Khám phá khoa học qua mô phỏng trực tuyến</h2>
     <p>
-      Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và Toán học trực quan,
-      giúp học sinh THPT dễ dàng tiếp cận kiến thức.
+      Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và
+      Toán học trực quan, giúp học sinh THPT dễ dàng tiếp cận kiến thức.
     </p>
-    <a href="subjects.html" class="btn">Bắt đầu ngay</a>
+    <button>Bắt đầu ngay</button>
   </div>
 </body>
 </html>
