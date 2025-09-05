@@ -3,69 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Lab - Các môn học</title>
+  <title>Study Lab - Menu</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(to right, #141e30, #243b55);
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      text-align: center;
+    }
+
+    header {
       padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      font-size: 2em;
+      font-weight: bold;
+      color: cyan;
+      text-shadow: 0 0 10px cyan;
     }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 40px;
-      color: #00d9ff;
-      text-shadow: 0 0 15px rgba(0, 217, 255, 0.9);
-    }
-    .grid {
+
+    .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      width: 100%;
-      max-width: 900px;
+      padding: 40px;
     }
+
     .card {
       background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
       border-radius: 15px;
-      text-align: center;
-      transition: 0.3s;
+      padding: 30px;
       cursor: pointer;
+      transition: 0.3s;
     }
+
     .card:hover {
-      background: rgba(0, 217, 255, 0.2);
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
     }
+
     .card h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: #00d9ff;
+      margin: 0 0 10px;
+      color: cyan;
     }
-    .back {
-      margin-top: 40px;
-      color: #00d9ff;
-      text-decoration: none;
-      font-size: 1.1rem;
+
+    .card p {
+      font-size: 0.95em;
+      line-height: 1.4;
     }
-    .back:hover {
-      text-decoration: underline;
+
+    footer {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 0.9em;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
-  <h1>Các môn học</h1>
-  <div class="grid">
-    <div class="card"><h2>Vật lý</h2></div>
-    <div class="card"><h2>Hóa học</h2></div>
-    <div class="card"><h2>Sinh học</h2></div>
-    <div class="card"><h2>Toán học</h2></div>
+  <header>Study Lab - Chọn môn học</header>
+
+  <div class="container">
+    <a href="physics.html" class="card">
+      <h2>Vật lý</h2>
+      <p>Mô phỏng thí nghiệm cơ học, điện, quang học...</p>
+    </a>
+
+    <a href="chemistry.html" class="card">
+      <h2>Hóa học</h2>
+      <p>Mô phỏng phản ứng, dung dịch, thí nghiệm an toàn...</p>
+    </a>
+
+    <a href="biology.html" class="card">
+      <h2>Sinh học</h2>
+      <p>Mô phỏng tế bào, di truyền, tiến hóa...</p>
+    </a>
+
+    <a href="math.html" class="card">
+      <h2>Toán học</h2>
+      <p>Mô phỏng hình học, xác suất, đồ thị hàm số...</p>
+    </a>
   </div>
-  <a href="index.html" class="back">← Quay lại trang chính</a>
+
+  <footer>© 2025 Study Lab</footer>
 </body>
 </html>
