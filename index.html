@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Study Lab</title>
   <style>
-    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: Arial, sans-serif;
       height: 100vh;
@@ -16,47 +14,38 @@
       align-items: center;
       text-align: center;
       color: white;
-      background: radial-gradient(circle at top, #1a2a6c, #16222a, #000000);
+      background: url("18a6b57843aa30f1fb247554fe0681fd.jpg") no-repeat center center/cover;
       overflow: hidden;
     }
-
-    /* Hiệu ứng sao galaxy */
-    body::before {
-      content: "";
+    .overlay {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: url("https://www.transparenttextures.com/patterns/stardust.png");
-      opacity: 0.4;
+      background: rgba(0,0,0,0.5);
       z-index: 0;
     }
-
     .container {
       position: relative;
       z-index: 1;
       max-width: 700px;
       padding: 20px;
     }
-
     h1 {
       font-size: 4rem;
       margin-bottom: 20px;
       color: #00d9ff;
-      text-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+      text-shadow: 0 0 20px rgba(0, 217, 255, 0.9);
     }
-
     h2 {
       font-size: 1.8rem;
       margin-bottom: 20px;
     }
-
     p {
       font-size: 1.2rem;
       margin-bottom: 30px;
       line-height: 1.6;
-      color: #d0d0d0;
+      color: #f0f0f0;
     }
-
     .btn {
       padding: 12px 28px;
       font-size: 1.2rem;
@@ -68,7 +57,6 @@
       transition: 0.3s;
       text-decoration: none;
     }
-
     .btn:hover {
       background: #00aacc;
       transform: scale(1.05);
@@ -76,6 +64,7 @@
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="container">
     <h1>Study Lab</h1>
     <h2>Khám phá khoa học qua mô phỏng trực tuyến</h2>
@@ -83,7 +72,7 @@
       Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và Toán học trực quan,
       giúp học sinh THPT dễ dàng tiếp cận kiến thức.
     </p>
-    <a href="#" class="btn">Bắt đầu ngay</a>
+    <a href="subjects.html" class="btn">Bắt đầu ngay</a>
   </div>
 </body>
 </html>
