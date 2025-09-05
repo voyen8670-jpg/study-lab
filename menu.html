@@ -6,47 +6,79 @@
   <title>Menu Môn học</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #0a1d3b, #1a3d6e);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: white;
-      text-align: center;
       margin: 0;
       padding: 0;
     }
+
     h1 {
       font-size: 2.5em;
-      color: cyan;
-      text-shadow: 0 0 10px cyan, 0 0 20px blue;
-      padding: 20px;
+      color: #00eaff;
+      text-align: center;
+      text-shadow: 0 0 10px #00eaff, 0 0 20px #0088ff;
+      padding: 30px 10px;
     }
+
     .container {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       padding: 20px;
+      max-width: 1000px;
+      margin: auto;
     }
+
     .card {
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    .card h2 {
-      margin: 0;
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 8px rgba(0, 234, 255, 0.6));
+    }
+
+    .card h2 a {
       font-size: 1.8em;
-      color: cyan;
-    }
-    .card a {
-      color: #00ffff;
+      color: #00eaff;
       text-decoration: none;
-      font-weight: bold;
+      text-shadow: 0 0 10px #00eaff;
+      transition: color 0.3s;
     }
-    .card a:hover {
+
+    .card h2 a:hover {
       color: yellow;
-      text-decoration: underline;
     }
-    p {
+
+    .card p a {
+      display: inline-block;
       margin-top: 10px;
+      font-size: 1em;
+      color: #ffffff;
+      text-decoration: none;
+      background: #00eaff;
+      padding: 8px 15px;
+      border-radius: 10px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .card p a:hover {
+      background: #0088ff;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -55,23 +87,27 @@
   <div class="container">
 
     <div class="card">
+      <img src="img/physics.png" alt="Vật lý">
       <h2><a href="physics.html">Vật lý</a></h2>
-      <p><a href="physics.html">Mô phỏng thí nghiệm cơ học, điện, quang học...</a></p>
+      <p><a href="physics.html">Khám phá cơ học, điện, quang học...</a></p>
     </div>
 
     <div class="card">
+      <img src="img/chemistry.png" alt="Hóa học">
       <h2><a href="chemistry.html">Hóa học</a></h2>
-      <p><a href="chemistry.html">Mô phỏng phản ứng, dung dịch, thí nghiệm an toàn...</a></p>
+      <p><a href="chemistry.html">Phản ứng, dung dịch, thí nghiệm...</a></p>
     </div>
 
     <div class="card">
+      <img src="img/biology.png" alt="Sinh học">
       <h2><a href="biology.html">Sinh học</a></h2>
-      <p><a href="biology.html">Mô phỏng tế bào, di truyền, tiến hóa...</a></p>
+      <p><a href="biology.html">Tế bào, di truyền, tiến hóa...</a></p>
     </div>
 
     <div class="card">
+      <img src="img/math.png" alt="Toán học">
       <h2><a href="math.html">Toán học</a></h2>
-      <p><a href="math.html">Mô phỏng hình học, xác suất, đồ thị...</a></p>
+      <p><a href="math.html">Hình học, xác suất, đồ thị...</a></p>
     </div>
 
   </div>
