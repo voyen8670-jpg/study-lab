@@ -3,77 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Science Simulations | Study Lab</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Study Lab</title>
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      background: radial-gradient(circle at top, #1a2a6c, #16222a, #000000);
+      overflow: hidden;
+    }
+
+    /* Hiệu ứng sao galaxy */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url("https://www.transparenttextures.com/patterns/stardust.png");
+      opacity: 0.4;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      color: #00d9ff;
+      text-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #d0d0d0;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      background: #00d9ff;
+      color: black;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #00aacc;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md fixed w-full top-0 left-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">Science Simulations</h1>
-      <ul class="flex space-x-6 font-medium">
-        <li><a href="#" class="hover:text-blue-500">Trang chủ</a></li>
-        <li><a href="#physics" class="hover:text-blue-500">Vật lý</a></li>
-        <li><a href="#chemistry" class="hover:text-blue-500">Hóa học</a></li>
-        <li><a href="#biology" class="hover:text-blue-500">Sinh học</a></li>
-        <li><a href="#math" class="hover:text-blue-500">Toán học</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="h-screen flex flex-col justify-center items-center text-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6">
-    <h2 class="text-5xl font-extrabold mb-4">Khám phá khoa học qua mô phỏng trực tuyến</h2>
-    <p class="text-lg max-w-2xl mb-6">Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và Toán học trực quan, giúp học sinh THPT dễ dàng tiếp cận kiến thức.</p>
-    <a href="#subjects" class="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-200 transition">Bắt đầu ngay</a>
-  </section>
-
-  <!-- Subjects Grid -->
-  <section id="subjects" class="max-w-7xl mx-auto px-6 py-16">
-    <h3 class="text-3xl font-bold text-center mb-10">Chọn môn học</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-      <!-- Vật lý -->
-      <div id="physics" class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-xl transition">
-        <div class="text-5xl mb-4">⚡</div>
-        <h4 class="text-xl font-bold mb-2">Vật lý</h4>
-        <p class="mb-4">Mô phỏng con lắc, rơi tự do, sóng cơ học...</p>
-        <a href="physics.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Xem mô phỏng</a>
-      </div>
-
-      <!-- Hóa học -->
-      <div id="chemistry" class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-xl transition">
-        <div class="text-5xl mb-4">🧪</div>
-        <h4 class="text-xl font-bold mb-2">Hóa học</h4>
-        <p class="mb-4">Mô phỏng phản ứng, dung dịch, cấu trúc phân tử...</p>
-        <a href="chemistry.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Xem mô phỏng</a>
-      </div>
-
-      <!-- Sinh học -->
-      <div id="biology" class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-xl transition">
-        <div class="text-5xl mb-4">🌱</div>
-        <h4 class="text-xl font-bold mb-2">Sinh học</h4>
-        <p class="mb-4">Mô phỏng quang hợp, di truyền, tế bào...</p>
-        <a href="biology.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Xem mô phỏng</a>
-      </div>
-
-      <!-- Toán học -->
-      <div id="math" class="bg-white rounded-2xl shadow p-6 text-center hover:shadow-xl transition">
-        <div class="text-5xl mb-4">📐</div>
-        <h4 class="text-xl font-bold mb-2">Toán học</h4>
-        <p class="mb-4">Mô phỏng đồ thị, hình học, xác suất...</p>
-        <a href="math.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Xem mô phỏng</a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-300 py-6 text-center">
-    <p>© 2025 Study Lab | Science Simulations cho học sinh THPT</p>
-  </footer>
-
+<body>
+  <div class="container">
+    <h1>Study Lab</h1>
+    <h2>Khám phá khoa học qua mô phỏng trực tuyến</h2>
+    <p>
+      Study Lab mang đến những thí nghiệm Vật lý, Hóa học, Sinh học và Toán học trực quan,
+      giúp học sinh THPT dễ dàng tiếp cận kiến thức.
+    </p>
+    <a href="#" class="btn">Bắt đầu ngay</a>
+  </div>
 </body>
-          </html>
-          
+</html>
