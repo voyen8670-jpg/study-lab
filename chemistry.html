@@ -4,98 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thí nghiệm Hóa học</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #f0f0f0;
-      background: url("space.jpg") no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.6);
-      font-size: 28px;
-      font-weight: bold;
-      color: #ffcc00;
-    }
-
-    .container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 15px;
-    }
-
-    .experiment {
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 15px;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s, background 0.3s;
-      cursor: pointer;
-    }
-
-    .experiment:hover {
-      transform: scale(1.05);
-      background: rgba(0, 0, 0, 0.75);
-    }
-
-    .experiment h2 {
-      margin-top: 0;
-      font-size: 22px;
-      color: #00e6ff;
-    }
-
-    .experiment p {
-      font-size: 15px;
-      line-height: 1.5;
-      color: #e0e0e0;
-    }
-
-    footer {
-      margin-top: 30px;
-      padding: 15px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.6);
-    }
-
-    footer a {
-      color: #ffcc00;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>🔬 Thí nghiệm Hóa học</header>
+  <header>
+    <h1>🔬 Thí nghiệm Hóa học</h1>
+  </header>
 
-  <div class="container">
-    <div class="experiment">
-      <h2>1. Nước + Dầu</h2>
-      <p>Quan sát hiện tượng không tan giữa nước và dầu, minh họa sự khác biệt về tính chất vật lý.</p>
+  <main class="menu">
+    <div class="card">
+      <div class="icon">🧴</div>
+      <h2>Nước + Dầu</h2>
+      <p>Quan sát hiện tượng không tan giữa nước và dầu.</p>
     </div>
 
-    <div class="experiment">
-      <h2>2. Axit + Kiềm</h2>
-      <p>Dùng quỳ tím để kiểm tra, quan sát sự đổi màu khi gặp axit hoặc kiềm.</p>
+    <div class="card">
+      <div class="icon">🧪</div>
+      <h2>Axit + Kiềm</h2>
+      <p>Dùng quỳ tím để nhận biết axit và kiềm qua sự đổi màu.</p>
     </div>
 
-    <div class="experiment">
-      <h2>3. Phản ứng Tạo Khí</h2>
-      <p>Pha giấm với baking soda để tạo ra khí CO₂, một phản ứng hóa học đơn giản.</p>
+    <div class="card">
+      <div class="icon">💨</div>
+      <h2>Phản ứng Tạo Khí</h2>
+      <p>Giấm + baking soda tạo khí CO₂, minh họa phản ứng hóa học.</p>
     </div>
-  </div>
+  </main>
 
   <footer>
     <a href="menu.html">⬅️ Quay lại Menu</a>
