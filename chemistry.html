@@ -3,36 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thí nghiệm Hóa học</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Study Lab - Vật lý</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("img physics.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 42px;
+      text-shadow: 0 0 12px rgba(0, 234, 255, 0.8);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 30px rgba(0, 234, 255, 0.8);
+    }
+
+    .icon {
+      font-size: 60px;
+      margin-bottom: 15px;
+      display: inline-block;
+      filter: drop-shadow(0 0 6px rgba(0, 234, 255, 0.6));
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .card:hover .icon {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 12px rgba(0, 234, 255, 1));
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #00eaff;
+      text-shadow: 0 0 6px rgba(0, 234, 255, 0.7);
+    }
+
+    p {
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #00eaff;
+      color: black;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #00c4d6;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🔬 Thí nghiệm Hóa học</h1>
-  </header>
-
-  <main class="menu">
-    <div class="card">
-      <div class="icon">🧴</div>
-      <h2>Nước + Dầu</h2>
-      <p>Quan sát hiện tượng không tan giữa nước và dầu.</p>
+  <h1>Thí nghiệm Hoá Học</h1>
+  <div class="container">
+    <div class="card" onclick="location.href='pendulum.html'">
+      <div class="icon">⏳</div>
+      <h2>Con lắc đơn</h2>
+      <p>Mô phỏng dao động điều hòa của con lắc.</p>
     </div>
-
-    <div class="card">
-      <div class="icon">🧪</div>
-      <h2>Axit + Kiềm</h2>
-      <p>Dùng quỳ tím để nhận biết axit và kiềm qua sự đổi màu.</p>
+    <div class="card" onclick="location.href='freefall.html'">
+      <div class="icon">🌍</div>
+      <h2>Rơi tự do</h2>
+      <p>Quan sát chuyển động rơi tự do của vật.</p>
     </div>
-
-    <div class="card">
-      <div class="icon">💨</div>
-      <h2>Phản ứng Tạo Khí</h2>
-      <p>Giấm + baking soda tạo khí CO₂, minh họa phản ứng hóa học.</p>
+    <div class="card" onclick="location.href='ohm.html'">
+      <div class="icon">🔌</div>
+      <h2>Định luật Ohm</h2>
+      <p>Khám phá mối quan hệ U - I - R trong mạch điện.</p>
     </div>
-  </main>
-
-  <footer>
-    <a href="menu.html">⬅️ Quay lại Menu</a>
-  </footer>
+  </div>
+  <a href="menu.html" class="back-btn">⬅ Quay lại</a>
 </body>
-</html>
+        </html>
