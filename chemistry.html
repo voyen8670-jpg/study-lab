@@ -1,30 +1,146 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Phòng thí nghiệm Hóa học</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Lab - Hóa học</title>
   <style>
+    /* layout chung như physics/menu trước */
     body {
-      background: #0b1d3a;
-      color: #e0f7ff;
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: url("img chemistry.png") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
       text-align: center;
+    }
+
+    .overlay {
+      background: rgba(0,0,0,0.55);
+      min-height: 100vh;
+      padding: 30px 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin: 0 auto 30px auto;
+      padding-top: 20px;
+      font-size: 38px;
+      color: #00eaff;
+      text-shadow: 0 0 10px rgba(0,234,255,0.8);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      max-width: 1000px;
+      margin: 10px auto 30px auto;
+      padding: 0 12px;
+    }
+
+    .card {
+      background: rgba(5,10,30,0.6);
+      border-radius: 14px;
       padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      transition: transform .28s, box-shadow .28s;
+      cursor: pointer;
+      text-align: center;
     }
-    a {
-      color: cyan;
-      text-decoration: none;
-      font-weight: bold;
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0,234,255,0.12);
     }
-    a:hover {
-      text-decoration: underline;
+
+    .icon {
+      font-size: 56px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 6px rgba(0,200,255,0.5));
+      transition: transform .28s, filter .28s;
+      display: inline-block;
+    }
+
+    .card:hover .icon {
+      transform: scale(1.15);
+      filter: drop-shadow(0 0 14px rgba(0,200,255,0.85));
+    }
+
+    .card h2 {
+      margin: 8px 0;
+      color: #bfefff;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 8px 0 14px;
+      color: #d8d8d8;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .card a {
+      display:inline-block;
+      padding:9px 16px;
+      border-radius:8px;
+      background:#00eaff;
+      color:#000;
+      text-decoration:none;
+      font-weight:600;
+      transition:transform .18s, background .18s;
+    }
+    .card a:hover { transform:scale(1.05); background:#00c4d6; }
+
+    .back {
+      text-align:center;
+      margin-top:12px;
+    }
+    .back a {
+      color:#00eaff;
+      text-decoration:none;
+      border:2px solid #00eaff;
+      padding:8px 14px;
+      border-radius:8px;
+      display:inline-block;
+      transition:background .18s, color .18s;
+    }
+    .back a:hover { background:#00eaff; color:#000; }
+    @media (max-width:420px){
+      h1{font-size:30px}
     }
   </style>
 </head>
 <body>
-  <h1>🧪 Phòng thí nghiệm Hóa học</h1>
-  <p>Tại đây bạn sẽ tìm thấy các mô phỏng phản ứng, dung dịch, thí nghiệm an toàn...</p>
+  <div class="overlay">
+    <h1>Thí nghiệm Hóa học</h1>
 
-  <p><a href="menu.html">⬅ Quay lại Menu</a></p>
+    <div class="grid">
+      <div class="card" onclick="location.href='titration.html'">
+        <div class="icon">🥼🧪</div>
+        <h2>Chuẩn độ (Titration)</h2>
+        <p>Quan sát đồ thị pH theo thể tích, tìm điểm tương đương và màu chỉ thị.</p>
+        <a href="titration.html">Mở thí nghiệm</a>
+      </div>
+
+      <div class="card" onclick="location.href='kinetics.html'">
+        <div class="icon">⏱️⚗️</div>
+        <h2>Tốc độ phản ứng (Kinetics)</h2>
+        <p>Thay đổi hằng số k / nhiệt độ, xem nồng độ theo thời gian.</p>
+        <a href="kinetics.html">Mở thí nghiệm</a>
+      </div>
+
+      <div class="card" onclick="location.href='solubility.html'">
+        <div class="icon">❄️🧊</div>
+        <h2>Độ tan & Kết tinh</h2>
+        <p>Hiện trạng bão hòa / siêu bão hòa và mô phỏng hình thành tinh thể khi làm lạnh.</p>
+        <a href="solubility.html">Mở thí nghiệm</a>
+      </div>
+    </div>
+
+    <div class="back">
+      <a href="menu.html">⬅ Quay lại Menu chính</a>
+    </div>
+  </div>
 </body>
 </html>
