@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sim: I₂ + Amylose (hồ tinh bột)</title>
+  <style>
+  :root{
+    --bg:#071227; --panel:#0b1520;
+    --iodineTop:rgb(180,110,40); --iodineBottom:rgb(120,60,20);
+    --starchTop:#eef3ff; --starchBottom:#e9f4ff;
+    --blue:#3a0078;
+  }
+  body{font-family:Inter, Arial, Helvetica, sans-serif;
+       background:linear-gradient(180deg,#031426,#071227);
+       color:#e8f6ff;margin:0;padding:18px;
+       display:flex;justify-content:center}
+  .wrap{max-width:980px;width:100%}
+  h1{margin:0 0 8px;font-size:18px}
+  .bench{display:flex;gap:28px;align-items:flex-end;justify-content:center;margin:16px 0}
+  .tube{width:100px;height:300px;border:2px solid rgba(255,255,255,0.08);
+        border-radius:18px 18px 30px 30px;position:relative;overflow:hidden;
+        background:rgba(255,255,255,0.02)}
+  .neck{position:absolute;top:-28px;left:calc(50% - 22px);width:44px;height:50px;
+        border-radius:8px;background:rgba(255,255,255,0.03)}
+  .liquid{
+        position:absolute;left:0;right:0;bottom:0;height:0;
+        transition: height 1.5s linear, background-color 4s ease;
+        border-radius:0 0 28px 28px
+  }
+  .label{position:absolute;top:6px;left:10px;font-size:13px;color:#cfe3ff}
+  .caption{text-align:center;margin-top:6px;font-size:14px}
+  .controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);
+         background:rgba(255,255,255,0.04);color:#e6f5ff;cursor:pointer}
+  table{width:100%;border-collapse:collapse;margin-top:12px;color:#dfeeff}
+  td,th{padding:6px;border-bottom:1px dashed rgba(255,255,255,0.08);
+        font-size:13px;text-align:left}
+  .explain{margin-top:12px;background:rgba(255,255,255,0.03);
+           padding:10px;border-radius:8px;font-size:14px;line-height:1.5}
+  pre{background:transparent;color:#dfeeff;padding:6px;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Mô phỏng: I₂ + Amylose (hồ tinh bột)</h1>
+    <div class="bench">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="tube" id="tubeA">
+          <div class="neck"></div>
+          <div class="label">Ống A</div>
+          <div class="liquid" id="liqA" 
+               style="background:linear-gradient(180deg,var(--iodineTop),var(--iodineBottom))"></div>
+        </div>
+        <div class="caption">
+          I₂<br><strong>0.1 M, <span id="capA">20</span> mL</strong>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="tube" id="tubeB">
+          <div class="neck"></div>
+          <div class="label">Ống B</div>
+          <div class="liquid" id="liqB" 
+               style="background:linear-gradient(180deg,var(--starchTop),var(--starchBottom))"></div>
+        </div>
+        <div class="caption">
+          Amylose (hồ tinh bột)<br><strong>0.5 M, <span id="capB">15</span> mL</strong>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="tube" id="tubeC">
+          <div class="neck"></div>
+          <div class="label">Ống C</div>
+          <div class="liquid" id="liqC" 
+               style="background-color:var(--starchBottom)"></div>
+        </div>
+        <div class="caption">
+          Hỗn hợp<br><strong><span id="capC">0</span> mL</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="pourA">Rót A → C</button>
+      <button id="pourB">Rót B → C</button>
+      <button id="heat">Đun C</button>
+      <button id="cool">Làm nguội C</button>
+      <button id="reset">Đặt lại</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Ống</th><th>Nồng độ</th><th>Thể tích</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ống A (I₂)</td><td>0.1 M</td><td id="volA">20 mL</td></tr>
+        <tr><td>Ống B (Amylose)</td><td>0.5 M</td><td id="volB">15 mL</td></tr>
+        <tr><td>Ống C (Hỗn hợp)</td><td>—</td><td id="volC">0 mL</td></tr>
+      </tbody>
+    </table>
+
+    <div class="explain" id="explain">
+      <strong>Giải thích theo thao tác</strong>
+      <div id="explainText" style="margin-top:6px">
+        Chuẩn bị: A — I₂ (0.1 M, 20 mL, nâu); 
+        B — Amylose (0.5 M, 15 mL, không màu).<br>
+        Rót A và/hoặc B vào C. Khi có cả hai, dung dịch sẽ chuyển dần sang xanh tím.
+      </div>
+    </div>
+
+    <div class="explain" style="margin-top:8px">
+      <strong>Phương trình (rút gọn):</strong>
+      <pre>I₂ + Amylose (hồ tinh bột) ⇌ Hợp chất màu xanh tím</pre>
+    </div>
+  </div>
+
+<script>
+const INIT = {A:20, B:15, C:0};
+let A = INIT.A, B = INIT.B, C = INIT.C;
+let hasIodine = false, hasStarch = false, isHeating = false;
+
+const liqA = document.getElementById('liqA');
+const liqB = document.getElementById('liqB');
+const liqC = document.getElementById('liqC');
+const capA = document.getElementById('capA');
+const capB = document.getElementById('capB');
+const capC = document.getElementById('capC');
+const volA = document.getElementById('volA');
+const volB = document.getElementById('volB');
+const volC = document.getElementById('volC');
+const explainText = document.getElementById('explainText');
+
+function volToPct(v){ return Math.min(v/40,0.85)*100 + '%'; }
+function refreshAll(){
+  liqA.style.height = volToPct(A);
+  liqB.style.height = volToPct(B);
+  liqC.style.height = volToPct(C);
+  capA.textContent = Math.round(A);
+  capB.textContent = Math.round(B);
+  capC.textContent = Math.round(C);
+  volA.textContent = Math.round(A)+' mL';
+  volB.textContent = Math.round(B)+' mL';
+  volC.textContent = Math.round(C)+' mL';
+  updateCColor();
+}
+
+function updateCColor(){
+  if(C<=0){  
+    liqC.style.backgroundColor = '#e9f4ff'; // trắng nhạt
+    return;
+  }
+  if(isHeating){
+    liqC.style.backgroundColor = '#ffffff'; // mất màu
+  } else if(hasIodine && hasStarch){
+    liqC.style.backgroundColor = '#3a0078'; // xanh tím
+  } else if(hasIodine){
+    liqC.style.backgroundColor = '#8c4a1f'; // nâu
+  } else {
+    liqC.style.backgroundColor = '#e9f4ff'; // trong suốt
+  }
+}
+
+function animatePour(source){
+  if(isHeating) isHeating = false;
+  let amount = (source==='A') ? A : B;
+  if(amount <= 0){ explainText.innerHTML = `<strong>Ống ${source} đã rỗng.</strong>`; return; }
+  if(source==='A') hasIodine = true; 
+  if(source==='B') hasStarch = true;
+  explainText.innerHTML = `<strong>Đang rót ${source} vào ống C...</strong>`;
+  const steps = 15; const dt = 100; let step = 0; const delta = amount / steps;
+  const iv = setInterval(()=>{
+    step++;
+    if(source==='A'){ const transfer = Math.min(delta, A); A -= transfer; C += transfer; }
+    else { const transfer = Math.min(delta, B); B -= transfer; C += transfer; }
+    refreshAll();
+    if(step>=steps){ clearInterval(iv); explainAfterPour(source); }
+  }, dt);
+}
+
+function explainAfterPour(source){
+  if(source==='A'){
+    explainText.innerHTML = `<strong>Đã rót I₂ vào ống C.</strong><br>Ống C có màu nâu của dung dịch I₂. Nếu có Amylose, sẽ xuất hiện màu xanh tím.`;
+  } else {
+    if(hasIodine){
+      explainText.innerHTML = `<strong>Đã rót Amylose vào ống C.</strong><br>Phức I₂ - Amylose hình thành, dung dịch chuyển dần sang xanh tím.`;
+    } else {
+      explainText.innerHTML = `<strong>Đã rót Amylose vào ống C.</strong><br>Ống C trong suốt; phản ứng cần có I₂.`;
+    }
+  }
+}
+
+function heatC(){
+  if(C<=0){ explainText.innerHTML = `<strong>Ống C rỗng.</strong> Rót chất trước khi đun.`; return; }
+  isHeating = true;
+  updateCColor();
+  explainText.innerHTML = `<strong>Đang đun ống C...</strong><br>Phức I₂ - Amylose bị phá vỡ, màu xanh tím mất dần.`;
+}
+
+function coolC(){
+  if(C<=0){ explainText.innerHTML = `<strong>Ống C rỗng.</strong>`; return; }
+  if(hasIodine && hasStarch){
+    isHeating = false;
+    updateCColor();
+    explainText.innerHTML = `<strong>Ống C nguội lại.</strong><br>Phức I₂ - Amylose tái tạo, màu xanh tím xuất hiện trở lại.`;
+  } else {
+    explainText.innerHTML = `<strong>Làm nguội ống C.</strong><br>Không có đủ I₂ và Amylose để tạo màu xanh tím.`;
+  }
+}
+
+document.getElementById('pourA').addEventListener('click', ()=>{ animatePour('A'); });
+document.getElementById('pourB').addEventListener('click', ()=>{ animatePour('B'); });
+document.getElementById('heat').addEventListener('click', heatC);
+document.getElementById('cool').addEventListener('click', coolC);
+document.getElementById('reset').addEventListener('click', ()=>{
+  A=INIT.A;B=INIT.B;C=INIT.C;hasIodine=false;hasStarch=false;isHeating=false;
+  liqC.style.backgroundColor='#e9f4ff';
+  explainText.innerHTML=`Chuẩn bị: A — I₂ (0.1 M, 20 mL, nâu); B — Amylose (0.5 M, 15 mL, không màu).<br>Rót A và/hoặc B vào C.`;
+  refreshAll();
+});
+
+refreshAll();
+</script>
+</body>
+</html>
