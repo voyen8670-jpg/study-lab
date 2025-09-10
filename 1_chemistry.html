@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sim: (CH₃COO)₂Pb + KI</title>
+<style>
+  :root{ --bg:#071227; --panel:#0b1520; }
+  body{font-family:Inter, Arial, sans-serif;background:linear-gradient(180deg,#031426,#071227);color:#e8f6ff;margin:0;padding:18px;display:flex;justify-content:center}
+  .wrap{max-width:980px;width:100%}
+  h1{margin:0 0 8px;font-size:18px}
+  .bench{display:flex;gap:28px;align-items:flex-end;justify-content:center;margin:16px 0}
+  .tube{width:100px;height:300px;border:2px solid rgba(255,255,255,0.08);border-radius:18px 18px 30px 30px;position:relative;overflow:hidden;background:rgba(255,255,255,0.02)}
+  .neck{position:absolute;top:-28px;left:calc(50% - 22px);width:44px;height:50px;border-radius:8px;background:rgba(255,255,255,0.03)}
+  .liquid{position:absolute;left:0;right:0;bottom:0;height:0;transition:height 1.5s linear, background 3s linear;border-radius:0 0 28px 28px}
+  .liquid .precip{position:absolute;left:0;right:0;bottom:0;height:100%;pointer-events:none;overflow:hidden}
+  .precip-dot{position:absolute;border-radius:50%;opacity:0.95;box-shadow:0 1px 0 rgba(0,0,0,0.25)}
+  .label{position:absolute;top:6px;left:10px;font-size:13px;color:#cfe3ff}
+  .caption{text-align:center;margin-top:6px;font-size:14px}
+  .controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:#e6f5ff;cursor:pointer}
+  table{width:100%;border-collapse:collapse;margin-top:12px;color:#dfeeff}
+  td,th{padding:6px;border-bottom:1px dashed rgba(255,255,255,0.08);font-size:13px;text-align:left}
+  .explain{margin-top:12px;background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;font-size:14px;line-height:1.5}
+  pre{background:transparent;color:#dfeeff;padding:6px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mô phỏng: (CH₃COO)₂Pb + KI</h1>
+
+  <div class="bench">
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeA">
+        <div class="neck"></div>
+        <div class="label">Ống A</div>
+        <div class="liquid" id="liqA" style="background:linear-gradient(180deg,#ffffff,#f9f9f9)">
+          <div class="precip"></div>
+        </div>
+      </div>
+      <div class="caption">(CH₃COO)₂Pb<br><strong>0.5 M, <span id="capA">20</span> mL</strong></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeB">
+        <div class="neck"></div>
+        <div class="label">Ống B</div>
+        <div class="liquid" id="liqB" style="background:linear-gradient(180deg,#eef3ff,#e9f4ff)">
+          <div class="precip"></div>
+        </div>
+      </div>
+      <div class="caption">KI<br><strong>0.5 M, <span id="capB">15</span> mL</strong></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeC">
+        <div class="neck"></div>
+        <div class="label">Ống C</div>
+        <div class="liquid" id="liqC" style="background:linear-gradient(180deg,#eef3ff,#e9f4ff)">
+          <div class="precip" id="precipC"></div>
+        </div>
+      </div>
+      <div class="caption">Hỗn hợp<br><strong><span id="capC">0</span> mL</strong></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="pourA">Rót A → C</button>
+    <button id="pourB">Rót B → C</button>
+    <button id="reset">Đặt lại</button>
+  </div>
+
+  <table>
+    <thead><tr><th>Ống</th><th>Nồng độ</th><th>Thể tích</th></tr></thead>
+    <tbody>
+      <tr><td>Ống A ((CH₃COO)₂Pb)</td><td>0.5 M</td><td id="volA">20 mL</td></tr>
+      <tr><td>Ống B (KI)</td><td>0.5 M</td><td id="volB">15 mL</td></tr>
+      <tr><td>Ống C (Hỗn hợp)</td><td>—</td><td id="volC">0 mL</td></tr>
+    </tbody>
+  </table>
+
+  <div class="explain" id="explain">
+    <strong>Giải thích theo thao tác</strong>
+    <div id="explainText" style="margin-top:6px">
+      Chuẩn bị: A — (CH₃COO)₂Pb (0.5 M, 20 mL, trắng); B — KI (0.5 M, 15 mL, không màu).<br>
+      Hãy rót A và/hoặc B vào C. Khi cả hai cùng có trong C, phản ứng xảy ra tạo kết tủa vàng PbI₂.
+    </div>
+  </div>
+
+  <div class="explain" style="margin-top:8px">
+    <strong>Phương trình phản ứng:</strong>
+    <pre>(CH₃COO)₂Pb + 2KI → PbI₂↓ + 2CH₃COOK</pre>
+  </div>
+</div>
+
+<script>
+// Initial fixed volumes (mL)
+const INIT = {A:20, B:15, C:0};
+let A=INIT.A, B=INIT.B, C=INIT.C;
+let c_hasPb=false, c_hasI=false;
+
+const liqA=document.getElementById('liqA');
+const liqB=document.getElementById('liqB');
+const liqC=document.getElementById('liqC');
+const precipC=document.getElementById('precipC');
+const capA=document.getElementById('capA');
+const capB=document.getElementById('capB');
+const capC=document.getElementById('capC');
+const volA=document.getElementById('volA');
+const volB=document.getElementById('volB');
+const volC=document.getElementById('volC');
+const explainText=document.getElementById('explainText');
+
+function volToPct(v){ return Math.min(v/40,0.85)*100 + '%'; }
+function refreshAll(){
+  liqA.style.height=volToPct(A);
+  liqB.style.height=volToPct(B);
+  liqC.style.height=volToPct(C);
+  capA.textContent=Math.round(A);
+  capB.textContent=Math.round(B);
+  capC.textContent=Math.round(C);
+  volA.textContent=Math.round(A)+' mL';
+  volB.textContent=Math.round(B)+' mL';
+  volC.textContent=Math.round(C)+' mL';
+}
+
+// clear precip
+function clearPrecip(){ while(precipC.firstChild) precipC.removeChild(precipC.firstChild); }
+
+// Hiệu ứng kết tủa PbI2
+function checkPbI2Reaction(){
+  if(c_hasPb && c_hasI){
+    explainText.innerHTML="<strong>Phản ứng Pb²⁺ + I⁻ xảy ra:</strong> PbI₂ vàng xuất hiện!";
+    clearPrecip();
+    const maxDots=Math.min(80,Math.round(C*3));
+    for(let i=0;i<maxDots;i++){
+      const dot=document.createElement('div');
+      dot.className='precip-dot';
+      const size=3+Math.random()*10;
+      dot.style.width=size+'px';
+      dot.style.height=size+'px';
+      dot.style.background='#FFD700';
+      dot.style.opacity=0.7+Math.random()*0.3;
+      dot.style.left=(5+Math.random()*85)+'%';
+      dot.style.bottom='100%';
+      precipC.appendChild(dot);
+      const delay=400+Math.random()*1200;
+      const fallTime=1200+Math.random()*2000;
+      const finalBottom=(Math.random()<0.6)?(2+Math.random()*12):(30+Math.random()*80);
+      setTimeout(()=>{
+        dot.style.transition=`bottom ${fallTime}ms ease-out, transform ${fallTime}ms ease-in-out`;
+        dot.style.bottom=finalBottom+'px';
+        dot.style.transform=`translateX(${(Math.random()-0.5)*10}px)`;
+      },delay);
+    }
+    liqC.style.background='linear-gradient(180deg,#fffacd,#fff5cc)';
+  }
+}
+
+// rót
+function animatePour(source){
+  let amount=(source==='A')?A:B;
+  if(amount<=0){ explainText.innerHTML=`Ống ${source} đã rỗng.`; return;}
+  if(source==='A') c_hasPb=true; else c_hasI=true;
+
+  explainText.innerHTML=`Đang rót ${source} vào ống C...`;
+  const steps=15, dt=100;
+  const delta=amount/steps;
+  let step=0;
+  const iv=setInterval(()=>{
+    step++;
+    const t=Math.min(delta,(source==='A'?A:B));
+    if(source==='A'){
+      A-=t; C+=t;
+      liqC.style.background='linear-gradient(180deg,#ffffff,#f9f9f9)'; // giữ màu trắng
+    } else {
+      B-=t; C+=t;
+    }
+    refreshAll();
+    if(step>=steps){ clearInterval(iv); checkPbI2Reaction(); }
+  },dt);
+}
+
+document.getElementById('pourA').addEventListener('click',()=>animatePour('A'));
+document.getElementById('pourB').addEventListener('click',()=>animatePour('B'));
+document.getElementById('reset').addEventListener('click',()=>{
+  A=INIT.A; B=INIT.B; C=INIT.C; c_hasPb=false; c_hasI=false;
+  clearPrecip();
+  liqC.style.background='linear-gradient(180deg,#eef3ff,#e9f4ff)';
+  explainText.innerHTML="Chuẩn bị: A — (CH₃COO)₂Pb (0.5 M, 20 mL, trắng); B — KI (0.5 M, 15 mL, không màu).<br>Hãy rót A và/hoặc B vào C. Khi cả hai cùng có trong C, phản ứng xảy ra tạo kết tủa vàng PbI₂.";
+  refreshAll();
+});
+
+refreshAll();
+</script>
+</body>
+</html>
