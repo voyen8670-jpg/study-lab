@@ -3,100 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Lab - Menu</title>
+  <title>Study Lab - Giới thiệu</title>
   <style>
-    /* Nền galaxy */
+    /* Reset */
+    * {margin:0;padding:0;box-sizing:border-box;}
+
     body {
-      margin: 0;
+      height: 100vh;
       font-family: Arial, sans-serif;
-      background: url("universe.jpg") no-repeat center center fixed;
-      background-size: cover;
       color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      overflow: hidden;
+
+      /* Gradient nền */
+      background: radial-gradient(circle at top left, #0b132b, #1c2541, #3a506b);
     }
 
-    /* Container */
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-      max-width: 1000px;
-      margin: 80px auto;
-      padding: 20px;
+    /* Hiệu ứng sao */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+      animation: moveStars 200s linear infinite;
     }
 
-    /* Card */
-    .card {
+    @keyframes moveStars {
+      from {background-position: 0 0;}
+      to   {background-position: -10000px 5000px;}
+    }
+
+    /* Overlay để hiện chữ */
+    .overlay {
+      position: relative;
       background: rgba(0, 0, 0, 0.6);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 234, 255, 0.8);
+      max-width: 800px;
+      z-index: 1;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 8px 30px rgba(0, 234, 255, 0.8);
-    }
-
-    /* Icon */
-    .icon {
-      font-size: 60px;
-      margin-bottom: 15px;
-      display: inline-block;
-      filter: drop-shadow(0 0 6px rgba(0, 234, 255, 0.6));
-      transition: transform 0.3s, filter 0.3s;
-    }
-
-    .card:hover .icon {
-      transform: scale(1.2);
-      filter: drop-shadow(0 0 12px rgba(0, 234, 255, 1));
-    }
-
-    /* Tiêu đề */
     h1 {
-      margin-top: 40px;
-      font-size: 42px;
-      text-shadow: 0 0 12px rgba(0, 234, 255, 0.8);
+      font-size: 64px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(0, 234, 255, 1);
     }
 
     h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
+      font-size: 26px;
+      margin-bottom: 20px;
+      font-weight: normal;
       color: #00eaff;
-      text-shadow: 0 0 6px rgba(0, 234, 255, 0.7);
     }
 
     p {
-      font-size: 14px;
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 1.6;
       color: #ddd;
+    }
+
+    .start-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      font-size: 20px;
+      color: black;
+      background: #00eaff;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(0, 234, 255, 0.7);
+    }
+
+    .start-btn:hover {
+      background: #00c4d6;
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(0, 234, 255, 1);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 42px; }
+      h2 { font-size: 20px; }
+      p  { font-size: 16px; }
+      .overlay { padding: 25px; }
     }
   </style>
 </head>
 <body>
-  <h1>Study Lab</h1>
-  <div class="container">
-    <div class="card" onclick="location.href='physics.html'">
-      <div class="icon">⚡</div>
-      <h2>Vật lý</h2>
-      <p>Khám phá các thí nghiệm mô phỏng vật lý.</p>
-    </div>
-    <div class="card" onclick="location.href='chemistry.html'">
-      <div class="icon">🧪</div>
-      <h2>Hóa học</h2>
-      <p>Thí nghiệm hóa học trực quan và thú vị.</p>
-    </div>
-    <div class="card" onclick="location.href='biology.html'">
-      <div class="icon">🧬</div>
-      <h2>Sinh học</h2>
-      <p>Khám phá thế giới sinh học qua mô phỏng.</p>
-    </div>
-    <div class="card" onclick="location.href='math.html'">
-      <div class="icon">📐</div>
-      <h2>Toán học</h2>
-      <p>Trực quan hóa các khái niệm toán học.</p>
-    </div>
+  <div class="stars"></div>
+  <div class="overlay">
+    <h1>Study Lab</h1>
+    <h2>Khám phá khoa học qua mô phỏng trực tuyến</h2>
+    <p>
+      Nơi bạn có thể học tập, khám phá và trải nghiệm các thí nghiệm Vật lý, 
+      Hóa học, Sinh học và Toán học theo cách trực quan và sinh động nhất.
+    </p>
+    <a href="menu.html" class="start-btn">Bắt đầu ngay</a>
   </div>
 </body>
 </html>
