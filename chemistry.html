@@ -8,10 +8,22 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url("img chemistry.jpg") no-repeat center center fixed;
-      background-size: cover;
       color: white;
       text-align: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Canvas nền */
+    #chemCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at center, #0a1a2f 0%, #000814 100%);
     }
 
     h1 {
@@ -86,28 +98,22 @@
   </style>
 </head>
 <body>
+  <!-- Nền hoá học động -->
+  <canvas id="chemCanvas"></canvas>
+
   <h1>Thí nghiệm Hoá Học</h1>
   <div class="container">
     <div class="card" onclick="location.href='1_chemistry.html'">
       <div class="icon">
-  <svg xmlns="http://www.w3.org/2000/svg" 
-     viewBox="0 0 32 32" 
-     width="96" height="96">
-
-  <!-- Ống nghiệm -->
-  <rect x="12" y="4" width="8" height="20" fill="#ccc" stroke="#333" stroke-width="1" rx="2"/>
-
-  <!-- Nắp xanh -->
-  <rect x="11" y="2" width="10" height="3" fill="#00c4d6" stroke="#333" stroke-width="1" rx="1"/>
-
-  <!-- Dung dịch trong ống -->
-  <rect x="12" y="12" width="8" height="12" fill="#87ceeb" opacity="0.8" rx="2"/>
-
-  <!-- Hạt kết tủa vàng -->
-  <circle cx="16" cy="18" r="1.5" fill="gold"/>
-  <circle cx="15" cy="21" r="1.5" fill="gold"/>
-  <circle cx="17" cy="23" r="1.5" fill="gold"/>
-  </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 32 32" width="96" height="96">
+          <rect x="12" y="4" width="8" height="20" fill="#ccc" stroke="#333" stroke-width="1" rx="2"/>
+          <rect x="11" y="2" width="10" height="3" fill="#00c4d6" stroke="#333" stroke-width="1" rx="1"/>
+          <rect x="12" y="12" width="8" height="12" fill="#87ceeb" opacity="0.8" rx="2"/>
+          <circle cx="16" cy="18" r="1.5" fill="gold"/>
+          <circle cx="15" cy="21" r="1.5" fill="gold"/>
+          <circle cx="17" cy="23" r="1.5" fill="gold"/>
+        </svg>
       </div>
       <h2>(CH₃COO)₂Pb + KI</h2>
       <p>Minh hoạ phản ứng trao đổi tạo kết tủa.</p>
@@ -120,33 +126,138 @@
     <div class="card" onclick="location.href='3_chemistry.html'">
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" 
-     viewBox="0 0 32 32" 
-     width="96" height="96">
-
-  <!-- Định nghĩa gradient xanh tím -->
-  <defs>
-    <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3b82f6"/> <!-- xanh -->
-      <stop offset="100%" stop-color="#6a0dad"/> <!-- tím -->
-    </linearGradient>
-  </defs>
-
-  <!-- Ống nghiệm -->
-  <rect x="12" y="4" width="8" height="20" 
-        fill="#eee" stroke="#333" stroke-width="1" rx="2"/>
-
-  <!-- Nắp -->
-  <rect x="11" y="2" width="10" height="3" 
-        fill="#6ec5e9" stroke="#333" stroke-width="1" rx="1"/>
-
-  <!-- Dung dịch gradient -->
-  <rect x="12" y="12" width="8" height="12" 
-        fill="url(#purpleGradient)" rx="2"/>
-    </svg>
+          viewBox="0 0 32 32" width="96" height="96">
+          <defs>
+            <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="100%" stop-color="#6a0dad"/>
+            </linearGradient>
+          </defs>
+          <rect x="12" y="4" width="8" height="20" fill="#eee" stroke="#333" stroke-width="1" rx="2"/>
+          <rect x="11" y="2" width="10" height="3" fill="#6ec5e9" stroke="#333" stroke-width="1" rx="1"/>
+          <rect x="12" y="12" width="8" height="12" fill="url(#purpleGradient)" rx="2"/>
+        </svg>
+      </div>
       <h2>I₂ + Amylose (hồ tinh bột)</h2>
       <p>nhận biết tinh bột.</p>
     </div>
   </div>
   <a href="menu.html" class="back-btn">⬅ Quay lại</a>
+
+  <script>
+    const canvas = document.getElementById("chemCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    class Particle {
+      constructor(x, y, r, color, speedX, speedY) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.color = color;
+        this.speedX = speedX;
+        this.speedY = speedY;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.closePath();
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        this.draw();
+      }
+    }
+
+    class Smoke {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 15 + 10;
+        this.alpha = 1;
+        this.speedY = Math.random() * -1.5 - 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200,200,255,${this.alpha})`;
+        ctx.fill();
+        ctx.closePath();
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.alpha -= 0.01;
+        this.draw();
+      }
+    }
+
+    const colors = ["#00f0ff", "#7fff00", "#ff4081", "#ffd700"];
+    const particles = [];
+    const smokes = [];
+
+    for (let i = 0; i < 100; i++) {
+      const r = Math.random() * 4 + 2;
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const speedX = (Math.random() - 0.5) * 1.5;
+      const speedY = (Math.random() - 0.5) * 1.5;
+      particles.push(new Particle(x, y, r, color, speedX, speedY));
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => p.update());
+
+      // Liên kết phân tử
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = "rgba(0,255,255,0.2)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.closePath();
+          }
+        }
+      }
+
+      // Sinh khói
+      if (Math.random() < 0.1) {
+        smokes.push(new Smoke(Math.random() * canvas.width, canvas.height - 50));
+      }
+
+      for (let i = 0; i < smokes.length; i++) {
+        smokes[i].update();
+        if (smokes[i].alpha <= 0) {
+          smokes.splice(i, 1);
+          i--;
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
