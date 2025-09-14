@@ -8,10 +8,19 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url("img physics.jpg") no-repeat center center fixed;
-      background-size: cover;
       color: white;
       text-align: center;
+      overflow: hidden; /* tránh scroll khi có canvas */
+    }
+
+    /* Canvas nền động */
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* nằm sau nội dung */
     }
 
     h1 {
@@ -86,6 +95,9 @@
   </style>
 </head>
 <body>
+  <!-- Nền động vật lý -->
+  <canvas id="bg"></canvas>
+
   <h1>Thí nghiệm Vật lý</h1>
   <div class="container">
     <div class="card" onclick="location.href='1_physics.html'">
@@ -105,5 +117,107 @@
     </div>
   </div>
   <a href="menu.html" class="back-btn">⬅ Quay lại</a>
+
+  <script>
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    let w, h;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // Hạt sáng
+    const particles = Array.from({ length: 120 }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.6,
+      dy: (Math.random() - 0.5) * 0.6,
+      trail: []
+    }));
+
+    // Sóng lan tỏa
+    function drawWaves(time) {
+      ctx.save();
+      ctx.translate(w/2, h/2);
+      for (let i = 0; i < 5; i++) {
+        const radius = (time/10 + i*120) % Math.max(w,h);
+        const alpha = 1 - radius / Math.max(w,h);
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(120,180,255,${alpha*0.15})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Đường trường
+    function drawField(time) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(160,100,255,0.08)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 10; i++) {
+        ctx.beginPath();
+        for (let x = 0; x < w; x += 25) {
+          const y = h/2 + Math.sin(x * 0.015 + time/2500 + i) * 80 * Math.sin(time/4000);
+          ctx.lineTo(x, y + i * 18 - 80);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // Vòng lặp vẽ
+    function animate(time) {
+      ctx.clearRect(0, 0, w, h);
+
+      // Gradient nền
+      const grad = ctx.createRadialGradient(w/2, h/2, 80, w/2, h/2, w*0.8);
+      grad.addColorStop(0, "#120040");
+      grad.addColorStop(1, "#000010");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      drawField(time);
+      drawWaves(time);
+
+      // Hạt sáng bay + vệt
+      particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+
+        p.trail.push({x: p.x, y: p.y});
+        if (p.trail.length > 12) p.trail.shift();
+
+        // Vẽ vệt
+        ctx.beginPath();
+        for (let i = 0; i < p.trail.length; i++) {
+          const t = p.trail[i];
+          ctx.lineTo(t.x, t.y);
+        }
+        ctx.strokeStyle = "rgba(140,200,255,0.2)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Vẽ hạt
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(200,240,255,0.9)";
+        ctx.shadowColor = "#88ccff";
+        ctx.shadowBlur = 15;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate(0);
+  </script>
 </body>
 </html>
