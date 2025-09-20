@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mô phỏng: Amylase thủy phân tinh bột</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#071227;color:#e8f6ff;margin:0;padding:18px;display:flex;justify-content:center}
+    .wrap{max-width:1200px;width:100%}
+    h1{margin:0 0 12px;font-size:20px;text-align:center;color:#fff}
+    .bench{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+    .tube{width:110px;height:300px;border:2px solid rgba(255,255,255,0.15);border-radius:18px 18px 30px 30px;position:relative;overflow:hidden;background:rgba(255,255,255,0.03)}
+    .neck{position:absolute;top:-28px;left:calc(50% - 22px);width:44px;height:50px;border-radius:8px;background:rgba(255,255,255,0.05)}
+    .liquid{
+      position:absolute;left:0;right:0;bottom:0;height:0;
+      transition:height 1.5s ease, background 3s ease-in-out;
+      border-radius:0 0 28px 28px;
+      opacity:0.95;
+      background-size:200% 200%;
+    }
+    .label{position:absolute;top:6px;left:10px;font-size:13px;color:#cfe3ff}
+    .caption{text-align:center;margin-top:6px;font-size:14px}
+    .controls{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+    button{padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.07);color:#e6f5ff;cursor:pointer;transition:background 0.3s}
+    button:hover{background:rgba(255,255,255,0.15)}
+    .explain{flex:1;background:rgba(255,255,255,0.04);padding:16px;border-radius:10px;font-size:17px;line-height:1.7;margin-top:20px}
+    table{width:100%;border-collapse:collapse;margin-top:10px;color:#dfeeff}
+    td,th{padding:5px;border-bottom:1px dashed rgba(255,255,255,0.1);font-size:13px;text-align:left}
+    pre{background:rgba(255,255,255,0.03);color:#fff;padding:10px;font-size:18px;border-radius:6px;white-space:pre-wrap;text-align:center}
+    .footerExplain{margin-top:18px;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;line-height:1.5;font-size:15px}
+    .footerExplain strong{color:#7fd7ff}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mô phỏng: Hoạt tính thủy phân tinh bột của amylase</h1>
+
+  <div class="bench">
+    <!-- Ống nghiệm 1 -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:33%">
+      <div class="tube" id="tube1">
+        <div class="neck"></div>
+        <div class="label">Ống 1</div>
+        <div class="liquid" id="liq1"></div>
+      </div>
+      <div class="caption">Ống 1: Tinh bột + H₂O + Lugol</div>
+      <div class="controls">
+        <button onclick="addLiquid(1,'starch')">+ Tinh bột (Starch)</button>
+        <button onclick="addLiquid(1,'water')">+ Nước (Water)</button>
+        <button onclick="addLiquid(1,'lugol')">+ Lugol (Iodine)</button>
+        <button onclick="resetTube(1)">🔄 Reset</button>
+      </div>
+      <table>
+        <thead><tr><th>Chất (VN/EN)</th><th>Thể tích (mL)</th></tr></thead>
+        <tbody id="tbl1"><tr><td>-</td><td>0</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- Giải thích thao tác ở giữa -->
+    <div class="explain" id="explain">
+      <strong>🔎 Giải thích theo thao tác</strong>
+      <div id="explainText" style="margin-top:8px">
+        Hãy bấm thêm các chất để quan sát hiện tượng và đọc giải thích tại đây.
+      </div>
+    </div>
+
+    <!-- Ống nghiệm 2 -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:33%">
+      <div class="tube" id="tube2">
+        <div class="neck"></div>
+        <div class="label">Ống 2</div>
+        <div class="liquid" id="liq2"></div>
+      </div>
+      <div class="caption">Ống 2: Tinh bột + Amylase + Lugol</div>
+      <div class="controls">
+        <button onclick="addLiquid(2,'starch')">+ Tinh bột (Starch)</button>
+        <button onclick="addLiquid(2,'amylase')">+ Amylase</button>
+        <button onclick="addLiquid(2,'lugol')">+ Lugol (Iodine)</button>
+        <button onclick="resetTube(2)">🔄 Reset</button>
+      </div>
+      <table>
+        <thead><tr><th>Chất (VN/EN)</th><th>Thể tích (mL)</th></tr></thead>
+        <tbody id="tbl2"><tr><td>-</td><td>0</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Giải thích sinh học cuối -->
+  <div class="footerExplain">
+    <strong>🔬 Giải thích sinh học</strong><br><br>
+    <p>Amylase là một loại enzyme xúc tác cho phản ứng thủy phân liên kết α-1,4-glycosidic trong phân tử tinh bột (amylose và amylopectin).</p>
+    <p>Khi cho dung dịch tinh bột vào ống nghiệm, nếu nhỏ thêm dung dịch Iod (I₂/KI) sẽ thấy <b>màu xanh tím đậm</b> do iod gắn vào cấu trúc xoắn lò xo của amylose.</p>
+    <p>Khi thêm enzyme amylase, tinh bột dần bị cắt nhỏ thành các đường đôi <b>maltose</b> và các đoạn ngắn hơn (<b>dextrin</b>).</p>
+    <p>Do cấu trúc amylose bị phá vỡ, iod không còn chỗ để gắn → <b>màu xanh tím biến mất</b>.</p>
+    <p>Hiện tượng này chứng minh rằng amylase có khả năng thủy phân tinh bột, tạo ra sản phẩm đường đôi, dễ hòa tan và không phản ứng màu với iod.</p>
+  </div>
+
+  <div class="footerExplain">
+    <strong>⚡ Phương trình tổng quát:</strong>
+    <pre>(C₆H₁₀O₅)n + n H₂O  —(amylase)→  n C₁₂H₂₂O₁₁ (maltose)</pre>
+  </div>
+</div>
+
+<script>
+  const colors={
+  starch:"linear-gradient(180deg,#ffffff,#f2f2f2,#d9d9d9)", 
+  water:"linear-gradient(180deg,#e9f8ff,#bfe7ff,#90d4ff)",  
+  amylase:"linear-gradient(180deg,#f3feff,#c9f7ff,#9eeaff)", 
+  lugol:"linear-gradient(180deg,#fbe48c,#d4a12e,#8a5a0a)", 
+  starchLugol:"linear-gradient(180deg,#7b2cbf,#3a0ca3)"  // tím xanh luôn
+};
+
+  let vols1={}, vols2={};
+  let state1={starch:false,water:false,lugol:false};
+  let state2={starch:false,amylase:false,lugol:false};
+  const explainText=document.getElementById("explainText");
+
+  function calcHeight(vols){
+    let total=0;
+    for(const k in vols) total+=vols[k];
+    return Math.min(70,total*3)+"%"; 
+  }
+
+  function updateTube(id){
+    const tube=document.getElementById("liq"+id);
+    let s=(id===1?state1:state2);
+    let vols=(id===1?vols1:vols2);
+    let h=calcHeight(vols);
+
+    if(id===1){
+      if(s.starch && s.water && s.lugol){ 
+        tube.style.background=colors.starchLugol;
+        explainText.innerHTML="Ống 1: Tinh bột + nước → trắng đục. Thêm Lugol → <b>xanh tím</b> do phức amylose–iod.";
+      }
+      else if(s.starch && s.water){ 
+        tube.style.background=colors.starch;
+        explainText.innerHTML="Ống 1: Tinh bột + nước → tạo huyền phù trắng đục.";
+      }
+      else if(s.starch){ 
+        tube.style.background=colors.starch;
+        explainText.innerHTML="Ống 1: Chỉ có tinh bột → trắng đục, mực thấp.";
+      }
+      else if(s.water){ 
+        tube.style.background=colors.water;
+        explainText.innerHTML="Ống 1: Chỉ có nước → trong suốt, mực thấp.";
+      }
+      else if(s.lugol){ 
+        tube.style.background=colors.lugol;
+        explainText.innerHTML="Ống 1: Chỉ có Lugol → dung dịch nâu vàng.";
+      }
+      else{h="0"; explainText.innerHTML="Ống 1: Rỗng.";}
+    }
+
+    if(id===2){
+      if(s.starch && s.amylase && s.lugol){ 
+        tube.style.background=colors.lugol;
+        explainText.innerHTML="Ống 2: Amylase phân giải tinh bột. Thêm Lugol → vẫn <b>nâu vàng</b>, không xanh tím.";
+      }
+      else if(s.starch && s.amylase){ 
+        tube.style.background=colors.starch;
+        explainText.innerHTML="Ống 2: Tinh bột + amylase → dung dịch trắng đục, đang thủy phân.";
+      }
+      else if(s.starch){ 
+        tube.style.background=colors.starch;
+        explainText.innerHTML="Ống 2: Chỉ có tinh bột → trắng đục, mực thấp.";
+      }
+      else if(s.amylase){ 
+        tube.style.background=colors.amylase;
+        explainText.innerHTML="Ống 2: Chỉ có amylase → dung dịch gần như trong.";
+      }
+      else if(s.lugol){ 
+        tube.style.background=colors.lugol;
+        explainText.innerHTML="Ống 2: Chỉ có Lugol → dung dịch nâu vàng.";
+      }
+      else{h="0"; explainText.innerHTML="Ống 2: Rỗng.";}
+    }
+
+    tube.style.height=h;
+  }
+
+  function updateTable(id){
+    const tbody=document.getElementById("tbl"+id);
+    const vols=(id===1?vols1:vols2);
+    let html="";
+    for(const k in vols){
+      if(vols[k]) html+=`<tr><td>${names[k]}</td><td>${vols[k]}</td></tr>`;
+    }
+    if(!html) html="<tr><td>-</td><td>0</td></tr>";
+    tbody.innerHTML=html;
+  }
+
+  const names={
+    starch:"Tinh bột / Starch",
+    water:"Nước / Water",
+    amylase:"Amylase / Amylase",
+    lugol:"Thuốc thử Lugol / Iodine"
+  };
+
+  function addLiquid(id,type){
+    const vols=(id===1?vols1:vols2);
+    if(!(type in vols)) vols[type]=0;
+    vols[type]+=5; 
+    if(id===1){ state1[type]=true; updateTube(1);}
+    if(id===2){ state2[type]=true; updateTube(2);}
+    updateTable(id);
+  }
+
+  function resetTube(id){
+    const tube=document.getElementById("liq"+id);
+    tube.style.height="0";
+    tube.style.background="transparent";
+    if(id===1){ state1={starch:false,water:false,lugol:false}; vols1={}; }
+    if(id===2){ state2={starch:false,amylase:false,lugol:false}; vols2={}; }
+    updateTable(id);
+    explainText.innerHTML="Đã reset ống nghiệm "+id+".";
+  }
+</script>
+</body>
+</html>
