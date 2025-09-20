@@ -88,16 +88,35 @@
 <body>
   <h1>Thí nghiệm Sinh Học</h1>
   <div class="container">
+    <!-- Card Tế bào hành -->
     <div class="card" onclick="location.href='1_biology.html'">
-      <div class="icon">🌈</div>
+      <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="60" height="60">
+          <!-- Màng tế bào -->
+          <ellipse cx="48" cy="48" rx="40" ry="30" fill="#c5e1a5" stroke="#558b2f" stroke-width="3"/>
+          
+          <!-- Chất tế bào -->
+          <ellipse cx="48" cy="48" rx="35" ry="25" fill="rgba(255,255,255,0.2)"/>
+          
+          <!-- Nhân tế bào nhuộm Iod -->
+          <ellipse cx="48" cy="48" rx="12" ry="10" fill="#6a1b9a" stroke="#4a148c" stroke-width="2"/>
+          
+          <!-- Hiệu ứng ánh sáng -->
+          <ellipse cx="55" cy="40" rx="5" ry="3" fill="rgba(255,255,255,0.3)"/>
+        </svg>
+      </div>
       <h2>Tế bào hành dưới kính hiển vi</h2>
       <p>sự thay đổi của nhân tế bào.</p>
     </div>
+
+    <!-- Card Amylase -->
     <div class="card" onclick="location.href='2_biology.html'">
       <div class="icon">⚗️</div>
       <h2>Amylase thủy phân tinh bột</h2>
       <p>phân giải tinh bột thành đường đơn.</p>
     </div>
+
+    <!-- Card I2 + Amylose -->
     <div class="card" onclick="location.href='3_biology.html'">
       <div class="icon">🧪💧 + 🌾</div>
       <h2>I₂ + Amylose (hồ tinh bột)</h2>
