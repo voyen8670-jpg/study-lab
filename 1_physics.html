@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thủy Triều & Pha Trăng 3D</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(ellipse at center, #020111 0%, #000010 100%);
+  color:#fff;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
+
+.container {
+  display:flex;
+  height:100vh;
+}
+
+/* Vùng mô phỏng bên trái */
+.left-panel {
+  flex:3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-right:2px solid rgba(255,255,255,0.15);
+  position:relative;
+  background: radial-gradient(circle at top, #0a1436, #000010);
+}
+
+.title {
+  font-size:22px;
+  color:#4ED7F1;
+  margin-bottom:20px;
+  text-shadow:0 0 12px #00d4ff;
+  font-weight:bold;
+}
+
+.space {
+  position:relative;
+  width:600px;   
+  height:600px;
+  border-radius:50%;
+  overflow:hidden;
+  background: radial-gradient(circle at center, #000 70%, #020418 100%);
+  box-shadow:0 0 100px #000 inset, 0 0 40px rgba(0,200,255,0.25);
+}
+
+/* Các thiên thể */
+.sun, .earth, .moon {
+  position:absolute;
+  border-radius:50%;
+}
+
+.sun {
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%, #fff9d9 0%, #ffe066 35%, #ff9a1f 70%, #ff6a00 100%);
+  top:50%;
+  left:6%;
+  transform:translateY(-50%);
+  box-shadow:
+    0 0 30px #fff6c7,
+    0 0 70px #ffd54f,
+    0 0 140px #ff9100,
+    0 0 200px rgba(255,150,0,0.7);
+  z-index:2;
+}
+
+/* Trái đất */
+.earth {
+  width: 90px;
+  height: 90px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border-radius: 50%;
+  box-shadow: 
+    inset -12px -12px 20px rgba(0,0,0,0.7),
+    0 0 28px rgba(0,200,255,0.35);
+  background-blend-mode: screen, multiply;
+}
+
+.moon {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #e0e0e0 0%, #c0c0c0 40%, #8a8a8a 80%);
+  box-shadow:0 0 15px rgba(255,255,255,0.9), inset -6px -6px 12px rgba(0,0,0,0.5);
+  transition:all 0.3s;
+  z-index:4;
+}
+
+/* Thủy triều */
+.tide {
+  width:130px;
+  height:25px;
+  background:linear-gradient(to top,#2962ff,#4da6ff);
+  position:absolute;
+  bottom:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:50px;
+  box-shadow:0 0 16px #5393ff;
+  animation:wave 3s infinite ease-in-out;
+}
+@keyframes wave {
+  0%,100% { transform:translateX(-50%) scaleX(1); }
+  50% { transform:translateX(-50%) scaleX(1.2); }
+}
+
+/* Thanh điều khiển bên phải */
+.right-panel {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:center;
+  padding:15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  height:100%;
+}
+
+.controls {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+  justify-content:flex-start;
+}
+
+.controls button {
+  padding:12px;
+  margin:8px 0;
+  font-size:15px;
+  cursor:pointer;
+  border-radius:8px;
+  border:none;
+  background:linear-gradient(135deg,#4ED7F1,#2196F3);
+  color:#fff;
+  font-weight:bold;
+  letter-spacing:0.5px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition:0.3s;
+}
+.controls button:hover {
+  background:linear-gradient(135deg,#64e9ff,#1e88e5);
+  transform:translateY(-2px);
+}
+
+.description {
+  margin-top:12px;
+  width:100%;
+  background:rgba(255,255,255,0.08);
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.2);
+  font-size:14px;
+  text-align:left;
+  line-height:1.4em;
+  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* Giải thích khoa học */
+.explanation {
+  margin-top:16px;
+  padding:14px;
+  background:rgba(255,255,255,0.06);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.15);
+  font-size:14px;
+  line-height:1.5em;
+  text-align:justify;
+  box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+.explanation h3 {
+  margin-top:0;
+  color:#4ED7F1;
+  font-size:16px;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="left-panel">
+    <div class="title">🌊 Thủy Triều & Pha Trăng 3D Ánh Sáng Mượt</div>
+    <div class="space">
+      <div class="sun"></div>
+      <div class="earth" id="earth">
+        <div class="tide" id="tide"></div>
+      </div>
+      <div class="moon" id="moon"></div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="controls">
+      <button onclick="setManualPhase('newMoon')">🌑 Trăng non</button>
+      <button onclick="setManualPhase('fullMoon')">🌕 Trăng tròn</button>
+      <button onclick="setManualPhase('firstQuarter')">🌓 Thượng huyền</button>
+      <button onclick="setManualPhase('lastQuarter')">🌗 Hạ huyền</button>
+      <button onclick="resetManual()">🔄 Tự động</button>
+      <div class="description" id="description">🔄 Chọn pha Trăng hoặc bật chế độ tự động.</div>
+      
+      <div class="explanation">
+        <h3>📖 Giải thích</h3>
+        <p><b>Triều cường</b> xuất hiện khi Trái Đất, Mặt Trăng và Mặt Trời gần như thẳng hàng (trăng non 🌑 và trăng tròn 🌕).  
+        Lực hút kết hợp của Mặt Trăng và Mặt Trời làm thủy triều dâng cao nhất.</p>
+        <p><b>Triều kém</b> xảy ra khi Trăng ở pha thượng huyền 🌓 hay hạ huyền 🌗,  
+        lực hút của Mặt Trăng vuông góc với lực hút Mặt Trời, làm triều thấp hơn.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const moon = document.getElementById('moon');
+const tide = document.getElementById('tide');
+const description = document.getElementById('description');
+const space = document.querySelector('.space');
+const earth = document.getElementById('earth');
+
+let autoMode = true, angle=0;
+
+function getEarthCenter(){
+  const spaceRect = space.getBoundingClientRect();
+  const earthRect = earth.getBoundingClientRect();
+  return { x: earthRect.left - spaceRect.left + earthRect.width/2, y: earthRect.top - spaceRect.top + earthRect.height/2 };
+}
+
+function updateScene(){
+  const center = getEarthCenter();
+  const radius = 220;
+  const rad = angle*Math.PI/180;
+  const inclination = 22*Math.sin(rad);
+
+  const moonX = center.x + radius*Math.cos(rad);
+  const moonY = center.y + radius*Math.sin(rad) + inclination;
+  moon.style.left = moonX - moon.offsetWidth/2 + "px";
+  moon.style.top = moonY - moon.offsetHeight/2 + "px";
+
+  // Mặt trăng
+  const moonLightAngle = (rad + Math.PI) % (2*Math.PI);
+  moon.style.background = `radial-gradient(circle at ${50 + 50*Math.cos(moonLightAngle)}% 50%, #f4f4f4 55%, #888 85%, #222 100%)`;
+
+  // Trái đất
+  const earthLightAngle = (rad + Math.PI) % (2*Math.PI);
+  const earthLightShadow = `radial-gradient(circle at ${50 + 50*Math.cos(earthLightAngle)}% 50%, rgba(255,255,255,0.9) 40%, rgba(0,0,20,0.95) 100%)`;
+  const earthTexture = `
+    radial-gradient(circle at 30% 40%, rgba(34,139,34,0.9) 0%, transparent 35%),
+    radial-gradient(circle at 70% 60%, rgba(0,128,0,0.8) 0%, transparent 40%),
+    radial-gradient(circle at 50% 75%, rgba(0,100,0,0.7) 0%, transparent 45%),
+    radial-gradient(circle at 60% 40%, #1e90ff 0%, #001a33 85%)
+  `;
+  earth.style.background = earthTexture + "," + earthLightShadow;
+
+  // Thủy triều
+  const tideHeight = 25 + 45*Math.abs(Math.cos(rad));
+  tide.style.height = tideHeight + "px";
+
+  // Mô tả động
+  if(angle%360<10||angle%360>350){description.innerHTML="🌑 Trăng non: Triều cường";}
+  else if(Math.abs((angle%360)-180)<10){description.innerHTML="🌕 Trăng tròn: Triều cường";}
+  else if(Math.abs((angle%360)-270)<10){description.innerHTML="🌗 Hạ huyền: Triều kém";}
+  else if(Math.abs((angle%360)-90)<10){description.innerHTML="🌓 Thượng huyền: Triều kém";}
+
+  if(autoMode){angle+=0.5; requestAnimationFrame(updateScene);}
+}
+
+function setManualPhase(phase){
+  autoMode=false;
+  switch(phase){
+    case 'newMoon': angle=0; break;
+    case 'fullMoon': angle=180; break;
+    case 'firstQuarter': angle=90; break;
+    case 'lastQuarter': angle=270; break;
+  }
+  updateScene();
+}
+
+function resetManual(){
+  autoMode=true;
+  requestAnimationFrame(updateScene);
+}
+
+window.onload = ()=>{updateScene();};
+</script>
+
+</body>
+</html>
