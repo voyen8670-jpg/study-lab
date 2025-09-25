@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mô phỏng Bảo toàn Động lượng</title>
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1626; --accent:#66d9ef; --muted:#cfd8e3; --glass: rgba(255,255,255,0.04);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial;color:#cfd8e3;background:linear-gradient(180deg,#071022,#07131a);}
+    .app{display:flex;gap:18px;padding:18px;box-sizing:border-box;height:100%;}
+    .left{flex:1;display:flex;flex-direction:column;gap:12px}
+    .canvas-wrap{background:var(--panel);border-radius:12px;padding:12px;box-shadow:0 8px 30px rgba(2,6,23,0.7)}
+    canvas{display:block;border-radius:8px;background:linear-gradient(180deg,#06101b,#051018);width:100%;height:360px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .control{background:var(--glass);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;min-width:160px}
+    label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type=range]{width:100%}
+    input[type=number]{width:100%;padding:6px;border-radius:6px;border:none;background:rgba(255,255,255,0.03);color:#dff}
+    button{background:var(--accent);border:none;padding:8px 12px;border-radius:8px;color:#032;cursor:pointer;font-weight:600}
+    .small{font-size:13px;color:var(--muted)}
+    .info{padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;font-size:14px}
+    .right{width:360px;display:flex;flex-direction:column;gap:12px}
+    .panel{background:var(--panel);padding:12px;border-radius:12px;min-height:80px}
+    .row{display:flex;justify-content:space-between;align-items:center}
+
+    /* --- sửa phần đồ thị --- */
+    .graph{
+      height:140px;
+      border-radius:8px;
+      background:linear-gradient(180deg,#061019,#041014);
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #graph{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+    /* --- hết phần sửa --- */
+
+    footer{color:var(--muted);font-size:13px;text-align:center;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="left">
+      <div class="canvas-wrap">
+        <canvas id="simCanvas" width="900" height="360"></canvas>
+        <div class="controls">
+          <div class="control">
+            <label>Khối lượng m₁ (kg)</label>
+            <input id="m1" type="range" min="0.2" max="10" step="0.1" value="2">
+            <input id="m1n" type="number" min="0.2" max="10" step="0.1" value="2">
+          </div>
+          <div class="control">
+            <label>Vận tốc v₁ (m/s) (dương → phải)</label>
+            <input id="v1" type="range" min="-10" max="10" step="0.1" value="3">
+            <input id="v1n" type="number" min="-10" max="10" step="0.1" value="3">
+          </div>
+          <div class="control">
+            <label>Khối lượng m₂ (kg)</label>
+            <input id="m2" type="range" min="0.2" max="10" step="0.1" value="1">
+            <input id="m2n" type="number" min="0.2" max="10" step="0.1" value="1">
+          </div>
+          <div class="control">
+            <label>Vận tốc v₂ (m/s) (dương → phải)</label>
+            <input id="v2" type="range" min="-10" max="10" step="0.1" value="-1">
+            <input id="v2n" type="number" min="-10" max="10" step="0.1" value="-1">
+          </div>
+          <div class="control">
+            <label>Hệ số đàn hồi (e) — 0: dính, 1: hoàn toàn đàn hồi</label>
+            <input id="e" type="range" min="0" max="1" step="0.01" value="1">
+            <input id="en" type="number" min="0" max="1" step="0.01" value="1">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="startBtn">Bắt đầu</button>
+            <button id="pauseBtn">Tạm dừng</button>
+            <button id="resetBtn">Đặt lại</button>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="row"><div><strong>Tổng động lượng P = m₁·v₁ + m₂·v₂</strong></div><div id="totalP">0.00 kg·m/s</div></div>
+        <div class="row"><div class="small">Động lượng m₁v₁:</div><div id="p1">0.00</div></div>
+        <div class="row"><div class="small">Động lượng m₂v₂:</div><div id="p2">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="panel">
+        <h3 style="margin:0 0 6px 0">Ghi chú</h3>
+        <p class="small" style="margin:0">Mô phỏng là hệ một chiều (trục ngang). Nếu hệ cô lập (không tác lực ngoài), tổng động lượng phải được bảo toàn. Hệ số đàn hồi e điều chỉnh mất mát năng lượng lúc va chạm — dù năng lượng cơ có thể không bảo toàn nếu e &lt; 1, tổng động lượng vẫn phải không đổi (trừ khi có lực ngoài của tường...).</p>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <strong>Đồ thị P_total theo thời gian</strong><span class="small">(mô tả độ ổn định)</span>
+        </div>
+        <div class="graph"><canvas id="graph"></canvas></div>
+      </div>
+
+      <div class="panel">
+  <div class="row">
+    <div class="small">Thời gian (s)</div>
+    <div id="timeDisplay">0.00</div>
+  </div>
+  <p class="small" style="margin-top:6px; line-height:1.5">
+    Khi hai vật chuyển động và va chạm, vận tốc từng vật có thể thay đổi.  
+    Tuy nhiên, trong hệ cô lập, <strong>tổng động lượng</strong> luôn được bảo toàn:  
+    <em>m₁·v₁ + m₂·v₂ = hằng số</em>.  
+    Đây chính là nguyên lí cơ bản được minh họa trong mô phỏng.
+  </p>
+  <footer>Thiết kế mô phỏng — Bảo toàn động lượng</footer>
+</div>
+    </div>
+  </div>
+
+  <script>
+    const $ = id=>document.getElementById(id);
+    const canvas = $('simCanvas');
+    const ctx = canvas.getContext('2d');
+    const graph = $('graph'); const gctx = graph.getContext('2d');
+
+    // --- thêm để canvas khớp khung ---
+    graph.width  = graph.clientWidth;
+    graph.height = graph.clientHeight;
+    // -------------------------------
+
+    const SCALE = 0.04;
+    const W = canvas.width; const H = canvas.height;
+
+    let state = {
+      m1: parseFloat($('m1').value), v1: parseFloat($('v1').value), x1: 140,
+      m2: parseFloat($('m2').value), v2: parseFloat($('v2').value), x2: 560,
+      e: parseFloat($('e').value), running:false, t:0
+    };
+
+    function radiusFromMass(m){ return Math.max(12, 8 + Math.sqrt(m)*6); }
+
+    function syncRangeToNum(rangeId, numId){
+      $(rangeId).addEventListener('input',e=>{$(numId).value=e.target.value; updateFromControls();});
+      $(numId).addEventListener('input',e=>{$(rangeId).value=e.target.value; updateFromControls();});
+    }
+    syncRangeToNum('m1','m1n'); syncRangeToNum('v1','v1n'); syncRangeToNum('m2','m2n'); syncRangeToNum('v2','v2n'); syncRangeToNum('e','en');
+
+    function updateFromControls(){
+      state.m1 = parseFloat($('m1').value); state.v1 = parseFloat($('v1').value);
+      state.m2 = parseFloat($('m2').value); state.v2 = parseFloat($('v2').value);
+      state.e  = parseFloat($('e').value);
+      updateDisplays();
+    }
+    updateFromControls();
+
+    function handleCollision(){
+      const r1 = radiusFromMass(state.m1); const r2 = radiusFromMass(state.m2);
+      if(state.x1 + r1 >= state.x2 - r2){
+        const m1 = state.m1, m2 = state.m2, e = state.e;
+        const u1 = state.v1, u2 = state.v2;
+        const v1p = ((m1 - e*m2)/(m1+m2))*u1 + ((1+e)*m2/(m1+m2))*u2;
+        const v2p = ((1+e)*m1/(m1+m2))*u1 + ((m2 - e*m1)/(m1+m2))*u2;
+        state.v1 = v1p; state.v2 = v2p;
+        const overlap = (state.x1 + r1) - (state.x2 - r2);
+        state.x1 -= overlap/2; state.x2 += overlap/2;
+      }
+    }
+
+    function handleWalls(){
+      const r1 = radiusFromMass(state.m1); const r2 = radiusFromMass(state.m2);
+      if(state.x1 - r1 < 8){ state.x1 = 8 + r1; state.v1 *= -1; }
+      if(state.x2 + r2 > W-8){ state.x2 = W-8 - r2; state.v2 *= -1; }
+    }
+
+    function totalMomentum(){ return state.m1*state.v1 + state.m2*state.v2; }
+
+    function updateDisplays(){
+      $('p1').textContent = (state.m1*state.v1).toFixed(3);
+      $('p2').textContent = (state.m2*state.v2).toFixed(3);
+      $('totalP').textContent = totalMomentum().toFixed(3) + ' kg·m/s';
+    }
+
+    const graphBuf = [];
+    function drawGraph(){
+      gctx.clearRect(0,0,graph.width,graph.height);
+      gctx.save();
+      gctx.fillStyle = 'rgba(255,255,255,0.02)'; gctx.fillRect(0,0,graph.width,graph.height);
+      gctx.beginPath();
+      const N = graphBuf.length;
+      if(N>1){
+        const vals = graphBuf.map(p=>p.v);
+        const maxv = Math.max(...vals); const minv = Math.min(...vals);
+        const pad = (maxv - minv) * 0.2 + 1e-6;
+        for(let i=0;i<N;i++){
+          const x = (i/(N-1))*(graph.width-8)+4;
+          const norm = (vals[i] - (minv-pad))/( (maxv+pad)-(minv-pad) );
+          const y = graph.height - (norm*(graph.height-12)+6);
+          if(i===0) gctx.moveTo(x,y); else gctx.lineTo(x,y);
+        }
+        gctx.strokeStyle = '#66d9ef'; gctx.lineWidth = 2; gctx.stroke();
+      }
+      if(N>0){ gctx.fillStyle='#dff'; gctx.font='11px monospace'; gctx.fillText('P ≈ '+graphBuf[graphBuf.length-1].v.toFixed(3),8,12); }
+      gctx.restore();
+    }
+
+    let lastTime = null;
+    function step(timestamp){
+      if(!lastTime) lastTime = timestamp;
+      const dtMs = Math.min(40, timestamp - lastTime);
+      lastTime = timestamp;
+      if(state.running){
+        const dt = dtMs/1000;
+        state.x1 += state.v1 * (1/SCALE) * dt;
+        state.x2 += state.v2 * (1/SCALE) * dt;
+        handleCollision();
+        handleWalls();
+        state.t += dt;
+        graphBuf.push({t:state.t, v: totalMomentum()});
+        if(graphBuf.length>200) graphBuf.shift();
+      }
+      render();
+      requestAnimationFrame(step);
+    }
+
+    function render(){
+      ctx.clearRect(0,0,W,H);
+      ctx.save();
+      ctx.globalAlpha=0.06; ctx.fillStyle='#fff';
+      for(let x=0;x<W;x+=40) ctx.fillRect(x, H-44, 1, 10);
+      ctx.restore();
+
+      const r1 = radiusFromMass(state.m1); const r2 = radiusFromMass(state.m2);
+      ctx.beginPath(); ctx.fillStyle='#6be3a3'; ctx.shadowColor='rgba(0,0,0,0.6)'; ctx.shadowBlur=12;
+      ctx.arc(state.x1, H/2, r1, 0, Math.PI*2); ctx.fill(); ctx.closePath();
+      ctx.beginPath(); ctx.fillStyle='#66d9ef'; ctx.arc(state.x2, H/2, r2, 0, Math.PI*2); ctx.fill(); ctx.closePath();
+
+      drawArrow(state.x1, H/2 - r1 - 10, state.v1);
+      drawArrow(state.x2, H/2 - r2 - 10, state.v2);
+
+      ctx.fillStyle='#e6f0ff'; ctx.font='13px Inter,Arial';
+      ctx.fillText('m₁=' + state.m1.toFixed(2) + 'kg', state.x1 - r1, H/2 + r1 + 18);
+      ctx.fillText('v₁=' + state.v1.toFixed(2) + 'm/s', state.x1 - r1, H/2 + r1 + 32);
+      ctx.fillText('m₂=' + state.m2.toFixed(2) + 'kg', state.x2 - r2, H/2 + r2 + 18);
+      ctx.fillText('v₂=' + state.v2.toFixed(2) + 'm/s', state.x2 - r2, H/2 + r2 + 32);
+
+      $('timeDisplay').textContent = state.t.toFixed(2) + ' s';
+      updateDisplays();
+      drawGraph();
+    }
+
+    function drawArrow(x,y,v){
+      const len = Math.min(60, Math.abs(v)*6 + 10);
+      const dir = Math.sign(v)||1;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dir*len, y); ctx.strokeStyle='rgba(220,240,255,0.9)'; ctx.lineWidth=3; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + dir*len, y); ctx.lineTo(x + dir*(len-8), y-6); ctx.lineTo(x + dir*(len-8), y+6); ctx.closePath(); ctx.fillStyle='rgba(220,240,255,0.9)'; ctx.fill();
+    }
+
+    $('startBtn').addEventListener('click',()=>{ state.running=true; lastTime=null; });
+    $('pauseBtn').addEventListener('click',()=>{ state.running=false; });
+    $('resetBtn').addEventListener('click',()=>{
+      state.running=false; state.t=0; graphBuf.length=0; lastTime=null;
+      state.x1=140; state.x2=560; updateFromControls();
+    });
+
+    ['m1n','v1n','m2n','v2n','en'].forEach(id => $(id).addEventListener('change',()=>{
+      const val = $(id).value; const rangeId = id.replace('n',''); if($(rangeId)) $(rangeId).value = val; updateFromControls();
+    }));
+
+    requestAnimationFrame(step);
+    render();
+
+    console.log('Mô phỏng Bảo toàn Động lượng — Hệ 1D. Công thức va chạm sử dụng hệ số đàn hồi e và các công thức động lượng 1D tiêu chuẩn.');
+  </script>
+</body>
+</html>    
