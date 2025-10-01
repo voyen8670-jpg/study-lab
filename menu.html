@@ -11,12 +11,11 @@
   font-family: Arial, sans-serif;
   color: white;
   text-align: center;
-  min-height: 100vh; /* dùng min-height thay cho height */
+  min-height: 100vh; 
   background: #000010;
-  overflow-x: hidden; /* chỉ ẩn cuộn ngang, vẫn cho cuộn dọc */
+  overflow-x: hidden; 
 }
 
-    /* Energy background (nhiều vệt sáng*/
    .energy-bg {
   position: fixed;
   top: 0; left: 0;
@@ -25,12 +24,11 @@
   background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.25), transparent 50%),
               radial-gradient(circle at 80% 70%, rgba(150,0,255,0.25), transparent 50%),
               radial-gradient(circle at 50% 50%, rgba(255,0,150,0.2), transparent 60%),
-              #000010; /* màu nền gốc */
+              #000010; 
   animation: pulse 10s ease-in-out infinite alternate;
   z-index: 0;
 }
 
-    /* Grid (tĩnh) */
     .grid {
       position: fixed;
       top: 50%; left: -50%;
@@ -42,7 +40,6 @@
       z-index: 0;
     }
 
-    /* Particles (tĩnh) */
     .particles {
       position: fixed;
       top: 0; left: 0;
