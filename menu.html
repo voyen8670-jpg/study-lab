@@ -12,14 +12,15 @@
       font-family: Arial, sans-serif;
       color: white;
       text-align: center;
-      overflow: hidden;
+      overflow: hidden; /* khóa scroll */
       height: 100vh;
       background: #000010;
     }
 
-    /* Gradient động giống năng lượng */
+    /* Gradient động */
     .energy-bg {
-      position: absolute;
+      position: fixed; /* cố định nền */
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       background: radial-gradient(circle at 20% 30%, rgba(0,200,255,0.25), transparent 50%),
@@ -35,9 +36,10 @@
       to   { filter: brightness(1.2) saturate(1.4); }
     }
 
-    /* Grid phát sáng */
+    /* Grid */
     .grid {
-      position: absolute;
+      position: fixed; /* cố định */
+      top: 50%; left: -50%;
       width: 200%;
       height: 200%;
       background-image: linear-gradient(rgba(0,255,255,0.15) 1px, transparent 1px),
@@ -46,8 +48,6 @@
       transform: rotateX(60deg) rotateZ(45deg);
       animation: moveGrid 20s linear infinite;
       z-index: 0;
-      top: 50%;
-      left: -50%;
     }
 
     @keyframes moveGrid {
@@ -55,14 +55,22 @@
       to   { background-position: 0 80px; }
     }
 
-    /* Particles (hạt sáng) */
+    /* Particles container */
+    .particles {
+      position: fixed; /* cố định */
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
     .particle {
       position: absolute;
       border-radius: 50%;
       background: cyan;
       box-shadow: 0 0 6px cyan, 0 0 12px rgba(0,255,255,0.7);
       animation: float 6s infinite ease-in-out;
-      z-index: 0;
     }
 
     @keyframes float {
@@ -88,7 +96,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 30px;
       max-width: 1000px;
-      margin: 60px auto;
+      margin: 40px auto;
       padding: 20px;
     }
 
@@ -136,21 +144,7 @@
 <body>
   <div class="energy-bg"></div>
   <div class="grid"></div>
-
-  <!-- Particles động -->
-  <script>
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 6 + 3;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      p.style.left = Math.random() * window.innerWidth + 'px';
-      p.style.top = Math.random() * window.innerHeight + 'px';
-      p.style.animationDuration = (Math.random() * 4 + 4) + 's';
-      document.body.appendChild(p);
-    }
-  </script>
+  <div class="particles"></div>
 
   <h1>Study Lab</h1>
   <div class="container">
@@ -171,7 +165,7 @@
     </div>
   </div>
 
-    <div style="margin-top:40px; z-index:2; position:relative;">
+  <div style="margin-top:20px; z-index:2; position:relative;">
     <button onclick="window.open('https://forms.gle/NDFgKcjeqps9JNSG6','_blank')" 
             style="padding:12px 25px; font-size:18px; 
                    background:#00eaff; border:none; border-radius:8px; 
@@ -182,6 +176,22 @@
     </button>
   </div>
 
+  <!-- Tạo particles -->
+  <script>
+    const container = document.querySelector('.particles');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 3;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * window.innerWidth + 'px';
+      p.style.top = Math.random() * window.innerHeight + 'px';
+      p.style.animationDuration = (Math.random() * 4 + 4) + 's';
+      container.appendChild(p);
+    }
+  </script>
 </body>
 </html>
+
 
