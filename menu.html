@@ -7,20 +7,14 @@
   <style>
     * {margin:0;padding:0;box-sizing:border-box;}
 
-    body {
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-      height: 100vh;
-      background: #000010;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
+   body {
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  min-height: 100vh; /* dùng min-height thay cho height */
+  background: #000010;
+  overflow-x: hidden; /* chỉ ẩn cuộn ngang, vẫn cho cuộn dọc */
+}
 
     /* Energy background (nhiều vệt sáng*/
    .energy-bg {
@@ -35,11 +29,6 @@
   animation: pulse 10s ease-in-out infinite alternate;
   z-index: 0;
 }
-
-    @keyframes glow {
-      from { filter: brightness(0.9) saturate(1); }
-      to   { filter: brightness(1.2) saturate(1.3); }
-    }
 
     /* Grid (tĩnh) */
     .grid {
