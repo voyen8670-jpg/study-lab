@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mô phỏng: KMnO₄ + H₂O₂</title>
+<style>
+:root{ --bg:#071227; }
+body{font-family:Inter, Arial, sans-serif;background:linear-gradient(180deg,#031426,#071227);color:#e8f6ff;margin:0;padding:18px;display:flex;justify-content:center}
+.wrap{max-width:980px;width:100%}
+h1{margin:0 0 8px;font-size:18px}
+.bench{display:flex;gap:28px;align-items:flex-end;justify-content:center;margin:16px 0}
+.tube{width:100px;height:300px;border:2px solid rgba(255,255,255,0.08);border-radius:18px 18px 30px 30px;position:relative;overflow:hidden;background:rgba(255,255,255,0.02)}
+.neck{position:absolute;top:-28px;left:calc(50% - 22px);width:44px;height:50px;border-radius:8px;background:rgba(255,255,255,0.03)}
+.liquid{position:absolute;left:0;right:0;bottom:0;height:0;transition:height 1.5s linear, background 3s linear;border-radius:0 0 28px 28px}
+.liquid .precip{position:absolute;left:0;right:0;bottom:0;height:100%;pointer-events:none;overflow:hidden}
+.precip-dot{position:absolute;border-radius:50%;opacity:0.95;box-shadow:0 1px 0 rgba(0,0,0,0.25)}
+.bubble{position:absolute;width:8px;height:8px;border-radius:50%;background:#d0f0ff;opacity:0.7;pointer-events:none;}
+.label{position:absolute;top:6px;left:10px;font-size:13px;color:#cfe3ff}
+.caption{text-align:center;margin-top:6px;font-size:14px}
+.controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+button{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:#e6f5ff;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:12px;color:#dfeeff}
+td,th{padding:6px;border-bottom:1px dashed rgba(255,255,255,0.08);font-size:13px;text-align:left}
+.explain{margin-top:12px;background:rgba(255,255,255,0.03);padding:10px;border-radius:8px;font-size:14px;line-height:1.5}
+pre{background:transparent;color:#dfeeff;padding:6px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mô phỏng: KMnO₄ + H₂O₂</h1>
+
+  <div class="bench">
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeA">
+        <div class="neck"></div>
+        <div class="label">Ống A</div>
+        <div class="liquid" id="liqA" style="background:linear-gradient(180deg,#8B00FF,#9B30FF)">
+          <div class="precip"></div>
+        </div>
+      </div>
+      <div class="caption">KMnO₄<br><strong>0.02 M, <span id="capA">20</span> mL</strong></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeB">
+        <div class="neck"></div>
+        <div class="label">Ống B</div>
+        <div class="liquid" id="liqB" style="background:linear-gradient(180deg,#eef3ff,#e9f4ff)">
+          <div class="precip"></div>
+        </div>
+      </div>
+      <div class="caption">H₂O₂<br><strong>0.5 M, <span id="capB">15</span> mL</strong></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center">
+      <div class="tube" id="tubeC">
+        <div class="neck"></div>
+        <div class="label">Ống C</div>
+        <div class="liquid" id="liqC" style="background:linear-gradient(180deg,#eef3ff,#e9f4ff)">
+          <div class="precip" id="precipC"></div>
+        </div>
+      </div>
+      <div class="caption">Hỗn hợp<br><strong><span id="capC">0</span> mL</strong></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="pourA">Rót A → C</button>
+    <button id="pourB">Rót B → C</button>
+    <button id="reset">Đặt lại</button>
+  </div>
+
+  <table>
+    <thead><tr><th>Ống</th><th>Nồng độ</th><th>Thể tích</th></tr></thead>
+    <tbody>
+      <tr><td>Ống A (KMnO₄)</td><td>0.02 M</td><td id="volA">20 mL</td></tr>
+      <tr><td>Ống B (H₂O₂)</td><td>0.5 M</td><td id="volB">15 mL</td></tr>
+      <tr><td>Ống C (Hỗn hợp)</td><td>—</td><td id="volC">0 mL</td></tr>
+    </tbody>
+  </table>
+
+  <div class="explain" id="explain">
+    <strong>Giải thích theo thao tác</strong>
+    <div id="explainText" style="margin-top:6px">
+      Chuẩn bị: A — KMnO₄ tím; B — H₂O₂ không màu. Khi rót vào C, dung dịch tím nhạt dần, kết tủa nâu MnO₂ xuất hiện và sinh khí O₂.
+    </div>
+  </div>
+
+  <div class="explain" style="margin-top:8px">
+    <strong>Phương trình phản ứng:</strong>
+    <pre>2 KMnO₄ + 3 H₂O₂ + H₂SO₄ → 2 MnO₂↓ + 3 O₂↑ + 2 KHSO₄ + 2 H₂O</pre>
+  </div>
+</div>
+
+<script>
+const INIT={A:20,B:15,C:0};
+let A=INIT.A,B=INIT.B,C=INIT.C;
+let c_hasKMnO4=false, c_hasH2O2=false;
+
+const liqA=document.getElementById('liqA');
+const liqB=document.getElementById('liqB');
+const liqC=document.getElementById('liqC');
+const precipC=document.getElementById('precipC');
+const capA=document.getElementById('capA');
+const capB=document.getElementById('capB');
+const capC=document.getElementById('capC');
+const volA=document.getElementById('volA');
+const volB=document.getElementById('volB');
+const volC=document.getElementById('volC');
+const explainText=document.getElementById('explainText');
+
+function volToPct(v){ return Math.min(v/40,0.85)*100 + '%'; }
+function refreshAll(){
+  liqA.style.height=volToPct(A);
+  liqB.style.height=volToPct(B);
+  liqC.style.height=volToPct(C);
+  capA.textContent=Math.round(A);
+  capB.textContent=Math.round(B);
+  capC.textContent=Math.round(C);
+  volA.textContent=Math.round(A)+' mL';
+  volB.textContent=Math.round(B)+' mL';
+  volC.textContent=Math.round(C)+' mL';
+}
+
+function clearPrecip(){ while(precipC.firstChild) precipC.removeChild(precipC.firstChild); }
+
+function checkReaction(){
+  if(c_hasKMnO4 && c_hasH2O2){
+    explainText.innerHTML="<strong>Phản ứng KMnO₄ + H₂O₂:</strong> Kết tủa nâu MnO₂ và khí O₂ xuất hiện!";
+    clearPrecip();
+
+    // Kết tủa MnO2
+    const maxDots=Math.min(80,Math.round(C*3));
+    for(let i=0;i<maxDots;i++){
+      const dot=document.createElement('div');
+      dot.className='precip-dot';
+      const size=3+Math.random()*6;
+      dot.style.width=size+'px';
+      dot.style.height=size+'px';
+      dot.style.background='#8B4513';
+      dot.style.opacity=0.6+Math.random()*0.3;
+      dot.style.left=(5+Math.random()*85)+'%';
+      dot.style.bottom='100%';
+      precipC.appendChild(dot);
+      const delay=200+Math.random()*800;
+      const fallTime=1000+Math.random()*1500;
+      const finalBottom=Math.random()*70;
+      setTimeout(()=>{
+        dot.style.transition=`bottom ${fallTime}ms ease-out, transform ${fallTime}ms ease-in-out`;
+        dot.style.bottom=finalBottom+'px';
+        dot.style.transform=`translateX(${(Math.random()-0.5)*10}px)`;
+      },delay);
+    }
+
+    // Bong bóng O2
+    const maxBubbles=Math.min(30,Math.round(C*1.5));
+    for(let i=0;i<maxBubbles;i++){
+      const bubble=document.createElement('div');
+      bubble.className='bubble';
+      bubble.style.left=(10+Math.random()*80)+'%';
+      bubble.style.bottom='0%';
+      liqC.appendChild(bubble);
+      const riseTime=1500+Math.random()*1000;
+      setTimeout(()=>{
+        bubble.style.transition=`bottom ${riseTime}ms linear, opacity ${riseTime}ms linear`;
+        bubble.style.bottom='150%';
+        bubble.style.opacity=0;
+        setTimeout(()=>bubble.remove(),riseTime);
+      },Math.random()*500);
+    }
+
+    liqC.style.background='linear-gradient(180deg,#D8BFD8,#E6E6FA)';
+  }
+}
+
+function animatePour(source){
+  let amount=(source==='A')?A:B;
+  if(amount<=0){ explainText.innerHTML=`Ống ${source} đã rỗng.`; return;}
+  if(source==='A') c_hasKMnO4=true; else c_hasH2O2=true;
+
+  explainText.innerHTML=`Đang rót ${source} vào ống C...`;
+  const steps=15, dt=100;
+  const delta=amount/steps;
+  let step=0;
+  const iv=setInterval(()=>{
+    step++;
+    const t=Math.min(delta,(source==='A'?A:B));
+    if(source==='A'){ A-=t; C+=t; liqC.style.background='linear-gradient(180deg,#8B00FF,#9B30FF)'; }
+    else{ B-=t; C+=t; }
+    refreshAll();
+    if(step>=steps){ clearInterval(iv); checkReaction(); }
+  },dt);
+}
+
+document.getElementById('pourA').addEventListener('click',()=>animatePour('A'));
+document.getElementById('pourB').addEventListener('click',()=>animatePour('B'));
+document.getElementById('reset').addEventListener('click',()=>{
+  A=INIT.A; B=INIT.B; C=INIT.C; c_hasKMnO4=false; c_hasH2O2=false;
+  clearPrecip();
+  liqC.style.background='linear-gradient(180deg,#eef3ff,#e9f4ff)';
+  explainText.innerHTML="Chuẩn bị: A — KMnO₄ tím; B — H₂O₂ không màu. Khi rót vào C, dung dịch tím nhạt dần, kết tủa nâu MnO₂ xuất hiện và sinh khí O₂.";
+  refreshAll();
+});
+
+refreshAll();
+</script>
+</body>
+</html>
