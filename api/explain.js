@@ -6,46 +6,58 @@ export default async function handler(req, res) {
       return res.status(400).json({ answer: "⚠️ Vui lòng nhập câu hỏi!" });
     }
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama3-8b-8192",
-        messages: [
-          {
-            role: "system",
-            content:
-              "Bạn là trợ lý AI trong phòng thí nghiệm Study Lab, chuyên giải thích thí nghiệm Lý, Hóa, Sinh một cách ngắn gọn, dễ hiểu, thân thiện với học sinh."
+    // Danh sách model dự phòng
+    const models = ["llama3-8b-8192", "llama3-70b-8192", "llama3-8b-instant"];
+    let answer = null;
+
+    for (const model of models) {
+      try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+            "Content-Type": "application/json",
           },
-          {
-            role: "user",
-            content: question
-          }
-        ],
-        max_tokens: 250,
-        temperature: 0.7
-      })
-    });
+          body: JSON.stringify({
+            model,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "Bạn là trợ lý AI trong phòng thí nghiệm Study Lab, chuyên giải thích thí nghiệm Lý, Hóa, Sinh một cách ngắn gọn, dễ hiểu, thân thiện với học sinh.",
+              },
+              { role: "user", content: question },
+            ],
+            max_tokens: 250,
+            temperature: 0.7,
+          }),
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    // 🧠 Nếu API trả về lỗi
-    if (data.error) {
-      console.error("Groq API Error:", data.error);
+        if (data?.choices?.[0]?.message?.content) {
+          answer = data.choices[0].message.content;
+          break; // ✅ Thành công thì dừng lại
+        }
+
+        console.warn(`⚠️ Model ${model} bị lỗi hoặc quá tải.`);
+      } catch (e) {
+        console.warn(`❌ Lỗi khi gọi model ${model}:`, e);
+      }
+    }
+
+    if (!answer) {
       return res.status(500).json({
-        answer: "⚠️ Máy chủ AI đang tạm quá tải, vui lòng thử lại sau vài phút."
+        answer: "⚠️ Tất cả máy chủ AI hiện đang quá tải, vui lòng thử lại sau vài phút.",
       });
     }
 
-    const answer = data.choices?.[0]?.message?.content || "🤖 Xin lỗi, mình chưa hiểu câu hỏi của bạn.";
     res.status(200).json({ answer });
   } catch (error) {
     console.error("Server Error:", error);
     res.status(500).json({
-      answer: "⚠️ Lỗi máy chủ — không thể kết nối với AI. Vui lòng kiểm tra lại API key hoặc mạng."
+      answer:
+        "⚠️ Lỗi máy chủ — không thể kết nối với AI.",
     });
   }
 }
