@@ -137,7 +137,7 @@ a.back{color:#000;background:var(--accent);padding:8px 14px;border-radius:8px;te
 <script>
 /* ---------- Dữ liệu (giữ nguyên nội dung bạn gửi) ---------- */
 const ICONS={
-  "ket-tua":`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="80" height="80">
+  "1":`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="80" height="80">
     <rect x="12" y="4" width="8" height="20" fill="#ccc" stroke="#333" stroke-width="1" rx="2"/>
     <rect x="11" y="2" width="10" height="3" fill="#00c4d6" stroke="#333" stroke-width="1" rx="1"/>
     <rect x="12" y="12" width="8" height="12" fill="#87ceeb" opacity="0.8" rx="2"/>
@@ -145,16 +145,26 @@ const ICONS={
     <circle cx="15" cy="21" r="1.5" fill="gold"/>
     <circle cx="17" cy="23" r="1.5" fill="gold"/>
   </svg>`,
-  "glucose":"🍬",
-  "tinh-bot":"🥣",
-  "oxy":"💨"
+  "2":"🍬",
+  "3":"🥣",
+  "4":`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="80" height="80">
+  <rect x="11" y="4" width="10" height="22" fill="#ccc" stroke="#333" stroke-width="1.5" rx="2"/>
+  <rect x="11" y="2" width="10" height="3" fill="#8B00FF" stroke="#333" stroke-width="1" rx="1"/>
+  <rect x="12" y="14" width="8" height="12" fill="#9B30FF" opacity="0.85" rx="2"/>
+  <circle cx="15" cy="222" r="1.5" fill="#8B4513"/>
+  <circle cx="14.5" cy="23" r="1.5" fill="#8B4513"/>
+  <circle cx="17.5" cy="24" r="1.5" fill="#8B4513"/>
+  <circle cx="15.5" cy="17" r="1.2" fill="#d0f0ff"/>
+  <circle cx="16.5" cy="15" r="1.2" fill="#d0f0ff"/>
+  <circle cx="16" cy="13" r="1.2" fill="#d0f0ff"/>
+</svg>`
 };
 
 const data=[
-  {title:"(CH₃COO)₂Pb + KI",desc:"Minh hoạ phản ứng trao đổi tạo kết tủa.",icon:ICONS["ket-tua"],link:"1_chemistry.html",topic:"Vô cơ",grade:"10"},
-  {title:"Glucose + Cu(OH)₂",desc:"Phản ứng nhận biết đường khử.",icon:ICONS["glucose"],link:"2_chemistry.html",topic:"Hữu cơ",grade:"12"},
-  {title:"I₂ + Hồ tinh bột",desc:"Phản ứng nhận biết tinh bột.",icon:ICONS["tinh-bot"],link:"3_chemistry.html",topic:"Dung dịch",grade:"11"},
-  {title:"Phản ứng phân huỷ H₂O₂",desc:"Minh hoạ phản ứng tạo khí O₂.",icon:ICONS["oxy"],link:"4_chemistry.html",topic:"Vô cơ",grade:"11"}
+  {title:"(CH₃COO)₂Pb + KI",desc:"Minh hoạ phản ứng trao đổi tạo kết tủa.",icon:ICONS["1"],link:"1_chemistry.html",topic:"Vô cơ",grade:"10"},
+  {title:"Glucose + Cu(OH)₂",desc:"Phản ứng nhận biết đường khử.",icon:ICONS["2"],link:"2_chemistry.html",topic:"Hữu cơ",grade:"12"},
+  {title:"I₂ + Hồ tinh bột",desc:"Phản ứng nhận biết tinh bột.",icon:ICONS["3"],link:"3_chemistry.html",topic:"Dung dịch",grade:"11"},
+  {title:"Phản ứng KMnO₄ + H₂O₂", desc:"Minh hoạ phản ứng oxi hóa khử.", icon:ICONS["4"], link:"4_chemistry.html", topic:"Vô cơ", grade:"11"}
 ];
 
 /* ---------- Render cards ONCE (giữ nguyên nội dung SVG, text, link) ---------- */
