@@ -2,43 +2,50 @@ export default async function handler(req, res) {
   try {
     const { question } = req.body;
 
-    if (!question || question.trim() === "") {
-      return res.status(400).json({ answer: "⚠️ Bạn chưa nhập câu hỏi." });
+    if (!question) {
+      return res.status(400).json({ answer: "⚠️ Vui lòng nhập câu hỏi!" });
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini", // ✅ Dùng model mới và nhanh hơn (hoặc gpt-3.5-turbo nếu bạn thích)
-        temperature: 0.7,
+        model: "llama3-8b-8192",
         messages: [
           {
             role: "system",
             content:
-              "Bạn là trợ lý AI trong phòng thí nghiệm ảo. Hãy giải thích các thí nghiệm vật lí, hoá học và sinh học một cách ngắn gọn, dễ hiểu, thân thiện, phù hợp học sinh THPT.",
+              "Bạn là trợ lý AI trong phòng thí nghiệm Study Lab, chuyên giải thích thí nghiệm Lý, Hóa, Sinh một cách ngắn gọn, dễ hiểu, thân thiện với học sinh."
           },
-          { role: "user", content: question },
+          {
+            role: "user",
+            content: question
+          }
         ],
-      }),
+        max_tokens: 250,
+        temperature: 0.7
+      })
     });
 
     const data = await response.json();
-    console.log("🔍 API response:", data); // Giúp bạn xem nếu OpenAI trả về lỗi
 
-    // ✅ Kiểm tra và lấy câu trả lời an toàn
-    const answer =
-      data.choices?.[0]?.message?.content?.trim() ||
-      "❓ Mình chưa nhận được phản hồi từ AI. Hãy thử lại nhé.";
+    // 🧠 Nếu API trả về lỗi
+    if (data.error) {
+      console.error("Groq API Error:", data.error);
+      return res.status(500).json({
+        answer: "⚠️ Máy chủ AI đang tạm quá tải, vui lòng thử lại sau vài phút."
+      });
+    }
 
+    const answer = data.choices?.[0]?.message?.content || "🤖 Xin lỗi, mình chưa hiểu câu hỏi của bạn.";
     res.status(200).json({ answer });
   } catch (error) {
-    console.error("❌ Lỗi server:", error);
+    console.error("Server Error:", error);
     res.status(500).json({
-      answer: "⚠️ Có lỗi khi gọi AI, hãy thử lại sau một chút.",
+      answer: "⚠️ Lỗi máy chủ — không thể kết nối với AI. Vui lòng kiểm tra lại API key hoặc mạng."
     });
   }
 }
