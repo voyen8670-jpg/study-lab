@@ -148,10 +148,10 @@ window.addEventListener('resize',()=>{const rect=canvas.getBoundingClientRect();
 function loop(){draw();requestAnimationFrame(loop);} (function init(){generateCells();updateScaleLabel();loop();})();
 </script>
 
-<!-- 💬 Nút mở chat -->
+<!-- Nút mở chat -->
 <div id="ai-toggle" title="Trợ lý AI">💬</div>
 
-<!-- 💡 Khung chat -->
+<!-- Khung chat -->
 <div id="ai-chat">
   <div class="ai-header">
     <span>Trợ lý AI</span>
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // 👉 Mở & chào
+  // Mở & chào
   toggle.addEventListener("click", () => {
     console.log("💬 Nút chat được bấm");
     chat.classList.toggle("active");
