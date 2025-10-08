@@ -193,5 +193,215 @@ document.getElementById('reset').addEventListener('click',()=>{
 
 refreshAll();
 </script>
+
+  <!-- Nút mở chat -->
+<div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+<!-- Khung chat -->
+<div id="ai-chat">
+  <div class="ai-header">
+    <span>Trợ lý AI</span>
+    <button id="ai-close">×</button>
+  </div>
+  <div id="ai-body" class="ai-body"></div>
+  <div class="ai-input">
+    <input id="ai-text" type="text" placeholder="Hỏi về thí nghiệm này..." />
+    <button id="ai-send">➤</button>
+  </div>
+</div>
+
+<style>
+/* Nút mở */
+#ai-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #00eaff, #008cff);
+  color: #000;
+  font-size: 22px;
+  padding: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00eaff;
+  cursor: pointer;
+  transition: transform 0.3s;
+  z-index: 999999;
+}
+#ai-toggle:hover {
+  transform: scale(1.15);
+}
+
+/* Khung chat */
+#ai-chat {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid #00eaff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00eaff44;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999998;
+  transition: all 0.3s ease;
+}
+#ai-chat.active {
+  display: flex !important;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ai-header {
+  background: #00eaff;
+  color: #000;
+  font-weight: bold;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ai-header button {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #000;
+}
+
+.ai-body {
+  padding: 10px;
+  font-size: 13px;
+  color: white;
+  height: 260px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.05);
+}
+.ai-msg,
+.user-msg {
+  margin: 6px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  line-height: 1.4;
+  max-width: 80%;
+}
+.ai-msg {
+  background: #00eaff22;
+  text-align: left;
+}
+.user-msg {
+  background: #0088ff44;
+  text-align: right;
+  margin-left: auto;
+}
+
+.ai-input {
+  display: flex;
+  border-top: 1px solid #00eaff;
+}
+.ai-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  color: white;
+}
+.ai-input button {
+  background: #00eaff;
+  color: #000;
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+}
+.ai-input button:hover {
+  background: #00cfff;
+}
+
+canvas, iframe {
+  pointer-events: none !important;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("✅ AI chat script loaded");
+  const toggle = document.getElementById("ai-toggle");
+  const chat = document.getElementById("ai-chat");
+  const closeBtn = document.getElementById("ai-close");
+  const sendBtn = document.getElementById("ai-send");
+  const input = document.getElementById("ai-text");
+  const body = document.getElementById("ai-body");
+  let greeted = false;
+
+  if (!toggle || !chat) {
+    console.error("❌ Không tìm thấy phần tử chat!");
+    return;
+  }
+
+  // Mở & chào
+  toggle.addEventListener("click", () => {
+    console.log("💬 Nút chat được bấm");
+    chat.classList.toggle("active");
+    if (chat.classList.contains("active") && !greeted) {
+      greeted = true;
+      setTimeout(() => {
+        body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+        body.scrollTop = body.scrollHeight;
+      }, 200);
+    }
+  });
+
+  // ❌ Đóng
+  closeBtn.addEventListener("click", () => {
+    chat.classList.remove("active");
+    console.log("❌ Chat bị đóng");
+  });
+
+  // ✉️ Gửi tin nhắn
+  async function sendMessage() {
+    const msg = input.value.trim();
+    if (!msg) return;
+    body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+    body.scrollTop = body.scrollHeight;
+
+    try {
+      const res = await fetch("/api/explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: msg })
+      });
+      const data = await res.json();
+      document.getElementById("typing").remove();
+      body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+    } catch (e) {
+      console.warn("⚠️ Lỗi API:", e);
+      document.getElementById("typing").remove();
+      body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+    }
+
+    body.scrollTop = body.scrollHeight;
+  }
+
+  sendBtn.addEventListener("click", sendMessage);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+});
+</script>
 </body>
 </html>
