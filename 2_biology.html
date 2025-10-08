@@ -8,16 +8,11 @@
     body{font-family:Arial, sans-serif;background:#071227;color:#e8f6ff;margin:0;padding:18px;display:flex;justify-content:center}
     .wrap{max-width:1200px;width:100%}
     h1{margin:0 0 12px;font-size:20px;text-align:center;color:#fff}
+
     .bench{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
     .tube{width:110px;height:300px;border:2px solid rgba(255,255,255,0.15);border-radius:18px 18px 30px 30px;position:relative;overflow:hidden;background:rgba(255,255,255,0.03)}
     .neck{position:absolute;top:-28px;left:calc(50% - 22px);width:44px;height:50px;border-radius:8px;background:rgba(255,255,255,0.05)}
-    .liquid{
-      position:absolute;left:0;right:0;bottom:0;height:0;
-      transition:height 1.5s ease, background 3s ease-in-out;
-      border-radius:0 0 28px 28px;
-      opacity:0.95;
-      background-size:200% 200%;
-    }
+    .liquid{position:absolute;left:0;right:0;bottom:0;height:0;transition:height 1.5s ease, background 3s ease-in-out;border-radius:0 0 28px 28px;opacity:0.95;background-size:200% 200%}
     .label{position:absolute;top:6px;left:10px;font-size:13px;color:#cfe3ff}
     .caption{text-align:center;margin-top:6px;font-size:14px}
     .controls{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
@@ -29,6 +24,27 @@
     pre{background:rgba(255,255,255,0.03);color:#fff;padding:10px;font-size:18px;border-radius:6px;white-space:pre-wrap;text-align:center}
     .footerExplain{margin-top:18px;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;line-height:1.5;font-size:15px}
     .footerExplain strong{color:#7fd7ff}
+
+    /*Đường kẻ dọc*/
+    .vertical-line {display:none;}
+    
+    /* Mobile */
+    @media screen and (max-width: 768px) {
+      .bench {
+        flex-direction: row; 
+        justify-content: space-around;
+        align-items: flex-start;
+      }
+      .bench > div {width: 40%;}
+      .explain {display: none;} /* Ẩn giải thích */
+      .vertical-line {
+        display: block;
+        width: 2px;
+        background: rgba(255,255,255,0.2);
+        height: 300px;
+        align-self: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -37,7 +53,7 @@
 
   <div class="bench">
     <!-- Ống nghiệm 1 -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:33%">
+    <div style="display:flex;flex-direction:column;align-items:center">
       <div class="tube" id="tube1">
         <div class="neck"></div>
         <div class="label">Ống 1</div>
@@ -56,7 +72,7 @@
       </table>
     </div>
 
-    <!-- Giải thích thao tác ở giữa -->
+    <!-- Giải thích thao tác -->
     <div class="explain" id="explain">
       <strong>🔎 Giải thích theo thao tác</strong>
       <div id="explainText" style="margin-top:8px">
@@ -64,8 +80,11 @@
       </div>
     </div>
 
+    <!-- Đường kẻ dọc mobile -->
+    <div class="vertical-line"></div>
+
     <!-- Ống nghiệm 2 -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:33%">
+    <div style="display:flex;flex-direction:column;align-items:center">
       <div class="tube" id="tube2">
         <div class="neck"></div>
         <div class="label">Ống 2</div>
@@ -85,7 +104,7 @@
     </div>
   </div>
 
-    <!-- Giải thích sinh học cuối -->
+  <!-- Giải thích sinh học cuối -->
   <div class="footerExplain">
     <strong>🔬 Giải thích sinh học</strong><br><br>
     <p>Amylase là một loại enzyme xúc tác cho phản ứng thủy phân liên kết α-1,4-glycosidic trong phân tử tinh bột (amylose và amylopectin).</p>
@@ -101,329 +120,41 @@
   </div>
 </div>
 
+<!-- Script phần ống nghiệm giữ nguyên, không thay đổi -->
 <script>
-  const colors={
-  starch:"linear-gradient(180deg,#ffffff,#f2f2f2,#d9d9d9)", 
-  water:"linear-gradient(180deg,#e9f8ff,#bfe7ff,#90d4ff)",  
-  amylase:"linear-gradient(180deg,#f3feff,#c9f7ff,#9eeaff)", 
-  lugol:"linear-gradient(180deg,#fbe48c,#d4a12e,#8a5a0a)", 
-  starchLugol:"linear-gradient(180deg,#7b2cbf,#3a0ca3)"  // tím xanh luôn
-};
-
+  const colors={starch:"linear-gradient(180deg,#ffffff,#f2f2f2,#d9d9d9)", water:"linear-gradient(180deg,#e9f8ff,#bfe7ff,#90d4ff)", amylase:"linear-gradient(180deg,#f3feff,#c9f7ff,#9eeaff)", lugol:"linear-gradient(180deg,#fbe48c,#d4a12e,#8a5a0a)", starchLugol:"linear-gradient(180deg,#7b2cbf,#3a0ca3)"};
   let vols1={}, vols2={};
   let state1={starch:false,water:false,lugol:false};
   let state2={starch:false,amylase:false,lugol:false};
   const explainText=document.getElementById("explainText");
-
-  function calcHeight(vols){
-    let total=0;
-    for(const k in vols) total+=vols[k];
-    return Math.min(70,total*3)+"%"; 
-  }
-
+  function calcHeight(vols){let total=0;for(const k in vols) total+=vols[k];return Math.min(70,total*3)+"%";}
   function updateTube(id){
     const tube=document.getElementById("liq"+id);
     let s=(id===1?state1:state2);
     let vols=(id===1?vols1:vols2);
     let h=calcHeight(vols);
-
     if(id===1){
-      if(s.starch && s.water && s.lugol){ 
-        tube.style.background=colors.starchLugol;
-        explainText.innerHTML="Ống 1: Tinh bột + nước → trắng đục. Thêm Lugol → <b>xanh tím</b> do phức amylose–iod.";
-      }
-      else if(s.starch && s.water){ 
-        tube.style.background=colors.starch;
-        explainText.innerHTML="Ống 1: Tinh bột + nước → tạo huyền phù trắng đục.";
-      }
-      else if(s.starch){ 
-        tube.style.background=colors.starch;
-        explainText.innerHTML="Ống 1: Chỉ có tinh bột → trắng đục, mực thấp.";
-      }
-      else if(s.water){ 
-        tube.style.background=colors.water;
-        explainText.innerHTML="Ống 1: Chỉ có nước → trong suốt, mực thấp.";
-      }
-      else if(s.lugol){ 
-        tube.style.background=colors.lugol;
-        explainText.innerHTML="Ống 1: Chỉ có Lugol → dung dịch nâu vàng.";
-      }
+      if(s.starch && s.water && s.lugol){ tube.style.background=colors.starchLugol; explainText.innerHTML="Ống 1: Tinh bột + nước → trắng đục. Thêm Lugol → <b>xanh tím</b> do phức amylose–iod.";}
+      else if(s.starch && s.water){ tube.style.background=colors.starch; explainText.innerHTML="Ống 1: Tinh bột + nước → tạo huyền phù trắng đục.";}
+      else if(s.starch){ tube.style.background=colors.starch; explainText.innerHTML="Ống 1: Chỉ có tinh bột → trắng đục, mực thấp.";}
+      else if(s.water){ tube.style.background=colors.water; explainText.innerHTML="Ống 1: Chỉ có nước → trong suốt, mực thấp.";}
+      else if(s.lugol){ tube.style.background=colors.lugol; explainText.innerHTML="Ống 1: Chỉ có Lugol → dung dịch nâu vàng.";}
       else{h="0"; explainText.innerHTML="Ống 1: Rỗng.";}
     }
-
     if(id===2){
-      if(s.starch && s.amylase && s.lugol){ 
-        tube.style.background=colors.lugol;
-        explainText.innerHTML="Ống 2: Amylase phân giải tinh bột. Thêm Lugol → vẫn <b>nâu vàng</b>, không xanh tím.";
-      }
-      else if(s.starch && s.amylase){ 
-        tube.style.background=colors.starch;
-        explainText.innerHTML="Ống 2: Tinh bột + amylase → dung dịch trắng đục, đang thủy phân.";
-      }
-      else if(s.starch){ 
-        tube.style.background=colors.starch;
-        explainText.innerHTML="Ống 2: Chỉ có tinh bột → trắng đục, mực thấp.";
-      }
-      else if(s.amylase){ 
-        tube.style.background=colors.amylase;
-        explainText.innerHTML="Ống 2: Chỉ có amylase → dung dịch gần như trong.";
-      }
-      else if(s.lugol){ 
-        tube.style.background=colors.lugol;
-        explainText.innerHTML="Ống 2: Chỉ có Lugol → dung dịch nâu vàng.";
-      }
+      if(s.starch && s.amylase && s.lugol){ tube.style.background=colors.lugol; explainText.innerHTML="Ống 2: Amylase phân giải tinh bột. Thêm Lugol → vẫn <b>nâu vàng</b>, không xanh tím.";}
+      else if(s.starch && s.amylase){ tube.style.background=colors.starch; explainText.innerHTML="Ống 2: Tinh bột + amylase → dung dịch trắng đục, đang thủy phân.";}
+      else if(s.starch){ tube.style.background=colors.starch; explainText.innerHTML="Ống 2: Chỉ có tinh bột → trắng đục, mực thấp.";}
+      else if(s.amylase){ tube.style.background=colors.amylase; explainText.innerHTML="Ống 2: Chỉ có amylase → dung dịch gần như trong.";}
+      else if(s.lugol){ tube.style.background=colors.lugol; explainText.innerHTML="Ống 2: Chỉ có Lugol → dung dịch nâu vàng.";}
       else{h="0"; explainText.innerHTML="Ống 2: Rỗng.";}
     }
-
     tube.style.height=h;
   }
-
-  function updateTable(id){
-    const tbody=document.getElementById("tbl"+id);
-    const vols=(id===1?vols1:vols2);
-    let html="";
-    for(const k in vols){
-      if(vols[k]) html+=`<tr><td>${names[k]}</td><td>${vols[k]}</td></tr>`;
-    }
-    if(!html) html="<tr><td>-</td><td>0</td></tr>";
-    tbody.innerHTML=html;
-  }
-
-  const names={
-    starch:"Tinh bột / Starch",
-    water:"Nước / Water",
-    amylase:"Amylase / Amylase",
-    lugol:"Thuốc thử Lugol / Iodine"
-  };
-
-  function addLiquid(id,type){
-    const vols=(id===1?vols1:vols2);
-    if(!(type in vols)) vols[type]=0;
-    vols[type]+=5; 
-    if(id===1){ state1[type]=true; updateTube(1);}
-    if(id===2){ state2[type]=true; updateTube(2);}
-    updateTable(id);
-  }
-
-  function resetTube(id){
-    const tube=document.getElementById("liq"+id);
-    tube.style.height="0";
-    tube.style.background="transparent";
-    if(id===1){ state1={starch:false,water:false,lugol:false}; vols1={}; }
-    if(id===2){ state2={starch:false,amylase:false,lugol:false}; vols2={}; }
-    updateTable(id);
-    explainText.innerHTML="Đã reset ống nghiệm "+id+".";
-  }
-</script>
-
-  <!-- Nút mở chat -->
-<div id="ai-toggle" title="Trợ lý AI">💬</div>
-
-<!-- Khung chat -->
-<div id="ai-chat">
-  <div class="ai-header">
-    <span>Trợ lý AI</span>
-    <button id="ai-close">×</button>
-  </div>
-  <div id="ai-body" class="ai-body"></div>
-  <div class="ai-input">
-    <input id="ai-text" type="text" placeholder="Hỏi về thí nghiệm này..." />
-    <button id="ai-send">➤</button>
-  </div>
-</div>
-
-<style>
-/* Nút mở */
-#ai-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: linear-gradient(135deg, #00eaff, #008cff);
-  color: #000;
-  font-size: 22px;
-  padding: 12px;
-  border-radius: 50%;
-  box-shadow: 0 0 12px #00eaff;
-  cursor: pointer;
-  transition: transform 0.3s;
-  z-index: 999999;
-}
-#ai-toggle:hover {
-  transform: scale(1.15);
-}
-
-/* Khung chat */
-#ai-chat {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 300px;
-  background: rgba(0, 0, 0, 0.92);
-  border: 1px solid #00eaff;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #00eaff44;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 999998;
-  transition: all 0.3s ease;
-}
-#ai-chat.active {
-  display: flex !important;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.ai-header {
-  background: #00eaff;
-  color: #000;
-  font-weight: bold;
-  padding: 6px 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ai-header button {
-  border: none;
-  background: transparent;
-  font-size: 20px;
-  cursor: pointer;
-  color: #000;
-}
-
-.ai-body {
-  padding: 10px;
-  font-size: 13px;
-  color: white;
-  height: 260px;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.05);
-}
-.ai-msg,
-.user-msg {
-  margin: 6px 0;
-  padding: 8px 10px;
-  border-radius: 8px;
-  line-height: 1.4;
-  max-width: 80%;
-}
-.ai-msg {
-  background: #00eaff22;
-  text-align: left;
-}
-.user-msg {
-  background: #0088ff44;
-  text-align: right;
-  margin-left: auto;
-}
-
-.ai-input {
-  display: flex;
-  border-top: 1px solid #00eaff;
-}
-.ai-input input {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  background: transparent;
-  color: white;
-}
-.ai-input button {
-  background: #00eaff;
-  color: #000;
-  border: none;
-  padding: 0 12px;
-  cursor: pointer;
-}
-.ai-input button:hover {
-  background: #00cfff;
-}
-
-canvas, iframe {
-  pointer-events: none !important;
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("✅ AI chat script loaded");
-  const toggle = document.getElementById("ai-toggle");
-  const chat = document.getElementById("ai-chat");
-  const closeBtn = document.getElementById("ai-close");
-  const sendBtn = document.getElementById("ai-send");
-  const input = document.getElementById("ai-text");
-  const body = document.getElementById("ai-body");
-  let greeted = false;
-
-  if (!toggle || !chat) {
-    console.error("❌ Không tìm thấy phần tử chat!");
-    return;
-  }
-
-  // Mở & chào
-  toggle.addEventListener("click", () => {
-    console.log("💬 Nút chat được bấm");
-    chat.classList.toggle("active");
-    if (chat.classList.contains("active") && !greeted) {
-      greeted = true;
-      setTimeout(() => {
-        body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
-        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
-        body.scrollTop = body.scrollHeight;
-      }, 200);
-    }
-  });
-
-  // ❌ Đóng
-  closeBtn.addEventListener("click", () => {
-    chat.classList.remove("active");
-    console.log("❌ Chat bị đóng");
-  });
-
-  // ✉️ Gửi tin nhắn
-  async function sendMessage() {
-    const msg = input.value.trim();
-    if (!msg) return;
-    body.innerHTML += `<div class='user-msg'>${msg}</div>`;
-    input.value = "";
-    body.scrollTop = body.scrollHeight;
-
-    body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
-    body.scrollTop = body.scrollHeight;
-
-    try {
-      const res = await fetch("/api/explain", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: msg })
-      });
-      const data = await res.json();
-      document.getElementById("typing").remove();
-      body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
-    } catch (e) {
-      console.warn("⚠️ Lỗi API:", e);
-      document.getElementById("typing").remove();
-      body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
-    }
-
-    body.scrollTop = body.scrollHeight;
-  }
-
-  sendBtn.addEventListener("click", sendMessage);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
-});
+  const names={starch:"Tinh bột / Starch", water:"Nước / Water", amylase:"Amylase / Amylase", lugol:"Thuốc thử Lugol / Iodine"};
+  function addLiquid(id,type){const vols=(id===1?vols1:vols2); if(!(type in vols)) vols[type]=0; vols[type]+=5; if(id===1){ state1[type]=true; updateTube(1);} if(id===2){ state2[type]=true; updateTube(2);} updateTable(id);}
+  function resetTube(id){const tube=document.getElementById("liq"+id); tube.style.height="0"; tube.style.background="transparent"; if(id===1){ state1={starch:false,water:false,lugol:false}; vols1={}; } if(id===2){ state2={starch:false,amylase:false,lugol:false}; vols2={}; } updateTable(id); explainText.innerHTML="Đã reset ống nghiệm "+id+".";}
+  function updateTable(id){const tbody=document.getElementById("tbl"+id); const vols=(id===1?vols1:vols2); let html=""; for(const k in vols){ if(vols[k]) html+=`<tr><td>${names[k]}</td><td>${vols[k]}</td></tr>`;} if(!html) html="<tr><td>-</td><td>0</td></tr>"; tbody.innerHTML=html;}
 </script>
 </body>
 </html>
