@@ -21,6 +21,37 @@
     .small{font-size:12px}
     .credit{position:absolute;right:12px;bottom:12px;font-size:13px;color:var(--muted)}
     .legend{position:absolute;right:12px;top:12px;background:rgba(0,0,0,0.22);padding:8px;border-radius:8px;font-size:13px}
+
+    /* ===== Responsive Mobile ===== */
+    @media (max-width: 768px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        padding: 10px;
+        gap: 10px;
+      }
+      .viewer {
+        height: 50vh;
+        border-radius: 12px;
+      }
+      .panel.controls {
+        width: 100%;
+        max-height: 45vh;
+        overflow-y: auto;
+        padding: 12px;
+        border-radius: 12px;
+      }
+      button { font-size: 16px; padding: 10px 14px; }
+      input[type=range] { height: 28px; touch-action: pan-x; }
+      label, .muted, .small { font-size: 12px; }
+    }
+
+    /* Landscape mobile */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .app { grid-template-columns: 2fr 1fr; grid-template-rows: auto; gap: 10px; }
+      .panel.controls { max-height: none; height: auto; }
+      .viewer { height: 80vh; }
+    }
   </style>
 </head>
 <body>
@@ -40,7 +71,6 @@
 
       <div>
         <label>Độ phóng đại</label>
-        <!-- chỉnh mượt hơn: step=0.1 -->
         <input id="mag" type="range" min="1" max="12" step="0.1" value="1">
         <div class="row"><div class="muted">Kéo để phóng đại dần (1× đến 12×)</div><div style="flex:1"></div><div id="magVal" class="small">1.0</div></div>
       </div>
@@ -51,21 +81,18 @@
         <div class="row"><div class="muted">Điều chỉnh cường độ ánh sáng</div><div style="flex:1"></div><div id="lightVal">90%</div></div>
       </div>
 
-      <!-- Quan sát ngang -->
       <div>
         <label>Quan sát ngang</label>
         <input id="viewX" type="range" min="-600" max="600" value="0">
         <div class="row"><div class="muted">Kéo lam kính sang trái/phải</div><div style="flex:1"></div><div id="viewXVal">0</div></div>
       </div>
 
-      <!-- Quan sát dọc -->
       <div>
         <label>Quan sát dọc</label>
         <input id="viewY" type="range" min="-400" max="400" value="0">
         <div class="row"><div class="muted">Kéo lam kính lên/xuống</div><div style="flex:1"></div><div id="viewYVal">0</div></div>
       </div>
 
-      <!-- Nhuộm và rửa -->
       <div>
         <label>Thuốc nhuộm: Xanh methylen</label>
         <div class="row"><button id="stainBtn">Áp dụng thuốc nhuộm</button><button id="washBtn" style="background:linear-gradient(180deg,#fff,#d8eef7)">Rửa</button></div>
@@ -126,6 +153,7 @@ function drawCell(cell){
     ctx.beginPath();ctx.arc(p.x+offsetX,p.y+offsetY,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(200,240,255,${0.25*light})`;ctx.fill();}
 }
 function roundedRect(ctx,x,y,w,h,r){ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);}
+
 const mag=document.getElementById('mag'),magVal=document.getElementById('magVal'),magLabel=document.getElementById('magLabel');
 const lightSlider=document.getElementById('light'),lightVal=document.getElementById('lightVal');
 const stainBtn=document.getElementById('stainBtn'),washBtn=document.getElementById('washBtn');
@@ -133,9 +161,7 @@ const reset=document.getElementById('reset'),scaleLabel=document.getElementById(
 const viewX=document.getElementById('viewX'),viewY=document.getElementById('viewY');
 const viewXVal=document.getElementById('viewXVal'),viewYVal=document.getElementById('viewYVal');
 
-// chỉnh sự kiện phóng đại mượt hơn
 mag.addEventListener('input',()=>{const val=parseFloat(mag.value);world.scale=val;magVal.textContent=val.toFixed(1);magLabel.textContent=val.toFixed(1)+'×';updateScaleLabel();});
-
 lightSlider.addEventListener('input',()=>{light=parseFloat(lightSlider.value);lightVal.textContent=Math.round(light*100)+'%';});
 viewX.addEventListener('input',()=>{world.x=parseFloat(viewX.value);viewXVal.textContent=viewX.value;});
 viewY.addEventListener('input',()=>{world.y=parseFloat(viewY.value);viewYVal.textContent=viewY.value;});
@@ -144,11 +170,20 @@ stainBtn.addEventListener('click',()=>{stainBtn.disabled=true;stainBtn.textConte
 washBtn.addEventListener('click',()=>{const start=stainLevel,t0=Date.now(),dur=2000;const anim=setInterval(()=>{const p=Math.min(1,(Date.now()-t0)/dur);stainLevel=start*(1-p);if(p>=1){clearInterval(anim);}},33);});
 reset.addEventListener('click',()=>{world={x:0,y:0,scale:1};mag.value=1;magVal.textContent='1.0';magLabel.textContent='1.0×';lightSlider.value=0.9;lightVal.textContent='90%';viewX.value=0;viewXVal.textContent=0;viewY.value=0;viewYVal.textContent=0;stainLevel=0;updateScaleLabel();});
 function updateScaleLabel(){if(world.scale<3){scaleLabel.textContent='1 mm';}else if(world.scale<8){scaleLabel.textContent='100 µm';}else{scaleLabel.textContent='50 µm';}}
-window.addEventListener('resize',()=>{const rect=canvas.getBoundingClientRect();width=canvas.width=Math.max(800,Math.floor(rect.width*1.25));height=canvas.height=Math.max(600,Math.floor(rect.height*1.25));generateCells();});
-function loop(){draw();requestAnimationFrame(loop);} (function init(){generateCells();updateScaleLabel();loop();})();
+
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  width = canvas.width = Math.max(800, Math.floor(rect.width*1.25));
+  height = canvas.height = Math.max(600, Math.floor(rect.height*1.25));
+  generateCells();
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function loop(){draw();requestAnimationFrame(loop);} 
+(function init(){generateCells();updateScaleLabel();loop();})();
 </script>
 
-<!-- Nút mở chat -->
 <div id="ai-toggle" title="Trợ lý AI">💬</div>
 
 <!-- Khung chat -->
