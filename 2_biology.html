@@ -25,9 +25,19 @@
     .footerExplain{margin-top:18px;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;line-height:1.5;font-size:15px}
     .footerExplain strong{color:#7fd7ff}
 
-    /*Đường kẻ dọc*/
+    /*kẻ dọc*/
     .vertical-line {display:none;}
-    
+    /*lap*/
+    @media screen and (max-width: 768px) {
+  .vertical-line {
+    display: block;
+    width: 2px !important; 
+    background: rgba(255, 255, 255, 0.5);
+    height: 500px  !important;
+    margin: 0 10px; 
+    align-self: center;
+  }
+}
     /* Mobile */
     @media screen and (max-width: 768px) {
       .bench {
@@ -52,7 +62,7 @@
   <h1>Mô phỏng: Hoạt tính thủy phân tinh bột của amylase</h1>
 
   <div class="bench">
-    <!-- Ống nghiệm 1 -->
+     /*Ống nghiệm 1*/
     <div style="display:flex;flex-direction:column;align-items:center">
       <div class="tube" id="tube1">
         <div class="neck"></div>
@@ -104,7 +114,7 @@
     </div>
   </div>
 
-  <!-- Giải thích sinh học cuối -->
+  <!-- Giải thích sinh học -->
   <div class="footerExplain">
     <strong>🔬 Giải thích sinh học</strong><br><br>
     <p>Amylase là một loại enzyme xúc tác cho phản ứng thủy phân liên kết α-1,4-glycosidic trong phân tử tinh bột (amylose và amylopectin).</p>
@@ -120,7 +130,6 @@
   </div>
 </div>
 
-<!-- Script phần ống nghiệm giữ nguyên, không thay đổi -->
 <script>
   const colors={starch:"linear-gradient(180deg,#ffffff,#f2f2f2,#d9d9d9)", water:"linear-gradient(180deg,#e9f8ff,#bfe7ff,#90d4ff)", amylase:"linear-gradient(180deg,#f3feff,#c9f7ff,#9eeaff)", lugol:"linear-gradient(180deg,#fbe48c,#d4a12e,#8a5a0a)", starchLugol:"linear-gradient(180deg,#7b2cbf,#3a0ca3)"};
   let vols1={}, vols2={};
