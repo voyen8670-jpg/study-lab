@@ -547,8 +547,12 @@ requestAnimationFrame(animate);
   background: #00cfff;
 }
 
-canvas, iframe {
+iframe {
   pointer-events: none !important;
+}
+
+canvas {
+  pointer-events: auto !important;
 }
 </style>
 
