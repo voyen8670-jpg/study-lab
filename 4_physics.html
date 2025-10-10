@@ -124,6 +124,46 @@
     font-size: 1em;
     color: var(--accent);
   }
+
+  /* Responsive cho tablet/mobile */
+@media (max-width: 768px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  #simArea {
+    width: 90vw;
+    height: 300px;
+  }
+  aside {
+    width: 90vw;
+    max-width: 400px;
+  }
+  section {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  #chartArea, .panel.theory {
+    width: 90vw;
+  }
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Siêu nhỏ <480px */
+@media (max-width: 480px) {
+  aside {
+    width: 95vw;
+    padding: 10px;
+  }
+  input, select, button {
+    font-size: 0.9rem;
+  }
+}
 </style>
 </head>
 <body>
