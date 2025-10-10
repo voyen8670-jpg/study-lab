@@ -16,29 +16,58 @@
 
   h1 {
     font-size: 36px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     color: #00eaff;
     text-shadow: 0 0 8px rgba(0,234,255,0.7);
   }
 
-  .subject-btn {
-    display: inline-block;
-    background: #00eaff;
-    color: #000;
-    padding: 20px 40px;
-    margin: 15px;
-    font-size: 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 0 12px rgba(0,234,255,0.8);
-    transition: 0.3s;
-    text-decoration: none;
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
-  .subject-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(0,234,255,1);
+  .card {
+    background: rgba(0,0,0,0.6);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0,234,255,0.8);
+  }
+
+  .icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    display: inline-block;
+    filter: drop-shadow(0 0 6px rgba(0,234,255,0.6));
+    transition: transform 0.3s, filter 0.3s;
+  }
+
+  .card:hover .icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 12px rgba(0,234,255,1));
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #00eaff;
+    text-shadow: 0 0 6px rgba(0,234,255,0.7);
+  }
+
+  p {
+    font-size: 14px;
+    color: #ddd;
   }
 </style>
 </head>
@@ -46,9 +75,24 @@
 
 <h1>Chọn môn để ôn tập</h1>
 
-<a href="ly/" class="subject-btn">⚡ Vật lý</a>
-<a href="hoa/" class="subject-btn">🧪 Hóa học</a>
-<a href="sinh/" class="subject-btn">🧬 Sinh học</a>
+<div class="container">
+  <a href="ly/" class="card">
+    <div class="icon">⚡</div>
+    <h2>Vật lý</h2>
+    <p>Trắc nghiệm Vật lý.</p>
+  </a>
+  <a href="hoa/" class="card">
+    <div class="icon">🧪</div>
+    <h2>Hóa học</h2>
+    <p>Trắc nghiệm Hóa học.</p>
+  </a>
+  <a href="sinh/" class="card">
+    <div class="icon">🧬</div>
+    <h2>Sinh học</h2>
+    <p>Trắc nghiệm Sinh học.</p>
+  </a>
+</div>
 
 </body>
 </html>
+
