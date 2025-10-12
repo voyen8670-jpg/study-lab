@@ -1,5 +1,8 @@
 import React from "react";
 
+// Giao diện chọn môn cho khu vực "Thử tài kiến thức" — chỉ dành cho trắc nghiệm
+// Nền tĩnh + hiệu ứng ánh sáng, hình khối trang trí để tạo không gian học tập hiện đại
+
 export default function SubjectSelector({
   subjects = [
     { id: "physics", name: "Vật lý", color: "from-blue-500 to-indigo-600" },
@@ -9,17 +12,28 @@ export default function SubjectSelector({
   onSelect = (subject) => alert(`Bạn chọn: ${subject.name}`),
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" aria-label="Background for subject selector">
+    <div
+      className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden"
+      aria-label="Background for subject selector"
+    >
+      {/* Static gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-900"></div>
 
+      {/* Decorative shapes */}
       <div className="absolute -top-24 -left-24 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
 
-      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-        backgroundSize: "40px 40px"
-      }}></div>
+      {/* Grid overlay for modern look */}
+      <div
+        className="absolute inset-0 opacity-10 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: "40px 40px",
+        }}
+      ></div>
 
+      {/* Content card */}
       <div className="relative w-full max-w-5xl backdrop-blur-md bg-white/5 rounded-2xl shadow-2xl p-8 border border-white/10">
         <header className="mb-6 text-center">
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
@@ -37,11 +51,9 @@ export default function SubjectSelector({
                 key={s.id}
                 onClick={() => onSelect(s)}
                 className={`relative group overflow-hidden rounded-2xl p-5 text-left transform transition hover:-translate-y-1 focus:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-white/20`}
-                aria-pressed="false"
               >
                 <div
                   className={`absolute inset-0 -z-10 bg-gradient-to-br ${s.color} opacity-80 group-hover:opacity-100 transition duration-400`}
-                  aria-hidden
                 />
 
                 <svg
@@ -49,7 +61,6 @@ export default function SubjectSelector({
                   viewBox="0 0 100 100"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden
                 >
                   <circle cx="50" cy="50" r="50" fill="white" />
                 </svg>
@@ -57,7 +68,9 @@ export default function SubjectSelector({
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-white text-xl font-semibold drop-shadow-sm">{s.name}</h3>
-                    <p className="mt-1 text-sm text-white/90">Thử tài kiến thức.</p>
+                    <p className="mt-1 text-sm text-white/90">
+                      Làm trắc nghiệm và thử tài kiến thức.
+                    </p>
                   </div>
 
                   <div className="flex flex-col items-end">
@@ -72,12 +85,6 @@ export default function SubjectSelector({
           </div>
         </main>
       </div>
-
-      <style jsx>{`
-        :global(body) {
-          background-color: #000;
-        }
-      `}</style>
     </div>
   );
 }
