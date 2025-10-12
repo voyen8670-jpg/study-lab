@@ -1,98 +1,91 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thử tài kiến thức</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #000010;
-    color: white;
-    text-align: center;
-    min-height: 100vh;
-    padding: 40px 20px;
-  }
+import React from "react";
 
-  h1 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: #00eaff;
-    text-shadow: 0 0 8px rgba(0,234,255,0.7);
-  }
+// Giao diện chọn môn cho khu vực "Thử tài kiến thức" — chỉ dành cho trắc nghiệm
+// Nền tĩnh + hiệu ứng ánh sáng, hình khối trang trí để tạo không gian học tập hiện đại
 
-  .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+export default function SubjectSelector({
+  subjects = [
+    { id: "physics", name: "Vật lý", color: "from-blue-500 to-indigo-600" },
+    { id: "chemistry", name: "Hóa học", color: "from-pink-500 to-purple-600" },
+    { id: "biology", name: "Sinh học", color: "from-green-400 to-emerald-600" },
+  ],
+  onSelect = (subject) => alert(`Bạn chọn: ${subject.name}`),
+}) {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden" aria-label="Background for subject selector">
+      {/* Static gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-blue-900"></div>
 
-  .card {
-    background: rgba(0,0,0,0.6);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-  }
+      {/* Decorative shapes */}
+      <div className="absolute -top-24 -left-24 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
 
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 30px rgba(0,234,255,0.8);
-  }
+      {/* Grid overlay for modern look */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+        backgroundSize: "40px 40px"
+      }}></div>
 
-  .icon {
-    font-size: 60px;
-    margin-bottom: 15px;
-    display: inline-block;
-    filter: drop-shadow(0 0 6px rgba(0,234,255,0.6));
-    transition: transform 0.3s, filter 0.3s;
-  }
+      {/* Content card */}
+      <div className="relative w-full max-w-5xl backdrop-blur-md bg-white/5 rounded-2xl shadow-2xl p-8 border border-white/10">
+        <header className="mb-6 text-center">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
+            Thử tài kiến thức
+          </h1>
+          <p className="mt-1 text-sm text-slate-200/80">
+            Chọn môn bạn muốn thử sức — bắt đầu làm trắc nghiệm để kiểm tra kiến thức.
+          </p>
+        </header>
 
-  .card:hover .icon {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 12px rgba(0,234,255,1));
-  }
+        <main>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {subjects.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => onSelect(s)}
+                className={`relative group overflow-hidden rounded-2xl p-5 text-left transform transition hover:-translate-y-1 focus:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-white/20`}
+                aria-pressed="false"
+              >
+                <div
+                  className={`absolute inset-0 -z-10 bg-gradient-to-br ${s.color} opacity-80 group-hover:opacity-100 transition duration-400`}
+                  aria-hidden
+                />
 
-  h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #00eaff;
-    text-shadow: 0 0 6px rgba(0,234,255,0.7);
-  }
+                <svg
+                  className="absolute -right-6 -top-6 w-36 h-36 opacity-20 rotate-12"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden
+                >
+                  <circle cx="50" cy="50" r="50" fill="white" />
+                </svg>
 
-  p {
-    font-size: 14px;
-    color: #ddd;
-  }
-</style>
-</head>
-<body>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-white text-xl font-semibold drop-shadow-sm">{s.name}</h3>
+                    <p className="mt-1 text-sm text-white/90">Thử tài kiến thức.</p>
+                  </div>
 
-<h1>Chọn môn để bắt đầu</h1>
+                  <div className="flex flex-col items-end">
+                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white text-lg font-bold drop-shadow-sm">
+                      {s.name.charAt(0)}
+                    </div>
+                    <span className="mt-2 text-xs text-white/80">Bắt đầu →</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </main>
+      </div>
 
-<div class="container">
-  <a href="ly/" class="card">
-    <div class="icon">⚡</div>
-    <h2>Vật lý</h2>
-    <p>Trắc nghiệm Vật lý.</p>
-  </a>
-  <a href="hoa/" class="card">
-    <div class="icon">🧪</div>
-    <h2>Hóa học</h2>
-    <p>Trắc nghiệm Hóa học.</p>
-  </a>
-  <a href="sinh/" class="card">
-    <div class="icon">🧬</div>
-    <h2>Sinh học</h2>
-    <p>Trắc nghiệm Sinh học.</p>
-  </a>
-</div>
-
-</body>
-</html>
+      <style jsx>{`
+        :global(body) {
+          background-color: #000;
+        }
+      `}</style>
+    </div>
+  );
+}
 
