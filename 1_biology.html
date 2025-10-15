@@ -392,5 +392,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
+  <!-- Nút quay lại -->
+<a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+<style>
+.back-arrow {
+  position: fixed; /* luôn ở góc màn hình */
+  top: 20px;
+  left: 20px;
+  font-size: 2rem; /* kích thước mũi tên */
+  color: #fff; /* màu chữ */
+  background: rgba(0,0,0,0.5); /* nền bán trong suốt */
+  padding: 10px 15px;
+  border-radius: 50%; /* thành hình tròn */
+  text-decoration: none;
+  z-index: 1000; /* luôn nổi trên các phần tử khác */
+  transition: background 0.3s;
+}
+
+.back-arrow:hover {
+  background: rgba(0,0,0,0.8); /* khi hover đậm hơn */
+}
+</style>
 </body>
 </html>
