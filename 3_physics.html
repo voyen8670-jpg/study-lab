@@ -26,13 +26,13 @@ body {
 }
 
 .title {
-  font-size:22px; color:#4ED7F1;
+  font-size:32px; color:#4ED7F1;
   margin-bottom:20px; text-shadow:0 0 12px #00d4ff;
   font-weight:bold; text-align:center;
 }
 
 .space {
-  position:relative; width:100%; max-width:540px;
+  position:relative; width:100%; max-width:650px;
   aspect-ratio:1 / 1; border-radius:50%; overflow:hidden;
   background: radial-gradient(circle at center, #000 70%, #020418 100%);
   box-shadow:0 0 100px #000 inset, 0 0 40px rgba(0,200,255,0.25);
@@ -69,12 +69,15 @@ body {
   transform:translate(-50%, -50%);
 }
 
+/* Sóng nước */
 .tide {
-  width:130px; height:25px;
-  background:linear-gradient(to top,#2962ff,#4da6ff);
-  position:absolute; bottom:-30px; left:50%;
+  position:absolute; bottom:0; left:50%;
   transform:translateX(-50%);
-  border-radius:50px; box-shadow:0 0 16px #5393ff;
+  width:160px; height:50px;
+  z-index:1;
+}
+.tide svg {
+  width:100%; height:100%;
 }
 
 .right-panel {
@@ -83,7 +86,12 @@ body {
   padding:15px;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(12px);
-  max-height:100vh; overflow-y:auto;
+  max-height:100vh;
+  overflow-y:auto;
+  scrollbar-width: none;          /* Firefox */
+}
+.right-panel::-webkit-scrollbar { /* Chrome, Edge */
+  display: none;
 }
 
 .controls {
@@ -104,7 +112,7 @@ body {
   margin-top:12px; width:100%;
   background:rgba(255,255,255,0.08); padding:12px;
   border-radius:12px; border:1px solid rgba(255,255,255,0.2);
-  font-size:14px; line-height:1.4em;
+  font-size:16px; line-height:1.4em; /* chữ to hơn */
   box-shadow:0 2px 8px rgba(0,0,0,0.25);
 }
 
@@ -112,24 +120,24 @@ body {
   margin-top:16px; padding:14px;
   background:rgba(255,255,255,0.06); border-radius:12px;
   border:1px solid rgba(255,255,255,0.15);
-  font-size:14px; line-height:1.5em; text-align:justify;
+  font-size:16px; line-height:1.5em; text-align:justify; /* chữ to hơn */
   box-shadow:0 2px 8px rgba(0,0,0,0.25);
 }
-.explanation h3 { margin-top:0; color:#4ED7F1; font-size:16px; text-align:center; }
+.explanation h3 { margin-top:0; color:#4ED7F1; font-size:20px; text-align:center; } /* chữ to hơn */
 
 @media(max-width:768px){
   .container { flex-direction:column; align-items:center; width:100%; }
-  .space { width:90vw; height:auto; max-width:350px; }
+  .space { width:90vw; height:auto; max-width:550px; }
   .controls button { flex:1 1 100%; max-width:100%; font-size:1rem; padding:10px; }
-  .description, .explanation { width:90%; max-width:90vw; }
+  .description, .explanation { width:90%; max-width:90vw; font-size:14px; }
   .moon { width:40px; height:40px; }
-  .tide { width:100px; height:20px; bottom:-20px; }
+  .tide { width:100px; height:40px; }
   .earth { width:60px; height:60px; }
   .sun { width:70px; height:70px; left:8%; }
 }
 @media(max-width:480px){
   .moon { width:30px; height:30px; }
-  .tide { width:80px; height:16px; bottom:-16px; }
+  .tide { width:80px; height:32px; }
 }
 </style>
 </head>
@@ -140,11 +148,30 @@ body {
     <div class="space">
       <div class="sun"></div>
       <div class="earth" id="earth">
-        <div class="tide" id="tide"></div>
+        <div class="tide" id="tide">
+          <svg viewBox="0 0 200 50" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="gradWave" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4da6ff"/>
+                <stop offset="100%" stop-color="#2962ff"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#gradWave)" d="M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z">
+              <animate attributeName="d" dur="4s" repeatCount="indefinite"
+                values="
+                  M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z;
+                  M0 32 C 50 25 150 35 200 32 L200 50 L0 50 Z;
+                  M0 28 C 50 15 150 45 200 28 L200 50 L0 50 Z;
+                  M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z
+                " />
+            </path>
+          </svg>
+        </div>
       </div>
       <div class="moon" id="moon"></div>
     </div>
   </div>
+
   <div class="right-panel">
     <div class="controls">
       <button onclick="setManualPhase('newMoon')">🌑 Trăng non</button>
@@ -152,6 +179,11 @@ body {
       <button onclick="setManualPhase('firstQuarter')">🌓 Thượng huyền</button>
       <button onclick="setManualPhase('lastQuarter')">🌗 Hạ huyền</button>
       <button onclick="resetManual()">🔄 Tự động</button>
+
+      <!-- Slider điều chỉnh tốc độ -->
+      <label for="speedRange" style="margin-top:12px; color:#fff; font-weight:bold;">⏩ Tốc độ mô phỏng</label>
+      <input type="range" id="speedRange" min="0.1" max="5" step="0.1" value="0.5" style="width:100%; margin-bottom:12px;">
+
       <div class="description" id="description">🔄 Chọn pha Trăng hoặc bật chế độ tự động.</div>
       <div class="explanation">
         <h3>📖 Giải thích</h3>
@@ -168,8 +200,14 @@ const tide = document.getElementById('tide');
 const description = document.getElementById('description');
 const space = document.querySelector('.space');
 const earth = document.getElementById('earth');
+const speedRange = document.getElementById('speedRange');
 
 let autoMode=true, angle=0;
+let simulationSpeed = parseFloat(speedRange.value);
+
+speedRange.addEventListener('input', () => {
+  simulationSpeed = parseFloat(speedRange.value);
+});
 
 function getEarthCenter(){
   const rect = earth.getBoundingClientRect();
@@ -187,19 +225,21 @@ function updateScene(){
 
   const mx = center.x + radius*Math.cos(rad);
   const my = center.y + radius*Math.sin(rad);
-  moon.style.transform = `translate(${mx - 25}px, ${my - 25}px)`; // 25 = moon radius
+  moon.style.transform = `translate(${mx - 25}px, ${my - 25}px)`; 
 
   let phase = Math.cos(rad);
   moon.style.background = `radial-gradient(circle at ${50 + 50*phase}% 50%, #f4f4f4 55%, #888 85%, #222 100%)`;
 
-  tide.style.height = (25 + 35*Math.abs(phase)) + "px";
+  // Mực nước dâng cao hơn
+  let tideHeight = 60 + 40 * Math.abs(phase);
+  tide.style.height = tideHeight + "px";
 
   if(angle%360<10||angle%360>350) description.innerHTML="🌑 Trăng non: Triều cường";
   else if(Math.abs((angle%360)-180)<10) description.innerHTML="🌕 Trăng tròn: Triều cường";
   else if(Math.abs((angle%360)-270)<10) description.innerHTML="🌗 Hạ huyền: Triều kém";
   else if(Math.abs((angle%360)-90)<10) description.innerHTML="🌓 Thượng huyền: Triều kém";
 
-  if(autoMode){ angle+=0.5; requestAnimationFrame(updateScene); }
+  if(autoMode){ angle += simulationSpeed; requestAnimationFrame(updateScene); }
 }
 
 function setManualPhase(phase){
@@ -217,7 +257,8 @@ function resetManual(){ autoMode=true; requestAnimationFrame(updateScene); }
 
 window.onload=()=>{ updateScene(); };
 </script>
-   <!-- Nút mở chat -->
+
+  <!-- Nút mở chat -->
 <div id="ai-toggle" title="Trợ lý AI">💬</div>
 
 <!-- Khung chat -->
