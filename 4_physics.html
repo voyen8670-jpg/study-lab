@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mô phỏng phóng xạ – Chu kỳ bán rã</title>
+    <style>
+      :root {
+        --accent: #00eaff;
+        --bg: #0b0f16;
+        --panel: rgba(255, 255, 255, 0.06);
+        --text: #eaf6ff;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: hidden;
+      }
+      h1 {
+        color: var(--accent);
+        font-size: 1.8em;
+        margin: 20px 0 10px;
+        text-shadow: 0 0 10px var(--accent);
+      }
+      main {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 20px;
+        width: 90%;
+        max-width: 1200px;
+        margin-bottom: 20px;
+      }
+      #simArea {
+        background: radial-gradient(
+          circle at center,
+          rgba(0, 234, 255, 0.1),
+          transparent 80%
+        );
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+        position: relative;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+      aside {
+        background: var(--panel);
+        padding: 15px;
+        border-radius: 10px;
+        backdrop-filter: blur(6px);
+      }
+      aside h2 {
+        color: var(--accent);
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 4px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input,
+      select,
+      button {
+        width: 100%;
+        margin-top: 5px;
+        padding: 6px 8px;
+        border: none;
+        border-radius: 5px;
+      }
+      input,
+      select {
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--accent);
+      }
+      button {
+        background: var(--accent);
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      button:hover {
+        opacity: 0.85;
+      }
+
+      section {
+        width: 90%;
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      .panel {
+        background: var(--panel);
+        padding: 15px;
+        border-radius: 10px;
+        backdrop-filter: blur(6px);
+      }
+      .panel h2 {
+        color: var(--accent);
+        font-size: 1.2em;
+        margin-bottom: 8px;
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 4px;
+      }
+      .theory p {
+        margin-bottom: 10px;
+        text-align: justify;
+      }
+      .formula {
+        background: rgba(0, 234, 255, 0.1);
+        border-left: 3px solid var(--accent);
+        padding: 8px;
+        border-radius: 5px;
+        font-family: "Consolas", monospace;
+      }
+      #chartArea canvas {
+        width: 100%;
+        height: 180px;
+        background: #09121a;
+        border-radius: 8px;
+      }
+      #remainingCount {
+        margin-top: 10px;
+        font-size: 1em;
+        color: var(--accent);
+      }
+
+      /* Responsive cho tablet/mobile */
+      @media (max-width: 768px) {
+        main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+        #simArea {
+          width: 90vw;
+          height: 300px;
+        }
+        aside {
+          width: 90vw;
+          max-width: 400px;
+        }
+        section {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        #chartArea,
+        .panel.theory {
+          width: 90vw;
+        }
+        canvas {
+          width: 100% !important;
+          height: auto !important;
+        }
+      }
+
+      /* Siêu nhỏ <480px */
+      @media (max-width: 480px) {
+        aside {
+          width: 95vw;
+          padding: 10px;
+        }
+        input,
+        select,
+        button {
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mô phỏng hiện tượng phóng xạ – Chu kỳ bán rã</h1>
+
+    <main>
+      <div id="simArea">
+        <canvas id="simCanvas"></canvas>
+      </div>
+
+      <aside>
+        <h2>Điều khiển</h2>
+        <label
+          >Loại phóng xạ:
+          <select id="typeSelect">
+            <option value="alpha">Tia α (Alpha)</option>
+            <option value="beta">Tia β (Beta)</option>
+            <option value="gamma">Tia γ (Gamma)</option>
+          </select>
+        </label>
+        <label
+          >Chu kỳ bán rã (giây):
+          <input type="number" id="halfLife" value="5" min="1" step="0.1" />
+        </label>
+        <label
+          >Thời gian mô phỏng (giây):
+          <input type="number" id="duration" value="15" min="1" step="1" />
+        </label>
+        <label
+          >Số hạt ban đầu (N₀):
+          <input
+            type="number"
+            id="particleCount"
+            value="200"
+            min="50"
+            max="500"
+          />
+        </label>
+        <button id="startBtn">Bắt đầu mô phỏng</button>
+        <button id="stopBtn">Dừng</button>
+        <div id="remainingCount">Số hạt còn lại: 0</div>
+      </aside>
+    </main>
+
+    <section>
+      <div class="panel theory">
+        <h2>Lý thuyết</h2>
+        <p>
+          Phóng xạ là quá trình trong đó hạt nhân không bền vững tự phát biến
+          đổi, phát ra các tia α, β hoặc γ. Hiện tượng này mang tính ngẫu nhiên,
+          nhưng tuân theo quy luật thống kê xác định bằng định luật phóng xạ.
+        </p>
+        <div class="formula">N = N₀ · e<sup>-λt</sup></div>
+        <p>Trong đó:</p>
+        <ul>
+          <li>N₀: số hạt nhân ban đầu</li>
+          <li>N: số hạt nhân còn lại sau thời gian t</li>
+          <li>λ: hằng số phân rã</li>
+        </ul>
+        <div class="formula">T = ln(2) / λ</div>
+        <p>
+          với T là <b>chu kỳ bán rã</b> – thời gian để một nửa số hạt nhân phóng
+          xạ bị phân rã.
+        </p>
+      </div>
+
+      <div class="panel" id="chartArea">
+        <h2>Đồ thị phân rã</h2>
+        <canvas id="chartCanvas"></canvas>
+      </div>
+    </section>
+
+    <script>
+      const canvas = document.getElementById("simCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+
+      let running = false;
+      let particles = [];
+      let startTime = 0;
+      let halfLife = 5;
+      let duration = 15;
+      let type = "alpha";
+      let decayData = [];
+      let N0 = 200;
+
+      // Khởi tạo hạt phân tán toàn vùng
+      function initParticles(count = N0) {
+        particles = [];
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            angle: Math.random() * Math.PI * 2,
+            speed: 0,
+            active: true,
+          });
+        }
+      }
+
+      function decayProbability(dt) {
+        const lambda = Math.log(2) / halfLife;
+        return 1 - Math.exp(-lambda * dt);
+      }
+
+      function update(dt) {
+        const pDecay = decayProbability(dt);
+        for (let p of particles) {
+          if (p.active && Math.random() < pDecay) {
+            p.active = false;
+            p.speed = type === "alpha" ? 160 : type === "beta" ? 180 : 200;
+            p.angle = Math.random() * Math.PI * 2;
+          }
+          if (!p.active) {
+            p.x += Math.cos(p.angle) * p.speed * dt;
+            p.y += Math.sin(p.angle) * p.speed * dt;
+            p.speed *= 0.94;
+          }
+        }
+      }
+
+      function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let p of particles) {
+          ctx.beginPath();
+          if (p.active) ctx.fillStyle = "#00eaff";
+          else
+            ctx.fillStyle =
+              type === "alpha"
+                ? "#ff7b00"
+                : type === "beta"
+                ? "#00ff44"
+                : "#ffff00";
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      let last = 0;
+      function loop(ts) {
+        if (!running) return;
+        if (!last) last = ts;
+        const dt = (ts - last) / 1000;
+        last = ts;
+        update(dt);
+        draw();
+        const t = (ts - startTime) / 1000;
+        const remaining = particles.filter((p) => p.active).length;
+        document.getElementById("remainingCount").textContent =
+          "Số hạt còn lại: " + remaining;
+        decayData.push({ t, N: remaining });
+        if (t < duration) requestAnimationFrame(loop);
+        else running = false;
+        drawChart();
+      }
+
+      function setBackground(type) {
+        const simArea = canvas.parentElement;
+        const select = document.getElementById("typeSelect");
+        if (type === "alpha") {
+          simArea.style.background =
+            "radial-gradient(circle at center, rgba(255,150,80,0.25), transparent 80%)";
+        }
+        if (type === "beta") {
+          simArea.style.background =
+            "radial-gradient(circle at center, rgba(120,255,150,0.25), transparent 80%)";
+        }
+        if (type === "gamma") {
+          simArea.style.background =
+            "radial-gradient(circle at center, rgba(255,255,120,0.25), transparent 80%)";
+        }
+        select.style.backgroundColor = "rgba(0,0,0,0.25)"; // nền tối
+        select.style.color = "#00eaff"; // chữ nổi
+      }
+
+      function start() {
+        type = document.getElementById("typeSelect").value;
+        halfLife = parseFloat(document.getElementById("halfLife").value);
+        duration = parseFloat(document.getElementById("duration").value);
+        N0 = parseInt(document.getElementById("particleCount").value);
+        decayData = [];
+        initParticles(N0);
+        setBackground(type);
+        startTime = performance.now();
+        running = true;
+        last = 0;
+        requestAnimationFrame(loop);
+      }
+
+      function stop() {
+        running = false;
+      }
+
+      document.getElementById("startBtn").onclick = start;
+      document.getElementById("stopBtn").onclick = stop;
+
+      // Đồ thị
+      const chartCanvas = document.getElementById("chartCanvas");
+      const cctx = chartCanvas.getContext("2d");
+      chartCanvas.width = chartCanvas.clientWidth;
+      chartCanvas.height = chartCanvas.clientHeight;
+
+      function drawChart() {
+        cctx.fillStyle = "#09121a";
+        cctx.fillRect(0, 0, chartCanvas.width, chartCanvas.height);
+        if (decayData.length < 2) return;
+        const maxT = duration;
+        const maxN = N0;
+        cctx.strokeStyle = "#00eaff";
+        cctx.beginPath();
+        for (let i = 0; i < decayData.length; i++) {
+          const x = (decayData[i].t / maxT) * chartCanvas.width;
+          const y =
+            chartCanvas.height - (decayData[i].N / maxN) * chartCanvas.height;
+          if (i === 0) cctx.moveTo(x, y);
+          else cctx.lineTo(x, y);
+        }
+        cctx.stroke();
+        cctx.fillStyle = "#00eaff";
+        cctx.font = "12px Inter";
+        cctx.fillText("N(t) = N₀·e^(-λt)", 10, 15);
+      }
+
+      drawChart();
+    </script>
+
+    <!-- Nút mở chat -->
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      canvas,
+      iframe {
+        pointer-events: none !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

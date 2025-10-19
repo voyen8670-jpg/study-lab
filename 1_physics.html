@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mô phỏng Con Lắc Đơn</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #0f1724;
+        --accent: #60a5fa;
+        --muted: #9aa7bf;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, Segoe UI, Arial;
+        background: linear-gradient(180deg, #071026 0%, #071a2a 100%);
+        color: #e6eef8;
+      }
+      .wrap {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 18px;
+        height: 100vh;
+        padding: 18px;
+      }
+      .sim {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        background: radial-gradient(
+            circle at 20% 10%,
+            rgba(255, 255, 255, 0.02),
+            transparent 10%
+          ),
+          linear-gradient(180deg, #071a2a, #04121a);
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.7);
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .panel {
+        background: linear-gradient(180deg, var(--panel), #071224);
+        padding: 14px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 8px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        background: var(--accent);
+        border: none;
+        color: #072033;
+        padding: 8px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .status {
+        margin-top: 8px;
+        font-size: 13px;
+      }
+      .footer {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      .right-scroll {
+        height: calc(100vh - 60px);
+        overflow: auto;
+        padding-right: 6px;
+      }
+      .kv {
+        display: flex;
+        justify-content: space-between;
+      }
+      .graph {
+        height: 120px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #06151f, #031017);
+        padding: 6px;
+      }
+      .credits {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .wrap {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+          gap: 12px;
+        }
+
+        .sim {
+          height: 50vh;
+          min-height: 300px;
+        }
+
+        .panel {
+          max-height: 50vh;
+          overflow-y: auto;
+          padding: 10px;
+        }
+
+        .controls button {
+          flex: 1 1 45%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 16px;
+        }
+        .small {
+          font-size: 11px;
+        }
+        .status {
+          font-size: 11px;
+        }
+        #ai-toggle {
+          padding: 10px;
+          font-size: 20px;
+        }
+        #ai-chat {
+          width: 90%;
+          bottom: 70px;
+          right: 5%;
+        }
+        #energyCanvas {
+          width: 90%;
+          max-width: 280px;
+          height: 120px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        #energyCanvas {
+          width: 200px !important;
+          height: 90px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="sim" id="simArea">
+        <canvas id="simCanvas"></canvas>
+        <canvas
+          id="energyCanvas"
+          style="
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            width: 260px;
+            height: 120px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+          "
+        ></canvas>
+      </div>
+
+      <div class="panel right-scroll">
+        <h1>Mô phỏng Con Lắc Đơn</h1>
+        <div class="small">
+          Tích hợp giải tích số chính xác, năng lượng, lực cản, và góc lớn.
+        </div>
+
+        <div style="margin-top: 12px">
+          <div class="row">
+            <div style="flex: 1">
+              <label>Chiều dài L (m)</label>
+              <input
+                id="length"
+                type="range"
+                min="0.2"
+                max="2.5"
+                step="0.01"
+                value="1"
+              />
+              <div class="kv">
+                <span class="small">L = <span id="lengthVal">1.00</span> m</span
+                ><span class="small"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex: 1">
+              <label>Gia tốc trọng trường g (m/s²)</label>
+              <input
+                id="gravity"
+                type="range"
+                min="0.1"
+                max="20"
+                step="0.1"
+                value="9.81"
+              />
+              <div class="kv">
+                <span class="small">g = <span id="gravityVal">9.81</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex: 1">
+              <label>Giảm chấn (damping)</label>
+              <input
+                id="damping"
+                type="range"
+                min="0"
+                max="1"
+                step="0.001"
+                value="0.02"
+              />
+              <div class="kv">
+                <span class="small"
+                  >b = <span id="dampingVal">0.020</span></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex: 1">
+              <label>Khối lượng (kg)</label>
+              <input
+                id="mass"
+                type="range"
+                min="0.1"
+                max="5"
+                step="0.1"
+                value="1"
+              />
+              <div class="kv">
+                <span class="small">m = <span id="massVal">1.0</span> kg</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div style="flex: 1">
+              <label>Góc ban đầu (°)</label>
+              <input
+                id="angle"
+                type="range"
+                min="-170"
+                max="170"
+                step="1"
+                value="40"
+              />
+              <div class="kv">
+                <span class="small">θ₀ = <span id="angleVal">40</span>°</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row controls">
+            <button id="startBtn">Bắt đầu</button>
+            <button id="pauseBtn" class="ghost">Tạm dừng</button>
+            <button id="resetBtn" class="ghost">Đặt lại</button>
+            <button id="randomBtn" class="ghost">Ngẫu nhiên</button>
+          </div>
+
+          <div class="row">
+            <label
+              ><input id="trail" type="checkbox" checked /> Vệt theo quỹ
+              đạo</label
+            >
+          </div>
+          <div class="row">
+            <label
+              ><input id="showEnergy" type="checkbox" checked /> Hiện đồ thị
+              năng lượng</label
+            >
+          </div>
+
+          <div class="status">
+            <div>Thời gian mô phỏng: <span id="timeDisplay">0.00 s</span></div>
+            <div>Góc hiện tại: <span id="thetaDisplay">0.00</span> rad</div>
+            <div>Vận tốc góc: <span id="omegaDisplay">0.00</span> rad/s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Biến trạng thái
+      let L = 1.0;
+      let g = 9.81;
+      let b = 0.02;
+      let m = 1.0;
+      let theta = (40 * Math.PI) / 180;
+      let omega = 0.0;
+      let t = 0;
+      let playing = false;
+      let lastTime = null;
+      let simCanvas = document.getElementById("simCanvas");
+      let ctx = simCanvas.getContext("2d");
+      let energyCanvas = document.getElementById("energyCanvas");
+      let ectx = energyCanvas.getContext("2d");
+      let trail = [];
+      const MAX_TRAIL = 1200;
+
+      function resize() {
+        // con lắc
+        simCanvas.width = simCanvas.clientWidth * devicePixelRatio;
+        simCanvas.height = simCanvas.clientHeight * devicePixelRatio;
+        ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+        const rect = energyCanvas.getBoundingClientRect();
+        energyCanvas.width = rect.width * devicePixelRatio;
+        energyCanvas.height = rect.height * devicePixelRatio;
+        ectx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function derivatives(state) {
+        let th = state[0];
+        let om = state[1];
+        let dth = om;
+        let dom = -(g / L) * Math.sin(th) - (b / m) * om;
+        return [dth, dom];
+      }
+      function rk4Step(state, dt) {
+        const k1 = derivatives(state);
+        const s2 = [state[0] + (k1[0] * dt) / 2, state[1] + (k1[1] * dt) / 2];
+        const k2 = derivatives(s2);
+        const s3 = [state[0] + (k2[0] * dt) / 2, state[1] + (k2[1] * dt) / 2];
+        const k3 = derivatives(s3);
+        const s4 = [state[0] + k3[0] * dt, state[1] + k3[1] * dt];
+        const k4 = derivatives(s4);
+        return [
+          state[0] + (dt * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0])) / 6,
+          state[1] + (dt * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1])) / 6,
+        ];
+      }
+
+      function energy(th, om) {
+        const v = L * om; // tangential speed
+        const KE = 0.5 * m * v * v;
+        const PE = m * g * L * (1 - Math.cos(th)); // zero at bottom
+        return { KE, PE, E: KE + PE };
+      }
+
+      function draw() {
+        const W = simCanvas.clientWidth;
+        const H = simCanvas.clientHeight;
+        /*backgroud*/
+        ctx.clearRect(0, 0, W, H);
+
+        const grad = ctx.createLinearGradient(0, H * 0.6, 0, H);
+        grad.addColorStop(0, "rgba(0,0,0,0)");
+        grad.addColorStop(1, "rgba(0,0,0,0.45)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, H * 0.6, W, H * 0.4);
+
+        const cx = W / 2;
+        const cy = H * 0.15;
+
+        const pixelsPerMeter = (Math.min(W, H) * 0.35) / 2; // scale so L ~ 35% of min dimension
+        const px = cx + Math.sin(theta) * L * pixelsPerMeter;
+        const py = cy + Math.cos(theta) * L * pixelsPerMeter;
+
+        const shadowR = Math.max(6, 12 * Math.sqrt(m));
+        ctx.beginPath();
+        ctx.ellipse(
+          px,
+          py + 8,
+          shadowR * 1.6,
+          shadowR * 0.6,
+          0,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fill();
+
+        if (document.getElementById("trail").checked) {
+          ctx.beginPath();
+          for (let i = 0; i < trail.length; i++) {
+            const p = trail[i];
+            if (i === 0) ctx.moveTo(p[0], p[1]);
+            else ctx.lineTo(p[0], p[1]);
+          }
+          ctx.strokeStyle = "rgba(96,165,250,0.55)";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, py);
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = "rgba(200,220,255,0.9)";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(230,240,255,0.95)";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#072033";
+        ctx.fill();
+
+        const bobR = 12 + Math.sqrt(m) * 6;
+        const gradBob = ctx.createRadialGradient(
+          px - bobR * 0.3,
+          py - bobR * 0.45,
+          bobR * 0.1,
+          px,
+          py,
+          bobR
+        );
+        gradBob.addColorStop(0, "#ffffff");
+        gradBob.addColorStop(0.2, "#a6d8ff");
+        gradBob.addColorStop(1, "#0b5b9a");
+        ctx.beginPath();
+        ctx.arc(px, py, bobR, 0, Math.PI * 2);
+        ctx.fillStyle = gradBob;
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = "rgba(0,0,0,0.25)";
+        ctx.stroke();
+
+        ctx.font = "12px Inter, Arial";
+        ctx.fillStyle = "rgba(230,240,255,0.9)";
+        ctx.fillText("L = " + L.toFixed(2) + " m", 12, 18);
+        ctx.fillText("g = " + g.toFixed(2) + " m/s²", 12, 36);
+
+        if (document.getElementById("trail").checked) {
+          trail.push([px, py]);
+          if (trail.length > MAX_TRAIL) trail.shift();
+        }
+
+        if (document.getElementById("showEnergy").checked) {
+          drawEnergy();
+        } else {
+          ectx.clearRect(
+            0,
+            0,
+            energyCanvas.clientWidth,
+            energyCanvas.clientHeight
+          );
+        }
+      }
+
+      let energyHistory = [];
+      function drawEnergy() {
+        const W = energyCanvas.clientWidth;
+        const H = energyCanvas.clientHeight;
+        ectx.clearRect(0, 0, W, H);
+        const en = energy(theta, omega).E;
+        energyHistory.push(en);
+        if (energyHistory.length > W) energyHistory.shift();
+        const maxE = Math.max(...energyHistory, 1e-3);
+
+        ectx.fillStyle = "rgba(6,21,31,1)";
+        ectx.fillRect(0, 0, W, H);
+
+        ectx.strokeStyle = "rgba(255,255,255,0.03)";
+        ectx.beginPath();
+        for (let i = 0; i < 4; i++) {
+          const y = i * (H / 4);
+          ectx.moveTo(0, y);
+          ectx.lineTo(W, y);
+        }
+        ectx.stroke();
+
+        ectx.beginPath();
+        for (let i = 0; i < energyHistory.length; i++) {
+          const x = i;
+          const y = H - (energyHistory[i] / maxE) * (H * 0.9) - H * 0.05;
+          if (i === 0) ectx.moveTo(x, y);
+          else ectx.lineTo(x, y);
+        }
+        ectx.strokeStyle = "rgba(96,165,250,0.95)";
+        ectx.lineWidth = 1.8;
+        ectx.stroke();
+
+        ectx.fillStyle = "rgba(200,220,255,0.9)";
+        ectx.font = "11px Inter, Arial";
+        ectx.fillText("Năng lượng (J) — tổng", 6, 12);
+        ectx.fillText("E ≈ " + en.toFixed(3) + " J", 6, H - 8);
+      }
+
+      function stepSim(dt) {
+        // integrate using fixed small substeps for stability
+        const SUB = Math.max(1, Math.ceil(dt / (1 / 240)));
+        const h = dt / SUB;
+        let state = [theta, omega];
+        for (let i = 0; i < SUB; i++) {
+          state = rk4Step(state, h);
+        }
+        theta = state[0];
+        omega = state[1];
+        t += dt;
+      }
+
+      function frame(ts) {
+        if (!lastTime) lastTime = ts;
+        const realDt = (ts - lastTime) / 1000; // seconds
+        lastTime = ts;
+        const timeScale = 1.0; // could add control
+
+        if (playing) {
+          const dt = Math.min(realDt * timeScale, 0.03);
+          stepSim(dt);
+        }
+
+        draw();
+
+        document.getElementById("timeDisplay").textContent =
+          t.toFixed(2) + " s";
+        document.getElementById("thetaDisplay").textContent = theta.toFixed(3);
+        document.getElementById("omegaDisplay").textContent = omega.toFixed(3);
+
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+
+      document.getElementById("length").addEventListener("input", (e) => {
+        L = parseFloat(e.target.value);
+        document.getElementById("lengthVal").textContent = L.toFixed(2);
+      });
+      document.getElementById("gravity").addEventListener("input", (e) => {
+        g = parseFloat(e.target.value);
+        document.getElementById("gravityVal").textContent = g.toFixed(2);
+      });
+      document.getElementById("damping").addEventListener("input", (e) => {
+        b = parseFloat(e.target.value);
+        document.getElementById("dampingVal").textContent = b.toFixed(3);
+      });
+      document.getElementById("mass").addEventListener("input", (e) => {
+        m = parseFloat(e.target.value);
+        document.getElementById("massVal").textContent = m.toFixed(1);
+      });
+      document.getElementById("angle").addEventListener("input", (e) => {
+        const deg = parseFloat(e.target.value);
+        document.getElementById("angleVal").textContent = deg;
+        theta = (deg * Math.PI) / 180;
+        omega = 0;
+      });
+
+      document.getElementById("startBtn").addEventListener("click", () => {
+        playing = true;
+        lastTime = null;
+      });
+      document.getElementById("pauseBtn").addEventListener("click", () => {
+        playing = false;
+      });
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        t = 0;
+        theta =
+          (parseFloat(document.getElementById("angle").value) * Math.PI) / 180;
+        omega = 0;
+        trail = [];
+        energyHistory = [];
+      });
+      document.getElementById("randomBtn").addEventListener("click", () => {
+        const a = Math.random() * 140 - 70;
+        document.getElementById("angle").value = Math.round(a);
+        document.getElementById("angleVal").textContent = Math.round(a);
+        theta = (a * Math.PI) / 180;
+        omega = 0;
+      });
+
+      document.getElementById("lengthVal").textContent = L.toFixed(2);
+      document.getElementById("gravityVal").textContent = g.toFixed(2);
+      document.getElementById("dampingVal").textContent = b.toFixed(3);
+      document.getElementById("massVal").textContent = m.toFixed(1);
+      document.getElementById("angleVal").textContent = Math.round(
+        (theta * 180) / Math.PI
+      );
+
+      let dragging = false;
+      simCanvas.addEventListener("pointerdown", (e) => {
+        const rect = simCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = simCanvas.clientWidth / 2;
+        const cy = simCanvas.clientHeight * 0.15;
+        const pixelsPerMeter =
+          (Math.min(simCanvas.clientWidth, simCanvas.clientHeight) * 0.35) / 2;
+        const px = cx + Math.sin(theta) * L * pixelsPerMeter;
+        const py = cy + Math.cos(theta) * L * pixelsPerMeter;
+        const d2 = (x - px) * (x - px) + (y - py) * (y - py);
+        if (d2 < 900) {
+          dragging = true;
+          playing = false;
+        }
+      });
+      window.addEventListener("pointerup", () => {
+        if (dragging) {
+          dragging = false;
+        }
+      });
+      simCanvas.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const rect = simCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = simCanvas.clientWidth / 2;
+        const cy = simCanvas.clientHeight * 0.15;
+        const dx = x - cx;
+        const dy = y - cy;
+        const angleNow = Math.atan2(dx, dy);
+        theta = angleNow;
+        omega = 0;
+        document.getElementById("angle").value = (theta * 180) / Math.PI;
+        document.getElementById("angleVal").textContent = Math.round(
+          (theta * 180) / Math.PI
+        );
+      });
+
+      playing = true;
+      function resize() {
+        simCanvas.width = simCanvas.clientWidth * devicePixelRatio;
+        simCanvas.height = simCanvas.clientHeight * devicePixelRatio;
+        ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+        energyCanvas.width = energyCanvas.clientWidth * devicePixelRatio;
+        energyCanvas.height = energyCanvas.clientHeight * devicePixelRatio;
+        ectx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      }
+      window.addEventListener("resize", resize);
+      resize();
+    </script>
+
+    <!-- Nút mở chat -->
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      canvas,
+      iframe {
+        pointer-events: none !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

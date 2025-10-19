@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thủy Triều & Pha Trăng</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: radial-gradient(
+          ellipse at center,
+          #020111 0%,
+          #000010 100%
+        );
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      .container {
+        display: flex;
+        min-height: 100vh;
+        flex-wrap: wrap;
+      }
+
+      .left-panel {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        border-right: 2px solid rgba(255, 255, 255, 0.15);
+        background: radial-gradient(circle at top, #0a1436, #000010);
+      }
+
+      .title {
+        font-size: 32px;
+        color: #4ed7f1;
+        margin-bottom: 20px;
+        text-shadow: 0 0 12px #00d4ff;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .space {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #000 70%, #020418 100%);
+        box-shadow: 0 0 100px #000 inset, 0 0 40px rgba(0, 200, 255, 0.25);
+      }
+
+      /* Thiên thể */
+      .sun,
+      .earth,
+      .moon {
+        position: absolute;
+        border-radius: 50%;
+      }
+
+      .sun {
+        width: 110px;
+        height: 110px;
+        top: 50%;
+        left: 6%;
+        transform: translateY(-50%);
+        background: radial-gradient(
+          circle at 30% 30%,
+          #fff9d9 0%,
+          #ffe066 35%,
+          #ff9a1f 70%,
+          #ff6a00 100%
+        );
+        box-shadow: 0 0 30px #fff6c7, 0 0 70px #ffd54f, 0 0 140px #ff9100,
+          0 0 200px rgba(255, 150, 0, 0.7);
+        z-index: 2;
+      }
+
+      .earth {
+        width: 90px;
+        height: 90px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        box-shadow: inset -12px -12px 20px rgba(0, 0, 0, 0.7),
+          0 0 28px rgba(0, 200, 255, 0.35);
+        background: radial-gradient(
+            circle at 30% 40%,
+            rgba(34, 139, 34, 0.9) 0%,
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(0, 128, 0, 0.8) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 75%,
+            rgba(0, 100, 0, 0.7) 0%,
+            transparent 45%
+          ),
+          radial-gradient(circle at 60% 40%, #1e90ff 0%, #001a33 85%);
+      }
+
+      .moon {
+        width: 50px;
+        height: 50px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          #e0e0e0 0%,
+          #c0c0c0 40%,
+          #8a8a8a 80%
+        );
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.9),
+          inset -6px -6px 12px rgba(0, 0, 0, 0.5);
+        z-index: 4;
+        transform: translate(-50%, -50%);
+      }
+
+      /* Sóng nước */
+      .tide {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 160px;
+        height: 50px;
+        z-index: 1;
+      }
+      .tide svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .right-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        max-height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: none; /* Firefox */
+      }
+      .right-panel::-webkit-scrollbar {
+        /* Chrome, Edge */
+        display: none;
+      }
+
+      .controls {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .controls button {
+        padding: 12px;
+        margin: 8px 0;
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        background: linear-gradient(135deg, #4ed7f1, #2196f3);
+        color: #fff;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: 0.3s;
+      }
+      .controls button:hover {
+        background: linear-gradient(135deg, #64e9ff, #1e88e5);
+        transform: translateY(-2px);
+      }
+
+      .description {
+        margin-top: 12px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 16px;
+        line-height: 1.4em; /* chữ to hơn */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      .explanation {
+        margin-top: 16px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 16px;
+        line-height: 1.5em;
+        text-align: justify; /* chữ to hơn */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      }
+      .explanation h3 {
+        margin-top: 0;
+        color: #4ed7f1;
+        font-size: 20px;
+        text-align: center;
+      } /* chữ to hơn */
+
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+        .space {
+          width: 90vw;
+          height: auto;
+          max-width: 550px;
+        }
+        .controls button {
+          flex: 1 1 100%;
+          max-width: 100%;
+          font-size: 1rem;
+          padding: 10px;
+        }
+        .description,
+        .explanation {
+          width: 90%;
+          max-width: 90vw;
+          font-size: 14px;
+        }
+        .moon {
+          width: 40px;
+          height: 40px;
+        }
+        .tide {
+          width: 100px;
+          height: 40px;
+        }
+        .earth {
+          width: 60px;
+          height: 60px;
+        }
+        .sun {
+          width: 70px;
+          height: 70px;
+          left: 8%;
+        }
+      }
+      @media (max-width: 480px) {
+        .moon {
+          width: 30px;
+          height: 30px;
+        }
+        .tide {
+          width: 80px;
+          height: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-panel">
+        <div class="title">🌊 Thủy Triều & Pha Trăng</div>
+        <div class="space">
+          <div class="sun"></div>
+          <div class="earth" id="earth">
+            <div class="tide" id="tide">
+              <svg viewBox="0 0 200 50" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="gradWave" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4da6ff" />
+                    <stop offset="100%" stop-color="#2962ff" />
+                  </linearGradient>
+                </defs>
+                <path
+                  fill="url(#gradWave)"
+                  d="M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z"
+                >
+                  <animate
+                    attributeName="d"
+                    dur="4s"
+                    repeatCount="indefinite"
+                    values="
+                  M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z;
+                  M0 32 C 50 25 150 35 200 32 L200 50 L0 50 Z;
+                  M0 28 C 50 15 150 45 200 28 L200 50 L0 50 Z;
+                  M0 30 C 50 20 150 40 200 30 L200 50 L0 50 Z
+                "
+                  />
+                </path>
+              </svg>
+            </div>
+          </div>
+          <div class="moon" id="moon"></div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="controls">
+          <button onclick="setManualPhase('newMoon')">🌑 Trăng non</button>
+          <button onclick="setManualPhase('fullMoon')">🌕 Trăng tròn</button>
+          <button onclick="setManualPhase('firstQuarter')">
+            🌓 Thượng huyền
+          </button>
+          <button onclick="setManualPhase('lastQuarter')">🌗 Hạ huyền</button>
+          <button onclick="resetManual()">🔄 Tự động</button>
+
+          <!-- Slider điều chỉnh tốc độ -->
+          <label
+            for="speedRange"
+            style="margin-top: 12px; color: #fff; font-weight: bold"
+            >⏩ Tốc độ mô phỏng</label
+          >
+          <input
+            type="range"
+            id="speedRange"
+            min="0.1"
+            max="5"
+            step="0.1"
+            value="0.5"
+            style="width: 100%; margin-bottom: 12px"
+          />
+
+          <div class="description" id="description">
+            🔄 Chọn pha Trăng hoặc bật chế độ tự động.
+          </div>
+          <div class="explanation">
+            <h3>📖 Giải thích</h3>
+            <p>
+              <b>Triều cường</b> xảy ra khi Trái Đất, Mặt Trăng và Mặt Trời
+              thẳng hàng (trăng non 🌑 & trăng tròn 🌕). Lực hút kết hợp làm
+              thủy triều dâng cao nhất.
+            </p>
+            <p>
+              <b>Triều kém</b> khi Trăng thượng huyền 🌓 hay hạ huyền 🌗. Lực
+              hút Mặt Trăng vuông góc Mặt Trời → triều thấp hơn.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const moon = document.getElementById("moon");
+      const tide = document.getElementById("tide");
+      const description = document.getElementById("description");
+      const space = document.querySelector(".space");
+      const earth = document.getElementById("earth");
+      const speedRange = document.getElementById("speedRange");
+
+      let autoMode = true,
+        angle = 0;
+      let simulationSpeed = parseFloat(speedRange.value);
+
+      speedRange.addEventListener("input", () => {
+        simulationSpeed = parseFloat(speedRange.value);
+      });
+
+      function getEarthCenter() {
+        const rect = earth.getBoundingClientRect();
+        const spaceRect = space.getBoundingClientRect();
+        return {
+          x: rect.left - spaceRect.left + rect.width / 2,
+          y: rect.top - spaceRect.top + rect.height / 2,
+        };
+      }
+
+      function updateScene() {
+        const center = getEarthCenter();
+        const radius = Math.min(space.offsetWidth, space.offsetHeight) * 0.4;
+        const rad = (angle * Math.PI) / 180;
+
+        const mx = center.x + radius * Math.cos(rad);
+        const my = center.y + radius * Math.sin(rad);
+        moon.style.transform = `translate(${mx - 25}px, ${my - 25}px)`;
+
+        let phase = Math.cos(rad);
+        moon.style.background = `radial-gradient(circle at ${
+          50 + 50 * phase
+        }% 50%, #f4f4f4 55%, #888 85%, #222 100%)`;
+
+        // Mực nước dâng cao hơn
+        let tideHeight = 60 + 40 * Math.abs(phase);
+        tide.style.height = tideHeight + "px";
+
+        if (angle % 360 < 10 || angle % 360 > 350)
+          description.innerHTML = "🌑 Trăng non: Triều cường";
+        else if (Math.abs((angle % 360) - 180) < 10)
+          description.innerHTML = "🌕 Trăng tròn: Triều cường";
+        else if (Math.abs((angle % 360) - 270) < 10)
+          description.innerHTML = "🌗 Hạ huyền: Triều kém";
+        else if (Math.abs((angle % 360) - 90) < 10)
+          description.innerHTML = "🌓 Thượng huyền: Triều kém";
+
+        if (autoMode) {
+          angle += simulationSpeed;
+          requestAnimationFrame(updateScene);
+        }
+      }
+
+      function setManualPhase(phase) {
+        autoMode = false;
+        switch (phase) {
+          case "newMoon":
+            angle = 0;
+            break;
+          case "fullMoon":
+            angle = 180;
+            break;
+          case "firstQuarter":
+            angle = 90;
+            break;
+          case "lastQuarter":
+            angle = 270;
+            break;
+        }
+        updateScene();
+      }
+
+      function resetManual() {
+        autoMode = true;
+        requestAnimationFrame(updateScene);
+      }
+
+      window.onload = () => {
+        updateScene();
+      };
+    </script>
+
+    <!-- Nút mở chat -->
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      canvas,
+      iframe {
+        pointer-events: none !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

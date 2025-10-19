@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mô phỏng: Tế bào hành dưới kính hiển vi</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #0f1724;
+        --accent: #7fd7ff;
+        --muted: #9aa6b2;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: linear-gradient(180deg, var(--bg) 0%, #071226 100%);
+        color: #e6f7ff;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        height: 100vh;
+        gap: 18px;
+        padding: 18px;
+      }
+      .viewer {
+        background: linear-gradient(180deg, #021026 0%, #06122a 100%);
+        border-radius: 14px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      canvas {
+        background: radial-gradient(
+          circle at 35% 25%,
+          #0b2238 0%,
+          #071226 30%,
+          #02060b 100%
+        );
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .hud {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(6px);
+        padding: 8px 10px;
+        border-radius: 10px;
+        font-size: 13px;
+      }
+      .panel {
+        background: linear-gradient(180deg, #071226 0%, #06122a 100%);
+        border-radius: 12px;
+        padding: 14px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        height: 100%;
+        overflow-y: auto;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 6px;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      button {
+        background: linear-gradient(180deg, var(--accent), #4fb9d9);
+        border: 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        color: #022;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .small {
+        font-size: 12px;
+      }
+      .credit {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .legend {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: rgba(0, 0, 0, 0.22);
+        padding: 8px;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+
+      /* ===== Responsive Mobile ===== */
+      @media (max-width: 768px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto;
+          padding: 10px;
+          gap: 10px;
+        }
+        .viewer {
+          height: 50vh;
+          border-radius: 12px;
+        }
+        .panel.controls {
+          width: 100%;
+          max-height: 45vh;
+          overflow-y: auto;
+          padding: 12px;
+          border-radius: 12px;
+        }
+        button {
+          font-size: 16px;
+          padding: 10px 14px;
+        }
+        input[type="range"] {
+          height: 28px;
+          touch-action: pan-x;
+        }
+        label,
+        .muted,
+        .small {
+          font-size: 12px;
+        }
+      }
+
+      /* Landscape mobile */
+      @media (max-width: 768px) and (orientation: landscape) {
+        .app {
+          grid-template-columns: 2fr 1fr;
+          grid-template-rows: auto;
+          gap: 10px;
+        }
+        .panel.controls {
+          max-height: none;
+          height: auto;
+        }
+        .viewer {
+          height: 80vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="viewer panel" id="viewer">
+        <div class="hud" id="hud">
+          Magnification: <span id="magLabel">1.0×</span>
+        </div>
+        <canvas id="scene" width="1200" height="900"></canvas>
+        <div class="legend" id="legend">
+          Scale: <span id="scaleLabel">1 mm</span>
+        </div>
+        <div class="credit">Mô phỏng: tế bào hành</div>
+      </div>
+
+      <div class="panel controls">
+        <div>
+          <h3 style="margin: 0 0 8px 0">Bảng điều khiển</h3>
+          <div class="muted small">
+            Ban đầu: quan sát miếng vỏ hành, tăng độ phóng đại để thấy cấu trúc
+            tế bào.
+          </div>
+        </div>
+
+        <div>
+          <label>Độ phóng đại</label>
+          <input id="mag" type="range" min="1" max="12" step="0.1" value="1" />
+          <div class="row">
+            <div class="muted">Kéo để phóng đại dần (1× đến 12×)</div>
+            <div style="flex: 1"></div>
+            <div id="magVal" class="small">1.0</div>
+          </div>
+        </div>
+
+        <div>
+          <label>Ánh sáng</label>
+          <input
+            id="light"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.9"
+          />
+          <div class="row">
+            <div class="muted">Điều chỉnh cường độ ánh sáng</div>
+            <div style="flex: 1"></div>
+            <div id="lightVal">90%</div>
+          </div>
+        </div>
+
+        <div>
+          <label>Quan sát ngang</label>
+          <input id="viewX" type="range" min="-600" max="600" value="0" />
+          <div class="row">
+            <div class="muted">Kéo lam kính sang trái/phải</div>
+            <div style="flex: 1"></div>
+            <div id="viewXVal">0</div>
+          </div>
+        </div>
+
+        <div>
+          <label>Quan sát dọc</label>
+          <input id="viewY" type="range" min="-400" max="400" value="0" />
+          <div class="row">
+            <div class="muted">Kéo lam kính lên/xuống</div>
+            <div style="flex: 1"></div>
+            <div id="viewYVal">0</div>
+          </div>
+        </div>
+
+        <div>
+          <label>Thuốc nhuộm: Xanh methylen</label>
+          <div class="row">
+            <button id="stainBtn">Áp dụng thuốc nhuộm</button
+            ><button
+              id="washBtn"
+              style="background: linear-gradient(180deg, #fff, #d8eef7)"
+            >
+              Rửa
+            </button>
+          </div>
+          <div class="muted small"></div>
+        </div>
+
+        <div style="margin-top: auto">
+          <div class="row">
+            <button
+              id="reset"
+              style="background: linear-gradient(180deg, #f5a3a3, #ff9b9b)"
+            >
+              Đặt lại
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("scene"),
+        ctx = canvas.getContext("2d");
+      let width = canvas.width,
+        height = canvas.height;
+      let world = { x: 0, y: 0, scale: 1 };
+      let cells = [],
+        stainLevel = 0,
+        light = 0.9;
+
+      function generateCells() {
+        cells = [];
+        const cellW = 120,
+          cellH = 80;
+        const cols = Math.ceil((width * 2) / cellW),
+          rows = Math.ceil((height * 2) / cellH);
+        for (let r = -rows; r < rows * 2; r++) {
+          for (let c = -cols; c < cols * 2; c++) {
+            const jitter = (Math.random() - 0.5) * 6;
+            const x = c * cellW + (r % 2 ? 30 : 0) + jitter,
+              y = r * cellH * 0.98 + (Math.random() - 0.5) * 6;
+            const cell = {
+              x,
+              y,
+              w: cellW + (Math.random() - 0.5) * 10,
+              h: cellH + (Math.random() - 0.5) * 8,
+              nucleus: {
+                cx: x + cellW * 0.45 + (Math.random() - 0.5) * 10,
+                cy: y + cellH * 0.5 + (Math.random() - 0.5) * 6,
+                r: Math.min(cellH, cellW) / 4 + (Math.random() - 0.5) * 6,
+              },
+              wallThickness: 3 + Math.random() * 2,
+              particles: [],
+            };
+            for (let i = 0; i < 12; i++)
+              cell.particles.push({
+                x: x + Math.random() * cellW,
+                y: y + Math.random() * cellH,
+                r: 1.5 + Math.random() * 1.2,
+                angle: Math.random() * Math.PI * 2,
+                speed: 0.002 + Math.random() * 0.003,
+              });
+            cells.push(cell);
+          }
+        }
+      }
+
+      function draw() {
+        ctx.save();
+        ctx.clearRect(0, 0, width, height);
+        ctx.translate(world.x + width / 2, world.y + height / 2);
+        ctx.scale(world.scale, world.scale);
+        ctx.translate(-width / 2, -height / 2);
+        if (world.scale < 3) {
+          ctx.fillStyle = `rgba(200,180,140,${0.8 * light})`;
+          ctx.beginPath();
+          ctx.ellipse(
+            width / 2 / world.scale,
+            height / 2 / world.scale,
+            300,
+            200,
+            0,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
+          ctx.fillStyle = `rgba(230,210,170,${0.5 * light})`;
+          ctx.fillRect(
+            width / 2 / world.scale - 300,
+            height / 2 / world.scale - 50,
+            600,
+            100
+          );
+        } else {
+          for (const cell of cells) drawCell(cell);
+        }
+        ctx.restore();
+      }
+
+      function drawCell(cell) {
+        ctx.beginPath();
+        roundedRect(ctx, cell.x, cell.y, cell.w, cell.h, 14);
+        ctx.lineWidth = cell.wallThickness;
+        ctx.strokeStyle = `rgba(220,240,250,${0.85 * light})`;
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(150,200,230,${0.25 * light})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        const grd = ctx.createRadialGradient(
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          10,
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          Math.max(cell.w, cell.h) / 1.5
+        );
+        grd.addColorStop(0, `rgba(240,250,255,${0.1 * light})`);
+        grd.addColorStop(1, `rgba(180,210,230,${0.05 * light})`);
+        ctx.fillStyle = grd;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          cell.w * 0.45,
+          cell.h * 0.35,
+          0,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = `rgba(220,235,245,${0.09 * light})`;
+        ctx.fill();
+        const n = cell.nucleus,
+          g2 = ctx.createRadialGradient(n.cx, n.cy, n.r * 0.3, n.cx, n.cy, n.r);
+        const base = 60 + Math.floor(120 * stainLevel);
+        g2.addColorStop(0, `rgba(40,${base},230,${0.8})`);
+        g2.addColorStop(
+          1,
+          `rgba(10,${base - 30},180,${0.55 + stainLevel * 0.35})`
+        );
+        ctx.beginPath();
+        ctx.ellipse(n.cx, n.cy, n.r * 0.9, n.r * 0.7, 0, 0, Math.PI * 2);
+        ctx.fillStyle = g2;
+        ctx.fill();
+        for (const p of cell.particles) {
+          p.angle += p.speed;
+          const offsetX = Math.sin(p.angle) * 6,
+            offsetY = Math.cos(p.angle * 1.2) * 4;
+          ctx.beginPath();
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,240,255,${0.25 * light})`;
+          ctx.fill();
+        }
+      }
+      function roundedRect(ctx, x, y, w, h, r) {
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+      }
+
+      const mag = document.getElementById("mag"),
+        magVal = document.getElementById("magVal"),
+        magLabel = document.getElementById("magLabel");
+      const lightSlider = document.getElementById("light"),
+        lightVal = document.getElementById("lightVal");
+      const stainBtn = document.getElementById("stainBtn"),
+        washBtn = document.getElementById("washBtn");
+      const reset = document.getElementById("reset"),
+        scaleLabel = document.getElementById("scaleLabel");
+      const viewX = document.getElementById("viewX"),
+        viewY = document.getElementById("viewY");
+      const viewXVal = document.getElementById("viewXVal"),
+        viewYVal = document.getElementById("viewYVal");
+
+      mag.addEventListener("input", () => {
+        const val = parseFloat(mag.value);
+        world.scale = val;
+        magVal.textContent = val.toFixed(1);
+        magLabel.textContent = val.toFixed(1) + "×";
+        updateScaleLabel();
+      });
+      lightSlider.addEventListener("input", () => {
+        light = parseFloat(lightSlider.value);
+        lightVal.textContent = Math.round(light * 100) + "%";
+      });
+      viewX.addEventListener("input", () => {
+        world.x = parseFloat(viewX.value);
+        viewXVal.textContent = viewX.value;
+      });
+      viewY.addEventListener("input", () => {
+        world.y = parseFloat(viewY.value);
+        viewYVal.textContent = viewY.value;
+      });
+      stainBtn.addEventListener("click", () => {
+        stainBtn.disabled = true;
+        stainBtn.textContent = "Đang nhuộm...";
+        const t0 = Date.now(),
+          dur = 3000;
+        const anim = setInterval(() => {
+          const p = Math.min(1, (Date.now() - t0) / dur);
+          stainLevel = p;
+          if (p >= 1) {
+            clearInterval(anim);
+            stainBtn.disabled = false;
+            stainBtn.textContent = "Áp dụng thuốc nhuộm";
+          }
+        }, 33);
+      });
+      washBtn.addEventListener("click", () => {
+        const start = stainLevel,
+          t0 = Date.now(),
+          dur = 2000;
+        const anim = setInterval(() => {
+          const p = Math.min(1, (Date.now() - t0) / dur);
+          stainLevel = start * (1 - p);
+          if (p >= 1) {
+            clearInterval(anim);
+          }
+        }, 33);
+      });
+      reset.addEventListener("click", () => {
+        world = { x: 0, y: 0, scale: 1 };
+        mag.value = 1;
+        magVal.textContent = "1.0";
+        magLabel.textContent = "1.0×";
+        lightSlider.value = 0.9;
+        lightVal.textContent = "90%";
+        viewX.value = 0;
+        viewXVal.textContent = 0;
+        viewY.value = 0;
+        viewYVal.textContent = 0;
+        stainLevel = 0;
+        updateScaleLabel();
+      });
+      function updateScaleLabel() {
+        if (world.scale < 3) {
+          scaleLabel.textContent = "1 mm";
+        } else if (world.scale < 8) {
+          scaleLabel.textContent = "100 µm";
+        } else {
+          scaleLabel.textContent = "50 µm";
+        }
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        width = canvas.width = Math.max(800, Math.floor(rect.width * 1.25));
+        height = canvas.height = Math.max(600, Math.floor(rect.height * 1.25));
+        generateCells();
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      function loop() {
+        draw();
+        requestAnimationFrame(loop);
+      }
+      (function init() {
+        generateCells();
+        updateScaleLabel();
+        loop();
+      })();
+    </script>
+
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      canvas,
+      iframe {
+        pointer-events: none !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sim: Glucose + Cu(OH)₂</title>
+    <style>
+      :root {
+        --bg: #071227;
+        --panel: #0b1520;
+        --blueTop: rgb(60, 163, 255);
+        --blueBottom: rgb(27, 111, 179);
+        --redTop: rgb(170, 78, 40);
+        --redBottom: rgb(110, 40, 18);
+      }
+      body {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        background: linear-gradient(180deg, #031426, #071227);
+        color: #e8f6ff;
+        margin: 0;
+        padding: 18px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        max-width: 980px;
+        width: 100%;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .bench {
+        display: flex;
+        gap: 28px;
+        align-items: flex-end;
+        justify-content: center;
+        margin: 16px 0;
+      }
+      .tube {
+        width: 100px;
+        height: 300px;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px 18px 30px 30px;
+        position: relative;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .neck {
+        position: absolute;
+        top: -28px;
+        left: calc(50% - 22px);
+        width: 44px;
+        height: 50px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .liquid {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 0;
+        transition: height 1.5s linear, background 2.5s linear;
+        border-radius: 0 0 28px 28px;
+      }
+      .liquid .precip {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .precip-dot {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.95;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+      }
+      .label {
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        font-size: 13px;
+        color: #cfe3ff;
+      }
+      .caption {
+        text-align: center;
+        margin-top: 6px;
+        font-size: 14px;
+      }
+      .controls {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+        color: #e6f5ff;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        color: #dfeeff;
+      }
+      td,
+      th {
+        padding: 6px;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+        font-size: 13px;
+        text-align: left;
+      }
+      .explain {
+        margin-top: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      pre {
+        background: transparent;
+        color: #dfeeff;
+        padding: 6px;
+        font-size: 13px;
+      }
+      .muted {
+        color: #9fb7e6;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Mô phỏng: Glucose + Cu(OH)₂</h1>
+
+      <div class="bench" aria-hidden="false">
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div class="tube" id="tubeA">
+            <div class="neck"></div>
+            <div class="label">Ống A</div>
+            <div
+              class="liquid"
+              id="liqA"
+              style="
+                background: linear-gradient(
+                  180deg,
+                  var(--blueTop),
+                  var(--blueBottom)
+                );
+              "
+            >
+              <div class="precip"></div>
+            </div>
+          </div>
+          <div class="caption">
+            Cu(OH)<sub>2</sub><br /><strong
+              >0.5 M, <span id="capA">20</span> mL</strong
+            >
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div class="tube" id="tubeB">
+            <div class="neck"></div>
+            <div class="label">Ống B</div>
+            <div
+              class="liquid"
+              id="liqB"
+              style="background: linear-gradient(180deg, #eef3ff, #e9f4ff)"
+            >
+              <div class="precip"></div>
+            </div>
+          </div>
+          <div class="caption">
+            Glucose<br /><strong>0.5 M, <span id="capB">15</span> mL</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div class="tube" id="tubeC">
+            <div class="neck"></div>
+            <div class="label">Ống C</div>
+            <div
+              class="liquid"
+              id="liqC"
+              style="background: linear-gradient(180deg, #eef3ff, #e9f4ff)"
+            >
+              <div class="precip" id="precipC"></div>
+            </div>
+          </div>
+          <div class="caption">
+            Hỗn hợp<br /><strong><span id="capC">0</span> mL</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="pourA">Rót A → C</button>
+        <button id="pourB">Rót B → C</button>
+        <button id="heat">Đun C</button>
+        <button id="reset">Đặt lại</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Ống</th>
+            <th>Nồng độ</th>
+            <th>Thể tích</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ống A (Cu(OH)₂)</td>
+            <td>0.5 M</td>
+            <td id="volA">20 mL</td>
+          </tr>
+          <tr>
+            <td>Ống B (Glucose)</td>
+            <td>0.5 M</td>
+            <td id="volB">15 mL</td>
+          </tr>
+          <tr>
+            <td>Ống C (Hỗn hợp)</td>
+            <td>—</td>
+            <td id="volC">0 mL</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="explain" id="explain">
+        <strong>Giải thích theo thao tác</strong>
+        <div id="explainText" style="margin-top: 6px">
+          Chuẩn bị: A — Cu(OH)<sub>2</sub> (0.5 M, 20 mL, xanh lam); B — Glucose
+          (0.5 M, 15 mL, không màu).<br />
+          Hãy rót A và/hoặc B vào C (thể tích sẽ dâng từ từ). Phần giải thích sẽ
+          cập nhật từng bước.
+        </div>
+      </div>
+
+      <div class="explain" style="margin-top: 8px">
+        <strong>Phương trình (tóm tắt):</strong>
+        <pre>C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O</pre>
+      </div>
+    </div>
+
+    <script>
+      // Initial fixed volumes (mL)
+      const INIT = { A: 20, B: 15, C: 0 };
+      let A = INIT.A,
+        B = INIT.B,
+        C = INIT.C;
+      let c_hasCu = false,
+        c_hasG = false; // flags to track contents of C
+      let isHeating = false;
+
+      // DOM refs
+      const liqA = document.getElementById("liqA");
+      const liqB = document.getElementById("liqB");
+      const liqC = document.getElementById("liqC");
+      const precipC = document.getElementById("precipC");
+      const capA = document.getElementById("capA");
+      const capB = document.getElementById("capB");
+      const capC = document.getElementById("capC");
+      const volA = document.getElementById("volA");
+      const volB = document.getElementById("volB");
+      const volC = document.getElementById("volC");
+      const explainText = document.getElementById("explainText");
+
+      // helpers
+      function volToPct(v) {
+        return Math.min(v / 40, 0.85) * 100 + "%";
+      }
+      function refreshAll() {
+        liqA.style.height = volToPct(A);
+        liqB.style.height = volToPct(B);
+        liqC.style.height = volToPct(C);
+        capA.textContent = Math.round(A);
+        capB.textContent = Math.round(B);
+        capC.textContent = Math.round(C);
+        volA.textContent = Math.round(A) + " mL";
+        volB.textContent = Math.round(B) + " mL";
+        volC.textContent = Math.round(C) + " mL";
+        updateCColor();
+      }
+
+      // Set color of C depending on contents & heating progress
+      function updateCColor(progress) {
+        // progress: if provided (0..1) indicates heating progress; if not provided, use heated state (isHeating)
+        if (typeof progress === "number") {
+          // blend blue -> red based on progress
+          const top = blend([60, 163, 255], [170, 78, 40], progress);
+          const bottom = blend([27, 111, 179], [110, 40, 18], progress);
+          liqC.style.background = `linear-gradient(180deg, ${top}, ${bottom})`;
+        } else {
+          if (isHeating) {
+            liqC.style.background =
+              "linear-gradient(180deg, rgb(170,78,40), rgb(110,40,18))";
+          } else if (C > 0 && c_hasCu) {
+            liqC.style.background =
+              "linear-gradient(180deg, rgb(60,163,255), rgb(27,111,179))";
+          } else if (C > 0 && !c_hasCu) {
+            liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+          } else {
+            liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+          }
+        }
+      }
+
+      // color blending helper
+      function blend(a, b, t) {
+        const r = Math.round(a[0] + (b[0] - a[0]) * t);
+        const g = Math.round(a[1] + (b[1] - a[1]) * t);
+        const bl = Math.round(a[2] + (b[2] - a[2]) * t);
+        return `rgb(${r},${g},${bl})`;
+      }
+
+      // animate pour: volumes change from source to C over ~1.5s
+      function animatePour(source) {
+        if (isHeating) {
+          // if user pours while heating, cancel heating and reset precipitate
+          isHeating = false;
+          clearPrecip();
+          updateCColor();
+        }
+        let amount = source === "A" ? A : B;
+        if (amount <= 0) {
+          explainText.innerHTML = `<strong>Ống ${source} đã rỗng.</strong>`;
+          return;
+        }
+        // set flags: if pouring A => C will contain Cu
+        if (source === "A") c_hasCu = true;
+        if (source === "B") c_hasG = true;
+        explainText.innerHTML = `<strong>Đang rót ${source} vào ống C...</strong>`;
+        const steps = 15;
+        const dt = 100; // ms => ~1.5s total
+        let step = 0;
+        const delta = amount / steps;
+        const iv = setInterval(() => {
+          step++;
+          if (source === "A") {
+            const transfer = Math.min(delta, A);
+            A = Math.max(0, A - transfer);
+            C = C + transfer;
+          } else {
+            const transfer = Math.min(delta, B);
+            B = Math.max(0, B - transfer);
+            C = C + transfer;
+          }
+          refreshAll();
+          if (step >= steps) {
+            clearInterval(iv);
+            explainAfterPour(source);
+          }
+        }, dt);
+      }
+
+      // explanation after pouring
+      function explainAfterPour(source) {
+        if (source === "A") {
+          explainText.innerHTML = `<strong>Đã rót Cu(OH)₂ vào ống C.</strong><br>Ống C chứa ion Cu²⁺ — dung dịch có màu xanh lam do Cu(OH)₂. Ở nhiệt độ phòng, glucozơ chưa khử Cu²⁺ rõ rệt.`;
+        } else {
+          if (c_hasCu) {
+            explainText.innerHTML = `<strong>Đã rót Glucose vào ống C.</strong><br>Hỗn hợp chứa cả glucozơ và ion Cu²⁺ — màu xanh có thể thấy. Tuy nhiên phản ứng khử cần nhiệt để diễn ra nhanh.`;
+          } else {
+            explainText.innerHTML = `<strong>Đã rót Glucose vào ống C.</strong><br>Ống C hiện chưa chứa Cu²⁺ nên vẫn trong suốt; phản ứng cần Cu²⁺ và nhiệt.`;
+          }
+        }
+      }
+
+      // clear precipitate visuals
+      function clearPrecip() {
+        while (precipC.firstChild) precipC.removeChild(precipC.firstChild);
+      }
+
+      // heating simulation: gradual color change + precipitate formation
+      function heatC() {
+        if (C <= 0) {
+          explainText.innerHTML = `<strong>Ống C đang rỗng.</strong> Hãy rót A và/hoặc B vào C trước khi đun.`;
+          return;
+        }
+        // If no Cu present, heating does nothing meaningful in our model
+        if (!c_hasCu) {
+          explainText.innerHTML = `<strong>Không có Cu²⁺ trong ống C.</strong> Đun sẽ không tạo kết tủa đỏ.`;
+          return;
+        }
+        // start heating
+        isHeating = true;
+        explainText.innerHTML = `<strong>Đang đun ống C...</strong><br>Glucose bị oxi hoá, Cu²⁺ bị khử, Cu₂O kết tủa sẽ hình thành.`;
+        clearPrecip();
+        const duration = Math.min(6000, 2000 + C * 120); // ms
+        const steps = 60;
+        const dt = Math.max(20, Math.round(duration / steps));
+        let step = 0;
+        const maxPrecip = Math.min(50, Math.round(C * 1.6)); // more volume => more visible precip
+        const heatIv = setInterval(() => {
+          step++;
+          const p = Math.min(1, step / steps);
+          // update color blend
+          updateCColor(p);
+          // create precipitate dots progressively
+          const targetCount = Math.round(maxPrecip * p);
+          let curr = precipC.childElementCount;
+          while (curr < targetCount) {
+            const dot = document.createElement("div");
+            dot.className = "precip-dot";
+            const size = 4 + Math.round(Math.random() * 10);
+            dot.style.width = size + "px";
+            dot.style.height = size + "px";
+            // position random along bottom area inside liqC
+            const left = 8 + Math.random() * 84; // %
+            const bottom = 2 + Math.random() * 12; // px from bottom of liqC
+            dot.style.left = left + "%";
+            dot.style.bottom = bottom + "px";
+            // color variations in red-brown
+            const r = 140 + Math.round(Math.random() * 30);
+            const g = 40 + Math.round(Math.random() * 30);
+            const b = 20 + Math.round(Math.random() * 10);
+            dot.style.background = `rgb(${r},${g},${b})`;
+            // slight scale-in animation
+            dot.style.transform = "scale(0.1)";
+            dot.style.transition = "transform 300ms ease, opacity 400ms ease";
+            precipC.appendChild(dot);
+            // trigger scale
+            requestAnimationFrame(() => {
+              dot.style.transform = "scale(1)";
+            });
+            curr++;
+          }
+          if (step >= steps) {
+            clearInterval(heatIv);
+            isHeating = false;
+            // final state
+            updateCColor(1);
+            explainText.innerHTML = `<strong>Phản ứng hoàn tất (mô phỏng).</strong><br>Glucose bị oxi hoá; Cu²⁺ bị khử thành Cu₂O (kết tủa đỏ gạch) như trong phương trình.`;
+          }
+        }, dt);
+      }
+
+      // button wiring
+      document.getElementById("pourA").addEventListener("click", () => {
+        animatePour("A");
+      });
+      document.getElementById("pourB").addEventListener("click", () => {
+        animatePour("B");
+      });
+      document.getElementById("heat").addEventListener("click", heatC);
+      document.getElementById("reset").addEventListener("click", () => {
+        // reset state and visuals
+        A = INIT.A;
+        B = INIT.B;
+        C = INIT.C;
+        c_hasCu = false;
+        c_hasG = false;
+        isHeating = false;
+        clearPrecip();
+        liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+        explainText.innerHTML = `Chuẩn bị: A — Cu(OH)₂ (0.5 M, 20 mL, xanh lam); B — Glucose (0.5 M, 15 mL, không màu).<br>Hãy rót A và/hoặc B vào C (thể tích dâng từ từ).`;
+        refreshAll();
+      });
+
+      // initialize
+      refreshAll();
+    </script>
+
+    <!-- Nút mở chat -->
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      canvas,
+      iframe {
+        pointer-events: none !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

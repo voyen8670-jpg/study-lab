@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mô phỏng co nguyên sinh — Biểu bì hành (đã chỉnh)</title>
+    <style>
+      :root {
+        --bg: #0c1220;
+        --panel: #071029;
+        --accent: #6fb7ff;
+        --muted: #bcd7ff;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: linear-gradient(180deg, var(--bg), #031023);
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        color: #e6eef8;
+      }
+      .wrap {
+        display: flex;
+        gap: 18px;
+        padding: 18px;
+        box-sizing: border-box;
+        height: 100%;
+      }
+      .left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .viewer {
+        background: radial-gradient(
+            circle at 30% 20%,
+            rgba(255, 255, 255, 0.02),
+            transparent 10%
+          ),
+          #0b1630;
+        border-radius: 14px;
+        padding: 12px;
+        box-shadow: 0 10px 40px rgba(3, 9, 20, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      canvas {
+        background: transparent;
+        border-radius: 999px;
+        display: block;
+      }
+      .ring {
+        position: absolute;
+        inset: 12px;
+        border-radius: 999px;
+        pointer-events: none;
+        box-shadow: inset 0 0 120px rgba(255, 255, 255, 0.02),
+          inset 0 -40px 120px rgba(0, 0, 0, 0.6);
+      }
+      .controls {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 6px 0;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input[type="range"] {
+        width: 220px;
+      }
+      button,
+      .toggle {
+        background: #0f1724;
+        color: #eaf4ff;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 8px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .btns {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .status {
+        font-size: 14px;
+        color: #cfe6ff;
+      }
+      .right {
+        width: 360px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .legend {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .legend .item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 13px;
+      }
+      .dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+      }
+      .footer {
+        font-size: 15px;
+        color: #9fb4d9;
+      }
+      .small {
+        font-size: 15px;
+        color: #cbdff7;
+      }
+      @media (max-width: 980px) {
+        .wrap {
+          flex-direction: column;
+        }
+        .right {
+          width: 100%;
+        }
+      }
+      /* mobile */
+      @media (max-width: 768px) {
+        .wrap {
+          flex-direction: column;
+          gap: 12px;
+          padding: 10px;
+        }
+
+        .left,
+        .right {
+          width: 100% !important;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+
+        .viewer {
+          padding: 8px;
+          border-radius: 12px;
+        }
+
+        canvas {
+          width: 100% !important;
+          height: auto !important;
+          max-width: 320px;
+          margin: 0 auto;
+          display: block;
+        }
+
+        .controls {
+          padding: 10px;
+          font-size: 13px;
+        }
+
+        .btns button {
+          padding: 6px 8px;
+          font-size: 13px;
+        }
+
+        .right .card {
+          padding: 10px;
+          font-size: 14px;
+        }
+
+        .legend .item {
+          font-size: 12px;
+        }
+
+        .footer {
+          font-size: 13px;
+          line-height: 1.5;
+        }
+
+        #ai-toggle {
+          bottom: 15px;
+          right: 15px;
+          font-size: 18px;
+          padding: 10px;
+        }
+
+        #ai-chat {
+          width: 90%;
+          right: 5%;
+          bottom: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="left">
+        <div class="viewer" id="viewer">
+          <!-- canvas will be added by JS -->
+          <div class="ring"></div>
+        </div>
+
+        <div class="controls card">
+          <div class="row">
+            <label>Chế độ môi trường:</label>
+            <div class="btns">
+              <button id="btn_isot">Đẳng trương</button>
+              <button id="btn_hyper">NaCl 2% (Ưu trương)</button>
+              <button id="btn_hypo">Nước (Nhược trương)</button>
+              <button id="btn_reset">Đặt lại</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Nồng độ muối: <span id="saltVal">0%</span></label>
+            <input type="range" id="salt" min="0" max="100" value="0" />
+          </div>
+
+          <div class="row">
+            <label>Tốc độ phản ứng: <span id="speedVal">1.0x</span></label>
+            <input
+              type="range"
+              id="speed"
+              min="0.2"
+              max="3"
+              step="0.1"
+              value="1"
+            />
+          </div>
+
+          <div class="row">
+            <div class="status" id="stateLabel">
+              Trạng thái: Đẳng trương — tế bào no
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <!-- Gợi ý thao tác-->
+        <div class="card">
+          <div style="font-weight: 600">Gợi ý thao tác</div>
+          <ol style="padding-left: 16px; margin: 8px 0 0 0" class="small">
+            <li>
+              Chọn <strong>Ưu trương</strong> rồi tăng <em>nồng độ muối</em> để
+              quan sát co nguyên sinh (màng tách khỏi vách).
+            </li>
+            <li>
+              Chọn <strong>Nhược trương</strong> hoặc bấm <em>Đặt lại</em> để
+              thấy phục hồi.
+            </li>
+            <li>
+              Di chuột lên từng tế bào để xem chú thích và click để lấy số liệu
+              nhanh.
+            </li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <div style="font-weight: 600; margin-bottom: 6px">
+            Chú thích cấu trúc
+          </div>
+          <div class="legend">
+            <div class="item">
+              <div
+                class="dot"
+                style="
+                  background: #dfe7f5;
+                  border: 1px solid rgba(0, 0, 0, 0.12);
+                "
+              ></div>
+              Vách tế bào (chung)
+            </div>
+            <div class="item">
+              <div class="dot" style="background: #ffefd6"></div>
+              Màng sinh chất
+            </div>
+            <div class="item">
+              <div class="dot" style="background: #9fd6ff"></div>
+              Không bào
+            </div>
+            <div class="item">
+              <div class="dot" style="background: #ffd6a5"></div>
+              Tế bào chất
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTE: Giải thích ngắn đã được ĐƯA XUỐNG dưới cùng -->
+        <div class="card footer">
+          <div style="font-weight: 600; margin-bottom: 6px">
+            Giải thích ngắn
+          </div>
+          <div class="small">
+            Co nguyên sinh (plasmolysis) xảy ra khi môi trường ngoài ưu trương:
+            nước thoát ra khỏi tế bào, không bào co lại, màng sinh chất tách
+            khỏi vách tế bào. Hiệu ứng này minh họa sự thay đổi áp suất thẩm
+            thấu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const viewer = document.getElementById("viewer");
+      const saltInput = document.getElementById("salt");
+      const speedInput = document.getElementById("speed");
+      const saltVal = document.getElementById("saltVal");
+      const speedVal = document.getElementById("speedVal");
+      const stateLabel = document.getElementById("stateLabel");
+      const btn_isot = document.getElementById("btn_isot");
+      const btn_hyper = document.getElementById("btn_hyper");
+      const btn_hypo = document.getElementById("btn_hypo");
+      const btn_reset = document.getElementById("btn_reset");
+
+      let mode = "isotonic"; // 'isotonic'|'hyper'|'hypo'
+      let salt = Number(saltInput.value);
+      let speed = Number(speedInput.value);
+
+      const canv = document.createElement("canvas");
+      canv.width = 540;
+      canv.height = 540;
+      canv.style.borderRadius = "50%";
+      canv.style.boxShadow = "inset 0 0 60px rgba(0,0,0,0.6)";
+      viewer.appendChild(canv);
+      const ctx = canv.getContext("2d");
+
+      let cells = [];
+      function makeGrid() {
+        cells = [];
+        const r = 45;
+        const cols = 9;
+        const rows = 9;
+        const startX = 70,
+          startY = 70;
+        const xStep = r * 1.732;
+        const yStep = r * 1.5;
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const x = startX + col * xStep + (row % 2 ? xStep / 2 : 0);
+            const y = startY + row * yStep;
+            const baseV = r * 0.6;
+            cells.push({
+              x,
+              y,
+              wallRadius: r,
+              vac: baseV,
+              targetVac: baseV,
+              _hover: false,
+            });
+          }
+        }
+      }
+      makeGrid();
+
+      function hexPoints(cx, cy, r, rotation = 0) {
+        const pts = [];
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI / 3) * i + rotation;
+          pts.push({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
+        }
+        return pts;
+      }
+
+      function drawRoundedHex(ctx, cx, cy, r, cornerSmooth = 0.14) {
+        const pts = hexPoints(cx, cy, r, -Math.PI / 6);
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const p = pts[i];
+          const p2 = pts[(i + 1) % 6];
+          const mx = p.x + (p2.x - p.x) * cornerSmooth;
+          const my = p.y + (p2.y - p.y) * cornerSmooth;
+          if (i === 0) ctx.moveTo(mx, my);
+          else ctx.quadraticCurveTo(p.x, p.y, mx, my);
+        }
+        ctx.closePath();
+      }
+
+      function makeVacuoleGradient(ctx, cx, cy, rad) {
+        const g = ctx.createRadialGradient(
+          cx - rad * 0.3,
+          cy - rad * 0.2,
+          rad * 0.1,
+          cx,
+          cy,
+          rad
+        );
+        g.addColorStop(0, "rgba(220,245,255,0.95)");
+        g.addColorStop(0.6, "rgba(140,205,255,0.75)");
+        g.addColorStop(1, "rgba(80,150,220,0.6)");
+        return g;
+      }
+
+      // Draw scene
+      function drawScene(ctx, cells, tNow, showLabels = true) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        const w = ctx.canvas.width,
+          h = ctx.canvas.height;
+
+        // background vignette + speckles
+        const rad = ctx.createRadialGradient(
+          w / 2,
+          h / 2,
+          50,
+          w / 2,
+          h / 2,
+          Math.max(w, h) / 1.3
+        );
+        rad.addColorStop(0, "rgba(28,40,50,0.25)");
+        rad.addColorStop(1, "rgba(2,6,12,0.9)");
+        ctx.fillStyle = rad;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = "rgba(255,255,255,0.02)";
+        for (let i = 0; i < 120; i++) {
+          ctx.beginPath();
+          ctx.arc(
+            Math.random() * w,
+            Math.random() * h,
+            Math.random() * 1.8,
+            0,
+            Math.PI * 2
+          );
+          ctx.fill();
+        }
+
+        // walls
+        ctx.save();
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = "rgba(210,220,235,0.22)";
+        for (const c of cells) {
+          drawRoundedHex(ctx, c.x, c.y, c.wallRadius, 0.16);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // cells internals
+        for (const c of cells) {
+          const vac = c.vac;
+          const membraneRadius = Math.max(6, vac + 10);
+
+          // cytoplasm
+          ctx.save();
+          const g = ctx.createRadialGradient(
+            c.x - 8,
+            c.y - 6,
+            5,
+            c.x,
+            c.y,
+            membraneRadius * 1.3
+          );
+          g.addColorStop(0, "rgba(255,240,220,0.20)");
+          g.addColorStop(1, "rgba(255,240,210,0.04)");
+          ctx.fillStyle = g;
+          drawRoundedHex(ctx, c.x, c.y, membraneRadius, 0.14);
+          ctx.fill();
+
+          // plasmolysis gap shading when significant
+          const wallR = c.wallRadius;
+          const gap = Math.max(0, wallR - membraneRadius - 4);
+          if (gap > 2) {
+            ctx.beginPath();
+            drawRoundedHex(ctx, c.x, c.y, wallR - 2, 0.16);
+            ctx.strokeStyle = "rgba(0,0,0,0.25)";
+            ctx.lineWidth = 6;
+            ctx.stroke();
+          }
+
+          // membrane
+          ctx.beginPath();
+          drawRoundedHex(ctx, c.x, c.y, membraneRadius, 0.14);
+          ctx.lineWidth = 1.6;
+          ctx.strokeStyle = "rgba(255,210,150,0.95)";
+          ctx.stroke();
+
+          // vacuole
+          const vg = makeVacuoleGradient(ctx, c.x, c.y, vac);
+          ctx.beginPath();
+          ctx.ellipse(c.x, c.y, vac, vac * 0.9, 0, 0, Math.PI * 2);
+          ctx.fillStyle = vg;
+          ctx.fill();
+          ctx.lineWidth = 1.2;
+          ctx.strokeStyle = "rgba(110,170,230,0.9)";
+          ctx.stroke();
+
+          // nucleus
+          ctx.beginPath();
+          ctx.arc(
+            c.x - Math.min(12, membraneRadius * 0.25),
+            c.y - Math.min(8, membraneRadius * 0.18),
+            Math.max(4, membraneRadius * 0.15),
+            0,
+            Math.PI * 2
+          );
+          ctx.fillStyle = "rgba(255,230,215,0.95)";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255,190,160,0.9)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // hover highlight
+          if (c._hover) {
+            ctx.beginPath();
+            drawRoundedHex(ctx, c.x, c.y, membraneRadius + 6, 0.16);
+            ctx.strokeStyle = "rgba(120,200,255,0.28)";
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            if (showLabels) {
+              ctx.fillStyle = "rgba(10,20,30,0.9)";
+              ctx.fillRect(c.x + 12, c.y - 28, 110, 22);
+              ctx.fillStyle = "#cfe6ff";
+              ctx.font = "12px Arial";
+              ctx.fillText("Màng sinh chất", c.x + 18, c.y - 13);
+            }
+          }
+
+          ctx.restore();
+        }
+
+        // eyepiece ring
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2, Math.min(w, h) / 2 - 6, 0, Math.PI * 2);
+        ctx.lineWidth = 18;
+        ctx.strokeStyle = "rgba(0,0,0,0.45)";
+        ctx.stroke();
+        ctx.restore();
+
+        // status label
+        ctx.save();
+        ctx.fillStyle = "rgba(5,10,14,0.6)";
+        ctx.fillRect(12, h - 42, 210, 28);
+        ctx.fillStyle = "#cfe6ff";
+        ctx.font = "13px Arial";
+        ctx.fillText(statusLabelForScene(), 18, h - 22);
+        ctx.restore();
+      }
+
+      function statusLabelForScene() {
+        if (mode === "hyper" && salt > 6) return "Co nguyên sinh — plasmolysis";
+        if (mode === "hypo" && salt > 6)
+          return "Phù (trương) — nước vào tế bào";
+        return "Đẳng trương — tế bào no";
+      }
+
+      // update targets according to mode & slider
+      function updateTargets(saltPercent) {
+        for (const c of cells) {
+          const base = c.wallRadius * 0.6;
+          if (mode === "isotonic") c.targetVac = base;
+          else if (mode === "hyper") {
+            const frac = Math.max(0, 1 - (saltPercent / 100) * 0.9);
+            c.targetVac = Math.max(6, base * frac);
+          } else if (mode === "hypo") {
+            const frac = 1 + (saltPercent / 100) * 0.6;
+            c.targetVac = Math.min(c.wallRadius - 6, base * frac);
+          }
+          c.targetVac *= 0.96 + Math.sin((c.x + c.y) / 50) * 0.04;
+        }
+      }
+
+      // animation loop
+      let last = performance.now();
+      function animate(t) {
+        const dt = (t - last) * 0.001 * speed;
+        last = t;
+        for (const c of cells) {
+          const diff = c.targetVac - c.vac;
+          c.vac += diff * Math.min(1, 0.3 * dt * 60);
+        }
+        drawScene(ctx, cells, t, true);
+        requestAnimationFrame(animate);
+      }
+
+      // pointer hover
+      canv.addEventListener("mousemove", (e) => {
+        const rect = canv.getBoundingClientRect();
+        const mx = (e.clientX - rect.left) * (canv.width / rect.width);
+        const my = (e.clientY - rect.top) * (canv.height / rect.height);
+        let any = false;
+        for (const c of cells) {
+          const dx = mx - c.x,
+            dy = my - c.y;
+          if (Math.hypot(dx, dy) < c.wallRadius * 0.85) {
+            c._hover = true;
+            any = true;
+          } else c._hover = false;
+        }
+        canv.style.cursor = any ? "pointer" : "default";
+      });
+      canv.addEventListener("mouseleave", () => {
+        for (const c of cells) c._hover = false;
+      });
+
+      // click to show quick info
+      canv.addEventListener("click", (e) => {
+        const rect = canv.getBoundingClientRect();
+        const mx = (e.clientX - rect.left) * (canv.width / rect.width);
+        const my = (e.clientY - rect.top) * (canv.height / rect.height);
+        for (const c of cells) {
+          if (Math.hypot(mx - c.x, my - c.y) < c.wallRadius * 0.85) {
+            const prev = document.getElementById("quickInfo");
+            if (prev) prev.remove();
+            const info = document.createElement("div");
+            info.id = "quickInfo";
+            info.style.position = "absolute";
+            info.style.left =
+              e.clientX - viewer.getBoundingClientRect().left + 10 + "px";
+            info.style.top =
+              e.clientY - viewer.getBoundingClientRect().top + 10 + "px";
+            info.style.background = "rgba(5,10,18,0.9)";
+            info.style.color = "#dff3ff";
+            info.style.padding = "8px 10px";
+            info.style.borderRadius = "8px";
+            info.style.fontSize = "13px";
+            info.style.zIndex = "40";
+            info.innerHTML = `<strong>Chi tiết tế bào</strong><br>Không bào ≈ ${Math.round(
+              c.vac
+            )} px<br>Vách cố định`;
+            viewer.appendChild(info);
+            setTimeout(() => {
+              info.remove();
+            }, 2200);
+            break;
+          }
+        }
+      });
+
+      // UI wiring
+      saltInput.addEventListener("input", () => {
+        salt = Number(saltInput.value);
+        saltVal.textContent = salt + "%";
+        updateTargets(salt);
+      });
+      speedInput.addEventListener("input", () => {
+        speed = Number(speedInput.value);
+        speedVal.textContent = speed.toFixed(1) + "x";
+      });
+      btn_isot.addEventListener("click", () => {
+        mode = "isotonic";
+        stateLabel.textContent = "Trạng thái: Đẳng trương — tế bào no";
+        updateTargets(salt);
+      });
+      btn_hyper.addEventListener("click", () => {
+        mode = "hyper";
+        stateLabel.textContent = "Trạng thái: Ưu trương — Co nguyên sinh";
+        updateTargets(salt);
+      });
+      btn_hypo.addEventListener("click", () => {
+        mode = "hypo";
+        stateLabel.textContent = "Trạng thái: Nhược trương — Trương tế bào";
+        updateTargets(salt);
+      });
+      btn_reset.addEventListener("click", () => {
+        mode = "isotonic";
+        saltInput.value = 0;
+        salt = 0;
+        speedInput.value = 1;
+        speed = 1;
+        saltVal.textContent = "0%";
+        speedVal.textContent = "1.0x";
+        stateLabel.textContent = "Trạng thái: Đẳng trương — tế bào no";
+        makeGrid();
+        updateTargets(salt);
+      });
+
+      // initial
+      updateTargets(salt);
+      requestAnimationFrame(animate);
+    </script>
+
+    <!-- Nút mở chat -->
+    <div id="ai-toggle" title="Trợ lý AI">💬</div>
+
+    <!-- Khung chat -->
+    <div id="ai-chat">
+      <div class="ai-header">
+        <span>Trợ lý AI</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div id="ai-body" class="ai-body"></div>
+      <div class="ai-input">
+        <input
+          id="ai-text"
+          type="text"
+          placeholder="Hỏi về thí nghiệm này..."
+        />
+        <button id="ai-send">➤</button>
+      </div>
+    </div>
+
+    <style>
+      /* Nút mở */
+      #ai-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00eaff, #008cff);
+        color: #000;
+        font-size: 22px;
+        padding: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 12px #00eaff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        z-index: 999999;
+      }
+      #ai-toggle:hover {
+        transform: scale(1.15);
+      }
+
+      /* Khung chat */
+      #ai-chat {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid #00eaff;
+        border-radius: 15px;
+        box-shadow: 0 0 20px #00eaff44;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 999998;
+        transition: all 0.3s ease;
+      }
+      #ai-chat.active {
+        display: flex !important;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .ai-header {
+        background: #00eaff;
+        color: #000;
+        font-weight: bold;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ai-header button {
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .ai-body {
+        padding: 10px;
+        font-size: 13px;
+        color: white;
+        height: 260px;
+        overflow-y: auto;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .ai-msg,
+      .user-msg {
+        margin: 6px 0;
+        padding: 8px 10px;
+        border-radius: 8px;
+        line-height: 1.4;
+        max-width: 80%;
+      }
+      .ai-msg {
+        background: #00eaff22;
+        text-align: left;
+      }
+      .user-msg {
+        background: #0088ff44;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .ai-input {
+        display: flex;
+        border-top: 1px solid #00eaff;
+      }
+      .ai-input input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        color: white;
+      }
+      .ai-input button {
+        background: #00eaff;
+        color: #000;
+        border: none;
+        padding: 0 12px;
+        cursor: pointer;
+      }
+      .ai-input button:hover {
+        background: #00cfff;
+      }
+
+      iframe {
+        pointer-events: none !important;
+      }
+
+      canvas {
+        pointer-events: auto !important;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("✅ AI chat script loaded");
+        const toggle = document.getElementById("ai-toggle");
+        const chat = document.getElementById("ai-chat");
+        const closeBtn = document.getElementById("ai-close");
+        const sendBtn = document.getElementById("ai-send");
+        const input = document.getElementById("ai-text");
+        const body = document.getElementById("ai-body");
+        let greeted = false;
+
+        if (!toggle || !chat) {
+          console.error("❌ Không tìm thấy phần tử chat!");
+          return;
+        }
+
+        // Mở & chào
+        toggle.addEventListener("click", () => {
+          console.log("💬 Nút chat được bấm");
+          chat.classList.toggle("active");
+          if (chat.classList.contains("active") && !greeted) {
+            greeted = true;
+            setTimeout(() => {
+              body.innerHTML += `<div class='ai-msg'>👋 Xin chào! Mình là trợ lý AI của phòng thí nghiệm.<br>
+        Mình có thể giải đáp thắc mắc của bạn về thí nghiệm này</b> nhé!</div>`;
+              body.scrollTop = body.scrollHeight;
+            }, 200);
+          }
+        });
+
+        // ❌ Đóng
+        closeBtn.addEventListener("click", () => {
+          chat.classList.remove("active");
+          console.log("❌ Chat bị đóng");
+        });
+
+        // ✉️ Gửi tin nhắn
+        async function sendMessage() {
+          const msg = input.value.trim();
+          if (!msg) return;
+          body.innerHTML += `<div class='user-msg'>${msg}</div>`;
+          input.value = "";
+          body.scrollTop = body.scrollHeight;
+
+          body.innerHTML += `<div class='ai-msg' id='typing'>Đang suy nghĩ...</div>`;
+          body.scrollTop = body.scrollHeight;
+
+          try {
+            const res = await fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ question: msg }),
+            });
+            const data = await res.json();
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>${data.answer}</div>`;
+          } catch (e) {
+            console.warn("⚠️ Lỗi API:", e);
+            document.getElementById("typing").remove();
+            body.innerHTML += `<div class='ai-msg'>⚠️ Không thể kết nối tới máy chủ AI.</div>`;
+          }
+
+          body.scrollTop = body.scrollHeight;
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") sendMessage();
+        });
+      });
+    </script>
+    <!-- Nút quay lại -->
+    <a href="javascript:history.back()" class="back-arrow">&#8592;</a>
+
+    <style>
+      .back-arrow {
+        position: fixed; /* luôn ở góc màn hình */
+        top: 20px;
+        left: 20px;
+        font-size: 2rem; /* kích thước mũi tên */
+        color: #fff; /* màu chữ */
+        background: rgba(0, 0, 0, 0.5); /* nền bán trong suốt */
+        padding: 10px 15px;
+        border-radius: 50%; /* thành hình tròn */
+        text-decoration: none;
+        z-index: 1000; /* luôn nổi trên các phần tử khác */
+        transition: background 0.3s;
+      }
+
+      .back-arrow:hover {
+        background: rgba(0, 0, 0, 0.8); /* khi hover đậm hơn */
+      }
+    </style>
+  </body>
+</html>

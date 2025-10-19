@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Study Lab - Hoá Học</title>
+<style>
+:root{
+  --accent:#00eaff;
+  --card-bg:rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#000010;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  min-height:100vh;
+  padding-bottom:40px;
+  overflow-x:hidden;
+}
+canvas#bg{position:fixed;left:0;top:0;width:100%;height:100%;z-index:-1;display:block}
+header{padding:24px 16px 8px}
+h1{font-size:32px;text-shadow:0 0 10px var(--accent)}
+.controls {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+input#search,
+select#filter,
+select#grade {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border:1px solid rgba(0,234,255,0.4);
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  min-width:220px;
+  font-size:15px;
+  outline:none;
+  box-shadow:0 0 8px rgba(0,234,255,0.2);
+  transition:box-shadow 0.3s, border 0.3s;
+}
+input#search:focus,
+select#filter:focus,
+select#grade:focus,
+input#search:hover,
+select#filter:hover,
+select#grade:hover{
+  border:1px solid var(--accent);
+  box-shadow:0 0 14px rgba(0,234,255,0.6);
+}
+select#filter option,
+select#grade option{
+  background:#000020;
+  color:#fff;
+  font-size:14px;
+  padding:8px;
+}
+main.wrap{max-width:1100px;margin:28px auto;padding:0 16px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+}
+.card{
+  background:var(--card-bg);
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.7);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor:pointer;
+  text-align:center;
+}
+.card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 8px 30px rgba(0,234,255,0.8);
+}
+.icon-wrap{
+  font-size:60px;
+  margin-bottom:15px;
+  display:inline-block;
+  filter:drop-shadow(0 0 6px rgba(0,234,255,0.6));
+  transition:transform 0.3s,filter 0.3s;
+}
+.card:hover .icon-wrap{
+  transform:scale(1.2);
+  filter:drop-shadow(0 0 12px rgba(0,234,255,1));
+}
+h2{
+  font-size:20px;
+  margin:8px 0 6px;
+  color:var(--accent);
+  text-shadow:0 0 6px rgba(0,234,255,0.7);
+}
+p{
+  font-size:14px;
+  color:#ddd;
+}
+footer{margin-top:24px;padding:12px;color:#bcd}
+a.back{color:#000;background:var(--accent);padding:8px 14px;border-radius:8px;text-decoration:none;display:inline-block}
+.hidden{display:none!important;}
+.no-results{grid-column:1/-1;text-align:center;color:#aaa;padding:18px 8px;font-size:16px;}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<header>
+<h1>⚗️ Study Lab — Thí nghiệm Hoá Học</h1>
+<div class="controls">
+  <input id="search" placeholder="Tìm kiếm thí nghiệm..." />
+  <select id="filter">
+    <option value="all">Tất cả chủ đề</option>
+    <option value="Vô cơ">Hoá vô cơ</option>
+    <option value="Hữu cơ">Hoá hữu cơ</option>
+    <option value="Dung dịch">Dung dịch & Phản ứng</option>
+  </select>
+  <select id="grade">
+    <option value="all">Tất cả khối</option>
+    <option value="10">Khối 10</option>
+    <option value="11">Khối 11</option>
+    <option value="12">Khối 12</option>
+  </select>
+</div>
+</header>
+
+<main class="wrap">
+<div id="experiments" class="grid"></div>
+</main>
+
+<footer>
+<a href="menu.html" class="back">⬅ Quay lại</a>
+</footer>
+
+<script>
+/* ---------- Dữ liệu (giữ nguyên nội dung bạn gửi) ---------- */
+const ICONS={
+  "1":`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="80" height="80">
+    <rect x="12" y="4" width="8" height="20" fill="#ccc" stroke="#333" stroke-width="1" rx="2"/>
+    <rect x="11" y="2" width="10" height="3" fill="#00c4d6" stroke="#333" stroke-width="1" rx="1"/>
+    <rect x="12" y="12" width="8" height="12" fill="#87ceeb" opacity="0.8" rx="2"/>
+    <circle cx="16" cy="18" r="1.5" fill="gold"/>
+    <circle cx="15" cy="21" r="1.5" fill="gold"/>
+    <circle cx="17" cy="23" r="1.5" fill="gold"/>
+  </svg>`,
+  "2":"🍬",
+  "3":"🥣",
+  "4":`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="80" height="80">
+  <rect x="11" y="4" width="10" height="22" fill="#ccc" stroke="#333" stroke-width="1.5" rx="2"/>
+  <rect x="11" y="2" width="10" height="3" fill="#8B00FF" stroke="#333" stroke-width="1" rx="1"/>
+  <rect x="12" y="14" width="8" height="12" fill="#9B30FF" opacity="0.85" rx="2"/>
+  <circle cx="15" cy="222" r="1.5" fill="#8B4513"/>
+  <circle cx="14.5" cy="23" r="1.5" fill="#8B4513"/>
+  <circle cx="17.5" cy="24" r="1.5" fill="#8B4513"/>
+  <circle cx="15.5" cy="17" r="1.2" fill="#d0f0ff"/>
+  <circle cx="16.5" cy="15" r="1.2" fill="#d0f0ff"/>
+  <circle cx="16" cy="13" r="1.2" fill="#d0f0ff"/>
+</svg>`
+};
+
+const data=[
+  {title:"(CH₃COO)₂Pb + KI",desc:"Minh hoạ phản ứng trao đổi tạo kết tủa.",icon:ICONS["1"],link:"1_chemistry.html",topic:"Vô cơ",grade:"10"},
+  {title:"Glucose + Cu(OH)₂",desc:"Phản ứng nhận biết đường khử.",icon:ICONS["2"],link:"2_chemistry.html",topic:"Hữu cơ",grade:"12"},
+  {title:"I₂ + Hồ tinh bột",desc:"Phản ứng nhận biết tinh bột.",icon:ICONS["3"],link:"3_chemistry.html",topic:"Dung dịch",grade:"11"},
+  {title:"KMnO₄ + H₂O₂", desc:"Minh hoạ phản ứng oxi hóa khử.", icon:ICONS["4"], link:"4_chemistry.html", topic:"Vô cơ", grade:"11"}
+];
+
+/* ---------- Render cards ONCE (giữ nguyên nội dung SVG, text, link) ---------- */
+const container = document.getElementById('experiments');
+
+function createCards(list){
+  container.innerHTML = '';
+  list.forEach(exp=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    // set dataset for robust filtering
+    card.dataset.topic = exp.topic;
+    card.dataset.grade = String(exp.grade);
+    // keep inner content identical to your original
+    card.innerHTML = `
+      <div class="icon-wrap">${exp.icon}</div>
+      <h2>${exp.title}</h2>
+      <p>${exp.desc}</p>
+    `;
+    card.addEventListener('click', ()=> { window.location.href = exp.link; });
+    container.appendChild(card);
+  });
+  // add placeholder no-results element
+  const no = document.createElement('p');
+  no.className = 'no-results hidden';
+  no.id = 'noResults';
+  no.textContent = 'Không tìm thấy thí nghiệm phù hợp.';
+  container.appendChild(no);
+}
+createCards(data);
+
+/* ---------- Bình thường hoá tiếng Việt (bỏ dấu) ---------- */
+function normalizeVN(str){
+  if(!str) return '';
+  return String(str).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+}
+
+/* ---------- Logic lọc giống Sinh/Lý (DOM-based, không re-render) ---------- */
+function initFilters(){
+  const searchEl = document.getElementById('search');
+  const filterEl = document.getElementById('filter');
+  const gradeEl = document.getElementById('grade');
+  const cards = Array.from(document.querySelectorAll('#experiments .card'));
+  const noEl = document.getElementById('noResults');
+
+  function update(){
+    const q = normalizeVN(searchEl.value.trim());
+    const f = normalizeVN(filterEl.value);
+    const g = gradeEl.value; // keep grade as original string
+
+    let visibleCount = 0;
+    cards.forEach(card=>{
+      const title = normalizeVN(card.querySelector('h2')?.textContent || '');
+      const desc = normalizeVN(card.querySelector('p')?.textContent || '');
+      const topic = normalizeVN(card.dataset.topic || '');
+      const grade = String(card.dataset.grade || '');
+
+      const okQ = !q || title.includes(q) || desc.includes(q);
+      const okF = (f === 'all') || (topic === f);
+      const okG = (g === 'all') || (grade === g);
+
+      const show = okQ && okF && okG;
+      card.classList.toggle('hidden', !show);
+      if(show) visibleCount++;
+    });
+
+    // show/hide no-results message
+    noEl.classList.toggle('hidden', visibleCount !== 0);
+  }
+
+  // initial update (in case inputs have default values)
+  update();
+
+  // events: input for search, change for selects
+  searchEl.addEventListener('input', update);
+  filterEl.addEventListener('change', update);
+  gradeEl.addEventListener('change', update);
+
+  // also allow keyboard Enter on search to focus nothing (UX)
+  searchEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); update(); }});
+}
+initFilters();
+
+/* ---------- Nền sao tĩnh (giữ nguyên) ---------- */
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+let W=innerWidth,H=innerHeight;
+function fit(){
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=innerWidth*dpr;
+  canvas.height=innerHeight*dpr;
+  canvas.style.width=innerWidth+'px';
+  canvas.style.height=innerHeight+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  W=innerWidth; H=innerHeight;
+  initStars();
+  drawStatic();
+}
+let stars=[];
+function initStars(){
+  stars=Array.from({length:80},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.6}));
+}
+window.addEventListener('resize',fit);
+function drawStatic(){
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W/2,H/2,60,W/2,H/2,Math.max(W,H)*0.8);
+  g.addColorStop(0,"#0a1a2f");
+  g.addColorStop(1,"#000814");
+  ctx.fillStyle=g;
+  ctx.fillRect(0,0,W,H);
+  stars.forEach(s=>{
+    ctx.beginPath();
+    ctx.fillStyle="rgba(200,240,255,0.85)";
+    ctx.shadowColor="#88ccff";
+    ctx.shadowBlur=10;
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  ctx.shadowBlur=0;
+}
+fit();
+</script>
+</body>
+</html>
