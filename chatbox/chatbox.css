@@ -93,7 +93,7 @@
   color: var(--sl-sub);
 }
 .sl-x {
-  background: transparent;
+  background: none;
   border: 0;
   color: var(--sl-sub);
   cursor: pointer;
@@ -137,9 +137,11 @@
   gap: 8px;
   align-items: center;
   background: rgba(0, 0, 0, 0.25);
+  flex-wrap: wrap; /* FIXED */
 }
 #sl-in textarea {
-  flex: 1;
+  order: 0;
+  flex: 1 1 auto;
   resize: none;
   height: 42px;
   max-height: 120px;
@@ -152,6 +154,7 @@
   font: 500 13px system-ui;
 }
 #sl-in button {
+  order: 1;
   height: 42px;
   padding: 0 14px;
   border-radius: 12px;
@@ -166,8 +169,16 @@
 #sl-in button:active {
   transform: translateY(1px);
 }
+#sl-in > div {
+  order: 2;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
 
-/* Typing indicator */
+/* Typing */
 .sl-typing {
   display: flex;
   gap: 6px;

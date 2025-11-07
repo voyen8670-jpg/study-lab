@@ -1,5 +1,4 @@
 (async function () {
-  // 1) Nhận ID thí nghiệm
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
     if (d) return d;
@@ -13,7 +12,6 @@
   }
   const EXP = getExperimentId();
 
-  // 2) Tải KB (global + theo thí nghiệm)
   async function loadKB(id) {
     try {
       const r = await fetch(`chatbox/kb/${id}.json`);
@@ -23,11 +21,11 @@
       return { topics: [] };
     }
   }
+
   const KB_GLOBAL = await loadKB("global");
   const KB = await loadKB(EXP);
   const TOPICS = [...KB_GLOBAL.topics, ...KB.topics];
 
-  // 3) Render UI
   const box = document.createElement("div");
   box.innerHTML = `
     <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm">
@@ -60,7 +58,6 @@
   const sBtn = box.querySelector("#sl-s");
   const bd = box.querySelector("#sl-bd");
 
-  // 4) Typing indicator
   function typing(on = true) {
     const ex = document.getElementById("sl-typing");
     if (on && !ex) {
@@ -75,7 +72,6 @@
     } else if (!on && ex) ex.remove();
   }
 
-  // 5) Mở/đóng + nhớ trạng thái
   btn.onclick = () => {
     wrap.style.display = "flex";
     localStorage.setItem("sl-open", "1");
@@ -91,17 +87,14 @@
   if (localStorage.getItem("sl-open") === "1") wrap.style.display = "flex";
   if (localStorage.getItem("sl-min") === "1") wrap.classList.add("min");
 
-  // 6) In tin nhắn + timestamp + nhớ lịch sử
   function addMsg(text, who = "bot") {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    el.innerHTML = `<div class="sl-bubble">
-      ${text}
+    el.innerHTML = `<div class="sl-bubble">${text}
       <div class="time">${new Date().toLocaleTimeString("vi-VN", {
         hour: "2-digit",
         minute: "2-digit",
-      })}</div>
-    </div>`;
+      })}</div></div>`;
     bd.appendChild(el);
     bd.scrollTop = bd.scrollHeight;
 
@@ -109,26 +102,24 @@
     mem.push({ who, text });
     localStorage.setItem("sl-hist", JSON.stringify(mem).slice(-500));
   }
-  // khôi phục lịch sử
+
   JSON.parse(localStorage.getItem("sl-hist") || "[]").forEach((m) =>
     addMsg(m.text, m.who)
   );
 
-  // chào
   if (!localStorage.getItem("sl-hist")) {
     addMsg(
       "Xin chào! Mình sẽ hướng dẫn THAO TÁC và GIẢI THÍCH cho thí nghiệm này."
     );
   }
 
-  // 7) Xử lý gửi
   sBtn.onclick = () => {
     const msg = tBox.value.trim();
     if (!msg) return;
     addMsg(msg, "you");
     tBox.value = "";
-
     typing(true);
+
     setTimeout(() => {
       typing(false);
       const lower = msg.toLowerCase();
@@ -138,21 +129,19 @@
           found = t;
           break;
         }
-
       if (!found)
         return addMsg(
           "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b>, <b>quan sát</b>, hoặc <b>giải thích</b> nhé."
         );
-
       addMsg(`<b>Hướng dẫn:</b><br>${found.guide.join("<br>")}
-              <br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`);
+      <br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`);
     }, 600);
   };
 
-  // 8) Gợi ý nhanh
   const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
   const row = document.createElement("div");
-  row.style.cssText = "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap";
+  row.style.cssText =
+    "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;width:100%";
   hints.forEach((t) => {
     const b = document.createElement("button");
     b.textContent = t;
