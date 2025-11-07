@@ -59,19 +59,56 @@
   const sBtn = box.querySelector("#sl-s");
   const bd = box.querySelector("#sl-bd");
 
-  btn.onclick = () => (wrap.style.display = "flex");
-  xBtn.onclick = () => (wrap.style.display = "none");
+  // hiệu ứng typing...
+  function typing(on = true) {
+    const ex = document.getElementById("sl-typing");
+    if (on && !ex) {
+      const el = document.createElement("div");
+      el.className = "sl-msg";
+      el.id = "sl-typing";
+      el.innerHTML = `<div class="sl-bubble sl-typing">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>`;
+      bd.appendChild(el);
+      bd.scrollTop = bd.scrollHeight;
+    } else if (!on && ex) {
+      ex.remove();
+    }
+  }
+
+  // mở/đóng lưu trạng thái
+  btn.onclick = () => {
+    wrap.style.display = "flex";
+    localStorage.setItem("sl-open", "1");
+  };
+  xBtn.onclick = () => {
+    wrap.style.display = "none";
+    localStorage.removeItem("sl-open");
+  };
   mBtn.onclick = () => {
     wrap.classList.toggle("min");
+    localStorage.setItem("sl-min", wrap.classList.contains("min") ? "1" : "");
   };
+  if (localStorage.getItem("sl-open") === "1") wrap.style.display = "flex";
+  if (localStorage.getItem("sl-min") === "1") wrap.classList.add("min");
 
+  // in tin nhắn + thời gian + lưu lịch sử
   function addMsg(text, who = "bot") {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    el.innerHTML = `<div class="sl-bubble">${text}</div>`;
+    el.innerHTML = `<div class="sl-bubble">${text}<div class="time">${new Date().toLocaleTimeString(
+      "vi-VN",
+      { hour: "2-digit", minute: "2-digit" }
+    )}</div></div>`;
     bd.appendChild(el);
     bd.scrollTop = bd.scrollHeight;
+    const mem = JSON.parse(localStorage.getItem("sl-hist") || "[]");
+    mem.push({ who, text });
+    localStorage.setItem("sl-hist", JSON.stringify(mem).slice(-500));
   }
+  JSON.parse(localStorage.getItem("sl-hist") || "[]").forEach((m) =>
+    addMsg(m.text, m.who)
+  );
 
   addMsg(
     "Xin chào! Mình sẽ hướng dẫn THAO TÁC và GIẢI THÍCH cho thí nghiệm này."
@@ -83,21 +120,46 @@
     addMsg(msg, "you");
     tBox.value = "";
 
-    const lower = msg.toLowerCase();
-    let found = null;
-    for (const t of TOPICS) {
-      if (t.patterns.some((p) => lower.includes(p))) {
-        found = t;
-        break;
+    typing(true);
+    setTimeout(() => {
+      typing(false);
+      const lower = msg.toLowerCase();
+      let found = null;
+      for (const t of TOPICS) {
+        if (t.patterns.some((p) => lower.includes(p))) {
+          found = t;
+          break;
+        }
       }
-    }
 
-    if (!found)
-      return addMsg(
-        "Mình chưa có nội dung phù hợp. Hãy hỏi về thao tác, quan sát, hoặc giải thích nhé."
+      if (!found)
+        return addMsg(
+          "Mình chưa có nội dung phù hợp. Hãy hỏi về thao tác, quan sát, hoặc giải thích nhé."
+        );
+
+      addMsg(
+        `<b>Hướng dẫn:</b><br>${found.guide.join(
+          "<br>"
+        )}<br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`
       );
-
-    addMsg(`<b>Hướng dẫn:</b><br>${found.guide.join("<br>")}<br><br>
-            <b>Giải thích:</b><br>${found.explain.join("<br>")}`);
+    }, 600);
   };
+
+  // gợi ý nhanh
+  const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
+  const row = document.createElement("div");
+  row.style.cssText = "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap";
+  hints.forEach((t) => {
+    const b = document.createElement("button");
+    b.textContent = t;
+    b.type = "button";
+    b.style.cssText =
+      "background:rgba(255,255,255,.07);border:1px solid var(--sl-border);color:var(--sl-text);padding:6px 10px;border-radius:999px;font:600 12px system-ui;cursor:pointer";
+    b.onclick = () => {
+      tBox.value = t;
+      sBtn.click();
+    };
+    row.appendChild(b);
+  });
+  box.querySelector("#sl-in").appendChild(row);
 })();
