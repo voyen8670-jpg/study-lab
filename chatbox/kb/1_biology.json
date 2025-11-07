@@ -1,0 +1,19 @@
+{
+  "topics": [
+    {
+      "patterns": ["tế bào", "hiển vi", "cell"],
+      "guide": [
+        "Điều chỉnh độ phóng đại bằng thanh trượt hoặc menu tùy chọn.",
+        "Quan sát cấu trúc tế bào: màng, nhân, lục lạp, không bào.",
+        "Sử dụng nút 'Reset' để trở về trạng thái ban đầu."
+      ],
+      "explain": [
+        "Tế bào là đơn vị cơ bản của sự sống.",
+        "Khi tăng độ phóng đại, có thể quan sát rõ hơn các bào quan.",
+        "Mỗi loại tế bào có đặc điểm riêng, phản ánh chức năng của nó."
+      ],
+      "checks": ["Khi tăng độ phóng đại, hình ảnh phóng to đúng tỉ lệ."],
+      "pitfalls": ["Quên reset trước khi thay mẫu quan sát."]
+    }
+  ]
+}
