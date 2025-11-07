@@ -16,7 +16,7 @@
   /* 2) Tải KB (global + theo thí nghiệm) */
   async function loadKB(id) {
     try {
-      const r = await fetch(`/study-lab/chatbox/kb/${id}.json`);
+      const r = await fetch(`chatbox/kb/${id}.json`);
       if (!r.ok) throw 0;
       return r.json();
     } catch {
