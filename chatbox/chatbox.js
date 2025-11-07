@@ -1,5 +1,4 @@
 (async function () {
-  /* 1) Xác định thí nghiệm hiện tại */
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
     if (d) return d;
@@ -14,7 +13,6 @@
 
   const EXP = getExperimentId();
 
-  /* 2) Tải KB */
   async function loadKB(id) {
     try {
       const r = await fetch(`chatbox/kb/${id}.json`);
@@ -29,7 +27,6 @@
   const KB = await loadKB(EXP);
   const TOPICS = [...KB_GLOBAL.topics, ...KB.topics];
 
-  /* 3) Tạo UI chatbox */
   const box = document.createElement("div");
   box.innerHTML = `
     <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm">
@@ -40,8 +37,8 @@
           <span class="sl-sub">Hướng dẫn thao tác & giải thích</span>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="sl-min" title="Thu gọn" class="sl-x">—</button>
-          <button id="sl-x" title="Đóng" class="sl-x">×</button>
+          <button id="sl-min" class="sl-x">—</button>
+          <button id="sl-x" class="sl-x">×</button>
         </div>
       </div>
       <div id="sl-bd"></div>
@@ -65,7 +62,7 @@
   btn.onclick = () => (wrap.style.display = "flex");
   xBtn.onclick = () => (wrap.style.display = "none");
   mBtn.onclick = () => {
-    wrap.style.height = wrap.style.height === "120px" ? "520px" : "120px";
+    wrap.classList.toggle("min");
   };
 
   function addMsg(text, who = "bot") {
@@ -97,7 +94,7 @@
 
     if (!found)
       return addMsg(
-        "Mình chưa có nội dung về chủ đề này trong thí nghiệm này. Hãy hỏi về thao tác, quan sát, hoặc giải thích nhé."
+        "Mình chưa có nội dung phù hợp. Hãy hỏi về thao tác, quan sát, hoặc giải thích nhé."
       );
 
     addMsg(`<b>Hướng dẫn:</b><br>${found.guide.join("<br>")}<br><br>

@@ -1,24 +1,23 @@
 :root {
-  --sl-primary: #2563eb;
-  --sl-bg: rgba(12, 14, 22, 0.75);
+  --sl-primary: #3b82f6;
+  --sl-glow: #60a5fa;
+  --sl-bg: rgba(24, 27, 40, 0.55);
   --sl-border: rgba(255, 255, 255, 0.12);
-  --sl-text: #e5e7eb;
-  --sl-sub: #a6adbb;
+  --sl-text: #e8edf6;
+  --sl-sub: #9ba5b8;
 }
 
-/* Nút mở chat */
 #sl-btn {
   position: fixed;
   right: 18px;
   bottom: 18px;
   height: 54px;
   min-width: 54px;
-  padding: 0 16px;
-  display: inline-flex;
+  padding: 0 18px;
+  display: flex;
   align-items: center;
-  gap: 10px;
   justify-content: center;
-  background: linear-gradient(135deg, var(--sl-primary), #60a5fa);
+  background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
   color: #fff;
   font: 600 14px system-ui;
   border-radius: 999px;
@@ -26,17 +25,16 @@
   box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
   cursor: pointer;
   z-index: 99998;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  transition: all 0.18s ease;
 }
 #sl-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(37, 99, 235, 0.45);
 }
 #sl-btn:active {
   transform: translateY(0);
 }
 
-/* Khung chat */
 #sl-wrap {
   position: fixed;
   right: 18px;
@@ -45,19 +43,22 @@
   height: 520px;
   display: none;
   flex-direction: column;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(18px) saturate(150%);
   background: var(--sl-bg);
   border: 1px solid var(--sl-border);
-  border-radius: 18px;
+  border-radius: 20px;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
   z-index: 99999;
   overflow: hidden;
-  animation: sl-pop 0.18s ease;
+  animation: sl-pop 0.25s ease;
+}
+#sl-wrap.min {
+  height: 120px !important;
 }
 @keyframes sl-pop {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.98);
+    transform: translateY(10px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -65,7 +66,6 @@
   }
 }
 
-/* Header */
 #sl-hd {
   display: flex;
   align-items: center;
@@ -88,8 +88,14 @@
   font: 500 12px/1 system-ui;
   color: var(--sl-sub);
 }
+.sl-x {
+  background: transparent;
+  border: 0;
+  color: var(--sl-sub);
+  cursor: pointer;
+  font: 700 16px system-ui;
+}
 
-/* Nội dung chat */
 #sl-bd {
   flex: 1;
   padding: 14px 14px 2px;
@@ -107,23 +113,23 @@
   max-width: 78%;
   padding: 10px 12px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--sl-border);
+  transition: all 0.2s ease;
 }
 .sl-msg.you .sl-bubble {
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
   color: #fff;
-  border-color: transparent;
+  border: none;
 }
 
-/* Ô nhập */
 #sl-in {
   border-top: 1px solid var(--sl-border);
   padding: 10px;
   display: flex;
   gap: 8px;
   align-items: center;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.25);
 }
 #sl-in textarea {
   flex: 1;
@@ -145,7 +151,7 @@
   border: 0;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(135deg, var(--sl-primary), #60a5fa);
+  background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
   font: 600 13px system-ui;
   box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
   transition: transform 0.15s ease;
