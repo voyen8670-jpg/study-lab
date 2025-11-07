@@ -1,82 +1,177 @@
+:root {
+  --sl-primary: #2563eb;
+  --sl-bg: rgba(12, 14, 22, 0.75);
+  --sl-border: rgba(255, 255, 255, 0.12);
+  --sl-text: #e5e7eb;
+  --sl-sub: #a6adbb;
+}
+
+/* Nút mở chat */
 #sl-btn {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 0;
-  background: #2563eb;
+  right: 18px;
+  bottom: 18px;
+  height: 54px;
+  min-width: 54px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--sl-primary), #60a5fa);
   color: #fff;
   font: 600 14px system-ui;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  z-index: 9998;
+  border-radius: 999px;
+  border: 0;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+  cursor: pointer;
+  z-index: 99998;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
+#sl-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45);
+}
+#sl-btn:active {
+  transform: translateY(0);
+}
+
+/* Khung chat */
 #sl-wrap {
   position: fixed;
-  right: 16px;
-  bottom: 68px;
-  width: 340px;
-  max-width: calc(100vw - 32px);
-  height: 420px;
+  right: 18px;
+  bottom: 84px;
+  width: min(360px, calc(100vw - 36px));
+  height: 520px;
   display: none;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-  z-index: 9999;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  background: var(--sl-bg);
+  border: 1px solid var(--sl-border);
+  border-radius: 18px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  z-index: 99999;
   overflow: hidden;
+  animation: sl-pop 0.18s ease;
 }
+@keyframes sl-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
 #sl-hd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--sl-border);
+  color: var(--sl-text);
+}
+.sl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399aa;
+}
+.sl-title {
+  font: 700 14px/1.2 system-ui;
+}
+.sl-sub {
+  font: 500 12px/1 system-ui;
+  color: var(--sl-sub);
+}
+
+/* Nội dung chat */
+#sl-bd {
+  flex: 1;
+  padding: 14px 14px 2px;
+  overflow: auto;
+  color: var(--sl-text);
+}
+.sl-msg {
+  display: flex;
+  margin: 8px 0;
+}
+.sl-msg.you {
+  justify-content: flex-end;
+}
+.sl-bubble {
+  max-width: 78%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--sl-border);
+}
+.sl-msg.you .sl-bubble {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Ô nhập */
+#sl-in {
+  border-top: 1px solid var(--sl-border);
+  padding: 10px;
   display: flex;
   gap: 8px;
   align-items: center;
-  padding: 10px 12px;
-  border-bottom: 1px solid #e5e7eb;
+  background: rgba(0, 0, 0, 0.15);
 }
-#sl-bd {
-  height: 300px;
-  overflow: auto;
-  background: #f8fafc;
-  padding: 10px;
-}
-.bub {
-  max-width: 80%;
-  padding: 8px 10px;
-  border-radius: 14px;
-  margin: 6px 0;
-  white-space: pre-wrap;
-  font: 13px/1.4 system-ui;
-}
-.u {
-  margin-left: auto;
-  background: #0f172a;
-  color: #fff;
-}
-.a {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-}
-#sl-in {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-  border-top: 1px solid #e5e7eb;
-  background: #fff;
-}
-#sl-t {
+#sl-in textarea {
   flex: 1;
   resize: none;
-  height: 44px;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  padding: 8px 10px;
-  font: 13px system-ui;
-}
-#sl-s {
-  border: 0;
-  border-radius: 10px;
+  height: 42px;
+  max-height: 120px;
   padding: 10px 12px;
-  background: #2563eb;
+  border-radius: 12px;
+  outline: none;
+  color: var(--sl-text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--sl-border);
+  font: 500 13px system-ui;
+}
+#sl-in button {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 0;
+  cursor: pointer;
   color: #fff;
+  background: linear-gradient(135deg, var(--sl-primary), #60a5fa);
   font: 600 13px system-ui;
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+  transition: transform 0.15s ease;
+}
+#sl-in button:active {
+  transform: translateY(1px);
+}
+
+#sl-bd::-webkit-scrollbar {
+  width: 10px;
+}
+#sl-bd::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+@media (max-width: 480px) {
+  #sl-wrap {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    height: 60vh;
+    bottom: 80px;
+  }
+  #sl-btn {
+    right: 12px;
+    bottom: 12px;
+  }
 }
