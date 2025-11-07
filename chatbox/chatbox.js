@@ -1,4 +1,5 @@
 (async function () {
+  // 1) Nhận ID thí nghiệm
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
     if (d) return d;
@@ -10,9 +11,9 @@
     if (url.includes("rc")) return "rc";
     return "global";
   }
-
   const EXP = getExperimentId();
 
+  // 2) Tải KB (global + theo thí nghiệm)
   async function loadKB(id) {
     try {
       const r = await fetch(`chatbox/kb/${id}.json`);
@@ -22,11 +23,11 @@
       return { topics: [] };
     }
   }
-
   const KB_GLOBAL = await loadKB("global");
   const KB = await loadKB(EXP);
   const TOPICS = [...KB_GLOBAL.topics, ...KB.topics];
 
+  // 3) Render UI
   const box = document.createElement("div");
   box.innerHTML = `
     <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm">
@@ -37,8 +38,8 @@
           <span class="sl-sub">Hướng dẫn thao tác & giải thích</span>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="sl-min" class="sl-x">—</button>
-          <button id="sl-x" class="sl-x">×</button>
+          <button id="sl-min" class="sl-x" title="Thu gọn">—</button>
+          <button id="sl-x" class="sl-x" title="Đóng">×</button>
         </div>
       </div>
       <div id="sl-bd"></div>
@@ -59,7 +60,7 @@
   const sBtn = box.querySelector("#sl-s");
   const bd = box.querySelector("#sl-bd");
 
-  // hiệu ứng typing...
+  // 4) Typing indicator
   function typing(on = true) {
     const ex = document.getElementById("sl-typing");
     if (on && !ex) {
@@ -71,12 +72,10 @@
       </div>`;
       bd.appendChild(el);
       bd.scrollTop = bd.scrollHeight;
-    } else if (!on && ex) {
-      ex.remove();
-    }
+    } else if (!on && ex) ex.remove();
   }
 
-  // mở/đóng lưu trạng thái
+  // 5) Mở/đóng + nhớ trạng thái
   btn.onclick = () => {
     wrap.style.display = "flex";
     localStorage.setItem("sl-open", "1");
@@ -92,28 +91,37 @@
   if (localStorage.getItem("sl-open") === "1") wrap.style.display = "flex";
   if (localStorage.getItem("sl-min") === "1") wrap.classList.add("min");
 
-  // in tin nhắn + thời gian + lưu lịch sử
+  // 6) In tin nhắn + timestamp + nhớ lịch sử
   function addMsg(text, who = "bot") {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    el.innerHTML = `<div class="sl-bubble">${text}<div class="time">${new Date().toLocaleTimeString(
-      "vi-VN",
-      { hour: "2-digit", minute: "2-digit" }
-    )}</div></div>`;
+    el.innerHTML = `<div class="sl-bubble">
+      ${text}
+      <div class="time">${new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}</div>
+    </div>`;
     bd.appendChild(el);
     bd.scrollTop = bd.scrollHeight;
+
     const mem = JSON.parse(localStorage.getItem("sl-hist") || "[]");
     mem.push({ who, text });
     localStorage.setItem("sl-hist", JSON.stringify(mem).slice(-500));
   }
+  // khôi phục lịch sử
   JSON.parse(localStorage.getItem("sl-hist") || "[]").forEach((m) =>
     addMsg(m.text, m.who)
   );
 
-  addMsg(
-    "Xin chào! Mình sẽ hướng dẫn THAO TÁC và GIẢI THÍCH cho thí nghiệm này."
-  );
+  // chào
+  if (!localStorage.getItem("sl-hist")) {
+    addMsg(
+      "Xin chào! Mình sẽ hướng dẫn THAO TÁC và GIẢI THÍCH cho thí nghiệm này."
+    );
+  }
 
+  // 7) Xử lý gửi
   sBtn.onclick = () => {
     const msg = tBox.value.trim();
     if (!msg) return;
@@ -125,27 +133,23 @@
       typing(false);
       const lower = msg.toLowerCase();
       let found = null;
-      for (const t of TOPICS) {
+      for (const t of TOPICS)
         if (t.patterns.some((p) => lower.includes(p))) {
           found = t;
           break;
         }
-      }
 
       if (!found)
         return addMsg(
-          "Mình chưa có nội dung phù hợp. Hãy hỏi về thao tác, quan sát, hoặc giải thích nhé."
+          "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b>, <b>quan sát</b>, hoặc <b>giải thích</b> nhé."
         );
 
-      addMsg(
-        `<b>Hướng dẫn:</b><br>${found.guide.join(
-          "<br>"
-        )}<br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`
-      );
+      addMsg(`<b>Hướng dẫn:</b><br>${found.guide.join("<br>")}
+              <br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`);
     }, 600);
   };
 
-  // gợi ý nhanh
+  // 8) Gợi ý nhanh
   const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
   const row = document.createElement("div");
   row.style.cssText = "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap";
