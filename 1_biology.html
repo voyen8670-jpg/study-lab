@@ -3,13 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="sl-experiment" content="1_biology" />
     <title>Mô phỏng: Tế bào hành dưới kính hiển vi</title>
+
+    <!-- =============== Styles =============== -->
     <style>
+      /* ======= App theme ======= */
       :root {
         --bg: #0b1220;
         --panel: #0f1724;
         --accent: #7fd7ff;
         --muted: #9aa6b2;
+        color-scheme: dark;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
       }
       html,
       body {
@@ -45,6 +56,7 @@
         width: 100%;
         height: 100%;
         display: block;
+        touch-action: none; /* tốt cho pan/zoom */
       }
       .hud {
         position: absolute;
@@ -149,7 +161,6 @@
           font-size: 12px;
         }
       }
-
       /* Landscape mobile */
       @media (max-width: 768px) and (orientation: landscape) {
         .app {
@@ -166,17 +177,324 @@
         }
       }
     </style>
+
+    <!-- =============== Chatbox CSS (full) =============== -->
+    <style>
+      :root {
+        --sl-primary: #3b82f6;
+        --sl-glow: #60a5fa;
+        --sl-bg: rgba(24, 27, 40, 0.55);
+        --sl-border: rgba(255, 255, 255, 0.12);
+        --sl-text: #e8edf6;
+        --sl-sub: #9ba5b8;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --sl-bg: rgba(255, 255, 255, 0.75);
+          --sl-border: rgba(0, 0, 0, 0.12);
+          --sl-text: #0f172a;
+          --sl-sub: #475569;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      #sl-btn {
+        position: fixed;
+        right: calc(18px + env(safe-area-inset-right));
+        bottom: calc(18px + env(safe-area-inset-bottom));
+        height: 54px;
+        min-width: 54px;
+        padding: 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
+        color: #fff;
+        font: 600 14px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        border-radius: 999px;
+        border: 0;
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+        cursor: pointer;
+        z-index: 99998;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          opacity 0.18s ease;
+      }
+      #sl-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 36px rgba(37, 99, 235, 0.45);
+      }
+      #sl-btn:active {
+        transform: translateY(0);
+      }
+      #sl-btn:focus-visible {
+        outline: 2px solid var(--sl-glow);
+        outline-offset: 2px;
+      }
+      #sl-wrap {
+        position: fixed;
+        right: calc(18px + env(safe-area-inset-right));
+        bottom: calc(84px + env(safe-area-inset-bottom));
+        width: min(
+          360px,
+          calc(
+            100vw - 36px - env(safe-area-inset-right) -
+              env(safe-area-inset-left)
+          )
+        );
+        height: 520px;
+        display: none;
+        flex-direction: column;
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        background: var(--sl-bg);
+        background: color-mix(in oklab, var(--sl-bg) 85%, black);
+        border: 1px solid var(--sl-border);
+        border-radius: 20px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        z-index: 99999;
+        overflow: hidden;
+        animation: sl-pop 0.25s ease;
+        transition: height 0.2s ease;
+      }
+      #sl-wrap.open {
+        display: flex;
+      }
+      #sl-wrap.min {
+        height: 120px !important;
+      }
+      @keyframes sl-pop {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      #sl-hd {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--sl-border);
+        color: var(--sl-text);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+      }
+      .sl-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #34d399;
+        box-shadow: 0 0 8px #34d399aa;
+      }
+      .sl-title {
+        font: 700 14px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+      }
+      .sl-sub {
+        font: 500 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        color: var(--sl-sub);
+      }
+      .sl-x {
+        margin-left: auto;
+        background: none;
+        border: 0;
+        color: var(--sl-sub);
+        cursor: pointer;
+        font: 700 16px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+      }
+      .sl-x:hover {
+        color: var(--sl-text);
+      }
+      .sl-x:focus-visible {
+        outline: 2px solid var(--sl-glow);
+        outline-offset: 2px;
+      }
+      #sl-bd {
+        flex: 1;
+        padding: 14px 14px 2px;
+        overflow: auto;
+        color: var(--sl-text);
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+      }
+      #sl-bd::-webkit-scrollbar {
+        width: 10px;
+      }
+      #sl-bd::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+      }
+      .sl-msg {
+        display: flex;
+        margin: 8px 0;
+      }
+      .sl-msg.you {
+        justify-content: flex-end;
+      }
+      .sl-bubble {
+        max-width: 78%;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--sl-border);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        overflow-wrap: anywhere;
+      }
+      .sl-msg.you .sl-bubble {
+        background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
+        color: #fff;
+        border: none;
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+      }
+      .sl-bubble .time {
+        opacity: 0.5;
+        font: 500 11px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        text-align: right;
+        margin-top: 6px;
+      }
+      #sl-in {
+        border-top: 1px solid var(--sl-border);
+        padding: 10px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.25);
+        flex-wrap: wrap;
+      }
+      #sl-in textarea {
+        order: 0;
+        flex: 1 1 auto;
+        resize: none;
+        height: 42px;
+        max-height: 120px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        outline: none;
+        color: var(--sl-text);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--sl-border);
+        font: 500 13px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+      }
+      #sl-in textarea:focus-visible {
+        outline: 2px solid var(--sl-glow);
+        outline-offset: 2px;
+      }
+      #sl-in button {
+        order: 1;
+        height: 42px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 0;
+        cursor: pointer;
+        color: #fff;
+        background: linear-gradient(135deg, var(--sl-primary), var(--sl-glow));
+        font: 600 13px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      #sl-in button:hover {
+        box-shadow: 0 10px 26px rgba(37, 99, 235, 0.45);
+      }
+      #sl-in button:active {
+        transform: translateY(1px);
+      }
+      #sl-in button:focus-visible {
+        outline: 2px solid var(--sl-glow);
+        outline-offset: 2px;
+      }
+      #sl-in > div {
+        order: 2;
+        width: 100%;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .sl-pill {
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid var(--sl-border);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--sl-text);
+        font: 600 12px system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        cursor: pointer;
+      }
+      .sl-pill:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .sl-typing {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .sl-typing .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #cfe3ff;
+        opacity: 0.6;
+        animation: blink 1.2s infinite;
+      }
+      .sl-typing .dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .sl-typing .dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes blink {
+        0%,
+        80%,
+        100% {
+          opacity: 0.2;
+        }
+        40% {
+          opacity: 1;
+        }
+      }
+      @media (max-width: 480px) {
+        #sl-wrap {
+          right: calc(10px + env(safe-area-inset-right));
+          left: calc(10px + env(safe-area-inset-left));
+          width: auto;
+          height: min(70dvh, 560px);
+          bottom: calc(80px + env(safe-area-inset-bottom));
+        }
+        #sl-btn {
+          right: calc(12px + env(safe-area-inset-right));
+          bottom: calc(12px + env(safe-area-inset-bottom));
+        }
+      }
+    </style>
   </head>
+
   <body data-experiment="1_biology">
     <div class="app">
       <div class="viewer panel" id="viewer">
-        <div class="hud" id="hud">
-          Magnification: <span id="magLabel">1.0×</span>
-        </div>
+        <div class="hud">Magnification: <span id="magLabel">1.0×</span></div>
         <canvas id="scene" width="1200" height="900"></canvas>
-        <div class="legend" id="legend">
-          Scale: <span id="scaleLabel">1 mm</span>
-        </div>
+        <div class="legend">Scale: <span id="scaleLabel">1 mm</span></div>
         <div class="credit">Mô phỏng: tế bào hành</div>
       </div>
 
@@ -239,15 +557,14 @@
         <div>
           <label>Thuốc nhuộm: Xanh methylen</label>
           <div class="row">
-            <button id="stainBtn">Áp dụng thuốc nhuộm</button
-            ><button
+            <button id="stainBtn">Áp dụng thuốc nhuộm</button>
+            <button
               id="washBtn"
               style="background: linear-gradient(180deg, #fff, #d8eef7)"
             >
               Rửa
             </button>
           </div>
-          <div class="muted small"></div>
         </div>
 
         <div style="margin-top: auto">
@@ -263,9 +580,11 @@
       </div>
     </div>
 
+    <!-- =============== Simulation Script (with zoom/pan/shortcuts/culling) =============== -->
     <script>
       const canvas = document.getElementById("scene"),
         ctx = canvas.getContext("2d");
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
       let width = canvas.width,
         height = canvas.height;
       let world = { x: 0, y: 0, scale: 1 };
@@ -282,8 +601,8 @@
         for (let r = -rows; r < rows * 2; r++) {
           for (let c = -cols; c < cols * 2; c++) {
             const jitter = (Math.random() - 0.5) * 6;
-            const x = c * cellW + (r % 2 ? 30 : 0) + jitter,
-              y = r * cellH * 0.98 + (Math.random() - 0.5) * 6;
+            const x = c * cellW + (r % 2 ? 30 : 0) + jitter;
+            const y = r * cellH * 0.98 + (Math.random() - 0.5) * 6;
             const cell = {
               x,
               y,
@@ -297,7 +616,7 @@
               wallThickness: 3 + Math.random() * 2,
               particles: [],
             };
-            for (let i = 0; i < 12; i++)
+            for (let i = 0; i < 12; i++) {
               cell.particles.push({
                 x: x + Math.random() * cellW,
                 y: y + Math.random() * cellH,
@@ -305,8 +624,77 @@
                 angle: Math.random() * Math.PI * 2,
                 speed: 0.002 + Math.random() * 0.003,
               });
+            }
             cells.push(cell);
           }
+        }
+      }
+
+      function roundedRect(ctx, x, y, w, h, r) {
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+      }
+
+      function drawCell(cell) {
+        ctx.beginPath();
+        roundedRect(ctx, cell.x, cell.y, cell.w, cell.h, 14);
+        ctx.lineWidth = cell.wallThickness;
+        ctx.strokeStyle = `rgba(220,240,250,${0.85 * light})`;
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(150,200,230,${0.25 * light})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        const grd = ctx.createRadialGradient(
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          10,
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          Math.max(cell.w, cell.h) / 1.5
+        );
+        grd.addColorStop(0, `rgba(240,250,255,${0.1 * light})`);
+        grd.addColorStop(1, `rgba(180,210,230,${0.05 * light})`);
+        ctx.fillStyle = grd;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(
+          cell.x + cell.w / 2,
+          cell.y + cell.h / 2,
+          cell.w * 0.45,
+          cell.h * 0.35,
+          0,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = `rgba(220,235,245,${0.09 * light})`;
+        ctx.fill();
+
+        const n = cell.nucleus,
+          g2 = ctx.createRadialGradient(n.cx, n.cy, n.r * 0.3, n.cx, n.cy, n.r);
+        const base = 60 + Math.floor(120 * stainLevel);
+        g2.addColorStop(0, `rgba(40,${base},230,0.8)`);
+        g2.addColorStop(
+          1,
+          `rgba(10,${base - 30},180,${0.55 + stainLevel * 0.35})`
+        );
+        ctx.beginPath();
+        ctx.ellipse(n.cx, n.cy, n.r * 0.9, n.r * 0.7, 0, 0, Math.PI * 2);
+        ctx.fillStyle = g2;
+        ctx.fill();
+
+        for (const p of cell.particles) {
+          p.angle += p.speed;
+          const offsetX = Math.sin(p.angle) * 6,
+            offsetY = Math.cos(p.angle * 1.2) * 4;
+          ctx.beginPath();
+          ctx.arc(p.x + offsetX, p.y + offsetY, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(200,240,255,${0.25 * light})`;
+          ctx.fill();
         }
       }
 
@@ -316,6 +704,7 @@
         ctx.translate(world.x + width / 2, world.y + height / 2);
         ctx.scale(world.scale, world.scale);
         ctx.translate(-width / 2, -height / 2);
+
         if (world.scale < 3) {
           ctx.fillStyle = `rgba(200,180,140,${0.8 * light})`;
           ctx.beginPath();
@@ -337,74 +726,24 @@
             100
           );
         } else {
-          for (const cell of cells) drawCell(cell);
+          // Culling theo viewport để nhẹ CPU/GPU
+          const vw = width / world.scale,
+            vh = height / world.scale;
+          const vx = (width - vw) / 2 - world.x / world.scale;
+          const vy = (height - vh) / 2 - world.y / world.scale;
+          for (const cell of cells) {
+            const m = 40;
+            if (cell.x + cell.w < vx - m) continue;
+            if (cell.x > vx + vw + m) continue;
+            if (cell.y + cell.h < vy - m) continue;
+            if (cell.y > vy + vh + m) continue;
+            drawCell(cell);
+          }
         }
         ctx.restore();
       }
 
-      function drawCell(cell) {
-        ctx.beginPath();
-        roundedRect(ctx, cell.x, cell.y, cell.w, cell.h, 14);
-        ctx.lineWidth = cell.wallThickness;
-        ctx.strokeStyle = `rgba(220,240,250,${0.85 * light})`;
-        ctx.stroke();
-        ctx.strokeStyle = `rgba(150,200,230,${0.25 * light})`;
-        ctx.lineWidth = 1.2;
-        ctx.stroke();
-        const grd = ctx.createRadialGradient(
-          cell.x + cell.w / 2,
-          cell.y + cell.h / 2,
-          10,
-          cell.x + cell.w / 2,
-          cell.y + cell.h / 2,
-          Math.max(cell.w, cell.h) / 1.5
-        );
-        grd.addColorStop(0, `rgba(240,250,255,${0.1 * light})`);
-        grd.addColorStop(1, `rgba(180,210,230,${0.05 * light})`);
-        ctx.fillStyle = grd;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(
-          cell.x + cell.w / 2,
-          cell.y + cell.h / 2,
-          cell.w * 0.45,
-          cell.h * 0.35,
-          0,
-          0,
-          Math.PI * 2
-        );
-        ctx.fillStyle = `rgba(220,235,245,${0.09 * light})`;
-        ctx.fill();
-        const n = cell.nucleus,
-          g2 = ctx.createRadialGradient(n.cx, n.cy, n.r * 0.3, n.cx, n.cy, n.r);
-        const base = 60 + Math.floor(120 * stainLevel);
-        g2.addColorStop(0, `rgba(40,${base},230,${0.8})`);
-        g2.addColorStop(
-          1,
-          `rgba(10,${base - 30},180,${0.55 + stainLevel * 0.35})`
-        );
-        ctx.beginPath();
-        ctx.ellipse(n.cx, n.cy, n.r * 0.9, n.r * 0.7, 0, 0, Math.PI * 2);
-        ctx.fillStyle = g2;
-        ctx.fill();
-        for (const p of cell.particles) {
-          p.angle += p.speed;
-          const offsetX = Math.sin(p.angle) * 6,
-            offsetY = Math.cos(p.angle * 1.2) * 4;
-          ctx.beginPath();
-          ctx.arc(p.x + offsetX, p.y + offsetY, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(200,240,255,${0.25 * light})`;
-          ctx.fill();
-        }
-      }
-      function roundedRect(ctx, x, y, w, h, r) {
-        ctx.moveTo(x + r, y);
-        ctx.arcTo(x + w, y, x + w, y + h, r);
-        ctx.arcTo(x + w, y + h, x, y + h, r);
-        ctx.arcTo(x, y + h, x, y, r);
-        ctx.arcTo(x, y, x + w, y, r);
-      }
-
+      // ===== UI wiring =====
       const mag = document.getElementById("mag"),
         magVal = document.getElementById("magVal"),
         magLabel = document.getElementById("magLabel");
@@ -418,6 +757,15 @@
         viewY = document.getElementById("viewY");
       const viewXVal = document.getElementById("viewXVal"),
         viewYVal = document.getElementById("viewYVal");
+
+      function updateScaleLabel() {
+        const z = world.scale;
+        let label = "1 mm";
+        if (z >= 2.5 && z < 5) label = "200 µm";
+        else if (z >= 5 && z < 9) label = "100 µm";
+        else if (z >= 9) label = "50 µm";
+        scaleLabel.textContent = label;
+      }
 
       mag.addEventListener("input", () => {
         const val = parseFloat(mag.value);
@@ -438,6 +786,7 @@
         world.y = parseFloat(viewY.value);
         viewYVal.textContent = viewY.value;
       });
+
       stainBtn.addEventListener("click", () => {
         stainBtn.disabled = true;
         stainBtn.textContent = "Đang nhuộm...";
@@ -460,9 +809,7 @@
         const anim = setInterval(() => {
           const p = Math.min(1, (Date.now() - t0) / dur);
           stainLevel = start * (1 - p);
-          if (p >= 1) {
-            clearInterval(anim);
-          }
+          if (p >= 1) clearInterval(anim);
         }, 33);
       });
       reset.addEventListener("click", () => {
@@ -479,15 +826,6 @@
         stainLevel = 0;
         updateScaleLabel();
       });
-      function updateScaleLabel() {
-        if (world.scale < 3) {
-          scaleLabel.textContent = "1 mm";
-        } else if (world.scale < 8) {
-          scaleLabel.textContent = "100 µm";
-        } else {
-          scaleLabel.textContent = "50 µm";
-        }
-      }
 
       function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
@@ -497,6 +835,89 @@
       }
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
+
+      // Wheel zoom giữ điểm dưới con trỏ
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const rect = canvas.getBoundingClientRect();
+          const mx = (e.clientX - rect.left) * (width / rect.width);
+          const my = (e.clientY - rect.top) * (height / rect.height);
+          const old = world.scale;
+          const factor = Math.exp((-e.deltaY / 120) * 0.12);
+          const next = clamp(old * factor, 1, 12);
+          const k = next / old;
+          world.x = (world.x + mx - width / 2) * k - (mx - width / 2);
+          world.y = (world.y + my - height / 2) * k - (my - height / 2);
+          world.scale = next;
+          mag.value = next.toFixed(1);
+          mag.dispatchEvent(new Event("input"));
+        },
+        { passive: false }
+      );
+
+      // Kéo để pan (desktop + mobile)
+      let panning = false,
+        start = { x: 0, y: 0 },
+        startWorld = { x: 0, y: 0 };
+      const onDown = (e) => {
+        panning = true;
+        const pt = e.touches?.[0] || e;
+        start = { x: pt.clientX, y: pt.clientY };
+        startWorld = { x: world.x, y: world.y };
+        canvas.setPointerCapture?.(e.pointerId || 1);
+      };
+      const onMove = (e) => {
+        if (!panning) return;
+        const pt = e.touches?.[0] || e;
+        const dx = pt.clientX - start.x,
+          dy = pt.clientY - start.y;
+        const damp = 1 / world.scale;
+        world.x = startWorld.x + dx * damp;
+        world.y = startWorld.y + dy * damp;
+        viewX.value = Math.round(world.x);
+        viewXVal.textContent = viewX.value;
+        viewY.value = Math.round(world.y);
+        viewYVal.textContent = viewY.value;
+      };
+      const onUp = () => {
+        panning = false;
+      };
+      canvas.addEventListener("mousedown", onDown);
+      canvas.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+      canvas.addEventListener("touchstart", onDown, { passive: true });
+      canvas.addEventListener("touchmove", onMove, { passive: true });
+      canvas.addEventListener("touchend", onUp, { passive: true });
+
+      // Phím tắt
+      window.addEventListener("keydown", (e) => {
+        const step = Math.round(20 / world.scale);
+        if (e.key === "ArrowLeft") {
+          world.x -= step;
+          viewX.value = world.x;
+          viewXVal.textContent = world.x;
+        }
+        if (e.key === "ArrowRight") {
+          world.x += step;
+          viewX.value = world.x;
+          viewXVal.textContent = world.x;
+        }
+        if (e.key === "ArrowUp") {
+          world.y -= step;
+          viewY.value = world.y;
+          viewYVal.textContent = world.y;
+        }
+        if (e.key === "ArrowDown") {
+          world.y += step;
+          viewY.value = world.y;
+          viewYVal.textContent = world.y;
+        }
+        if (e.key.toLowerCase() === "r") {
+          document.getElementById("reset").click();
+        }
+      });
 
       function loop() {
         draw();
@@ -508,7 +929,296 @@
         loop();
       })();
     </script>
-    <link rel="stylesheet" href="chatbox/chatbox.css" />
-    <script defer src="chatbox/chatbox.js"></script>
+
+    <!-- =============== Chatbox: embedded KB fallback (optional) =============== -->
+    <script id="sl-kb-global" type="application/json">
+      {
+        "topics": [
+          {
+            "patterns": [
+              "thao tác",
+              "điều chỉnh",
+              "quan sát",
+              "huong dan",
+              "thao tac",
+              "giai thich",
+              "quan sat"
+            ],
+            "guide": [
+              "Dùng thanh trượt để thay đổi độ phóng đại (1x → 12x).",
+              "Điều chỉnh ánh sáng cho ảnh rõ nét, tránh quá sáng.",
+              "Quan sát dần từ tổng thể đến chi tiết (màng, nhân, lục lạp...).",
+              "Nhấn 'Reset' để quay lại trạng thái ban đầu nếu mất nét."
+            ],
+            "explain": [
+              "Độ phóng đại lớn giúp thấy rõ các bào quan nhưng giảm trường nhìn.",
+              "Ánh sáng quá cao làm mất tương phản; tối ưu là vừa đủ để nhận diện biên.",
+              "Các cấu trúc nhìn thấy phụ thuộc mẫu, thuốc nhuộm và độ dày lát cắt."
+            ]
+          },
+          {
+            "patterns": [
+              "lỗi thường gặp",
+              "mat net",
+              "anh toi",
+              "anh sang qua",
+              "khong thay",
+              "troubleshoot"
+            ],
+            "guide": [
+              "Ảnh quá sáng → giảm cường độ ánh sáng.",
+              "Ảnh tối → tăng ánh sáng từ từ, không kéo hết cỡ.",
+              "Mất nét khi tăng zoom → giảm zoom một chút rồi lấy nét lại.",
+              "Không thấy lục lạp → kiểm tra lại mẫu/thuốc nhuộm/lát cắt."
+            ],
+            "explain": [
+              "Zoom lớn làm giảm độ sâu trường → cần lấy nét lại khi đổi zoom.",
+              "Tương phản tối ưu giúp thấy rõ ranh giới bào quan.",
+              "Khả năng thấy lục lạp phụ thuộc mẫu và chuẩn bị tiêu bản."
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <!-- =============== Chatbox JS (full, có fallback KB) =============== -->
+    <script>
+      (async function () {
+        const $ = (sel, root = document) => root.querySelector(sel);
+        const escapeHTML = (s) =>
+          s.replace(
+            /[&<>"']/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              }[c])
+          );
+        const foldVN = (s) =>
+          s
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "");
+
+        function getExperimentId() {
+          const d = document.body?.dataset?.experiment;
+          if (d) return d;
+          const m = document.querySelector(
+            'meta[name="sl-experiment"]'
+          )?.content;
+          if (m) return m;
+          const url = location.pathname.toLowerCase();
+          if (url.includes("pendulum")) return "pendulum";
+          if (url.includes("freefall") || url.includes("roi"))
+            return "freefall";
+          if (url.includes("rc")) return "rc";
+          return "global";
+        }
+        const EXP = getExperimentId();
+
+        async function loadKB(id) {
+          // 1) thử fetch; 2) nếu lỗi, tìm script#sl-kb-{id}
+          try {
+            const r = await fetch(`chatbox/kb/${id}.json`, {
+              cache: "no-store",
+            });
+            if (!r.ok) throw 0;
+            return r.json();
+          } catch {
+            try {
+              const el =
+                document.getElementById(`sl-kb-${id}`) ||
+                (id === "global"
+                  ? document.getElementById("sl-kb-global")
+                  : null);
+              if (el) return JSON.parse(el.textContent);
+            } catch {}
+            return { topics: [] };
+          }
+        }
+
+        const KB_GLOBAL = await loadKB("global");
+        const KB = await loadKB(EXP);
+        const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB.topics || [])];
+
+        // ---- DOM mount ----
+        const box = document.createElement("div");
+        box.innerHTML = `
+          <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm" aria-modal="false">
+            <div id="sl-hd">
+              <span class="sl-dot" aria-hidden="true"></span>
+              <div style="display:flex;flex-direction:column">
+                <span class="sl-title">Trợ lý • ${escapeHTML(EXP)}</span>
+                <span class="sl-sub">Hướng dẫn thao tác & giải thích</span>
+              </div>
+              <div style="margin-left:auto;display:flex;gap:8px">
+                <button id="sl-min" class="sl-x" title="Thu gọn" aria-label="Thu gọn">—</button>
+                <button id="sl-x" class="sl-x" title="Đóng" aria-label="Đóng">×</button>
+              </div>
+            </div>
+            <div id="sl-bd" aria-live="polite"></div>
+            <div id="sl-in">
+              <textarea id="sl-t" placeholder="Hỏi về thí nghiệm hiện tại..." aria-label="Ô nhập nội dung"></textarea>
+              <button id="sl-s" type="button" aria-label="Gửi tin nhắn">Gửi</button>
+            </div>
+          </div>
+          <button id="sl-btn" aria-controls="sl-wrap" aria-expanded="false" type="button">💬 Hỗ trợ</button>
+        `;
+        document.body.appendChild(box);
+
+        const wrap = $("#sl-wrap", box),
+          btn = $("#sl-btn", box),
+          xBtn = $("#sl-x", box),
+          mBtn = $("#sl-min", box);
+        const tBox = $("#sl-t", box),
+          sBtn = $("#sl-s", box),
+          bd = $("#sl-bd", box),
+          inBar = $("#sl-in", box);
+        const LS_HIST = "sl-hist",
+          LS_OPEN = "sl-open",
+          LS_MIN = "sl-min",
+          HISTORY_LIMIT = 200;
+
+        const getHist = () => {
+          try {
+            return JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+          } catch {
+            return [];
+          }
+        };
+        const setHist = (arr) => {
+          if (arr.length > HISTORY_LIMIT) arr = arr.slice(-HISTORY_LIMIT);
+          localStorage.setItem(LS_HIST, JSON.stringify(arr));
+        };
+
+        function typing(on = true) {
+          const ex = document.getElementById("sl-typing");
+          if (on && !ex) {
+            const el = document.createElement("div");
+            el.className = "sl-msg";
+            el.id = "sl-typing";
+            el.innerHTML = `<div class="sl-bubble sl-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+            bd.appendChild(el);
+            bd.scrollTop = bd.scrollHeight;
+          } else if (!on && ex) ex.remove();
+        }
+        function addMsg(text, who = "bot", { persist = true } = {}) {
+          const el = document.createElement("div");
+          el.className = `sl-msg ${who}`;
+          const safe = who === "you" ? escapeHTML(text) : text;
+          el.innerHTML = `<div class="sl-bubble">${safe}<div class="time">${new Date().toLocaleTimeString(
+            "vi-VN",
+            { hour: "2-digit", minute: "2-digit" }
+          )}</div></div>`;
+          bd.appendChild(el);
+          bd.scrollTop = bd.scrollHeight;
+          if (persist) {
+            const mem = getHist();
+            mem.push({ who, text });
+            setHist(mem);
+          }
+        }
+
+        const old = getHist();
+        if (old.length)
+          old.forEach((m) => addMsg(m.text, m.who, { persist: false }));
+        else
+          addMsg(
+            "Xin chào! Mình sẽ hướng dẫn <b>THAO TÁC</b> và <b>GIẢI THÍCH</b> cho thí nghiệm này."
+          );
+
+        function openBox() {
+          wrap.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+          localStorage.setItem(LS_OPEN, "1");
+          tBox.focus();
+        }
+        function closeBox() {
+          wrap.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+          localStorage.removeItem(LS_OPEN);
+        }
+        function toggleMin() {
+          wrap.classList.toggle("min");
+          if (wrap.classList.contains("min")) localStorage.setItem(LS_MIN, "1");
+          else localStorage.removeItem(LS_MIN);
+        }
+
+        btn.onclick = openBox;
+        xBtn.onclick = closeBox;
+        mBtn.onclick = toggleMin;
+        if (localStorage.getItem(LS_OPEN) === "1") openBox();
+        if (localStorage.getItem(LS_MIN) === "1") wrap.classList.add("min");
+
+        // Enter gửi, Shift+Enter xuống dòng; Esc đóng
+        const autoresize = () => {
+          tBox.style.height = "42px";
+          tBox.style.height = Math.min(tBox.scrollHeight, 120) + "px";
+        };
+        tBox.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sBtn.click();
+          }
+          if (e.key === "Escape") closeBox();
+        });
+        tBox.addEventListener("input", autoresize);
+        autoresize();
+
+        async function handleSend() {
+          const msg = tBox.value.trim();
+          if (!msg) return;
+          addMsg(msg, "you");
+          tBox.value = "";
+          autoresize();
+          typing(true);
+          setTimeout(() => {
+            typing(false);
+            const lower = foldVN(msg);
+            let found = null;
+            for (const t of TOPICS) {
+              if (t.patterns?.some((p) => lower.includes(foldVN(p)))) {
+                found = t;
+                break;
+              }
+            }
+            if (!found) {
+              addMsg(
+                "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b>, <b>quan sát</b>, hoặc <b>giải thích</b> nhé."
+              );
+              return;
+            }
+            const guide = (found.guide || []).map(escapeHTML).join("<br>");
+            const explain = (found.explain || []).map(escapeHTML).join("<br>");
+            addMsg(
+              `<b>Hướng dẫn:</b><br>${guide}<br><br><b>Giải thích:</b><br>${explain}`
+            );
+          }, 600);
+        }
+        sBtn.onclick = handleSend;
+
+        // Gợi ý (pill)
+        const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
+        const row = document.createElement("div");
+        row.style.cssText =
+          "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;width:100%";
+        hints.forEach((t) => {
+          const b = document.createElement("button");
+          b.textContent = t;
+          b.type = "button";
+          b.className = "sl-pill";
+          b.onclick = () => {
+            tBox.value = t;
+            autoresize();
+            sBtn.click();
+          };
+          row.appendChild(b);
+        });
+        inBar.appendChild(row);
+      })();
+    </script>
   </body>
 </html>

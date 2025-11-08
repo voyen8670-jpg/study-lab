@@ -1,7 +1,7 @@
 {
   "topics": [
     {
-      "patterns": ["thao tác", "điều chỉnh", "quan sát"],
+      "patterns": ["thao tác", "diều chỉnh", "quan sát", "hướng dẫn"],
       "guide": [
         "Dùng thanh trượt để thay đổi độ phóng đại (1x → 12x).",
         "Điều chỉnh ánh sáng cho ảnh rõ nét, tránh quá sáng.",
@@ -12,6 +12,38 @@
         "Độ phóng đại lớn giúp thấy rõ các bào quan nhưng giảm trường nhìn.",
         "Ánh sáng quá cao làm mất tương phản; tối ưu là vừa đủ để nhận diện biên.",
         "Các cấu trúc nhìn thấy phụ thuộc mẫu, thuốc nhuộm và độ dày lát cắt."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "mất nét",
+        "ảnh tối",
+        "ảnh sáng quá"
+      ],
+      "guide": [
+        "Nếu ảnh quá sáng → giảm cường độ ánh sáng hoặc tăng thời gian quan sát để mắt thích nghi.",
+        "Nếu ảnh tối → tăng ánh sáng từ từ, không kéo hết cỡ.",
+        "Mất nét khi tăng zoom → giảm zoom một chút rồi lấy nét lại.",
+        "Không thấy lục lạp → kiểm tra lại mẫu (lát cắt quá dày / thuốc nhuộm không phù hợp)."
+      ],
+      "explain": [
+        "Khi tăng độ phóng đại, độ sâu trường giảm nên dễ mất nét; cần lấy nét lại mỗi khi đổi zoom.",
+        "Tương phản tối ưu giúp ranh giới bào quan rõ hơn; ánh sáng quá mạnh làm 'cháy' chi tiết.",
+        "Khả năng nhìn thấy lục lạp phụ thuộc loài thực vật, tình trạng mẫu và chuẩn bị tiêu bản."
+      ]
+    },
+    {
+      "patterns": ["an toàn", "quy trình", "reset", "làm sạch"],
+      "guide": [
+        "Thực hiện thao tác theo thứ tự: thiết lập zoom → chỉnh sáng → quan sát → ghi chú.",
+        "Sau mỗi lần thử, dùng 'Reset' để về cấu hình ban đầu trước khi thay đổi thông số mới.",
+        "Dọn sạch vùng làm việc (xóa ghi chú tạm) trước khi chuyển sang thí nghiệm khác."
+      ],
+      "explain": [
+        "Giữ quy trình nhất quán giúp so sánh kết quả chính xác giữa các lần quan sát.",
+        "Reset ngăn tích lũy sai lệch từ các thiết lập trước, giúp dữ liệu nhất quán hơn."
       ]
     }
   ]

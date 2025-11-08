@@ -1,4 +1,18 @@
 (async function () {
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const escapeHTML = (s) =>
+    s.replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[c])
+    );
+
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
     if (d) return d;
@@ -14,7 +28,7 @@
 
   async function loadKB(id) {
     try {
-      const r = await fetch(`chatbox/kb/${id}.json`);
+      const r = await fetch(`chatbox/kb/${id}.json`, { cache: "no-store" });
       if (!r.ok) throw 0;
       return r.json();
     } catch {
@@ -24,39 +38,57 @@
 
   const KB_GLOBAL = await loadKB("global");
   const KB = await loadKB(EXP);
-  const TOPICS = [...KB_GLOBAL.topics, ...KB.topics];
+  const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB.topics || [])];
 
   const box = document.createElement("div");
   box.innerHTML = `
-    <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm">
+    <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm" aria-modal="false">
       <div id="sl-hd">
-        <span class="sl-dot"></span>
+        <span class="sl-dot" aria-hidden="true"></span>
         <div style="display:flex;flex-direction:column">
-          <span class="sl-title">Trợ lý • ${EXP}</span>
+          <span class="sl-title">Trợ lý • ${escapeHTML(EXP)}</span>
           <span class="sl-sub">Hướng dẫn thao tác & giải thích</span>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="sl-min" class="sl-x" title="Thu gọn">—</button>
-          <button id="sl-x" class="sl-x" title="Đóng">×</button>
+          <button id="sl-min" class="sl-x" title="Thu gọn" aria-label="Thu gọn">—</button>
+          <button id="sl-x" class="sl-x" title="Đóng" aria-label="Đóng">×</button>
         </div>
       </div>
-      <div id="sl-bd"></div>
+      <div id="sl-bd" aria-live="polite"></div>
       <div id="sl-in">
-        <textarea id="sl-t" placeholder="Hỏi về thí nghiệm hiện tại..."></textarea>
-        <button id="sl-s">Gửi</button>
+        <textarea id="sl-t" placeholder="Hỏi về thí nghiệm hiện tại..." aria-label="Ô nhập nội dung"></textarea>
+        <button id="sl-s" type="button" aria-label="Gửi tin nhắn">Gửi</button>
       </div>
     </div>
-    <button id="sl-btn">💬 Hỗ trợ</button>
+    <button id="sl-btn" aria-controls="sl-wrap" aria-expanded="false" type="button">💬 Hỗ trợ</button>
   `;
   document.body.appendChild(box);
 
-  const wrap = box.querySelector("#sl-wrap");
-  const btn = box.querySelector("#sl-btn");
-  const xBtn = box.querySelector("#sl-x");
-  const mBtn = box.querySelector("#sl-min");
-  const tBox = box.querySelector("#sl-t");
-  const sBtn = box.querySelector("#sl-s");
-  const bd = box.querySelector("#sl-bd");
+  const wrap = $("#sl-wrap", box);
+  const btn = $("#sl-btn", box);
+  const xBtn = $("#sl-x", box);
+  const mBtn = $("#sl-min", box);
+  const tBox = $("#sl-t", box);
+  const sBtn = $("#sl-s", box);
+  const bd = $("#sl-bd", box);
+  const inBar = $("#sl-in", box);
+
+  const LS_HIST = "sl-hist";
+  const LS_OPEN = "sl-open";
+  const LS_MIN = "sl-min";
+  const HISTORY_LIMIT = 200;
+
+  function getHist() {
+    try {
+      return JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+    } catch {
+      return [];
+    }
+  }
+  function setHist(arr) {
+    if (arr.length > HISTORY_LIMIT) arr = arr.slice(-HISTORY_LIMIT);
+    localStorage.setItem(LS_HIST, JSON.stringify(arr));
+  }
 
   function typing(on = true) {
     const ex = document.getElementById("sl-typing");
@@ -72,71 +104,104 @@
     } else if (!on && ex) ex.remove();
   }
 
-  btn.onclick = () => {
-    wrap.style.display = "flex";
-    localStorage.setItem("sl-open", "1");
-  };
-  xBtn.onclick = () => {
-    wrap.style.display = "none";
-    localStorage.removeItem("sl-open");
-  };
-  mBtn.onclick = () => {
-    wrap.classList.toggle("min");
-    localStorage.setItem("sl-min", wrap.classList.contains("min") ? "1" : "");
-  };
-  if (localStorage.getItem("sl-open") === "1") wrap.style.display = "flex";
-  if (localStorage.getItem("sl-min") === "1") wrap.classList.add("min");
-
-  function addMsg(text, who = "bot") {
+  function addMsg(text, who = "bot", { persist = true } = {}) {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    el.innerHTML = `<div class="sl-bubble">${text}
+    const safe = who === "you" ? escapeHTML(text) : text; // user input -> escape
+    el.innerHTML = `<div class="sl-bubble">${safe}
       <div class="time">${new Date().toLocaleTimeString("vi-VN", {
         hour: "2-digit",
         minute: "2-digit",
-      })}</div></div>`;
+      })}</div>
+    </div>`;
     bd.appendChild(el);
     bd.scrollTop = bd.scrollHeight;
 
-    const mem = JSON.parse(localStorage.getItem("sl-hist") || "[]");
-    mem.push({ who, text });
-    localStorage.setItem("sl-hist", JSON.stringify(mem).slice(-500));
+    if (persist) {
+      const mem = getHist();
+      mem.push({ who, text });
+      setHist(mem);
+    }
   }
 
-  JSON.parse(localStorage.getItem("sl-hist") || "[]").forEach((m) =>
-    addMsg(m.text, m.who)
-  );
-
-  if (!localStorage.getItem("sl-hist")) {
+  const old = getHist();
+  if (old.length) old.forEach((m) => addMsg(m.text, m.who, { persist: false }));
+  else
     addMsg(
-      "Xin chào! Mình sẽ hướng dẫn THAO TÁC và GIẢI THÍCH cho thí nghiệm này."
+      "Xin chào! Mình sẽ hướng dẫn <b>THAO TÁC</b> và <b>GIẢI THÍCH</b> cho thí nghiệm này."
     );
+
+  function openBox() {
+    wrap.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+    localStorage.setItem(LS_OPEN, "1");
+    tBox.focus();
+  }
+  function closeBox() {
+    wrap.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    localStorage.removeItem(LS_OPEN);
+  }
+  function toggleMin() {
+    wrap.classList.toggle("min");
+    if (wrap.classList.contains("min")) localStorage.setItem(LS_MIN, "1");
+    else localStorage.removeItem(LS_MIN);
   }
 
-  sBtn.onclick = () => {
+  btn.onclick = openBox;
+  xBtn.onclick = closeBox;
+  mBtn.onclick = toggleMin;
+
+  if (localStorage.getItem(LS_OPEN) === "1") openBox();
+  if (localStorage.getItem(LS_MIN) === "1") wrap.classList.add("min");
+
+  tBox.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sBtn.click();
+    }
+    if (e.key === "Escape") closeBox();
+  });
+
+  const autoresize = () => {
+    tBox.style.height = "42px";
+    tBox.style.height = Math.min(tBox.scrollHeight, 120) + "px";
+  };
+  tBox.addEventListener("input", autoresize);
+  autoresize();
+
+  async function handleSend() {
     const msg = tBox.value.trim();
     if (!msg) return;
     addMsg(msg, "you");
     tBox.value = "";
+    autoresize();
     typing(true);
 
     setTimeout(() => {
       typing(false);
       const lower = msg.toLowerCase();
       let found = null;
-      for (const t of TOPICS)
-        if (t.patterns.some((p) => lower.includes(p))) {
+      for (const t of TOPICS) {
+        if (t.patterns?.some((p) => lower.includes(p))) {
           found = t;
           break;
         }
-      if (!found)
-        return addMsg(
+      }
+      if (!found) {
+        addMsg(
           "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b>, <b>quan sát</b>, hoặc <b>giải thích</b> nhé."
         );
-      addMsg(`<b>Hướng dẫn:</b><br>${found.guide.join("<br>")}
-      <br><br><b>Giải thích:</b><br>${found.explain.join("<br>")}`);
+        return;
+      }
+      const guide = (found.guide || []).map(escapeHTML).join("<br>");
+      const explain = (found.explain || []).map(escapeHTML).join("<br>");
+      addMsg(
+        `<b>Hướng dẫn:</b><br>${guide}<br><br><b>Giải thích:</b><br>${explain}`
+      );
     }, 600);
-  };
+  }
+  sBtn.onclick = handleSend;
 
   const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
   const row = document.createElement("div");
@@ -146,13 +211,13 @@
     const b = document.createElement("button");
     b.textContent = t;
     b.type = "button";
-    b.style.cssText =
-      "background:rgba(255,255,255,.07);border:1px solid var(--sl-border);color:var(--sl-text);padding:6px 10px;border-radius:999px;font:600 12px system-ui;cursor:pointer";
+    b.className = "sl-pill";
     b.onclick = () => {
       tBox.value = t;
+      autoresize();
       sBtn.click();
     };
     row.appendChild(b);
   });
-  box.querySelector("#sl-in").appendChild(row);
+  inBar.appendChild(row);
 })();
