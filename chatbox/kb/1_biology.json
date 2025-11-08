@@ -1,22 +1,33 @@
 {
   "topics": [
     {
-      "patterns": ["thao tác", "diều chỉnh", "quan sát", "hướng dẫn"],
+      "patterns": [
+        "thao tác",
+        "giải thích",
+        "quan sát",
+        "hướng dẫn",
+        "vì sao",
+        "tại sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
       "guide": [
         "Dùng thanh trượt để thay đổi độ phóng đại (1x → 12x).",
         "Điều chỉnh ánh sáng cho ảnh rõ nét, tránh quá sáng.",
-        "Quan sát dần từ tổng thể đến chi tiết (màng, nhân, lục lạp...).",
+        "Quan sát dần từ tổng thể đến chi tiết (thành tế bào, nhân, không bào, lục lạp...).",
         "Nhấn 'Reset' để quay lại trạng thái ban đầu nếu mất nét."
       ],
       "explain": [
-        "Độ phóng đại lớn giúp thấy rõ các bào quan nhưng giảm trường nhìn.",
-        "Ánh sáng quá cao làm mất tương phản; tối ưu là vừa đủ để nhận diện biên.",
-        "Các cấu trúc nhìn thấy phụ thuộc mẫu, thuốc nhuộm và độ dày lát cắt."
+        "Mục đích: quan sát trực tiếp tế bào biểu bì vảy hành để nhận biết cấu trúc cơ bản của tế bào thực vật và rèn kỹ năng sử dụng kính hiển vi quang học.",
+        "Vì sao chọn vảy hành: tế bào xếp đều, thành mỏng và trong suốt, dễ tách và dễ quan sát dưới kính.",
+        "Vì sao dùng xanh methylen: tăng tương phản, làm nổi bật nhân và ranh giới tế bào để phân biệt các thành phần bên trong.",
+        "Ý nghĩa học tập: củng cố khái niệm 'tế bào là đơn vị cơ bản của sự sống', phân biệt đặc điểm điển hình của tế bào thực vật (thành cellulose, không bào lớn...) so với tế bào động vật.",
+        "Kết quả mong đợi: ở độ phóng đại lớn hơn, thấy rõ thành tế bào, chất tế bào, nhân; màu nhuộm làm nhân đậm hơn. Người học nắm quy trình chỉnh sáng–lấy nét–quan sát–ghi chú."
       ]
     },
     {
       "patterns": [
-        "lỗi thường gặp",
+        "lỗi thường gặp",
         "không thấy",
         "mất nét",
         "ảnh tối",
@@ -35,9 +46,9 @@
       ]
     },
     {
-      "patterns": ["an toàn", "quy trình", "reset", "làm sạch"],
+      "patterns": ["an toàn", "quy trình", "reset", "làm sạch"],
       "guide": [
-        "Thực hiện thao tác theo thứ tự: thiết lập zoom → chỉnh sáng → quan sát → ghi chú.",
+        "Thực hiện theo thứ tự: thiết lập zoom → chỉnh sáng → quan sát → ghi chú.",
         "Sau mỗi lần thử, dùng 'Reset' để về cấu hình ban đầu trước khi thay đổi thông số mới.",
         "Dọn sạch vùng làm việc (xóa ghi chú tạm) trước khi chuyển sang thí nghiệm khác."
       ],

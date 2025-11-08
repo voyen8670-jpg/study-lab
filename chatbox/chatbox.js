@@ -12,6 +12,11 @@
           "'": "&#39;",
         }[c])
     );
+  const foldVN = (s) =>
+    s
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "");
 
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
@@ -22,9 +27,8 @@
     if (url.includes("pendulum")) return "pendulum";
     if (url.includes("freefall") || url.includes("roi")) return "freefall";
     if (url.includes("rc")) return "rc";
-    return "global";
+    return "1_biology";
   }
-  const EXP = getExperimentId();
 
   async function loadKB(id) {
     try {
@@ -36,6 +40,7 @@
     }
   }
 
+  const EXP = getExperimentId();
   const KB_GLOBAL = await loadKB("global");
   const KB = await loadKB(EXP);
   const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB.topics || [])];
@@ -107,7 +112,7 @@
   function addMsg(text, who = "bot", { persist = true } = {}) {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    const safe = who === "you" ? escapeHTML(text) : text; // user input -> escape
+    const safe = who === "you" ? escapeHTML(text) : text;
     el.innerHTML = `<div class="sl-bubble">${safe}
       <div class="time">${new Date().toLocaleTimeString("vi-VN", {
         hour: "2-digit",
@@ -147,7 +152,6 @@
     if (wrap.classList.contains("min")) localStorage.setItem(LS_MIN, "1");
     else localStorage.removeItem(LS_MIN);
   }
-
   btn.onclick = openBox;
   xBtn.onclick = closeBox;
   mBtn.onclick = toggleMin;
@@ -155,6 +159,11 @@
   if (localStorage.getItem(LS_OPEN) === "1") openBox();
   if (localStorage.getItem(LS_MIN) === "1") wrap.classList.add("min");
 
+  const autoresize = () => {
+    tBox.style.height = "42px";
+    tBox.style.height = Math.min(tBox.scrollHeight, 120) + "px";
+  };
+  tBox.addEventListener("input", autoresize);
   tBox.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -162,47 +171,64 @@
     }
     if (e.key === "Escape") closeBox();
   });
-
-  const autoresize = () => {
-    tBox.style.height = "42px";
-    tBox.style.height = Math.min(tBox.scrollHeight, 120) + "px";
-  };
-  tBox.addEventListener("input", autoresize);
   autoresize();
 
   async function handleSend() {
     const msg = tBox.value.trim();
     if (!msg) return;
+
     addMsg(msg, "you");
     tBox.value = "";
     autoresize();
-    typing(true);
 
+    typing(true);
     setTimeout(() => {
       typing(false);
-      const lower = msg.toLowerCase();
+
+      const q = foldVN(msg);
       let found = null;
+
       for (const t of TOPICS) {
-        if (t.patterns?.some((p) => lower.includes(p))) {
+        if (t.patterns?.some((p) => q.includes(foldVN(p)))) {
           found = t;
           break;
         }
       }
+
       if (!found) {
         addMsg(
-          "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b>, <b>quan sát</b>, hoặc <b>giải thích</b> nhé."
+          "Mình chưa có nội dung phù hợp. Hãy hỏi về <b>thao tác</b> hoặc <b>giải thích</b> nhé."
         );
         return;
       }
-      const guide = (found.guide || []).map(escapeHTML).join("<br>");
-      const explain = (found.explain || []).map(escapeHTML).join("<br>");
-      addMsg(
-        `<b>Hướng dẫn:</b><br>${guide}<br><br><b>Giải thích:</b><br>${explain}`
-      );
+
+      const wantGuide =
+        /(thao tac|huong dan|thuc hien|cach lam)/.test(q) ||
+        /thao tác|hướng dẫn|thực hiện|cách làm/i.test(msg);
+
+      const wantExplain =
+        /(giai thich|vi sao|tai sao|muc dich|y nghia)/.test(q) ||
+        /giải thích|vì sao|tại sao|mục đích|ý nghĩa/i.test(msg);
+      const showGuide = wantGuide || (!wantGuide && !wantExplain);
+      const showExplain = wantExplain || (!wantGuide && !wantExplain);
+
+      const parts = [];
+      if (showGuide && Array.isArray(found.guide) && found.guide.length) {
+        parts.push(
+          `<b>Thao tác:</b><br>${found.guide.map(escapeHTML).join("<br>")}`
+        );
+      }
+      if (showExplain && Array.isArray(found.explain) && found.explain.length) {
+        parts.push(
+          `<b>Giải thích:</b><br>${found.explain.map(escapeHTML).join("<br>")}`
+        );
+      }
+
+      addMsg(parts.join("<br><br>"));
     }, 600);
   }
-  sBtn.onclick = handleSend;
 
+  sBtn.onclick = handleSend;
   const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
   const row = document.createElement("div");
   row.style.cssText =
