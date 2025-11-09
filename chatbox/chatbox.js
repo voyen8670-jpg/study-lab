@@ -1,7 +1,12 @@
+// chatbox/chatbox.js
+/* eslint-disable no-undef */
 (async function () {
+  "use strict";
+
+  // ============ utils ============
   const $ = (sel, root = document) => root.querySelector(sel);
   const escapeHTML = (s) =>
-    s.replace(
+    String(s).replace(
       /[&<>"']/g,
       (c) =>
         ({
@@ -13,45 +18,42 @@
         }[c])
     );
   const foldVN = (s) =>
-    s
+    String(s)
       .toLowerCase()
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "");
 
+  // ============ experiment scope ============
   function getExperimentId() {
     const d = document.body?.dataset?.experiment;
     if (d) return d;
     const m = document.querySelector('meta[name="sl-experiment"]')?.content;
     if (m) return m;
-    const url = location.pathname.toLowerCase();
-    if (url.includes("pendulum")) return "pendulum";
-    if (url.includes("freefall") || url.includes("roi")) return "freefall";
-    if (url.includes("rc")) return "rc";
-    return "1_biology";
+    return "global";
   }
-
-  async function loadKB(id) {
-    try {
-      const r = await fetch(`chatbox/kb/${id}.json`, { cache: "no-store" });
-      if (!r.ok) throw 0;
-      return r.json();
-    } catch {
-      return { topics: [] };
-    }
-  }
-
   const EXP = getExperimentId();
-  const KB_GLOBAL = await loadKB("global");
-  const KB = await loadKB(EXP);
-  const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB.topics || [])];
+  const LS_HIST = `sl-hist-${EXP}`;
+  const LS_OPEN = `sl-open-${EXP}`;
+  const LS_MIN = `sl-min-${EXP}`;
 
-  const box = document.createElement("div");
-  box.innerHTML = `
+  const getHist = () => {
+    try {
+      return JSON.parse(localStorage.getItem(LS_HIST) || "[]");
+    } catch {
+      return [];
+    }
+  };
+  const setHist = (arr) =>
+    localStorage.setItem(LS_HIST, JSON.stringify(arr.slice(-200)));
+
+  // ============ mount UI ============
+  const wrapBox = document.createElement("div");
+  wrapBox.innerHTML = `
     <div id="sl-wrap" role="dialog" aria-label="Trợ lý thí nghiệm" aria-modal="false">
       <div id="sl-hd">
         <span class="sl-dot" aria-hidden="true"></span>
         <div style="display:flex;flex-direction:column">
-          <span class="sl-title">Trợ lý • ${escapeHTML(EXP)}</span>
+          <span class="sl-title">Trợ lý</span>
           <span class="sl-sub">Hướng dẫn thao tác & giải thích</span>
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
@@ -63,72 +65,63 @@
       <div id="sl-in">
         <textarea id="sl-t" placeholder="Hỏi về thí nghiệm hiện tại..." aria-label="Ô nhập nội dung"></textarea>
         <button id="sl-s" type="button" aria-label="Gửi tin nhắn">Gửi</button>
+        <div>
+          <button class="sl-pill" data-q="thao tác">thao tác</button>
+          <button class="sl-pill" data-q="giải thích">giải thích</button>
+          <button class="sl-pill" data-q="lỗi thường gặp">lỗi thường gặp</button>
+        </div>
       </div>
     </div>
     <button id="sl-btn" aria-controls="sl-wrap" aria-expanded="false" type="button">💬 Hỗ trợ</button>
   `;
-  document.body.appendChild(box);
+  document.body.appendChild(wrapBox);
 
-  const wrap = $("#sl-wrap", box);
-  const btn = $("#sl-btn", box);
-  const xBtn = $("#sl-x", box);
-  const mBtn = $("#sl-min", box);
-  const tBox = $("#sl-t", box);
-  const sBtn = $("#sl-s", box);
-  const bd = $("#sl-bd", box);
-  const inBar = $("#sl-in", box);
+  // shortcuts
+  const wrap = $("#sl-wrap", wrapBox);
+  const bd = $("#sl-bd", wrapBox);
+  const tBox = $("#sl-t", wrapBox);
+  const sBtn = $("#sl-s", wrapBox);
+  const btn = $("#sl-btn", wrapBox);
+  const xBtn = $("#sl-x", wrapBox);
+  const mBtn = $("#sl-min", wrapBox);
 
-  const LS_HIST = "sl-hist";
-  const LS_OPEN = "sl-open";
-  const LS_MIN = "sl-min";
-  const HISTORY_LIMIT = 200;
-
-  function getHist() {
-    try {
-      return JSON.parse(localStorage.getItem(LS_HIST) || "[]");
-    } catch {
-      return [];
-    }
-  }
-  function setHist(arr) {
-    if (arr.length > HISTORY_LIMIT) arr = arr.slice(-HISTORY_LIMIT);
-    localStorage.setItem(LS_HIST, JSON.stringify(arr));
-  }
-
+  // ============ render helpers ============
   function typing(on = true) {
     const ex = document.getElementById("sl-typing");
     if (on && !ex) {
       const el = document.createElement("div");
       el.className = "sl-msg";
       el.id = "sl-typing";
-      el.innerHTML = `<div class="sl-bubble sl-typing">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>`;
+      el.innerHTML = `<div class="sl-bubble sl-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
       bd.appendChild(el);
       bd.scrollTop = bd.scrollHeight;
-    } else if (!on && ex) ex.remove();
+    } else if (!on && ex) {
+      ex.remove();
+    }
   }
 
   function addMsg(text, who = "bot", { persist = true } = {}) {
     const el = document.createElement("div");
     el.className = `sl-msg ${who}`;
-    const safe = who === "you" ? escapeHTML(text) : text;
-    el.innerHTML = `<div class="sl-bubble">${safe}
-      <div class="time">${new Date().toLocaleTimeString("vi-VN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}</div>
-    </div>`;
+    el.innerHTML = `
+      <div class="sl-bubble">
+        ${who === "you" ? escapeHTML(text) : text}
+        <div class="time">${new Date().toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}</div>
+      </div>`;
     bd.appendChild(el);
     bd.scrollTop = bd.scrollHeight;
 
     if (persist) {
-      const mem = getHist();
-      mem.push({ who, text });
-      setHist(mem);
+      const hist = getHist();
+      hist.push({ who, text });
+      setHist(hist);
     }
   }
 
+  // khởi phục lịch sử / lời chào
   const old = getHist();
   if (old.length) old.forEach((m) => addMsg(m.text, m.who, { persist: false }));
   else
@@ -136,6 +129,7 @@
       "Xin chào! Mình sẽ hướng dẫn <b>THAO TÁC</b> và <b>GIẢI THÍCH</b> cho thí nghiệm này."
     );
 
+  // ============ open/close/min ============
   function openBox() {
     wrap.classList.add("open");
     btn.setAttribute("aria-expanded", "true");
@@ -152,18 +146,23 @@
     if (wrap.classList.contains("min")) localStorage.setItem(LS_MIN, "1");
     else localStorage.removeItem(LS_MIN);
   }
-  btn.onclick = openBox;
-  xBtn.onclick = closeBox;
-  mBtn.onclick = toggleMin;
+  btn.addEventListener("click", openBox);
+  xBtn.addEventListener("click", closeBox);
+  mBtn.addEventListener("click", toggleMin);
 
-  if (localStorage.getItem(LS_OPEN) === "1") openBox();
-  if (localStorage.getItem(LS_MIN) === "1") wrap.classList.add("min");
+  // Mặc định luôn ĐÓNG khi vào trang (đồng nhất giữa các thí nghiệm)
+  wrap.classList.remove("open");
+  wrap.classList.remove("min");
+  localStorage.removeItem(LS_OPEN);
+  localStorage.removeItem(LS_MIN);
 
-  const autoresize = () => {
+  // ============ input behaviors ============
+  function autoresize() {
     tBox.style.height = "42px";
     tBox.style.height = Math.min(tBox.scrollHeight, 120) + "px";
-  };
+  }
   tBox.addEventListener("input", autoresize);
+  autoresize();
   tBox.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -171,12 +170,33 @@
     }
     if (e.key === "Escape") closeBox();
   });
-  autoresize();
 
+  wrapBox.querySelectorAll(".sl-pill").forEach((p) => {
+    p.addEventListener("click", () => {
+      tBox.value = p.dataset.q || "";
+      autoresize();
+      sBtn.click();
+    });
+  });
+
+  // ============ KB loader ============
+  async function loadKB(id) {
+    try {
+      const r = await fetch(`chatbox/kb/${id}.json?v=1`, { cache: "no-store" });
+      if (!r.ok) throw new Error("kb not found");
+      return r.json();
+    } catch {
+      return { topics: [] };
+    }
+  }
+  const KB_GLOBAL = await loadKB("global");
+  const KB_LOCAL = await loadKB(EXP);
+  const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB_LOCAL.topics || [])];
+
+  // ============ handle send ============
   async function handleSend() {
     const msg = tBox.value.trim();
     if (!msg) return;
-
     addMsg(msg, "you");
     tBox.value = "";
     autoresize();
@@ -187,9 +207,8 @@
 
       const q = foldVN(msg);
       let found = null;
-
       for (const t of TOPICS) {
-        if (t.patterns?.some((p) => q.includes(foldVN(p)))) {
+        if (t?.patterns?.some((p) => foldVN(q).includes(foldVN(p)))) {
           found = t;
           break;
         }
@@ -205,17 +224,17 @@
       const wantGuide =
         /(thao tac|huong dan|thuc hien|cach lam)/.test(q) ||
         /thao tác|hướng dẫn|thực hiện|cách làm/i.test(msg);
-
       const wantExplain =
         /(giai thich|vi sao|tai sao|muc dich|y nghia)/.test(q) ||
         /giải thích|vì sao|tại sao|mục đích|ý nghĩa/i.test(msg);
+
       const showGuide = wantGuide || (!wantGuide && !wantExplain);
       const showExplain = wantExplain || (!wantGuide && !wantExplain);
 
       const parts = [];
       if (showGuide && Array.isArray(found.guide) && found.guide.length) {
         parts.push(
-          `<b>Thao tác:</b><br>${found.guide.map(escapeHTML).join("<br>")}`
+          `<b>Hướng dẫn:</b><br>${found.guide.map(escapeHTML).join("<br>")}`
         );
       }
       if (showExplain && Array.isArray(found.explain) && found.explain.length) {
@@ -224,26 +243,11 @@
         );
       }
 
-      addMsg(parts.join("<br><br>"));
-    }, 600);
+      addMsg(
+        parts.join("<br><br>") || "Mình chưa có thêm nội dung cho câu hỏi này."
+      );
+    }, 450);
   }
 
-  sBtn.onclick = handleSend;
-  const hints = ["thao tác", "giải thích", "lỗi thường gặp"];
-  const row = document.createElement("div");
-  row.style.cssText =
-    "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;width:100%";
-  hints.forEach((t) => {
-    const b = document.createElement("button");
-    b.textContent = t;
-    b.type = "button";
-    b.className = "sl-pill";
-    b.onclick = () => {
-      tBox.value = t;
-      autoresize();
-      sBtn.click();
-    };
-    row.appendChild(b);
-  });
-  inBar.appendChild(row);
+  sBtn.addEventListener("click", handleSend);
 })();

@@ -1,0 +1,111 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "cách làm",
+        "hướng dẫn",
+        "bắt đầu",
+        "rót",
+        "thực hiện",
+        "trật tự",
+        "tiến hành"
+      ],
+      "guide": [
+        "Bước 1: Quan sát lượng ban đầu: Ống A (CH₃COO)₂Pb 0.5 M, 20 mL; Ống B KI 0.5 M, 15 mL; Ống C 0 mL.",
+        "Bước 2: Rót A → C hoặc B → C (thứ tự không bắt buộc). Có thể rót từng phần, theo dõi mực chất lỏng tăng ở C.",
+        "Bước 3: Khi cả A và B cùng có trong C, theo dõi sự xuất hiện của kết tủa vàng PbI₂ (mật độ tăng theo thể tích đổ vào).",
+        "Bước 4: Có thể rót tiếp phần còn lại để so sánh độ đậm đặc kết tủa.",
+        "Bước 5: Nhấn “Đặt lại” để về trạng thái ban đầu (A=20 mL, B=15 mL, C=0 mL) trước khi thử cấu hình mới."
+      ],
+      "explain": [
+        "Khi rót, mô phỏng tăng mực chất lỏng ở ống nhận (C) và giảm ở ống nguồn (A/B).",
+        "Kết tủa chỉ hình thành khi trong C đồng thời có ion Pb²⁺ (từ A) và I⁻ (từ B)."
+      ]
+    },
+    {
+      "patterns": [
+        "giải thích",
+        "vì sao",
+        "tại sao",
+        "mục đích",
+        "ý nghĩa",
+        "phương trình",
+        "ion rút gọn",
+        "cơ chế",
+        "tại sao lại có thí nghiệm này"
+      ],
+      "guide": [
+        "Gợi ý hỏi: “Phương trình phản ứng?”, “Vì sao có kết tủa vàng?”, “Mục đích/ý nghĩa thí nghiệm?”"
+      ],
+      "explain": [
+        "Mục đích: minh hoạ phản ứng trao đổi ion tạo kết tủa và cách dự đoán sản phẩm bằng quy tắc tan.",
+        "Ý nghĩa học tập: nhận biết vai trò của ion Pb²⁺ và I⁻, vận dụng phương trình ion rút gọn, bàn về chất hạn chế và tỉ lệ stoichiometry.",
+        "Phương trình phân tử: (CH₃COO)₂Pb + 2 KI → PbI₂↓ (vàng) + 2 CH₃COOK.",
+        "Phương trình ion rút gọn: Pb²⁺ + 2 I⁻ → PbI₂(s).",
+        "Vì sao có kết tủa? PbI₂ có độ tan rất nhỏ (Ksp thấp) nên khi [Pb²⁺][I⁻]² vượt quá tích số tan, tinh thể PbI₂ tách ra dưới dạng hạt màu vàng.",
+        "Ghi chú mở rộng: PbI₂ tan hơn trong nước nóng; nếu đun nóng có thể giảm kết tủa, khi nguội kết tủa có thể xuất hiện lại."
+      ]
+    },
+    {
+      "patterns": [
+        "quan sát",
+        "kết tủa",
+        "màu vàng",
+        "đặc điểm",
+        "nhận biết",
+        "dấu hiệu phản ứng"
+      ],
+      "guide": [
+        "Quan sát mực chất lỏng và màu nền ở ống C sau mỗi lần rót.",
+        "Nhận biết hạt vàng PbI₂ xuất hiện từ đáy đi lên; mật độ hạt tăng khi rót thêm tác chất còn lại.",
+        "So sánh lượng kết tủa khi rót hết A, hết B, hoặc rót từng phần để thấy ảnh hưởng của tỉ lệ."
+      ],
+      "explain": [
+        "Hạt kết tủa PbI₂ có màu vàng đặc trưng; xuất hiện nhanh khi cả hai ion có mặt với nồng độ đủ lớn.",
+        "Nếu một chất còn thiếu (chỉ có A hoặc chỉ có B) thì không có kết tủa vì thiếu một ion đối tác."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy kết tủa",
+        "không phản ứng",
+        "không có màu",
+        "ít quá",
+        "nhiều quá",
+        "sự cố"
+      ],
+      "guide": [
+        "Nếu không thấy kết tủa: hãy rót thêm dung dịch còn lại vào ống C (đảm bảo trong C có cả A và B).",
+        "Kiểm tra mực dung dịch: nếu A hoặc B đã rót hết mà bên kia chưa rót, sẽ chưa có kết tủa.",
+        "Thử rót theo từng nhịp nhỏ thay vì rót một lần để quan sát rõ quá trình hình thành kết tủa.",
+        "Dùng nút “Đặt lại” rồi thử lại theo thứ tự khác để so sánh."
+      ],
+      "explain": [
+        "Kết tủa phụ thuộc vào tích số [Pb²⁺][I⁻]²; nếu một ion quá thấp sẽ chưa vượt Ksp nên không thấy hạt vàng.",
+        "Tỉ lệ 1:2 (Pb²⁺:I⁻) chi phối lượng PbI₂ tối đa; chất nào thiếu sẽ trở thành chất hạn chế."
+      ]
+    },
+    {
+      "patterns": [
+        "an toàn",
+        "an toàn",
+        "độc hại",
+        "xử lý chất thải",
+        "reset",
+        "đặt lại",
+        "quy trình"
+      ],
+      "guide": [
+        "Trong mô phỏng: dùng nút “Đặt lại” trước mỗi lần thử cấu hình mới để dữ liệu nhất quán.",
+        "Tuân thủ trình tự: xem thể tích ban đầu → rót A/B → quan sát → ghi nhận.",
+        "Nếu cần so sánh nhiều kịch bản, ghi chú lượng đã rót mỗi lần."
+      ],
+      "explain": [
+        "Trong thực tế: muối chì là độc, cần găng tay, kính bảo hộ và xử lý chất thải theo quy định; KI có thể gây kích ứng.",
+        "Reset giúp loại bỏ sai lệch tích luỹ từ lần rót trước, dễ đối chiếu giữa các thử nghiệm."
+      ]
+    }
+  ]
+}
