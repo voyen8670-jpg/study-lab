@@ -1,0 +1,153 @@
+{
+  "topics": [
+    {
+      "id": "ops_controls",
+      "title": "Thao tác điều khiển",
+      "patterns": [
+        "thao tác",
+        "hướng dẫn",
+        "cách làm",
+        "điều khiển",
+        "bắt đầu",
+        "tạm dừng",
+        "đặt lại",
+        "ngẫu nhiên",
+        "kéo thả"
+      ],
+      "guide": [
+        "Bấm 'Bắt đầu' để chạy mô phỏng; 'Tạm dừng' để dừng lại; 'Đặt lại' để trở về góc ban đầu.",
+        "Bấm 'Ngẫu nhiên' để tạo góc ban đầu ngẫu nhiên.",
+        "Kéo trực tiếp 'quả nặng' để thay đổi góc ban đầu (mô phỏng sẽ tạm dừng khi đang kéo).",
+        "Dùng các thanh trượt để thay đổi các thông số: 'L' (m), 'g' (m/s²), 'b' (giảm chấn), 'm' (kg), 'θ₀' (độ).",
+        "Bật/tắt 'Vệt quỹ đạo' để theo dõi đường đi, và 'Đồ thị năng lượng' để xem sự biến thiên năng lượng."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: nhằm giúp học sinh 'hiểu cách điều chỉnh và quan sát một hệ dao động thực tế', từ đó thấy rõ mối quan hệ giữa các đại lượng vật lí trong chuyển động con lắc.",
+        "Thí nghiệm dùng để làm gì: để 'luyện kỹ năng thao tác, thay đổi tham số, và phân tích kết quả dao động' qua đồ thị hoặc quỹ đạo, phục vụ việc học phần Dao động cơ học."
+      ]
+    },
+    {
+      "id": "theory_equation",
+      "title": "Phương trình chuyển động & mô hình",
+      "patterns": [
+        "giải thích",
+        "phương trình",
+        "mô hình",
+        "vi sai",
+        "rk4",
+        "rk 4",
+        "runge kutta",
+        "tại sao",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Mô phỏng sử dụng phương pháp 'Runge–Kutta bậc 4 (RK4)' để giải phương trình dao động của con lắc có giảm chấn.",
+        "Phương trình chuyển động tổng quát: d²θ/dt² + (b/m)·dθ/dt + (g/L)·sinθ = 0."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: để 'giúp người học nhìn thấy mô hình toán học của dao động con lắc đơn trong thực tế' hoạt động ra sao.",
+        "Thí nghiệm dùng để làm gì: nhằm 'kết nối giữa phương trình vi phân và chuyển động thật', giúp học sinh hiểu rằng phương trình không chỉ là lý thuyết mà mô phỏng đúng hành vi vật lí của vật dao động."
+      ]
+    },
+    {
+      "id": "theory_energy",
+      "title": "Năng lượng cơ học",
+      "patterns": [
+        "năng lượng",
+        "đồ thị",
+        "cơ năng",
+        "thế năng",
+        "động năng",
+        "energy",
+        "ke",
+        "pe",
+        "tổng năng lượng"
+      ],
+      "guide": [
+        "Đồ thị năng lượng hiển thị 'động năng, thế năng và tổng năng lượng' theo thời gian.",
+        "Có thể bật/tắt mục 'Hiện đồ thị năng lượng' để quan sát rõ sự thay đổi."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: để 'minh họa định luật bảo toàn năng lượng cơ học' trong dao động con lắc và tác dụng của lực cản làm hao hụt năng lượng.",
+        "Thí nghiệm dùng để làm gì: giúp người học 'quan sát trực quan sự chuyển hóa giữa động năng và thế năng', đồng thời thấy rõ **tác động của ma sát** khiến năng lượng giảm dần."
+      ]
+    },
+    {
+      "id": "period_small_large",
+      "title": "Chu kì: góc nhỏ & góc lớn",
+      "patterns": [
+        "chu kì",
+        "chu kỳ",
+        "period",
+        "T",
+        "bao lâu",
+        "tần số",
+        "góc nhỏ",
+        "góc lớn"
+      ],
+      "guide": [
+        "Với 'góc nhỏ' (|θ| ≤ 10–15°) và không có giảm chấn, chu kì xấp xỉ T ≈ 2π√(L/g).",
+        "Khi 'góc lớn', chu kì thực tế 'tăng lên' so với giá trị lý thuyết do ảnh hưởng phi tuyến của sinθ."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: để người học 'phân biệt giới hạn áp dụng của công thức xấp xỉ góc nhỏ' trong con lắc đơn.",
+        "Thí nghiệm dùng để làm gì: nhằm 'so sánh giữa lý thuyết và thực tế', thấy được sự sai khác khi góc lớn và rèn kỹ năng đánh giá mô hình vật lý."
+      ]
+    },
+    {
+      "id": "damping_mass",
+      "title": "Ảnh hưởng của giảm chấn b và khối lượng m",
+      "patterns": [
+        "giảm chấn",
+        "ma sát",
+        "b",
+        "khối lượng",
+        "mass",
+        "m",
+        "hao hụt"
+      ],
+      "guide": [
+        "Tăng 'b' khiến dao động tắt dần nhanh hơn, năng lượng giảm nhanh hơn.",
+        "Thay đổi 'm' ảnh hưởng đến tốc độ tắt dần vì tỷ số b/m quyết định mức giảm chấn."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: vì trong thực tế không có dao động nào hoàn toàn không ma sát, nên cần mô phỏng để 'hiểu tác dụng của giảm chấn và khối lượng'.",
+        "Thí nghiệm dùng để làm gì: giúp người học 'quan sát sự tắt dần của biên độ' theo thời gian và hiểu rõ 'bản chất của dao động tắt dần' trong vật lí."
+      ]
+    },
+    {
+      "id": "units_ranges",
+      "title": "Đơn vị & khoảng giá trị",
+      "patterns": ["đơn vị", "unit", "phạm vi", "range", "giới hạn", "min max"],
+      "guide": [
+        "Phạm vi giá trị: L (0.2–2.5 m), g (0.1–20 m/s²), b (0–1), m (0.1–5 kg), θ₀ (−170° đến 170°).",
+        "Góc hiển thị trên panel là 'radian', trong khi thanh trượt dùng 'độ'."
+      ],
+      "explain": [
+        "Tại sao có giới hạn giá trị này: để đảm bảo mô phỏng 'hoạt động ổn định và phù hợp với phạm vi vật lí thực tế'.",
+        "Thí nghiệm dùng để làm gì: để 'thực hành chọn tham số hợp lý' khi nghiên cứu các hệ dao động, giúp tránh các trường hợp phi thực tế hoặc sai lệch mô hình."
+      ]
+    },
+    {
+      "id": "troubleshoot_physics",
+      "title": "Lỗi thường gặp (Con Lắc Đơn)",
+      "patterns": [
+        "lỗi thường gặp",
+        "không chạy",
+        "không thấy đồ thị",
+        "treo",
+        "khung trống",
+        "đồ thị năng lượng"
+      ],
+      "guide": [
+        "Không thấy đồ thị năng lượng: bật 'Hiện đồ thị năng lượng' hoặc mở rộng khung hiển thị.",
+        "Nếu mô phỏng dừng sau khi kéo: bấm 'Bắt đầu' để tiếp tục.",
+        "Nếu chạy chậm: tắt 'Vệt quỹ đạo' hoặc giảm số khung hiển thị để mượt hơn."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'đảm bảo người học tự khắc phục được sự cố', không gián đoạn quá trình học tập.",
+        "Phần này dùng để làm gì: giúp duy trì 'tính liên tục trong quan sát' và đảm bảo học sinh tập trung vào nội dung vật lí thay vì lỗi kỹ thuật."
+      ]
+    }
+  ]
+}

@@ -1,16 +1,18 @@
-:root {
+/* ==== Scope biến & theme cho riêng chatbox ==== */
+#sl-wrap,
+#sl-btn {
   --sl-primary: #3b82f6;
   --sl-glow: #60a5fa;
   --sl-bg: rgba(24, 27, 40, 0.55);
   --sl-border: rgba(255, 255, 255, 0.12);
   --sl-text: #e8edf6;
   --sl-sub: #9ba5b8;
-
-  color-scheme: dark;
 }
 
+/* Light mode: chỉ đổi biến của chatbox, không đụng global */
 @media (prefers-color-scheme: light) {
-  :root {
+  #sl-wrap,
+  #sl-btn {
     --sl-bg: rgba(255, 255, 255, 0.75);
     --sl-border: rgba(0, 0, 0, 0.12);
     --sl-text: #0f172a;
@@ -18,13 +20,21 @@
   }
 }
 
+/* Tắt motion chỉ trong chatbox */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  #sl-wrap *,
+  #sl-btn * {
     animation: none !important;
     transition: none !important;
   }
 }
 
+/* Không áp color-scheme toàn trang */
+#sl-wrap {
+  color-scheme: dark;
+}
+
+/* ====== Nút mở ====== */
 #sl-btn {
   position: fixed;
   right: calc(18px + env(safe-area-inset-right));
@@ -57,6 +67,7 @@
   outline-offset: 2px;
 }
 
+/* ====== Khung chat ====== */
 #sl-wrap {
   position: fixed;
   right: calc(18px + env(safe-area-inset-right));
@@ -71,7 +82,7 @@
   -webkit-backdrop-filter: blur(18px) saturate(150%);
   backdrop-filter: blur(18px) saturate(150%);
   background: var(--sl-bg);
-
+  /* fallback nếu browser không hỗ trợ color-mix */
   background: color-mix(in oklab, var(--sl-bg) 85%, black);
   border: 1px solid var(--sl-border);
   border-radius: 20px;
@@ -295,6 +306,7 @@
   }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
   #sl-wrap {
     right: calc(10px + env(safe-area-inset-right));

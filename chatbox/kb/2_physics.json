@@ -1,0 +1,121 @@
+{
+  "topics": [
+    {
+      "id": "overview",
+      "title": "Tổng quan mô phỏng",
+      "patterns": [
+        "tổng quan",
+        "mô phỏng gì",
+        "bảo toàn động lượng",
+        "giới thiệu"
+      ],
+      "guide": [
+        "Mô phỏng va chạm 1D giữa hai vật m₁, m₂ trên trục ngang.",
+        "Bạn có thể chỉnh: khối lượng m₁, m₂; vận tốc ban đầu v₁, v₂; hệ số đàn hồi e.",
+        "Bấm “Bắt đầu” để chạy, “Tạm dừng” để dừng, “Đặt lại” để quay về trạng thái ban đầu.",
+        "Đồ thị bên phải hiển thị P_total theo thời gian để kiểm tra tính bảo toàn."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: để người học 'quan sát trực quan định luật bảo toàn động lượng trong va chạm một chiều', thay vì chỉ học qua công thức khô khan.",
+        "Thí nghiệm dùng để làm gì: giúp 'hiểu rõ mối quan hệ giữa khối lượng – vận tốc – động lượng', và phân biệt rõ giữa bảo toàn động lượng và năng lượng."
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Điều khiển & thao tác",
+      "patterns": [
+        "thao tác",
+        "điều khiển",
+        "cách dùng",
+        "nút bấm",
+        "range",
+        "số"
+      ],
+      "guide": [
+        "Kéo thanh trượt hoặc nhập số để thay đổi m₁, v₁, m₂, v₂, e.",
+        "e = 1: va chạm đàn hồi hoàn toàn; e = 0: dính sau va chạm; 0 < e < 1: đàn hồi không hoàn toàn.",
+        "Nút “Bắt đầu” bắt đầu/tiếp tục mô phỏng, “Tạm dừng” dừng, “Đặt lại” đưa các giá trị về ban đầu và xóa đồ thị."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'người học tự thao tác, thay đổi thông số và quan sát kết quả', thay vì chỉ xem ví dụ cố định.",
+        "Phần này dùng để làm gì: giúp 'hiểu ảnh hưởng của từng đại lượng (m, v, e)' đến kết quả va chạm và sự bảo toàn động lượng."
+      ]
+    },
+    {
+      "id": "formula_momentum",
+      "title": "Động lượng & bảo toàn",
+      "patterns": ["động lượng", "p=m.v", "bảo toàn", "p tổng", "p1", "p2"],
+      "guide": [
+        "Theo dõi số liệu trong khung “Tổng động lượng P” và p₁ = m₁v₁, p₂ = m₂v₂.",
+        "Đồ thị P_total giúp phát hiện sai lệch do va chạm với tường (không còn cô lập)."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'kiểm chứng thực nghiệm định luật bảo toàn động lượng' trong hệ cô lập.",
+        "Phần này dùng để làm gì: giúp 'phân biệt giữa hệ cô lập (P_total không đổi)' và hệ có ngoại lực (P_total thay đổi khi va chạm tường)."
+      ]
+    },
+    {
+      "id": "formula_collision",
+      "title": "Công thức vận tốc sau va chạm (hệ số đàn hồi e)",
+      "patterns": ["công thức", "sau va chạm", "e", "đàn hồi", "tính v'"],
+      "guide": [
+        "Khi hai tâm chạm nhau (biên tiếp xúc): áp dụng công thức 1D có hệ số đàn hồi e.",
+        "v₁' = ((m₁ − e·m₂)/(m₁ + m₂))·u₁ + (((1 + e)·m₂)/(m₁ + m₂))·u₂",
+        "v₂' = (((1 + e)·m₁)/(m₁ + m₂))·u₁ + ((m₂ − e·m₁)/(m₁ + m₂))·u₂"
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'giúp người học thấy rõ vai trò của hệ số đàn hồi e' trong việc quyết định vận tốc sau va chạm.",
+        "Phần này dùng để làm gì: để 'rèn kỹ năng tính toán và hiểu mối liên hệ giữa công thức lý thuyết và chuyển động thực tế trong mô phỏng.'"
+      ]
+    },
+    {
+      "id": "walls",
+      "title": "Biên tường & cô lập hệ",
+      "patterns": ["tường", "biên", "cô lập", "vì sao P đổi", "va vào tường"],
+      "guide": [
+        "Mỗi bên có biên ảo. Khi chạm biên, vật bật ngược (đổi dấu v) → có lực ngoài.",
+        "Muốn kiểm chứng bảo toàn P_total: tránh để các vật chạm tường trong khoảng quan sát hoặc tăng khoảng cách ban đầu."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'nhấn mạnh khái niệm hệ cô lập và ngoại lực', yếu tố then chốt của định luật bảo toàn.",
+        "Phần này dùng để làm gì: giúp 'người học hiểu rằng khi có tường, lực ngoài làm P_total thay đổi', từ đó phân biệt rõ điều kiện bảo toàn động lượng."
+      ]
+    },
+    {
+      "id": "troubleshoot",
+      "title": "Lỗi thường gặp & cách xử lý",
+      "patterns": [
+        "lỗi",
+        "không chạy",
+        "bị kẹt",
+        "sai số",
+        "reset",
+        "nhấp nháy",
+        "trôi"
+      ],
+      "guide": [
+        "P_total không ổn định? → Kiểm tra xem có va chạm tường không; đặt vị trí xa biên hoặc giảm |v|.",
+        "Vật ‘chồng’ lên nhau? → Đó là xử lý chồng lấn; bấm “Đặt lại” hoặc giảm tốc để quan sát rõ.",
+        "Đồ thị không vẽ? → Hãy bấm “Bắt đầu”; “Tạm dừng” sẽ ngừng cập nhật điểm mới."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'giúp người học tự xử lý lỗi thao tác và hiểu giới hạn mô phỏng số học'.",
+        "Phần này dùng để làm gì: giúp duy trì 'sự ổn định và tính chính xác của kết quả', đảm bảo việc học không bị gián đoạn."
+      ]
+    },
+    {
+      "id": "tips",
+      "title": "Mẹo học & kiểm chứng",
+      "patterns": ["mẹo", "kiểm chứng", "bài tập", "thí nghiệm số"],
+      "guide": [
+        "Đặt e=1, m₁=m₂ và chọn v₂=0: sau va chạm, hai vật gần như hoán đổi vận tốc (trường hợp kinh điển).",
+        "Đặt e=0: sau va chạm hai vật dính nhau, kiểm tra v_chung = (m₁u₁ + m₂u₂)/(m₁ + m₂).",
+        "Giữ hai vật tránh tường để quan sát đồ thị P_total nằm ngang (xấp xỉ hằng)."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'hướng dẫn người học tự kiểm chứng các trường hợp đặc biệt của va chạm', củng cố hiểu biết qua trải nghiệm.",
+        "Phần này dùng để làm gì: giúp 'phát triển tư duy thực nghiệm và kỹ năng kiểm tra định luật bảo toàn' bằng dữ liệu mô phỏng."
+      ]
+    }
+  ]
+}

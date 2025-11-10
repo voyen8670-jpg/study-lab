@@ -1,0 +1,141 @@
+{
+  "topics": [
+    {
+      "id": "ops_controls",
+      "title": "Thao tác & điều khiển",
+      "patterns": [
+        "thao tác",
+        "hướng dẫn",
+        "cách làm",
+        "làm sao",
+        "điều khiển",
+        "reset",
+        "ống 1",
+        "ống 2",
+        "thêm chất"
+      ],
+      "guide": [
+        "Bấm các nút + để thêm chất vào ống tương ứng (mỗi lần + ~5 mL).",
+        "Bấm 🔄 Reset để làm rỗng ống và bắt đầu lại.",
+        "Ống 1: Tinh bột + Nước + Lugol → kiểm chứng phản ứng màu xanh tím của phức amylose–iod.",
+        "Ống 2: Tinh bột + Amylase (+ Lugol) → quan sát hiện tượng tinh bột bị thủy phân làm mất màu với iod.",
+        "Bảng dưới mỗi ống cho biết thể tích từng chất đã thêm."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: để học sinh 'quan sát trực tiếp vai trò của enzyme amylase' trong quá trình thủy phân tinh bột.",
+        "Thí nghiệm dùng để làm gì: giúp người học 'nhận biết phản ứng enzym thông qua sự thay đổi màu đặc trưng với thuốc thử Lugol', từ đó hiểu bản chất của quá trình phân giải tinh bột."
+      ]
+    },
+    {
+      "id": "color_logic",
+      "title": "Quy tắc màu với thuốc thử Lugol",
+      "patterns": [
+        "màu",
+        "lugol",
+        "iod",
+        "xanh tím",
+        "nâu vàng",
+        "vì sao đổi màu",
+        "màu gì"
+      ],
+      "guide": [
+        "Tinh bột + Nước + Lugol → dung dịch 'xanh tím' (phức amylose–iod).",
+        "Tinh bột + Amylase + Lugol → dung dịch 'nâu vàng', 'không xanh tím' (tinh bột đã bị thủy phân).",
+        "Chỉ Lugol → 'nâu vàng'; chỉ nước → 'trong suốt'; chỉ tinh bột (chưa có Lugol) → 'trắng đục'."
+      ],
+      "explain": [
+        "Tại sao có phần này: để 'minh họa cách thuốc thử Lugol nhận biết tinh bột còn hay đã bị phân giải'.",
+        "Thí nghiệm dùng để làm gì: giúp học sinh hiểu 'cơ chế đổi màu của phức amylose–iod', từ đó rèn khả năng 'phân tích hiện tượng hoá sinh qua màu sắc'."
+      ]
+    },
+    {
+      "id": "bio_mechanism",
+      "title": "Cơ chế & phương trình tổng quát",
+      "patterns": [
+        "giải thích",
+        "cơ chế",
+        "phản ứng",
+        "phương trình",
+        "amylase",
+        "thủy phân",
+        "maltose"
+      ],
+      "guide": [
+        "Amylase xúc tác thủy phân liên kết α-1,4-glycosidic của amylose/amylopectin.",
+        "Sản phẩm tạo thành: 'maltose' và các 'dextrin' ngắn hơn."
+      ],
+      "explain": [
+        "Tại sao có thí nghiệm này: nhằm 'minh họa bản chất xúc tác sinh học của enzyme', cho thấy phản ứng diễn ra mà không cần điều kiện khắc nghiệt.",
+        "Thí nghiệm dùng để làm gì: giúp người học 'liên hệ hiện tượng màu với cơ chế phản ứng thủy phân', hiểu cách enzyme cắt đứt liên kết trong tinh bột thành đường đôi maltose.",
+        "Phương trình tổng quát: (C₆H₁₀O₅)ₙ + n H₂O —(amylase)→ n C₁₂H₂₂O₁₁ (maltose)."
+      ]
+    },
+    {
+      "id": "expected_outcomes",
+      "title": "Kết quả mong đợi theo từng tổ hợp",
+      "patterns": [
+        "kết quả",
+        "bảng kết quả",
+        "tổ hợp",
+        "ống 1 ra sao",
+        "ống 2 ra sao"
+      ],
+      "guide": [
+        "Ống 1:",
+        "• Tinh bột + Nước → 'trắng đục'.",
+        "• + Lugol → 'xanh tím'.",
+        "Ống 2:",
+        "• Tinh bột + Amylase → 'trắng đục' (đang phân giải).",
+        "• + Lugol → 'nâu vàng' (mất màu xanh tím)."
+      ],
+      "explain": [
+        "Tại sao có phần này: để học sinh dễ 'đối chiếu giữa hiện tượng mô phỏng và kết quả thực nghiệm'.",
+        "Thí nghiệm dùng để làm gì: giúp 'rèn kỹ năng dự đoán, ghi nhận và so sánh kết quả' nhằm rút ra bản chất phản ứng enzyme–cơ chất."
+      ]
+    },
+    {
+      "id": "factors_affecting",
+      "title": "Yếu tố ảnh hưởng hoạt tính amylase (mở rộng)",
+      "patterns": [
+        "ảnh hưởng",
+        "yếu tố",
+        "pH",
+        "nhiệt độ",
+        "nồng độ",
+        "thời gian",
+        "enzyme",
+        "substrate"
+      ],
+      "guide": [
+        "pH tối ưu khoảng 6–7; lệch nhiều làm giảm hoạt tính enzyme.",
+        "Nhiệt độ tăng giúp phản ứng nhanh hơn đến điểm tối ưu, nhưng quá cao gây biến tính enzyme.",
+        "Nồng độ enzyme–cơ chất và 'thời gian phản ứng* quyết định mức độ thủy phân."
+      ],
+      "explain": [
+        "Tại sao có phần mở rộng này: để người học hiểu rằng phản ứng enzyme chịu ảnh hưởng của 'nhiều yếu tố môi trường' như pH, nhiệt độ và nồng độ.",
+        "Phần này dùng để làm gì: giúp liên hệ mô phỏng đơn giản với 'điều kiện sinh học thực tế', tạo nền cho các thí nghiệm nâng cao về enzyme."
+      ]
+    },
+    {
+      "id": "troubleshoot",
+      "title": "Lỗi thường gặp & cách khắc phục",
+      "patterns": [
+        "lỗi",
+        "không hiện",
+        "không đổi màu",
+        "reset",
+        "bị sai",
+        "không chạy"
+      ],
+      "guide": [
+        "Không thấy xanh tím ở Ống 1? → Hãy thêm đủ 'Tinh bột + Nước + Lugol'.",
+        "Ống 2 vẫn xanh tím? → Có thể bạn 'chưa thêm Amylase' trước khi nhỏ Lugol.",
+        "Màu không đổi? → Bấm 'Reset' ống và làm lại theo thứ tự gợi ý."
+      ],
+      "explain": [
+        "Tại sao có phần này: để giúp người học 'nhận biết lỗi thao tác phổ biến và tự điều chỉnh' trong quá trình thực hành.",
+        "Phần này dùng để làm gì: giúp đảm bảo người học 'hiểu quy trình, không nhầm lẫn vai trò của từng chất' và luôn thu được kết quả chính xác trong mô phỏng."
+      ]
+    }
+  ]
+}
