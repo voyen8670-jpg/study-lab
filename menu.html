@@ -46,6 +46,15 @@
         z-index: 0;
       }
 
+      @keyframes pulse {
+        0% {
+          filter: brightness(1);
+        }
+        100% {
+          filter: brightness(1.15);
+        }
+      }
+
       .grid {
         position: fixed;
         top: 50%;
@@ -139,6 +148,128 @@
         font-size: 14px;
         color: #ddd;
       }
+
+      /* === 3D FLOATING CUBE BUTTON === */
+
+      .cube-launcher {
+        position: fixed;
+        right: 26px;
+        bottom: 34px;
+        width: 76px;
+        height: 90px;
+        z-index: 999;
+        cursor: pointer;
+        text-align: center;
+        perspective: 480px;
+        font-family: inherit;
+      }
+
+      .cube-wrapper {
+        position: relative;
+        width: 100%;
+        height: 70px;
+        transform-style: preserve-3d;
+        animation: spinCube 8s linear infinite;
+      }
+
+      @keyframes spinCube {
+        0% {
+          transform: rotateX(-22deg) rotateY(0deg);
+        }
+        100% {
+          transform: rotateX(-22deg) rotateY(360deg);
+        }
+      }
+
+      .cube-face {
+        position: absolute;
+        width: 46px;
+        height: 46px;
+        top: 12px;
+        left: 50%;
+        margin-left: -23px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 2px solid rgba(56, 189, 248, 0.85);
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #e0faff;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .cube-face.front {
+        transform: translateZ(23px);
+      }
+      .cube-face.back {
+        transform: rotateY(180deg) translateZ(23px);
+      }
+      .cube-face.right {
+        transform: rotateY(90deg) translateZ(23px);
+      }
+      .cube-face.left {
+        transform: rotateY(-90deg) translateZ(23px);
+      }
+      .cube-face.top {
+        transform: rotateX(90deg) translateZ(23px);
+      }
+      .cube-face.bottom {
+        transform: rotateX(-90deg) translateZ(23px);
+      }
+
+      .cube-face.front {
+        background: radial-gradient(circle, #0ea5e9 0%, #020617 70%);
+      }
+      .cube-face.right {
+        background: radial-gradient(circle, #22c55e 0%, #020617 70%);
+      }
+      .cube-face.left {
+        background: radial-gradient(circle, #a855f7 0%, #020617 70%);
+      }
+
+      .cube-glow {
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        width: 80px;
+        height: 22px;
+        transform: translateX(-50%);
+        background: radial-gradient(
+          circle,
+          rgba(56, 189, 248, 0.7),
+          transparent 65%
+        );
+        opacity: 0.9;
+        filter: blur(1px);
+      }
+
+      .cube-label {
+        margin-top: 2px;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #a5f3fc;
+        text-shadow: 0 0 8px rgba(56, 189, 248, 1);
+      }
+
+      .cube-launcher:hover .cube-wrapper {
+        animation-duration: 5.5s;
+      }
+
+      .cube-launcher:hover .cube-face {
+        box-shadow: 0 0 14px rgba(56, 189, 248, 1),
+          0 0 22px rgba(59, 130, 246, 0.9);
+      }
+
+      /* 👉 CHỈ HIỂN THỊ CUBE TRÊN LAPTOP / PC */
+      @media (max-width: 991px) {
+        .cube-launcher {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -204,6 +335,24 @@
       </button>
     </div>
 
+    <!-- 3D FLOATING CUBE – VÀO UNITY LAB (CHỈ LAPTOP/PC) -->
+    <div
+      class="cube-launcher"
+      onclick="location.href='https://your-unity-game-link-here'"
+      title="Khởi động Unity Lab 3D"
+    >
+      <div class="cube-wrapper">
+        <div class="cube-face front">3D</div>
+        <div class="cube-face back">LAB</div>
+        <div class="cube-face right">SL</div>
+        <div class="cube-face left">VR</div>
+        <div class="cube-face top"></div>
+        <div class="cube-face bottom"></div>
+      </div>
+      <div class="cube-glow"></div>
+      <div class="cube-label">UNITY LAB</div>
+    </div>
+
     <script>
       const container = document.querySelector(".particles");
       for (let i = 0; i < 35; i++) {
@@ -226,8 +375,6 @@
         title="Counters"
         alt="Counters"
         border="0"
-        title="Lượt truy cập"
-        alt="hit counter"
       />
     </div>
 
