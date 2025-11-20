@@ -22,7 +22,6 @@
         text-align: center;
         overflow: hidden;
 
-        /* Gradient nền galaxy tối */
         background: radial-gradient(
             circle at 20% 30%,
             rgba(100, 0, 150, 0.5),
@@ -38,10 +37,9 @@
             rgba(255, 100, 200, 0.3),
             transparent 50%
           ),
-          #000010; /* nền đen tối */
+          #000010;
       }
 
-      /* Nền sao tĩnh */
       .stars {
         position: absolute;
         width: 100%;
@@ -52,7 +50,6 @@
         z-index: 0;
       }
 
-      /* Overlay để hiện chữ */
       .overlay {
         position: relative;
         background: rgba(0, 0, 0, 0.6);
@@ -116,8 +113,44 @@
           padding: 25px;
         }
       }
+
+      /* === Bộ đếm góc trên bên phải === */
+      #visitor-counter {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      #visitor-counter:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+      }
+
+      #visitor-counter img {
+        height: 22px;
+        filter: brightness(1.1);
+      }
+
+      #visitor-counter .icon {
+        font-size: 18px;
+      }
     </style>
   </head>
+
   <body>
     <div class="stars"></div>
 
@@ -131,14 +164,12 @@
       <a href="menu.html" class="start-btn">Bắt đầu ngay</a>
     </div>
 
-    <!-- 👁 Bộ đếm truy cập đẹp, số không có khung -->
+    <!-- 👁 Bộ đếm truy cập (trên góc) -->
     <div id="visitor-counter">
       <span class="icon">👁</span>
       <img
         src="https://hitwebcounter.com/counter/counter.php?page=21448805&style=0010&nbdigits=6&type=page&initCount=0"
-        title="Counters"
-        alt="Counters"
-        border="0"
+        alt="counter"
       />
     </div>
   </body>
