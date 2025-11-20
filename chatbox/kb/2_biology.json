@@ -22,8 +22,10 @@
         "Bảng dưới mỗi ống cho biết thể tích từng chất đã thêm."
       ],
       "explain": [
-        "Tại sao có thí nghiệm này: để học sinh 'quan sát trực tiếp vai trò của enzyme amylase' trong quá trình thủy phân tinh bột.",
-        "Thí nghiệm dùng để làm gì: giúp người học 'nhận biết phản ứng enzym thông qua sự thay đổi màu đặc trưng với thuốc thử Lugol', từ đó hiểu bản chất của quá trình phân giải tinh bột."
+        "Mục đích: giúp người học quan sát trực tiếp vai trò của enzyme amylase trong phản ứng thủy phân tinh bột.",
+        "Vì sao cần mô phỏng: cho phép thao tác dễ dàng và quan sát rõ sự thay đổi màu, điều khó thực hiện chính xác trong thí nghiệm thật.",
+        "Ý nghĩa học tập: giúp học sinh nhận biết phản ứng enzyme thông qua màu sắc và hiểu cơ chế xúc tác sinh học của amylase.",
+        "Kết quả mong đợi: sau khi thêm đủ các chất, người học thấy rõ sự khác biệt màu giữa hai ống thí nghiệm."
       ]
     },
     {
@@ -44,8 +46,10 @@
         "Chỉ Lugol → 'nâu vàng'; chỉ nước → 'trong suốt'; chỉ tinh bột (chưa có Lugol) → 'trắng đục'."
       ],
       "explain": [
-        "Tại sao có phần này: để 'minh họa cách thuốc thử Lugol nhận biết tinh bột còn hay đã bị phân giải'.",
-        "Thí nghiệm dùng để làm gì: giúp học sinh hiểu 'cơ chế đổi màu của phức amylose–iod', từ đó rèn khả năng 'phân tích hiện tượng hoá sinh qua màu sắc'."
+        "Mục đích: minh họa cách thuốc thử Lugol nhận biết sự có mặt của tinh bột trong dung dịch.",
+        "Vì sao dung dịch đổi màu: iod chèn vào cấu trúc xoắn của amylose tạo phức xanh tím; khi amylase cắt nhỏ mạch, phức không hình thành nữa nên màu trở lại nâu vàng.",
+        "Ý nghĩa học tập: giúp người học hiểu cơ chế nhận biết hóa sinh thông qua sự thay đổi màu đặc trưng.",
+        "Kết quả mong đợi: chỉ ống có tinh bột nguyên vẹn mới cho màu xanh tím với Lugol."
       ]
     },
     {
@@ -65,8 +69,9 @@
         "Sản phẩm tạo thành: 'maltose' và các 'dextrin' ngắn hơn."
       ],
       "explain": [
-        "Tại sao có thí nghiệm này: nhằm 'minh họa bản chất xúc tác sinh học của enzyme', cho thấy phản ứng diễn ra mà không cần điều kiện khắc nghiệt.",
-        "Thí nghiệm dùng để làm gì: giúp người học 'liên hệ hiện tượng màu với cơ chế phản ứng thủy phân', hiểu cách enzyme cắt đứt liên kết trong tinh bột thành đường đôi maltose.",
+        "Mục đích: minh họa cơ chế xúc tác sinh học của enzyme trong phản ứng thủy phân tinh bột.",
+        "Vì sao cần thí nghiệm này: để thấy rằng enzyme giúp phản ứng xảy ra ở điều kiện thường mà không cần nhiệt độ cao hay chất xúc tác mạnh.",
+        "Ý nghĩa học tập: củng cố kiến thức về cấu trúc và vai trò của enzyme trong chuyển hóa sinh học.",
         "Phương trình tổng quát: (C₆H₁₀O₅)ₙ + n H₂O —(amylase)→ n C₁₂H₂₂O₁₁ (maltose)."
       ]
     },
@@ -89,8 +94,10 @@
         "• + Lugol → 'nâu vàng' (mất màu xanh tím)."
       ],
       "explain": [
-        "Tại sao có phần này: để học sinh dễ 'đối chiếu giữa hiện tượng mô phỏng và kết quả thực nghiệm'.",
-        "Thí nghiệm dùng để làm gì: giúp 'rèn kỹ năng dự đoán, ghi nhận và so sánh kết quả' nhằm rút ra bản chất phản ứng enzyme–cơ chất."
+        "Mục đích: giúp học sinh dễ đối chiếu giữa kết quả mô phỏng và hiện tượng thực tế trong phòng thí nghiệm.",
+        "Vì sao có hai ống: để so sánh tác dụng của enzyme amylase với mẫu đối chứng không có enzyme.",
+        "Ý nghĩa học tập: rèn kỹ năng quan sát, ghi nhận và phân tích sự khác biệt màu sắc để xác định vai trò của enzyme.",
+        "Kết quả mong đợi: ống có amylase sẽ mất màu xanh tím, chứng tỏ tinh bột bị thủy phân."
       ]
     },
     {
@@ -109,11 +116,13 @@
       "guide": [
         "pH tối ưu khoảng 6–7; lệch nhiều làm giảm hoạt tính enzyme.",
         "Nhiệt độ tăng giúp phản ứng nhanh hơn đến điểm tối ưu, nhưng quá cao gây biến tính enzyme.",
-        "Nồng độ enzyme–cơ chất và 'thời gian phản ứng* quyết định mức độ thủy phân."
+        "Nồng độ enzyme–cơ chất và thời gian phản ứng quyết định mức độ thủy phân."
       ],
       "explain": [
-        "Tại sao có phần mở rộng này: để người học hiểu rằng phản ứng enzyme chịu ảnh hưởng của 'nhiều yếu tố môi trường' như pH, nhiệt độ và nồng độ.",
-        "Phần này dùng để làm gì: giúp liên hệ mô phỏng đơn giản với 'điều kiện sinh học thực tế', tạo nền cho các thí nghiệm nâng cao về enzyme."
+        "Mục đích: giúp người học nhận biết các yếu tố môi trường ảnh hưởng đến tốc độ và hiệu quả hoạt động của enzyme amylase.",
+        "Vì sao cần phần mở rộng này: để liên hệ mô phỏng đơn giản với điều kiện sinh học thực tế của phản ứng enzyme.",
+        "Ý nghĩa học tập: làm rõ giới hạn hoạt tính enzyme và khả năng điều chỉnh phản ứng bằng pH, nhiệt độ hay nồng độ.",
+        "Kết quả mong đợi: học sinh hiểu rằng enzyme hoạt động tốt nhất trong khoảng pH và nhiệt độ nhất định, ngoài ra hiệu quả giảm rõ rệt."
       ]
     },
     {
@@ -133,8 +142,10 @@
         "Màu không đổi? → Bấm 'Reset' ống và làm lại theo thứ tự gợi ý."
       ],
       "explain": [
-        "Tại sao có phần này: để giúp người học 'nhận biết lỗi thao tác phổ biến và tự điều chỉnh' trong quá trình thực hành.",
-        "Phần này dùng để làm gì: giúp đảm bảo người học 'hiểu quy trình, không nhầm lẫn vai trò của từng chất' và luôn thu được kết quả chính xác trong mô phỏng."
+        "Mục đích: giúp người học dễ dàng nhận biết lỗi thao tác phổ biến và tự điều chỉnh trong quá trình thực hành.",
+        "Vì sao cần mục này: để đảm bảo thí nghiệm diễn ra chính xác và không gây hiểu lầm về kết quả phản ứng.",
+        "Ý nghĩa học tập: khuyến khích người học tự sửa lỗi, hiểu vai trò của từng chất và trình tự thực hiện.",
+        "Kết quả mong đợi: học sinh làm chủ được quy trình mô phỏng, thu được kết quả đúng và hiểu bản chất hiện tượng."
       ]
     }
   ]

@@ -1,0 +1,216 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "tổng quan",
+        "mô phỏng gì",
+        "i2",
+        "iod",
+        "amylose",
+        "hồ tinh bột",
+        "xanh tím",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Mô phỏng tương tác I₂ với hồ tinh bột (amylose) trong 3 ống A, B, C.",
+        "Bạn có thể rót I₂ (A) hoặc Amylose (B) vào ống C, sau đó đun/làm nguội để quan sát đổi màu.",
+        "Bảng phía dưới hiển thị nồng độ và thể tích còn lại ở từng ống."
+      ],
+      "explain": [
+        "Mục đích: quan sát trực quan sự tạo–mất màu xanh tím của phức I₂–amylose.",
+        "Ý nghĩa: kết nối thao tác thí nghiệm với cơ chế tạo màu do I₂ chèn vào xoắn amylose; màu có thể mất khi đun nóng và tái xuất hiện khi làm nguội."
+      ]
+    },
+    {
+      "patterns": [
+        "thao tác",
+        "điều khiển",
+        "nút bấm",
+        "cách dùng",
+        "rót",
+        "đun",
+        "làm nguội",
+        "reset",
+        "ống a",
+        "ống b",
+        "ống c",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Bấm “Rót A → C” để rót I₂ (nâu) vào ống C theo từng bước nhỏ.",
+        "Bấm “Rót B → C” để rót Amylose (trong) vào ống C.",
+        "Bấm “Đun C” để gia nhiệt; bấm “Làm nguội C” để hạ nhiệt.",
+        "Bấm “Đặt lại” để đưa thể tích về A=20 mL, B=15 mL, C=0 mL."
+      ],
+      "explain": [
+        "Mục đích: rèn thao tác rót tuần tự và quan sát hiện tượng màu thay đổi theo điều kiện.",
+        "Vì sao có cả đun/làm nguội: để minh họa tính thuận nghịch của màu do cấu trúc xoắn amylose thay đổi theo nhiệt."
+      ]
+    },
+    {
+      "patterns": [
+        "màu gì",
+        "đổi màu",
+        "khi nào xanh tím",
+        "khi nào mất màu",
+        "hiện tượng",
+        "logic màu",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Chỉ có I₂ trong C → dung dịch nâu.",
+        "Chỉ có Amylose trong C → dung dịch không màu/trong suốt.",
+        "Có cả I₂ và Amylose → xuất hiện màu xanh tím đặc trưng.",
+        "Đun nóng C → màu xanh tím nhạt dần/mất; làm nguội → màu xanh tím xuất hiện lại nếu còn cả I₂ và Amylose."
+      ],
+      "explain": [
+        "Vì sao xanh tím: I₂ (thực tế là I₃⁻/I₂) chèn vào lòng xoắn amylose, tạo phức hấp thụ ánh sáng vùng xanh tím.",
+        "Vì sao mất màu khi đun: nhiệt làm xoắn amylose nở/giãn, phức bị phá vỡ; khi nguội, xoắn khôi phục và phức tái hình thành."
+      ]
+    },
+    {
+      "patterns": [
+        "điều kiện",
+        "khi nào có màu",
+        "tại sao không xanh",
+        "không đổi màu",
+        "cần gì",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Ống C phải đồng thời chứa I₂ và Amylose để có màu xanh tím.",
+        "Đun nóng làm màu giảm; cần làm nguội để màu trở lại.",
+        "Thể tích quá nhỏ của một trong hai thành phần → màu yếu/khó quan sát."
+      ],
+      "explain": [
+        "Mục đích: nhấn mạnh các yếu tố cần có để phức màu hình thành bền đủ quan sát.",
+        "Ý nghĩa: giúp người học hiểu vai trò nồng độ/tỉ lệ I₂:amylose và ảnh hưởng của nhiệt độ."
+      ]
+    },
+    {
+      "patterns": [
+        "lý thuyết",
+        "cơ chế",
+        "phức",
+        "i3-",
+        "xoắn amylose",
+        "helix",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Amylose là chuỗi α-1,4-glucose tạo xoắn rỗng (helix).",
+        "I₂/I₃⁻ có thể chèn vào lòng xoắn, tạo phức hấp thụ mạnh → màu xanh tím."
+      ],
+      "explain": [
+        "Mục đích: liên hệ quan sát màu với cấu trúc phân tử.",
+        "Ý nghĩa: minh họa phép thử hồ tinh bột với iod dùng trong nhận biết tinh bột/amylose."
+      ]
+    },
+    {
+      "patterns": [
+        "theo dõi thể tích",
+        "thể tích",
+        "bao nhiêu ml",
+        "bảng",
+        "còn lại",
+        "định lượng",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Theo dõi các ô: A (I₂), B (Amylose), C (Hỗn hợp) để biết mL còn lại/mL trong C.",
+        "Mỗi lần rót được chia thành nhiều bước nhỏ để thấy mực chất lỏng tăng dần."
+      ],
+      "explain": [
+        "Mục đích: giúp gắn kết lượng chất với cường độ màu quan sát.",
+        "Ý nghĩa: rèn kỹ năng đọc số liệu và suy luận định tính–định lượng."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi",
+        "không đổi màu",
+        "không có màu",
+        "không chạy",
+        "reset",
+        "sửa lỗi",
+        "mất màu khi đun",
+        "không trở lại khi nguội",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Không thấy xanh tím? → Đảm bảo đã rót cả A (I₂) và B (Amylose) vào C; tăng tổng thể tích C.",
+        "Đun xong không thấy xanh trở lại khi nguội? → Kiểm tra còn đồng thời I₂ và Amylose trong C không.",
+        "Hiện tượng bất thường → bấm “Đặt lại” rồi thực hiện: Rót A → Rót B → (tùy chọn) Đun → Làm nguội."
+      ],
+      "explain": [
+        "Mục đích: giúp người học tự chẩn đoán sai sót thao tác hoặc tỉ lệ pha quá lệch.",
+        "Ý nghĩa: đảm bảo quy trình lặp lại được và quan sát đúng bản chất hiện tượng."
+      ]
+    },
+    {
+      "patterns": [
+        "an toàn",
+        "cẩn trọng",
+        "thực nghiệm thật",
+        "phòng thí nghiệm",
+        "bảo hộ",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Iod có thể gây kích ứng; đeo găng tay, kính bảo hộ khi làm thí nghiệm thật.",
+        "Khi gia nhiệt ống nghiệm, dùng kẹp và hướng miệng ống tránh người."
+      ],
+      "explain": [
+        "Mục đích: hình thành thói quen an toàn khi thao tác với hóa chất và nhiệt.",
+        "Ý nghĩa: giảm rủi ro tai nạn và nâng cao kỷ luật phòng thí nghiệm."
+      ]
+    },
+    {
+      "patterns": [
+        "bài học",
+        "bài tập",
+        "kiểm chứng",
+        "kịch bản",
+        "thí nghiệm số",
+        "mẹo",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "So sánh cường độ màu khi thay đổi tỉ lệ I₂:amylose (giữ một thành phần cố định, thay đổi thành phần còn lại).",
+        "Đun đến mất màu rồi làm nguội để kiểm chứng tính thuận nghịch.",
+        "Ghi chép thể tích và mô tả mức độ màu (nhạt–trung bình–đậm) theo từng kịch bản."
+      ],
+      "explain": [
+        "Mục đích: củng cố khái niệm phức I₂–amylose và ảnh hưởng của nhiệt độ/tỉ lệ.",
+        "Ý nghĩa: phát triển tư duy thực nghiệm và kỹ năng trình bày kết quả quan sát."
+      ]
+    }
+  ]
+}

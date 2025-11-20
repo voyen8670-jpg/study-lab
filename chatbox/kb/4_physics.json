@@ -1,0 +1,183 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "tổng quan",
+        "mô phỏng gì",
+        "phóng xạ",
+        "chu kỳ bán rã",
+        "bán rã",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Mô phỏng phân rã phóng xạ của tập hạt nhân ban đầu N₀ theo thời gian.",
+        "Bạn có thể chọn loại tia (α, β, γ), đặt chu kỳ bán rã T, thời gian mô phỏng và số hạt N₀.",
+        "Khung trái hiển thị các hạt còn lại/đã phân rã; khung phải có điều khiển và số hạt còn lại; bên dưới là đồ thị N(t)."
+      ],
+      "explain": [
+        "Mục đích: trực quan hóa định luật phóng xạ và khái niệm chu kỳ bán rã thông qua sự giảm dần của N theo thời gian.",
+        "Ý nghĩa: thấy được tính ngẫu nhiên ở mức vi mô nhưng tuân theo quy luật thống kê ở mức vĩ mô (đường cong mũ)."
+      ]
+    },
+    {
+      "patterns": [
+        "thao tác",
+        "điều khiển",
+        "cách dùng",
+        "nút bấm",
+        "bắt đầu",
+        "dừng",
+        "slider",
+        "input",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Chọn loại phóng xạ trong mục 'Loại phóng xạ'.",
+        "Nhập 'Chu kỳ bán rã (giây)', 'Thời gian mô phỏng (giây)', và 'Số hạt ban đầu (N₀)'.",
+        "Bấm 'Bắt đầu mô phỏng' để chạy; 'Dừng' để tạm dừng.",
+        "Chỉ báo 'Số hạt còn lại' cập nhật theo thời gian; đồ thị bên dưới vẽ N(t)."
+      ],
+      "explain": [
+        "Mục đích: cho phép bạn chủ động thay đổi thông số để quan sát ảnh hưởng của T, N₀ tới tốc độ giảm của N.",
+        "Ý nghĩa: liên hệ thao tác nhập liệu với kết quả thực nghiệm số và hình dạng đồ thị."
+      ]
+    },
+    {
+      "patterns": [
+        "định luật phóng xạ",
+        "công thức",
+        "N=N0e-λt",
+        "hằng số phân rã",
+        "lambda",
+        "giải thích"
+      ],
+      "guide": [
+        "Công thức: N(t) = N₀ · e^(-λt).",
+        "Quan hệ: T = ln(2)/λ  ⇒  λ = ln(2)/T."
+      ],
+      "explain": [
+        "Mục đích: gắn mô hình mô phỏng với biểu thức toán học chuẩn của phân rã mũ.",
+        "Ý nghĩa: từ T bạn suy ra λ để dự đoán N(t); kiểm chứng bằng đường cong được vẽ."
+      ]
+    },
+    {
+      "patterns": [
+        "chu kỳ bán rã",
+        "T",
+        "ảnh hưởng của T",
+        "tốc độ phân rã",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Giảm T (bán rã ngắn) → λ lớn → N giảm nhanh, đồ thị dốc.",
+        "Tăng T (bán rã dài) → λ nhỏ → N giảm chậm, đồ thị thoai thoải."
+      ],
+      "explain": [
+        "Mục đích: hiểu vai trò của T như thước đo tốc độ phân rã.",
+        "Ý nghĩa: so sánh vật liệu phóng xạ khác nhau qua T để dự đoán độ bền hoạt độ theo thời gian."
+      ]
+    },
+    {
+      "patterns": [
+        "loại tia",
+        "alpha",
+        "beta",
+        "gamma",
+        "khác nhau",
+        "màu sắc",
+        "năng lượng",
+        "giải thích"
+      ],
+      "guide": [
+        "Tia α, β, γ trong mô phỏng chỉ khác về màu và hiệu ứng chuyển động sau phân rã để dễ nhận biết.",
+        "Nền vùng mô phỏng đổi sắc theo loại tia (cam/lục/vàng) nhằm nhấn mạnh sự lựa chọn."
+      ],
+      "explain": [
+        "Mục đích: minh họa trực quan các loại bức xạ thường gặp.",
+        "Ý nghĩa: dù hình ảnh khác nhau, tốc độ giảm N vẫn tuân quy luật mũ do quyết định bởi λ (tức T)."
+      ]
+    },
+    {
+      "patterns": [
+        "đồ thị",
+        "N(t)",
+        "biểu đồ",
+        "đọc đồ thị",
+        "so sánh",
+        "giải thích"
+      ],
+      "guide": [
+        "Đồ thị vẽ N(t) theo thời gian t trong suốt phiên mô phỏng.",
+        "So sánh đường cong thực nghiệm (điểm vẽ) với dạng mũ kỳ vọng N=N₀·e^(-λt)."
+      ],
+      "explain": [
+        "Mục đích: luyện kỹ năng đọc và diễn giải đồ thị phân rã.",
+        "Ý nghĩa: nhận thấy biến thiên ngẫu nhiên cục bộ quanh xu hướng mũ tổng thể."
+      ]
+    },
+    {
+      "patterns": [
+        "ngẫu nhiên",
+        "xác suất",
+        "mô phỏng",
+        "tại sao dao động",
+        "nhiễu",
+        "giải thích"
+      ],
+      "guide": [
+        "Mỗi hạt có xác suất phân rã p = 1 − exp(−λ·Δt) trong mỗi bước thời gian.",
+        "Số hạt còn lại giữa các lần chạy có thể khác nhau do tính ngẫu nhiên."
+      ],
+      "explain": [
+        "Mục đích: nhấn mạnh bản chất xác suất của phóng xạ.",
+        "Ý nghĩa: khi N₀ lớn, đường cong trung bình gần sát hàm mũ; khi N₀ nhỏ, dao động tương đối lớn hơn."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không chạy",
+        "không thấy đồ thị",
+        "đặt thông số",
+        "reset",
+        "giải thích"
+      ],
+      "guide": [
+        "Không thấy thay đổi? → Bấm 'Bắt đầu mô phỏng' sau khi nhập tham số.",
+        "Đồ thị phẳng? → Kiểm tra T và thời gian mô phỏng: nếu T quá lớn so với thời gian quan sát, N giảm ít.",
+        "Khung trống/ít hạt? → Tăng N₀ để đường cong mượt hơn."
+      ],
+      "explain": [
+        "Mục đích: giúp tự chẩn đoán cấu hình chưa phù hợp.",
+        "Ý nghĩa: chọn tham số tương xứng (T, thời lượng, N₀) để quan sát rõ quy luật."
+      ]
+    },
+    {
+      "patterns": [
+        "bài học",
+        "bài tập",
+        "kiểm chứng",
+        "so sánh",
+        "thí nghiệm số",
+        "mẹo",
+        "giải thích"
+      ],
+      "guide": [
+        "Giữ N₀ cố định, thay đổi T: vẽ nhiều đường N(t) và sắp xếp độ dốc từ lớn → nhỏ.",
+        "Giữ T cố định, thay đổi N₀: đánh giá mức nhiễu (dao động) quanh đường mũ.",
+        "Ước lượng T từ dữ liệu: tìm thời điểm N≈N₀/2 trên đồ thị."
+      ],
+      "explain": [
+        "Mục đích: rèn kỹ năng suy luận và ước lượng tham số từ dữ liệu.",
+        "Ý nghĩa: kết nối mô phỏng với phương pháp xử lý số liệu thực nghiệm trong vật lý hạt nhân."
+      ]
+    }
+  ]
+}

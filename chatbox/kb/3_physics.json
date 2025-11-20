@@ -1,0 +1,185 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "tổng quan",
+        "mô phỏng gì",
+        "thủy triều",
+        "pha trăng",
+        "mặt trăng",
+        "mặt trời",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Mô phỏng vị trí tương đối Mặt Trời–Trái Đất–Mặt Trăng và mực nước thủy triều (tide) trên Trái Đất.",
+        "Quan sát Trăng quay quanh Trái Đất, pha trăng thay đổi, và độ cao thủy triều (hình sóng) tăng/giảm theo pha.",
+        "Khung phải có nút chọn nhanh các pha và thanh trượt tốc độ mô phỏng."
+      ],
+      "explain": [
+        "Mục đích: trực quan hóa mối liên hệ giữa vị trí Mặt Trăng/Mặt Trời và biên độ thủy triều.",
+        "Ý nghĩa: phân biệt được triều cường (spring tide) và triều kém (neap tide) gắn với pha trăng."
+      ]
+    },
+    {
+      "patterns": [
+        "thao tác",
+        "điều khiển",
+        "cách dùng",
+        "nút bấm",
+        "tốc độ",
+        "slider",
+        "reset",
+        "tự động",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Chọn nhanh pha: 🌑 Trăng non, 🌕 Trăng tròn, 🌓 Thượng huyền, 🌗 Hạ huyền.",
+        "Bấm 🔄 Tự động để Trăng quay liên tục quanh Trái Đất.",
+        "Kéo thanh ⏩ Tốc độ để tăng/giảm tốc độ quay (0.1–5)."
+      ],
+      "explain": [
+        "Mục đích: cho phép so sánh các pha một cách tức thời hoặc xem chuyển động liên tục.",
+        "Ý nghĩa: người học chủ động kiểm soát biến số thời gian để quan sát sự thay đổi biên độ triều."
+      ]
+    },
+    {
+      "patterns": [
+        "pha trăng",
+        "trăng non",
+        "trăng tròn",
+        "thượng huyền",
+        "hạ huyền",
+        "new moon",
+        "full moon",
+        "first quarter",
+        "last quarter",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Trăng non (Moon–Earth–Sun thẳng hàng, Trăng cùng phía Mặt Trời).",
+        "Trăng tròn (Earth giữa Sun và Moon, ba thiên thể gần thẳng hàng).",
+        "Thượng huyền (góc Sun–Earth–Moon ~90° khi Trăng 'nửa đầu').",
+        "Hạ huyền (góc Sun–Earth–Moon ~90° khi Trăng 'nửa sau')."
+      ],
+      "explain": [
+        "Mục đích: xác định hình học tương đối của ba thiên thể cho từng pha.",
+        "Ý nghĩa: từ hình học suy ra lực hút tổng hợp → biên độ triều cường/triều kém."
+      ]
+    },
+    {
+      "patterns": [
+        "triều cường",
+        "triều kém",
+        "spring tide",
+        "neap tide",
+        "biên độ",
+        "cao thấp",
+        "mực nước",
+        "tide height",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Triều cường: xuất hiện gần Trăng non 🌑 và Trăng tròn 🌕 (Sun–Earth–Moon gần thẳng hàng) → biên độ triều lớn.",
+        "Triều kém: gần Thượng huyền 🌓 và Hạ huyền 🌗 (góc vuông) → biên độ triều nhỏ.",
+        "Trong mô phỏng, chiều cao sóng (tide) tăng khi lực kéo tổng hợp mạnh, giảm khi hai lực phần nào triệt tiêu."
+      ],
+      "explain": [
+        "Vì sao: lực hấp dẫn của Mặt Trăng là chủ đạo; Mặt Trời gia tăng/giảm biên độ tùy cấu hình thẳng hàng hay vuông góc.",
+        "Ý nghĩa: hiểu quy luật hai lần nước lớn–nước ròng mạnh (gần non/tròn) xen kẽ hai lần yếu (gần tứ phân) theo chu kỳ nửa tháng."
+      ]
+    },
+    {
+      "patterns": [
+        "cơ chế",
+        "lực hấp dẫn",
+        "độ phình triều",
+        "hai bầu triều",
+        "tại sao hai lần triều",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Trái Đất có hai 'bầu' triều đối xứng: phía gần Mặt Trăng (bị hút mạnh hơn) và phía xa (do quán tính/hiệu ứng gia tốc khác nhau).",
+        "Một điểm trên bờ biển thường trải qua ~2 lần triều lên và ~2 lần triều xuống mỗi ngày Mặt Trăng (≈24h50')."
+      ],
+      "explain": [
+        "Vì sao có hai bầu triều: chênh lệch hấp dẫn (lực thủy triều) theo vị trí trên Trái Đất tạo độ phình ở cả hai phía.",
+        "Ý nghĩa: giải thích chu kỳ triều không trùng 24h mà lệch ~50 phút mỗi ngày do chuyển động quỹ đạo của Mặt Trăng."
+      ]
+    },
+    {
+      "patterns": [
+        "hiển thị",
+        "màu sắc",
+        "legend",
+        "giải mã hình",
+        "tide",
+        "sóng",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Mặt Trời (khối sáng vàng cam), Trái Đất (quả cầu xanh), Mặt Trăng (xám).",
+        "Pha Trăng thay đổi bằng gradient sáng–tối trên đĩa Trăng theo góc chiếu.",
+        "Biên độ thủy triều thể hiện bằng chiều cao phần sóng (tide) dưới Trái Đất."
+      ],
+      "explain": [
+        "Mục đích: giúp nhận diện nhanh các thành phần và mối liên hệ trực quan giữa pha Trăng và mực nước.",
+        "Ý nghĩa: rèn kỹ năng đọc sơ đồ/biểu diễn đồ họa của hiện tượng thiên văn–địa vật lý."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi",
+        "không chạy",
+        "không thấy thay đổi",
+        "lag",
+        "fps",
+        "reset",
+        "tại sao",
+        "giải thích"
+      ],
+      "guide": [
+        "Không thấy Trăng di chuyển? → Bật 🔄 Tự động hoặc chọn một pha rồi lại bật Tự động.",
+        "Tốc độ quá nhanh/chậm? → Kéo thanh ⏩ Tốc độ về giá trị phù hợp (gợi ý 0.5–1.5).",
+        "Mô phỏng lệch vị trí khi đổi kích thước cửa sổ? → Nhấn lại nút pha bất kỳ để tính lại tọa độ."
+      ],
+      "explain": [
+        "Mục đích: đảm bảo mô phỏng phản hồi đúng khi thay đổi chế độ hoặc kích thước màn hình.",
+        "Ý nghĩa: giúp người học tập trung vào nội dung khoa học thay vì sự cố hiển thị."
+      ]
+    },
+    {
+      "patterns": [
+        "bài học",
+        "bài tập",
+        "kiểm chứng",
+        "thực hành",
+        "so sánh",
+        "kịch bản",
+        "mẹo",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Chế độ tự động: ghi nhận các thời điểm biên độ sóng lớn nhất/nhỏ nhất → đối chiếu với mô tả pha ở khung phải.",
+        "Chọn lần lượt 4 pha để so sánh biên độ triều; sắp xếp tăng–giảm theo nhận định của bạn.",
+        "Thử thay tốc độ khác nhau để thấy tần suất 'điểm đỉnh' triều xuất hiện trong cùng khoảng quan sát."
+      ],
+      "explain": [
+        "Mục đích: củng cố khái niệm triều cường/kém qua dữ liệu quan sát từ mô phỏng.",
+        "Ý nghĩa: hình thành thói quen ghi chép, so sánh và rút kết luận từ bằng chứng trực quan."
+      ]
+    }
+  ]
+}

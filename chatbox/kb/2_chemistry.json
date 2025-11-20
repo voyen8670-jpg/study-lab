@@ -1,8 +1,6 @@
 {
   "topics": [
     {
-      "id": "ops_controls",
-      "title": "Thao tác & điều khiển",
       "patterns": [
         "thao tác",
         "cách làm",
@@ -14,7 +12,11 @@
         "reset",
         "ống a",
         "ống b",
-        "ống c"
+        "ống c",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Bấm “Rót A → C” để chuyển Cu(OH)₂ từ ống A sang ống C theo từng bước nhỏ (~1.5 s).",
@@ -23,35 +25,39 @@
         "Bấm “Đặt lại” để khôi phục các thể tích ban đầu: A=20 mL, B=15 mL, C=0 mL."
       ],
       "explain": [
-        "Tại sao có thí nghiệm này: để người học 'rèn kỹ năng thao tác mô phỏng phản ứng hóa học tuần tự', giống quá trình thực hành thật trong phòng thí nghiệm.",
-        "Thí nghiệm dùng để làm gì: giúp 'quan sát rõ các giai đoạn của phản ứng khử Cu²⁺ bằng glucose', qua đó hiểu mối liên hệ giữa điều kiện thao tác và kết quả màu sắc."
+        "Mục đích: rèn kỹ năng thao tác và quan sát phản ứng hóa học tuần tự, mô phỏng lại quy trình thực hành thật trong phòng thí nghiệm.",
+        "Vì sao cần mô phỏng: giúp người học quan sát rõ mối liên hệ giữa thao tác, hiện tượng và kết quả, đặc biệt khi đun nóng và xuất hiện kết tủa.",
+        "Ý nghĩa học tập: giúp học sinh hiểu bản chất phản ứng khử Cu²⁺ bằng glucose và vai trò của nhiệt trong phản ứng.",
+        "Kết quả mong đợi: người học nhận biết rõ từng giai đoạn từ dung dịch xanh lam đến kết tủa đỏ gạch."
       ]
     },
     {
-      "id": "logic_outcomes",
-      "title": "Kết quả mong đợi theo từng bước",
       "patterns": [
         "kết quả",
         "màu gì",
         "hiện tượng",
         "đổi màu",
         "kết tủa",
-        "đun lên thì sao"
+        "đun lên thì sao",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Chỉ rót A (Cu(OH)₂) vào C: dung dịch trong C có màu xanh lam.",
-        "Chỉ rót B (Glucose) vào C: dung dịch gần như không màu, không đổi màu đáng kể.",
-        "Rót A rồi B (hoặc ngược lại) vào C nhưng CHƯA đun: hỗn hợp có Cu²⁺ và glucose → vẫn chủ yếu xanh lam; phản ứng khử chưa rõ.",
-        "Đun C khi trong ống có cả Cu²⁺ và glucose: màu chuyển dần xanh → đỏ nâu/đỏ gạch, xuất hiện hạt lắng Cu₂O."
+        "Chỉ rót A (Cu(OH)₂) vào C → dung dịch có màu xanh lam.",
+        "Chỉ rót B (Glucose) vào C → dung dịch gần như không màu, không đổi màu đáng kể.",
+        "Rót A rồi B (hoặc ngược lại) nhưng chưa đun → hỗn hợp chứa Cu²⁺ và glucose, vẫn xanh lam.",
+        "Đun C khi có cả Cu²⁺ và glucose → màu chuyển từ xanh lam sang đỏ nâu, xuất hiện kết tủa Cu₂O."
       ],
       "explain": [
-        "Tại sao có phần này: để học sinh 'dễ theo dõi tiến trình phản ứng và liên hệ giữa thao tác – hiện tượng'.",
-        "Thí nghiệm dùng để làm gì: giúp 'nhận diện glucose là chất khử', thể hiện qua sự hình thành kết tủa đỏ gạch đặc trưng."
+        "Mục đích: giúp người học theo dõi trực quan sự thay đổi màu sắc qua từng bước của phản ứng.",
+        "Vì sao dung dịch đổi màu: glucose khử ion Cu²⁺ thành Cu₂O khi được gia nhiệt, tạo màu đỏ gạch đặc trưng.",
+        "Ý nghĩa học tập: giúp xác định vai trò của glucose như một chất khử, đồng thời củng cố khái niệm phản ứng oxi hóa – khử.",
+        "Kết quả mong đợi: sau khi đun, ống C xuất hiện kết tủa đỏ gạch minh chứng cho sự khử Cu²⁺."
       ]
     },
     {
-      "id": "chem_equation",
-      "title": "Phương trình phản ứng (tóm tắt)",
       "patterns": [
         "phương trình",
         "phản ứng",
@@ -59,86 +65,113 @@
         "oxi hóa",
         "khử",
         "fehling",
-        "benedict"
+        "benedict",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Phương trình tổng quát trong mô phỏng:",
         "C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O"
       ],
       "explain": [
-        "Tại sao có thí nghiệm này: để 'minh họa tính khử của nhóm –CHO trong glucose', giúp người học liên hệ giữa công thức hóa học và hiện tượng quan sát.",
-        "Thí nghiệm dùng để làm gì: giúp 'củng cố khái niệm oxi hóa – khử trong hóa học hữu cơ', thông qua phản ứng đặc trưng tương tự thử Fehling hoặc Benedict."
+        "Mục đích: minh họa bản chất hóa học của phản ứng khử Cu²⁺ bởi glucose – phản ứng đặc trưng của đường khử.",
+        "Vì sao cần phần này: giúp người học kết nối hiện tượng đổi màu với phương trình phản ứng cụ thể.",
+        "Ý nghĩa học tập: củng cố khái niệm oxi hóa – khử trong hóa hữu cơ và so sánh với các phản ứng Fehling hoặc Benedict thực tế.",
+        "Kết quả mong đợi: học sinh hiểu rõ rằng Cu₂O đỏ gạch là sản phẩm khử của Cu²⁺ trong phản ứng với glucose."
       ]
     },
     {
-      "id": "requirements",
-      "title": "Điều kiện cần để thấy kết tủa Cu₂O",
       "patterns": [
         "điều kiện",
         "khi nào có kết tủa",
         "vì sao không có kết tủa",
-        "tại sao không đổi màu"
+        "tại sao không đổi màu",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Ống C phải chứa Cu²⁺ (đã rót A).",
         "Ống C phải chứa glucose (đã rót B).",
-        "Cần GIA NHIỆT (bấm “Đun C”) để phản ứng khử xảy ra nhanh và rõ."
+        "Cần gia nhiệt (bấm “Đun C”) để phản ứng khử diễn ra rõ rệt."
       ],
       "explain": [
-        "Tại sao có phần này: vì phản ứng chỉ xảy ra khi đủ 'các điều kiện về chất và năng lượng' (có Cu²⁺, có chất khử và được đun nóng).",
-        "Phần này dùng để làm gì: giúp người học hiểu rằng 'thiếu một yếu tố sẽ không tạo kết tủa đỏ gạch', từ đó thấy rõ mối quan hệ giữa điều kiện phản ứng và sản phẩm."
+        "Mục đích: nhấn mạnh các điều kiện cần để phản ứng tạo Cu₂O có thể xảy ra.",
+        "Vì sao cần đủ điều kiện: phản ứng khử Cu²⁺ chỉ xảy ra khi có chất khử (glucose) và nhiệt độ đủ cao để kích hoạt quá trình.",
+        "Ý nghĩa học tập: giúp người học hiểu rằng mỗi phản ứng hóa học phụ thuộc vào cả thành phần và năng lượng cung cấp.",
+        "Kết quả mong đợi: khi hội đủ các yếu tố, dung dịch chuyển sang màu đỏ gạch đặc trưng của Cu₂O."
       ]
     },
     {
-      "id": "volumes_table",
-      "title": "Theo dõi thể tích",
-      "patterns": ["thể tích", "bao nhiêu ml", "bảng", "còn lại"],
+      "patterns": [
+        "thể tích",
+        "bao nhiêu ml",
+        "bảng",
+        "còn lại",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
       "guide": [
-        "Bảng dưới mô tả thể tích còn lại ở ống A, B và tổng thể tích hiện có trong ống C.",
-        "Mỗi lần rót, mô phỏng chia nhỏ dòng chảy để bạn thấy mức chất lỏng tăng dần."
+        "Bảng dưới mô tả thể tích còn lại ở ống A, B và tổng thể tích trong ống C.",
+        "Mỗi lần rót, mô phỏng chia nhỏ dòng chảy để người học quan sát mức chất lỏng dâng dần."
       ],
       "explain": [
-        "Tại sao có phần này: để 'giúp học sinh hình dung trực quan quá trình rót và pha trộn hóa chất'.",
-        "Phần này dùng để làm gì: nhằm 'rèn kỹ năng định lượng và theo dõi biến đổi thể tích', như khi thực hành thật trong phòng thí nghiệm."
+        "Mục đích: giúp người học theo dõi sự thay đổi thể tích và nhận thức mối liên hệ giữa lượng chất và hiện tượng xảy ra.",
+        "Vì sao cần phần này: để phản ánh đúng thao tác định lượng trong thí nghiệm thực tế.",
+        "Ý nghĩa học tập: rèn kỹ năng đọc và so sánh dữ liệu định lượng khi thực hành thí nghiệm hóa học.",
+        "Kết quả mong đợi: học sinh hiểu rằng thể tích chất ảnh hưởng đến mức độ và tốc độ phản ứng."
       ]
     },
     {
-      "id": "troubleshoot",
-      "title": "Xử lý lỗi thường gặp",
       "patterns": [
         "lỗi",
         "không đổi màu",
         "không có kết tủa",
         "không chạy",
         "reset",
-        "sửa lỗi"
+        "sửa lỗi",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Không thấy đỏ gạch sau khi đun? → Hãy đảm bảo đã rót cả A (Cu²⁺) và B (glucose) vào ống C.",
-        "Đang đun mà rót thêm A/B: mô phỏng sẽ reset và hủy kết tủa — hãy bắt đầu lại.",
-        "Nếu hiện tượng bất thường, bấm “Đặt lại” rồi thao tác lại theo thứ tự: Rót A → Rót B → Đun C."
+        "Nếu đang đun mà rót thêm A/B, mô phỏng sẽ tự đặt lại – cần thao tác lại theo đúng thứ tự.",
+        "Nếu hiện tượng bất thường, bấm “Đặt lại” rồi thực hiện lại theo: Rót A → Rót B → Đun C."
       ],
       "explain": [
-        "Tại sao có phần này: để 'người học tự kiểm tra và khắc phục lỗi thao tác', không cần hướng dẫn viên trực tiếp.",
-        "Phần này dùng để làm gì: giúp đảm bảo quá trình học 'liên tục, chính xác và đúng quy trình thí nghiệm'."
+        "Mục đích: giúp người học phát hiện và khắc phục lỗi thao tác phổ biến khi tiến hành mô phỏng.",
+        "Vì sao cần phần này: đảm bảo người học nắm được quy trình chuẩn và hiểu nguyên nhân khiến phản ứng không xảy ra.",
+        "Ý nghĩa học tập: tăng tính tự chủ, giúp người học rèn khả năng kiểm tra và điều chỉnh thao tác.",
+        "Kết quả mong đợi: học sinh thao tác đúng thứ tự và thu được hiện tượng chuẩn – kết tủa Cu₂O đỏ gạch sau khi đun."
       ]
     },
     {
-      "id": "safety_note",
-      "title": "Lưu ý an toàn (kiến thức mở rộng)",
       "patterns": [
         "an toàn",
         "cẩn trọng",
         "thực nghiệm thật",
-        "phòng thí nghiệm"
+        "phòng thí nghiệm",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Trong thí nghiệm thật, Cu(OH)₂ và muối Cu²⁺ có thể gây kích ứng; cần đeo găng tay và kính bảo hộ.",
         "Khi gia nhiệt ống nghiệm, phải dùng kẹp và hướng miệng ống tránh người xung quanh."
       ],
       "explain": [
-        "Tại sao có phần này: để 'liên hệ giữa mô phỏng và thực tế phòng thí nghiệm', nhấn mạnh vai trò của an toàn trong học tập STEM.",
-        "Phần này dùng để làm gì: giúp người học 'ý thức về quy tắc an toàn khi làm việc với hóa chất và nhiệt', chuẩn bị tốt cho thực hành thật."
+        "Mục đích: giúp người học nhận thức tầm quan trọng của an toàn trong khi làm việc với hóa chất và nhiệt.",
+        "Vì sao cần chú ý: các hợp chất chứa Cu²⁺ có thể độc hại nếu tiếp xúc trực tiếp, và việc đun nóng dễ gây nguy hiểm nếu thao tác sai.",
+        "Ý nghĩa học tập: giúp học sinh hình thành thói quen làm việc an toàn trong phòng thí nghiệm.",
+        "Kết quả mong đợi: người học hiểu và tuân thủ quy tắc bảo hộ, sẵn sàng thực hành thật một cách an toàn và hiệu quả."
       ]
     }
   ]

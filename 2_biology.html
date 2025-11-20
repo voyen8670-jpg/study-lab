@@ -134,11 +134,10 @@
         color: #7fd7ff;
       }
 
-      /*kẻ dọc*/
       .vertical-line {
         display: none;
       }
-      /*lap*/
+
       @media screen and (max-width: 768px) {
         .vertical-line {
           display: block;
@@ -149,7 +148,7 @@
           align-self: center;
         }
       }
-      /* Mobile */
+
       @media screen and (max-width: 768px) {
         .bench {
           flex-direction: row;
@@ -161,7 +160,7 @@
         }
         .explain {
           display: none;
-        } /* Ẩn giải thích */
+        }
         .vertical-line {
           display: block;
           width: 2px;
@@ -177,7 +176,6 @@
       <h1>Mô phỏng: Hoạt tính thủy phân tinh bột của amylase</h1>
 
       <div class="bench">
-        /*Ống nghiệm 1*/
         <div style="display: flex; flex-direction: column; align-items: center">
           <div class="tube" id="tube1">
             <div class="neck"></div>
@@ -207,7 +205,6 @@
           </table>
         </div>
 
-        <!-- Giải thích thao tác -->
         <div class="explain" id="explain">
           <strong>🔎 Giải thích theo thao tác</strong>
           <div id="explainText" style="margin-top: 8px">
@@ -216,10 +213,8 @@
           </div>
         </div>
 
-        <!-- Đường kẻ dọc mobile -->
         <div class="vertical-line"></div>
 
-        <!-- Ống nghiệm 2 -->
         <div style="display: flex; flex-direction: column; align-items: center">
           <div class="tube" id="tube2">
             <div class="neck"></div>
@@ -249,8 +244,7 @@
           </table>
         </div>
       </div>
-
-      <!-- Giải thích sinh học -->
+      >
       <div class="footerExplain">
         <strong>🔬 Giải thích sinh học</strong><br /><br />
         <p>

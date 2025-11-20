@@ -1,0 +1,193 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "tổng quan",
+        "mô phỏng gì",
+        "kmno4",
+        "h2o2",
+        "phản ứng",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Mô phỏng cho phép rót KMnO₄ (ống A) và H₂O₂ (ống B) vào ống C để quan sát đổi màu, kết tủa MnO₂ và bong bóng O₂.",
+        "Theo dõi bảng thể tích để biết lượng còn lại ở A, B và tổng trong C.",
+        "Khối mô tả hiện tượng sẽ cập nhật theo từng thao tác rót/reset."
+      ],
+      "explain": [
+        "Mục đích: trực quan hóa phản ứng oxi hóa–khử giữa KMnO₄ và H₂O₂ trong môi trường axit loãng.",
+        "Ý nghĩa: liên hệ thao tác (rót từng ống) với quan sát thực nghiệm (nhạt màu tím, xuất hiện MnO₂ nâu, sinh khí O₂)."
+      ]
+    },
+    {
+      "patterns": [
+        "thao tác",
+        "điều khiển",
+        "cách dùng",
+        "nút bấm",
+        "rót",
+        "reset",
+        "ống a",
+        "ống b",
+        "ống c",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
+      "guide": [
+        "Bấm “Rót A → C” để thêm KMnO₄ tím vào ống C theo nhiều bước nhỏ.",
+        "Bấm “Rót B → C” để thêm H₂O₂ không màu vào ống C.",
+        "Bấm “Đặt lại” để đưa thể tích về A=20 mL, B=15 mL, C=0 mL và xóa kết tủa/bong bóng."
+      ],
+      "explain": [
+        "Mục đích: rèn quy trình thao tác tuần tự và quan sát sự biến đổi màu/kết tủa theo thời gian.",
+        "Ý nghĩa: người học thấy rõ vai trò của từng tác chất trong phản ứng."
+      ]
+    },
+    {
+      "patterns": [
+        "kết quả",
+        "màu gì",
+        "đổi màu",
+        "kết tủa",
+        "bong bóng",
+        "o2",
+        "mnO2",
+        "hiện tượng",
+        "giải thích",
+        "vì sao"
+      ],
+      "guide": [
+        "Chỉ rót A (KMnO₄) vào C → dung dịch tím.",
+        "Chỉ rót B (H₂O₂) vào C → dung dịch trong suốt, không đổi màu.",
+        "Có cả A và B trong C → tím nhạt dần, xuất hiện kết tủa nâu MnO₂ và bong bóng khí O₂."
+      ],
+      "explain": [
+        "Vì sao tím nhạt: Mn(VII) bị khử, tím của permanganat giảm.",
+        "Vì sao có kết tủa nâu và bong bóng: MnO₂ tạo thành lắng xuống; H₂O₂ bị oxi hóa sinh O₂ bay lên."
+      ]
+    },
+    {
+      "patterns": [
+        "phương trình",
+        "ptph",
+        "oxi hóa",
+        "khử",
+        "ion",
+        "cân bằng",
+        "giải thích"
+      ],
+      "guide": [
+        "Phương trình tổng quát (môi trường axit loãng):",
+        "2 KMnO₄ + 3 H₂O₂ + H₂SO₄ → 2 MnO₂↓ + 3 O₂↑ + 2 KHSO₄ + 2 H₂O"
+      ],
+      "explain": [
+        "Mục đích: gắn hiện tượng với phương trình hoá học cụ thể.",
+        "Ý nghĩa: minh họa cơ chế oxi hóa–khử: Mn(VII) → Mn(IV) (khử), H₂O₂ → O₂ (oxi hóa)."
+      ]
+    },
+    {
+      "patterns": [
+        "điều kiện",
+        "tại sao không có kết tủa",
+        "không tạo o2",
+        "nồng độ",
+        "tỉ lệ",
+        "môi trường axit",
+        "giải thích"
+      ],
+      "guide": [
+        "Cần đồng thời có KMnO₄ và H₂O₂ trong ống C.",
+        "Tỉ lệ đủ lớn của H₂O₂ giúp phản ứng diễn ra rõ (cường độ bong bóng tăng theo lượng).",
+        "Trong thí nghiệm thật thường dùng môi trường axit loãng (H₂SO₄) để phản ứng xảy ra thuận lợi."
+      ],
+      "explain": [
+        "Mục đích: nhấn mạnh các yếu tố ảnh hưởng đến mức độ quan sát hiện tượng.",
+        "Ý nghĩa: hiểu vai trò nồng độ/tỉ lệ và môi trường phản ứng đối với tốc độ và mức độ phản ứng."
+      ]
+    },
+    {
+      "patterns": [
+        "theo dõi thể tích",
+        "thể tích",
+        "bao nhiêu ml",
+        "bảng",
+        "còn lại",
+        "định lượng",
+        "giải thích"
+      ],
+      "guide": [
+        "Theo dõi mL còn lại ở A, B và tổng trong C trên bảng dưới giao diện.",
+        "Mỗi lần rót được chia thành nhiều bước để thấy mực chất lỏng tăng dần."
+      ],
+      "explain": [
+        "Mục đích: gắn lượng chất với cường độ hiện tượng (độ nhạt màu, số bong bóng, lượng kết tủa).",
+        "Ý nghĩa: rèn kỹ năng liên hệ dữ liệu định lượng với quan sát định tính."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi",
+        "không đổi màu",
+        "không có kết tủa",
+        "không có o2",
+        "không chạy",
+        "reset",
+        "sửa lỗi",
+        "giải thích"
+      ],
+      "guide": [
+        "Không thấy kết tủa/bong bóng? → Đảm bảo đã rót cả A (KMnO₄) và B (H₂O₂) vào C; tăng tổng thể tích C.",
+        "Hiện tượng ít rõ → rót thêm H₂O₂ (B) để tăng lượng O₂ sinh ra.",
+        "Gặp hiển thị bất thường → bấm “Đặt lại”, thao tác lại theo thứ tự: Rót A → Rót B."
+      ],
+      "explain": [
+        "Mục đích: giúp người học tự chẩn đoán nguyên nhân khi mô phỏng chưa hiện đúng bản chất.",
+        "Ý nghĩa: đảm bảo quy trình lặp lại được và kết quả quan sát ổn định."
+      ]
+    },
+    {
+      "patterns": [
+        "an toàn",
+        "cẩn trọng",
+        "thực nghiệm thật",
+        "phòng thí nghiệm",
+        "bảo hộ",
+        "giải thích"
+      ],
+      "guide": [
+        "KMnO₄ có tính oxi hóa mạnh; H₂O₂ đặc có thể gây ăn mòn/irritation → đeo găng, kính, áo choàng.",
+        "Không để H₂O₂ tiếp xúc da/mắt; tránh dính KMnO₄ lên quần áo/vật liệu hữu cơ.",
+        "Thu gom chất thải theo quy định, không đổ trực tiếp xuống cống."
+      ],
+      "explain": [
+        "Mục đích: đảm bảo an toàn khi chuyển sang thực nghiệm thật.",
+        "Ý nghĩa: hình thành thói quen làm việc an toàn với chất oxi hóa mạnh."
+      ]
+    },
+    {
+      "patterns": [
+        "bài học",
+        "bài tập",
+        "kiểm chứng",
+        "kịch bản",
+        "thí nghiệm số",
+        "mẹo",
+        "giải thích"
+      ],
+      "guide": [
+        "Ghi nhận mức độ nhạt màu tím theo lượng H₂O₂ thêm vào (giữ KMnO₄ cố định).",
+        "Đếm số bong bóng/quan sát độ dày kết tủa theo thời gian để suy đoán tốc độ phản ứng.",
+        "So sánh hiện tượng khi đảo thứ tự rót (A rồi B vs. B rồi A)."
+      ],
+      "explain": [
+        "Mục đích: củng cố khái niệm oxi hóa–khử bằng dữ liệu mô phỏng.",
+        "Ý nghĩa: phát triển kỹ năng thiết kế kịch bản kiểm chứng và rút kết luận từ quan sát."
+      ]
+    }
+  ]
+}

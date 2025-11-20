@@ -306,7 +306,14 @@
   }
 }
 
-/* Mobile */
+#sl-wrap {
+  z-index: 2147483647;
+  position: fixed;
+}
+#sl-btn {
+  z-index: 2147483646;
+}
+
 @media (max-width: 480px) {
   #sl-wrap {
     right: calc(10px + env(safe-area-inset-right));

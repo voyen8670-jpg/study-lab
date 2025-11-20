@@ -6,9 +6,7 @@
     <meta name="sl-experiment" content="1_biology" />
     <title>Mô phỏng: Tế bào hành dưới kính hiển vi</title>
 
-    <!-- =============== Styles =============== -->
     <style>
-      /* ======= App theme ======= */
       :root {
         --bg: #0b1220;
         --panel: #0f1724;
@@ -56,7 +54,7 @@
         width: 100%;
         height: 100%;
         display: block;
-        touch-action: none; /* tốt cho pan/zoom */
+        touch-action: none;
       }
       .hud {
         position: absolute;
@@ -128,7 +126,6 @@
         font-size: 13px;
       }
 
-      /* ===== Responsive Mobile ===== */
       @media (max-width: 768px) {
         .app {
           grid-template-columns: 1fr;
@@ -161,7 +158,7 @@
           font-size: 12px;
         }
       }
-      /* Landscape mobile */
+
       @media (max-width: 768px) and (orientation: landscape) {
         .app {
           grid-template-columns: 2fr 1fr;
@@ -178,7 +175,6 @@
       }
     </style>
 
-    <!-- =============== Chatbox CSS (full) =============== -->
     <style>
       :root {
         --sl-primary: #3b82f6;
@@ -580,7 +576,6 @@
       </div>
     </div>
 
-    <!-- =============== Simulation Script (with zoom/pan/shortcuts/culling) =============== -->
     <script>
       const canvas = document.getElementById("scene"),
         ctx = canvas.getContext("2d");
@@ -726,7 +721,6 @@
             100
           );
         } else {
-          // Culling theo viewport để nhẹ CPU/GPU
           const vw = width / world.scale,
             vh = height / world.scale;
           const vx = (width - vw) / 2 - world.x / world.scale;
@@ -743,7 +737,6 @@
         ctx.restore();
       }
 
-      // ===== UI wiring =====
       const mag = document.getElementById("mag"),
         magVal = document.getElementById("magVal"),
         magLabel = document.getElementById("magLabel");
@@ -836,7 +829,6 @@
       window.addEventListener("resize", resizeCanvas);
       resizeCanvas();
 
-      // Wheel zoom giữ điểm dưới con trỏ
       canvas.addEventListener(
         "wheel",
         (e) => {
@@ -857,7 +849,6 @@
         { passive: false }
       );
 
-      // Kéo để pan (desktop + mobile)
       let panning = false,
         start = { x: 0, y: 0 },
         startWorld = { x: 0, y: 0 };
@@ -891,7 +882,6 @@
       canvas.addEventListener("touchmove", onMove, { passive: true });
       canvas.addEventListener("touchend", onUp, { passive: true });
 
-      // Phím tắt
       window.addEventListener("keydown", (e) => {
         const step = Math.round(20 / world.scale);
         if (e.key === "ArrowLeft") {

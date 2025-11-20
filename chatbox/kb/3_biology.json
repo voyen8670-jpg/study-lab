@@ -1,64 +1,74 @@
 {
   "topics": [
     {
-      "id": "overview",
-      "title": "Tổng quan mô phỏng co nguyên sinh",
       "patterns": [
         "tổng quan",
         "mô phỏng gì",
         "co nguyên sinh",
         "plasmolysis",
-        "biểu bì hành"
+        "biểu bì hành",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Khung trái hiển thị một trường các tế bào biểu bì hành (ô lục giác).",
-        "Không bào (xanh nhạt) co/giãn theo môi trường: đẳng trương, ưu trương (NaCl), nhược trương (nước).",
-        "Bạn có thể thay đổi nồng độ muối và tốc độ phản ứng để quan sát động học quá trình."
+        "Khung trái hiển thị các tế bào biểu bì hành (ô lục giác).",
+        "Không bào (xanh nhạt) co/giãn tùy môi trường: đẳng trương, ưu trương (NaCl), nhược trương (nước).",
+        "Người học có thể thay đổi nồng độ muối và tốc độ phản ứng để quan sát động học quá trình."
       ],
       "explain": [
-        "Co nguyên sinh (plasmolysis) xảy ra khi môi trường ngoài ưu trương: nước thoát ra → không bào co lại → màng sinh chất tách khỏi vách.",
-        "Ngược lại, trong nhược trương nước đi vào tế bào → không bào to → tế bào trương."
+        "Mục đích: mô phỏng quá trình co nguyên sinh (plasmolysis) để người học hiểu ảnh hưởng của nồng độ môi trường đến tế bào thực vật.",
+        "Vì sao xảy ra hiện tượng: trong ưu trương, nước thoát ra ngoài → không bào co lại → màng tách khỏi vách; trong nhược trương, nước đi vào → không bào to → tế bào trương nước."
       ]
     },
     {
-      "id": "controls",
-      "title": "Điều khiển & thao tác",
       "patterns": [
         "thao tác",
         "điều khiển",
         "nút bấm",
         "cách dùng",
         "salt",
-        "speed"
+        "speed",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
         "Chọn chế độ: Đẳng trương / NaCl 2% (Ưu trương) / Nước (Nhược trương) hoặc Đặt lại.",
-        "Kéo thanh “Nồng độ muối” (0–100%) để tăng/giảm độ ưu trương.",
-        "Kéo “Tốc độ phản ứng” (0.2x–3x) để mô phỏng nhanh/chậm.",
-        "Di chuột lên tế bào để nổi bật màng; nhấp để hiện thông tin nhanh (không bào ~ kích thước)."
+        "Kéo thanh “Nồng độ muối” (0–100%) để tăng hoặc giảm độ ưu trương.",
+        "Kéo “Tốc độ phản ứng” (0.2x–3x) để thay đổi tốc độ mô phỏng.",
+        "Di chuột lên tế bào để làm nổi màng; nhấp để xem thông tin nhanh (kích thước không bào)."
       ],
       "explain": [
-        "Nút chế độ đặt lại mục tiêu thể tích không bào cho toàn lưới; thanh trượt tinh chỉnh cường độ trong chế độ hiện tại.",
-        "Tốc độ chỉ ảnh hưởng tốc độ tiến tới trạng thái đích, không đổi trạng thái cân bằng cuối."
+        "Mục đích: giúp người học chủ động thay đổi thông số môi trường để quan sát ảnh hưởng đến hình thái tế bào.",
+        "Vì sao có phần này: để người học điều chỉnh và so sánh tốc độ, cường độ co nguyên sinh một cách trực quan."
       ]
     },
     {
-      "id": "modes",
-      "title": "Các chế độ môi trường",
-      "patterns": ["đẳng trương", "ưu trương", "nhược trương", "nacl", "nước"],
+      "patterns": [
+        "đẳng trương",
+        "ưu trương",
+        "nhược trương",
+        "nacl",
+        "nước",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
+      ],
       "guide": [
-        "Đẳng trương: dùng để tham chiếu — tế bào no nước, không bào ở mức nền.",
-        "Ưu trương (NaCl): tăng “Nồng độ muối” để thấy màng tách khỏi vách (vùng tối viền tường rõ hơn).",
-        "Nhược trương (Nước): tăng “Nồng độ muối” trong chế độ này để mô phỏng thêm nước vào (không bào lớn)."
+        "Đẳng trương: tế bào cân bằng nước, không bào ở mức nền.",
+        "Ưu trương (NaCl): tăng nồng độ muối → nước ra ngoài → màng tách khỏi vách, xuất hiện vùng tối quanh vách.",
+        "Nhược trương (Nước): nước đi vào → không bào phồng to → tế bào trương nước."
       ],
       "explain": [
-        "Ưu trương: Ψ_out < Ψ_in → nước ra ngoài; Nhược trương: Ψ_out > Ψ_in → nước vào.",
-        "Nhãn trạng thái góc dưới khung mô phỏng cập nhật: Đẳng trương / Co nguyên sinh / Trương."
+        "Mục đích: so sánh ba trạng thái thẩm thấu khác nhau của tế bào thực vật.",
+        "Vì sao thay đổi: do chênh lệch thế nước (Ψ_out và Ψ_in) quyết định hướng di chuyển của nước."
       ]
     },
     {
-      "id": "visuals",
-      "title": "Giải mã hình ảnh & chú thích",
       "patterns": [
         "chú thích",
         "màng",
@@ -66,96 +76,108 @@
         "không bào",
         "tế bào chất",
         "hover",
-        "label"
+        "label",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Vách tế bào: đường lục giác nhạt bao quanh.",
-        "Màng sinh chất: viền sáng vàng nhạt, co vào khi ưu trương.",
-        "Không bào: elip xanh bên trong; kích thước tỉ lệ lượng nước.",
-        "Tế bào chất: nền cam nhạt giữa vách và màng."
+        "Vách tế bào: đường viền lục giác nhạt bao quanh.",
+        "Màng sinh chất: đường sáng vàng nhạt, co vào khi ưu trương.",
+        "Không bào: vùng xanh bên trong, kích thước tỉ lệ với lượng nước.",
+        "Tế bào chất: lớp cam nhạt giữa vách và màng."
       ],
       "explain": [
-        "Khi khoảng cách vách–màng tăng (đường tối ở khe), đó là dấu hiệu plasmolysis.",
-        "Đưa chuột để thấy đường viền màng nổi bật và tooltip tên cấu trúc."
+        "Mục đích: giúp người học nhận diện rõ các thành phần cấu trúc của tế bào trong mô phỏng.",
+        "Vì sao có khoảng tối giữa vách và màng: đó là dấu hiệu của co nguyên sinh – màng tách khỏi vách do mất nước."
       ]
     },
     {
-      "id": "quant",
-      "title": "Định lượng đơn giản",
       "patterns": [
         "số liệu",
         "kích thước không bào",
         "định lượng",
         "click",
-        "px"
+        "px",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Nhấp vào một tế bào để hiển thị: Không bào ≈ N px (đại diện bán trục).",
-        "So sánh chỉ số trước/sau khi đổi chế độ hoặc thay nồng độ muối."
+        "Nhấp vào một tế bào để xem: Không bào ≈ N px (đại diện bán trục elip).",
+        "So sánh chỉ số trước và sau khi thay đổi môi trường hoặc nồng độ muối."
       ],
       "explain": [
-        "Giá trị px là đơn vị hiển thị, phục vụ so sánh tương đối giữa các trạng thái trong mô phỏng.",
-        "Sự dao động nhỏ giữa tế bào là nhiễu ‘sinh học’ giả lập cho tự nhiên hơn."
+        "Mục đích: cung cấp cách đo định lượng để người học so sánh mức độ co/trương giữa các trạng thái.",
+        "Ý nghĩa: rèn kỹ năng đọc dữ liệu và nhận xét xu hướng thay đổi theo môi trường."
       ]
     },
     {
-      "id": "theory",
-      "title": "Lý thuyết thẩm thấu liên quan",
       "patterns": [
         "lý thuyết",
         "thẩm thấu",
         "áp suất thẩm thấu",
-        "tiềm năng nước"
+        "tiềm năng nước",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Thẩm thấu là sự di chuyển chọn lọc của nước qua màng bán thấm do chênh lệch thế nước.",
-        "Tường tế bào làm hạn chế vỡ khi trương; plasmolysis đặc trưng cho tế bào thực vật."
+        "Thẩm thấu là quá trình nước di chuyển qua màng bán thấm do chênh lệch thế nước.",
+        "Tường tế bào giúp ngăn tế bào vỡ khi trương nước; co nguyên sinh chỉ xảy ra ở tế bào thực vật."
       ],
       "explain": [
-        "Thế nước (Ψ) giảm khi tăng chất tan; độ chênh Ψ quyết định hướng dòng nước.",
-        "Trong ưu trương, Ψ_out thấp → nước đi ra; trong nhược trương, Ψ_out cao → nước đi vào."
+        "Mục đích: giải thích cơ sở lý thuyết của hiện tượng co nguyên sinh.",
+        "Vì sao nước di chuyển: vì thế nước (Ψ) giảm khi tăng nồng độ chất tan, làm nước di chuyển theo hướng cân bằng thế nước."
       ]
     },
     {
-      "id": "troubleshoot",
-      "title": "Lỗi thường gặp & cách xử lý",
       "patterns": [
         "lỗi",
         "không thấy thay đổi",
         "reset",
         "hiển thị",
         "chậm",
-        "fps"
+        "fps",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Không thấy co nguyên sinh? Đảm bảo đang ở chế độ Ưu trương và tăng nồng độ muối > 10–20%.",
-        "Quá nhanh/chậm? Điều chỉnh ‘Tốc độ phản ứng’.",
-        "Màn hình không đồng nhất? Bấm “Đặt lại” để tái tạo lưới tế bào.",
-        "Tooltip không hiện? Đưa chuột đúng vào trong ô lục giác (gần màng)."
+        "Không thấy hiện tượng? → Chọn chế độ Ưu trương và tăng nồng độ muối >10–20%.",
+        "Mô phỏng quá nhanh/chậm? → Điều chỉnh thanh “Tốc độ phản ứng”.",
+        "Màn hình không đồng nhất? → Bấm “Đặt lại” để tạo lại lưới tế bào.",
+        "Tooltip không hiện? → Đưa chuột gần màng bên trong ô lục giác."
       ],
       "explain": [
-        "Mô phỏng dùng nội suy mượt; thay đổi lớn cần vài khung hình để cập nhật.",
-        "Nồng độ cực trị có thể bão hòa kích thước — đây là chủ ý để tránh giá trị phi thực tế."
+        "Mục đích: hỗ trợ người học tự xử lý khi mô phỏng không hoạt động như mong muốn.",
+        "Vì sao có hiện tượng chậm hoặc lệch hiển thị: do tính toán nội suy và giới hạn hiển thị được mô phỏng có chủ đích."
       ]
     },
     {
-      "id": "lesson",
-      "title": "Gợi ý bài học & kiểm chứng",
       "patterns": [
         "bài học",
         "kiểm chứng",
         "so sánh",
         "kịch bản",
-        "thí nghiệm"
+        "thí nghiệm",
+        "giải thích",
+        "vì sao",
+        "mục đích",
+        "ý nghĩa"
       ],
       "guide": [
-        "Ghi lại kích thước không bào ở 0%, 10%, 30%, 60% muối (Ưu trương) → vẽ đồ thị xu hướng co.",
-        "Chuyển qua Nhược trương với cùng % → so sánh tốc độ phục hồi.",
-        "Quan sát và mô tả hiện tượng ‘tách màng’ bằng hình phác thảo trước/sau."
+        "Ghi lại kích thước không bào ở 0%, 10%, 30%, 60% muối (Ưu trương) → vẽ đồ thị xu hướng co nguyên sinh.",
+        "Chuyển sang Nhược trương với cùng % để so sánh tốc độ phục hồi kích thước.",
+        "Quan sát và mô tả hiện tượng ‘tách màng’ bằng hình phác thảo trước và sau thí nghiệm."
       ],
       "explain": [
-        "Kết nối hiện tượng với khái niệm áp suất trương nước và vai trò vách tế bào trong ổn định hình dạng.",
-        "Nêu giới hạn: mô phỏng không xét kênh vận chuyển chủ động hay tổn thương màng."
+        "Mục đích: giúp người học rèn kỹ năng phân tích và so sánh kết quả giữa các trạng thái thẩm thấu.",
+        "Ý nghĩa: củng cố hiểu biết về áp suất trương nước và vai trò của vách tế bào trong bảo vệ hình dạng tế bào."
       ]
     }
   ]

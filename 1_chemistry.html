@@ -239,7 +239,6 @@
     </div>
 
     <script>
-      // Initial fixed volumes (mL)
       const INIT = { A: 20, B: 15, C: 0 };
       let A = INIT.A,
         B = INIT.B,
@@ -274,12 +273,10 @@
         volC.textContent = Math.round(C) + " mL";
       }
 
-      // clear precip
       function clearPrecip() {
         while (precipC.firstChild) precipC.removeChild(precipC.firstChild);
       }
 
-      // Hiệu ứng kết tủa PbI2
       function checkPbI2Reaction() {
         if (c_hasPb && c_hasI) {
           explainText.innerHTML =
@@ -315,7 +312,6 @@
         }
       }
 
-      // rót
       function animatePour(source) {
         let amount = source === "A" ? A : B;
         if (amount <= 0) {
