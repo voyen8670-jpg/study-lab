@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      Bài trắc nghiệm Vật Lý - Bài 3: Nội năng. Định luật I của nhiệt động lực
+      học
+    </title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Bài trắc nghiệm Vật Lý - Bài 3: Nội năng. Định luật I của nhiệt động lực
+      học
+    </h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Phát biểu nào sau đây đúng về nội năng của một vật?",
+
+          options: [
+            "A. Nội năng là tổng động năng và thế năng tương tác của các phân tử cấu tạo nên vật.",
+
+            "B. Nội năng chỉ phụ thuộc vào khối lượng của vật.",
+
+            "C. Nội năng chỉ bao gồm thế năng của các phân tử.",
+
+            "D. Nội năng không thay đổi khi nhiệt độ thay đổi.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Nội năng của một vật phụ thuộc vào những đại lượng nào?",
+
+          options: [
+            "A. Khối lượng và áp suất của vật.",
+
+            "B. Nhiệt độ và thể tích của vật.",
+
+            "C. Chỉ nhiệt độ của vật.",
+
+            "D. Chỉ thể tích của vật.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi nào nội năng của vật tăng?",
+
+          options: [
+            "A. Vật thực hiện công cho môi trường và truyền nhiệt ra ngoài.",
+
+            "B. Vật nhận công và truyền nhiệt ra ngoài.",
+
+            "C. Vật nhận công và nhận nhiệt từ môi trường.",
+
+            "D. Vật truyền công cho môi trường và nhận nhiệt.",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Công thức đúng của Định luật 1 của nhiệt động lực học là:",
+
+          options: [
+            "A. ΔU = Q – A",
+
+            "B. ΔU = A – Q",
+
+            "C. ΔU = Q + A",
+
+            "D. ΔU = –(Q + A)",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Trong biểu thức ΔU = Q + A, nếu Q > 0 và A > 0 thì:",
+
+          options: [
+            "A. Vật nhận nhiệt và vật sinh công → nội năng tăng.",
+
+            "B. Vật nhận nhiệt và vật nhận công → nội năng tăng.",
+
+            "C. Vật truyền nhiệt và vật nhận công → nội năng giảm.",
+
+            "D. Vật truyền nhiệt và vật sinh công → nội năng giảm.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi một vật truyền nhiệt lượng ra môi trường (Q < 0) nhưng đồng thời nhận công (A > 0), và kết quả ΔU vẫn > 0, điều nào đúng?",
+
+          options: [
+            "A. Vật truyền công, nên nội năng giảm.",
+
+            "B. Vật nhận công đủ lớn để nội năng tăng dù bị mất nhiệt.",
+
+            "C. Vật không trao đổi công nên nội năng không đổi.",
+
+            "D. Vật chỉ truyền nhiệt nên nội năng không tăng.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Công thức tính nhiệt lượng cần cung cấp để tăng nhiệt độ: Q = mcΔT. Điều nào đúng về c?",
+
+          options: [
+            "A. c là đại lượng gọi là nhiệt dung riêng của chất đó có giá trị bằng nhiệt lượng để làm tăng nhiệt độ của 1kg của chất đó lên 1K.",
+
+            "B. c là nhiệt lượng cần để làm nóng 1 g chất lên 1 °C.",
+
+            "C. c là nhiệt lượng cần để làm nóng 1 kg chất lên 100 °C.",
+
+            "D. c không phụ thuộc vào chất.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Nếu một vật nhận công A = 200 J và truyền nhiệt ra ngoài môi trường Q = 120 J ra môi trường thì ΔU bằng bao nhiêu?",
+
+          options: ["A. –320 J", "B. +80 J", "C. +320 J", "D. –80 J"],
+          answer: 1,
+        },
+
+        {
+          text: "Phát biểu nào không đúng về nội năng?",
+
+          options: [
+            "A. Nội năng là một dạng năng lượng.",
+
+            "B. Nội năng chỉ là nhiệt lượng.",
+
+            "C. Nội năng có thể thay đổi bằng cách thực hiện công hoặc truyền nhiệt.",
+
+            "D. Nội năng của vật bằng tổng động năng và thế năng tương tác của các phân tử cấu tạo nên vật.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Để tăng nội năng của một khối khí trong xilanh, có thể:",
+
+          options: [
+            "A. Thực hiện công nén và không truyền nhiệt.",
+
+            "B. Truyền nhiệt cho khối khí và không thực hiện công.",
+
+            "C. Vừa nhận công vừa nhận nhiệt.",
+
+            "D. Tất cả các phương án trên đều đúng.",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Khi nhiệt độ của vật tăng lên ΔT > 0, còn tất cả các yếu tố khác không đổi, thì:",
+
+          options: [
+            "A. Nội năng giảm.",
+
+            "B. Nội năng tăng.",
+
+            "C. Nội năng không thay đổi.",
+
+            "D. Nội năng có thể tăng hoặc giảm tùy chất liệu.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Vật lý học gọi quá trình nào sau đây là “thực hiện công” để làm thay đổi nội năng?",
+
+          options: [
+            "A. Cho vật tiếp xúc với nguồn nóng để truyền nhiệt.",
+
+            "B. Thực hiện chuyển động piston nén khí – piston thực hiện công trên khí.",
+
+            "C. Đun nóng vật bằng đèn điện.",
+
+            "D. Làm lạnh vật bằng đặt vào tủ đông.",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label><br>`
+  )
+  .join("")}
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

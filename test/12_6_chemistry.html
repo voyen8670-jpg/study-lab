@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Hóa học - Bài 6: Amino acid</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f9fafb;
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+        margin-left: 20px;
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 6: Amino acid</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Trong phân tử amino acid có những nhóm chức nào đặc trưng?",
+          options: [
+            "A. –OH và –COOH",
+
+            "B. –NH₂ và –COOH",
+
+            "C. –NH₂ và –OH",
+
+            "D. –CHO và –NH₂",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Hợp chất nào dưới đây là amino acid?",
+          options: [
+            "A. CH₃NHCH₂COOC₂H₅",
+
+            "B. H₂N–CH₂–CH₂–COOH",
+
+            "C. CH₃CH₂COONH₄",
+
+            "D. H₂N–CH₂–CH₂–CH₂–NH₂",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi nhóm –NH₂ gắn vào nguyên tử cacbon ngay sau nhóm –COOH trong một amino acid thì đó là dạng nào?",
+          options: [
+            "A. α-amino acid",
+
+            "B. β-amino acid",
+
+            "C. γ-amino acid",
+
+            "D. δ-amino acid",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Cho các amino acid: Lysine, Glycine, Glutamic acid. Ở pH = 6, dạng chủ yếu của Glycine là:",
+          options: [
+            "A. cation",
+
+            "B. anion",
+
+            "C. ion lưỡng cực",
+
+            "D. hợp chất trung tính không ion hóa",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Amino acid có tính chất hóa học nào sau đây?",
+          options: [
+            "A. Phản ứng ester hóa",
+
+            "B. Phản ứng trùng ngưng",
+
+            "C. Tính acid-base và tính điện di",
+
+            "D. Cả A, B và C đều đúng",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Hợp chất H₂N–CH₂–CH₂–CH₂–COOH là đồng phân với công thức phân tử C₄H₉NO₂. Gọi đúng dạng thì đây là:",
+          options: [
+            "A. α-amino acid",
+
+            "B. β-amino acid",
+
+            "C. γ-amino acid",
+
+            "D. δ-amino acid",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Một amino acid có công thức phân tử C₃H₇NO₂. Số đồng phân amino acid mạch hở có thể viết công thức là:",
+          options: ["A. 1", "B. 2", "C. 3", "D. 4"],
+          answer: 1,
+        },
+
+        {
+          text: "Ở pH thấp (ví dụ pH ≈ 2), amino acid thường tồn tại ở dạng nào?",
+          options: [
+            "A. cation",
+
+            "B. anion",
+
+            "C. ion lưỡng cực",
+
+            "D. không ion hóa",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Amino acid có thể tác dụng với chất gì ở nhóm nào để tạo thành ester?",
+          options: [
+            "A. Alcohol ở nhóm -NH2",
+
+            "B. Alcohol ở nhóm -COOH",
+
+            "C. Ketone ở nhóm -NH2",
+
+            "D. Phenol ở nhóm -COOH",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Cho phản ứng trùng ngưng của ω-aminoenanthic acid (7-amino-heptanoic acid) tạo nên loại polymer nào?",
+          options: [
+            "A. Polyester",
+
+            "B. Polyamide",
+
+            "C. Polyalcohol",
+
+            "D. Polyketone",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi amino acid chuyển vào điện trường ở pH = 6, nếu dịch chuyển về phía cực âm thì nó tồn tại chủ yếu ở dạng:",
+          options: [
+            "A. cation",
+
+            "B. anion",
+
+            "C. ion lưỡng cực",
+
+            "D. phân tử trung hòa",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Trong học phần amino acid, phát biểu nào sau đây là sai?",
+          options: [
+            "A. Amino acid là hợp chất hữu cơ tạp chức chứa –NH₂ và –COOH.",
+
+            "B. Amino acid chỉ có tính axit, không có tính base.",
+
+            "C. Amino acid có thể tồn tại dạng ion lưỡng cực.",
+
+            "D. Amino acid có thể tạo muối với base hoặc axit.",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

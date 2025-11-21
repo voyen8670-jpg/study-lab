@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Hóa học - Bài 4: Tính chất của Carbohydrate</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+        margin-left: 20px;
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 4: Tính chất của Carbohydrate</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Chất nào dưới đây có khả năng phản ứng tráng bạc (với thuốc thử Tollens) theo bài học?",
+
+          options: [
+            "A. Glucose",
+            "B. Saccharose",
+            "C. Tinh bột",
+            "D. Cellulose",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Trong phản ứng với dung dịch Cu(OH)₂ trong môi trường kiềm, ở điều kiện thường, glucose tạo dung dịch màu gì?",
+
+          options: ["A. Vàng nâu", "B. Xanh lam", "C. Đỏ gạch", "D. Xanh tím"],
+
+          answer: 1,
+        },
+
+        {
+          text: "Nhóm chức nào trong phân tử glucose chịu trách nhiệm cho phản ứng tráng bạc?",
+
+          options: [
+            "A. –OH (alcohol)",
+            "B. –CHO (aldehyde)",
+            "C. –CO– (ketone)",
+            "D. –COOH (carboxyl)",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Vì sao fructose dù là ketone nhưng vẫn có thể phản ứng tráng bạc?",
+
+          options: [
+            "A. Vì trong môi trường kiềm nó chuyển thành hợp chất có nhóm –CHO",
+
+            "B. Vì nó chứa nhiều nhóm –OH nên phản ứng mạnh",
+
+            "C. Vì nó có nhóm –COOH nên tạo bạc",
+
+            "D. Vì nó là disaccharide nên phản ứng dễ",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Khi nhỏ dung dịch iodine trong KI vào dung dịch tinh bột, quan sát thấy màu gì?",
+
+          options: ["A. Vàng nâu", "B. Xanh lam", "C. Xanh tím", "D. Đỏ gạch"],
+
+          answer: 2,
+        },
+
+        {
+          text: "Nhận xét nào sau đây không đúng khi nói về glucose và fructose?",
+
+          options: [
+            "A. Đều tạo được dung dịch màu xanh lam với Cu(OH)₂ trong môi trường kiềm",
+
+            "B. Đều tạo được kết tủa đỏ gạch Cu₂O khi đun nóng với Cu(OH)₂/kiềm",
+
+            "C. Đều làm mất màu nước bromine",
+
+            "D. Đều xảy ra phản ứng tráng bạc với thuốc thử Tollens",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Vì sao có thể phân biệt glucose và fructose bằng phản ứng với nước bromine nhưng không bằng phản ứng với thuốc thử Tollens?",
+
+          options: [
+            "A. Vì cả hai đều không tác dụng với Tollens nhưng chỉ glucose làm mất màu bromine",
+
+            "B. Vì cả hai đều tác dụng với Tollens nên không phân biệt được, nhưng chỉ glucose làm mất màu bromine",
+
+            "C. Vì fructose không tác dụng với bromine và không tác dụng với Tollens",
+
+            "D. Vì glucose không tác dụng với bromine nhưng tác dụng với Tollens",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Saccharose khi đun nóng với Cu(OH)₂ trong môi trường kiềm không tạo kết tủa đỏ gạch Cu₂O vì:",
+
+          options: [
+            "A. Nó là monosaccharide",
+            "B. Trong phân tử không có nhóm –CHO",
+            "C. Nó không tan trong dung dịch kiềm",
+            "D. Nó chứa nhóm –CO trong phân tử",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Trong thủy phân tinh bột dưới tác dụng acid hoặc enzyme, sản phẩm cuối cùng là:",
+
+          options: [
+            "A. Fructose",
+            "B. Glucose",
+            "C. Saccharose",
+            "D. Cellulose",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Động vật ăn cỏ có thể tiêu hoá được cellulose nhờ có:",
+
+          options: [
+            "A. Enzyme lipase trong dạ dày",
+
+            "B. Enzyme cellulase hoặc môi trường đặc biệt để thủy phân cellulose",
+
+            "C. Dung dịch bromine trong dạ dày",
+
+            "D. Thuốc thử Tollens tự nhiên",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Khi cellulose phản ứng với HNO₃ đặc và H₂SO₄ đặc, sản phẩm sinh ra là:",
+
+          options: [
+            "A. Cellulose thủy phân thành glucose",
+
+            "B. Cellulose trinitrate (một hợp chất nitrat hoá)",
+
+            "C. Tinh bột chuyển thành amylose",
+
+            "D. Saccharose bị chuyển thành glucose + fructose",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Lý do vì sao tinh bột trong ống nghiệm cho dung dịch I₂/KI xuất hiện màu xanh tím là vì:",
+
+          options: [
+            "A. Tinh bột phản ứng với bromine tạo màu xanh tím",
+
+            "B. Tinh bột bị thuỷ phân hoàn toàn thành glucose",
+
+            "C. Phân tử amylose dạng xoắn của tinh bột hấp phụ I₂ tạo hợp chất màu xanh tím",
+
+            "D. Cellulose trong tinh bột tạo hợp chất xanh tím với I₂",
+          ],
+
+          answer: 2,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

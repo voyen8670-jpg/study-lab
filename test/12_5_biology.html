@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      Bài trắc nghiệm Sinh học - Bài 5: Nhiễm sắc thể và đột biến nhiễm sắc thể
+    </title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Bài trắc nghiệm Sinh học - Bài 5: Nhiễm sắc thể và đột biến nhiễm sắc thể
+    </h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Nhiễm sắc thể được cấu tạo chủ yếu từ thành phần nào sau đây?",
+          options: [
+            "A. DNA và RNA",
+
+            "B. DNA và prôtêin histon",
+
+            "C. RNA và prôtêin histon",
+
+            "D. Lipit và prôtêin",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Đơn vị cấu trúc cơ bản nhất của nhiễm sắc thể ở sinh vật nhân thực, được hình thành do phân tử DNA quấn quanh lõi protein histone, là gì?",
+          options: [
+            "A. Sợi cơ bản (sợi nhiễm sắc)",
+
+            "B. Cromatin",
+
+            "C. Nucleosome",
+
+            "D. Cromatid",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Kỳ nào của nguyên phân, nhiễm sắc thể kép co xoắn cực đại và xếp trên mặt phẳng xích đạo?",
+          options: ["A. Kỳ đầu", "B. Kỳ giữa", "C. Kỳ sau", "D. Kỳ cuối"],
+          answer: 1,
+        },
+
+        {
+          text: "Đột biến cấu trúc nhiễm sắc thể không bao gồm dạng nào sau đây?",
+          options: [
+            "A. Mất đoạn",
+
+            "B. Lặp đoạn",
+
+            "C. Thay thế cặp nuclêôtit",
+
+            "D. Đảo đoạn",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Đột biến mất đoạn nhiễm sắc thể thường gây hậu quả gì?",
+          options: [
+            "A. Làm tăng số lượng gen",
+
+            "B. Làm mất đi một số gen",
+
+            "C. Làm thay đổi vị trí gen",
+
+            "D. Không ảnh hưởng đến gen",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Hiện tượng lặp đoạn nhiễm sắc thể có thể dẫn đến hậu quả nào?",
+          options: [
+            "A. Mất cân bằng gen",
+
+            "B. Làm tăng lượng gen → tăng cường biểu hiện tính trạng",
+
+            "C. Tạo nhiễm sắc thể kép",
+
+            "D. Làm mất gen trội",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Trong đột biến chuyển đoạn, điều gì xảy ra?",
+          options: [
+            "A. Một đoạn NST bị đảo ngược 180°",
+
+            "B. Đoạn NST này gắn sang NST khác",
+
+            "C. Đoạn NST bị mất đi",
+
+            "D. Nhân đôi đoạn NST",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Hội chứng Down ở người là một ví dụ điển hình của dạng đột biến số lượng nhiễm sắc thể nào?",
+          options: [
+            "A. Thể một (2n - 1)",
+
+            "B. Thể tam bội (3n)",
+
+            "C. Thể ba (2n + 1)",
+
+            "D. Thể tứ bội (4n)",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Đột biến nào là đột biến đa bội chẵn:",
+          options: [
+            "A. n, 3n, 5n",
+
+            "B. 2n, 4n, 6n",
+
+            "C. 4n, 6n, 8n",
+
+            "D. 3n, 5n, 7n",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Nguyên nhân chủ yếu gây đột biến lệch bội là:",
+          options: [
+            "A. Rối loạn nhân đôi DNA",
+
+            "B. Rối loạn phân li NST trong giảm phân hoặc nguyên phân",
+
+            "C. Tác động của virut",
+
+            "D. Tăng cường trao đổi chéo",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Hiện tượng đa bội thường gặp ở:",
+          options: [
+            "A. Động vật bậc cao",
+
+            "B. Vi khuẩn",
+
+            "C. Thực vật",
+
+            "D. Nấm",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Mối quan hệ giữa di truyền và biến dị là?",
+          options: [
+            "A. Diễn ra đối lập nhau",
+
+            "B. Diễn ra song song và gắn liền với quá trình sinh sản",
+
+            "C. Diễn ra rời rạc không gắn liền với quá trình sinh sản",
+
+            "D. Không có liên quan với nhau",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

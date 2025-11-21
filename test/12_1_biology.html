@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Sinh học MĐ1 - Bài 1</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Bài trắc nghiệm Sinh học - Bài 1: Gene và cơ chế truyền thông tin di
+      truyền
+    </h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Bốn loại đơn phân cấu tạo nên DNA có kí hiệu là:",
+          options: [
+            "A. A, U, G, C",
+
+            "B. A, T, G, C",
+
+            "C. U, T, G, C",
+
+            "D. A, T, U, C",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nguyên tắc bổ sung là:",
+          options: [
+            "A. A-T, T-U, G-C, C-A",
+
+            "B. A-C, T-G, G-T, C-A",
+
+            "C. A-T, T-A, G-C, C-G",
+
+            "D. A-G, T-C, G-A, C-U",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Dịch mã là quá trình tổng hợp:",
+          options: ["A. Lipit", "B. Carbonhydrate", "C. Protein", "D. Vitamin"],
+          answer: 2,
+        },
+
+        {
+          text: "Trong các câu sau bao nhiêu câu sai:<br>1. AUG chỉ là bộ ba mở đầu, UAA, UAG, UGC là bộ ba kết thúc.<br>2. AUG có khả năng mã hóa amino acid methionine ở sinh vật nhân sơ.<br>3. AUG có khả năng mã hóa amino acid formylmethionine ở sinh vật nhân sơ.<br>4. AUG có khả năng mã hóa amino acid methionine ở sinh vật nhân thực.<br>5. AUG có khả năng mã hóa amino acid formylmethionine ở sinh vật nhân thực.",
+
+          options: ["A. 2", "B. 5", "C. 4", "D. 3"],
+          answer: 3,
+        },
+
+        {
+          text: "1 nucleotide gồm:",
+          options: [
+            "A. Nitrogen base, phosphate, đường deoxyribose",
+
+            "B. Nitrogen base, phosphate, ribosome",
+
+            "C. mRNA, phosphate, đường deoxyribose",
+
+            "D. Nitrogen base, gen, đường deoxyribose",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Enzym chính tham gia phiên mã:",
+          options: [
+            "A. Ligase",
+
+            "B. RNA-polymerase",
+
+            "C. DNA-polymerase",
+
+            "D. Helicase",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Enzym nối các đoạn Okazaki thành mạch DNA hoàn chỉnh:",
+          options: [
+            "A. Ligase",
+
+            "B. RNA-polymerase",
+
+            "C. DNA-polymerase",
+
+            "D. Helicase",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Enzym tháo xoắn:",
+          options: [
+            "A. Ligase",
+
+            "B. RNA-polymerase",
+
+            "C. DNA-polymerase",
+
+            "D. Helicase",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Bộ ba nào khác với bộ ba còn lại:",
+          options: ["A. UAA", "B. UGU", "C. UGA", "D. UAG"],
+          answer: 1,
+        },
+
+        {
+          text: "Mã di truyền khởi đầu dịch mã có quá trình:",
+          options: ["A. 5’UGA3’", "B. 5’UAG3’", "C. 5’AUG3’", "D. 5’AGU3’"],
+          answer: 2,
+        },
+
+        {
+          text: "Có bao nhiêu bộ ba trong 64 bộ ba amino acid là mã hóa được:",
+          options: ["A. 64", "B. 63", "C. 62", "D. 61"],
+          answer: 3,
+        },
+
+        {
+          text: "Cơ chế di truyền cấp độ phân tử không bao gồm quá trình:",
+          options: [
+            "A. Nguyên phân",
+
+            "B. Dịch mã",
+
+            "C. Nhân đôi DNA",
+
+            "D. Phiên mã",
+          ],
+          answer: 0,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

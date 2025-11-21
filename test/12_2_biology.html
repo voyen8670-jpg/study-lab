@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Sinh học MĐ1 - Bài 2</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Sinh học - Bài 2: Thực hành – Tách chiết DNA</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Mục đích chính của thí nghiệm tách chiết DNA là gì?",
+
+          options: [
+            "A. Xác định cấu trúc của DNA",
+
+            "B. Tách DNA ra khỏi tế bào để quan sát",
+
+            "C. Tổng hợp DNA mới trong ống nghiệm",
+
+            "D. Đo khối lượng DNA trong tế bào",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Chất liệu thường dùng trong thí nghiệm tách chiết DNA là:",
+
+          options: [
+            "A. Thịt động vật",
+
+            "B. Dung dịch đường",
+
+            "C. Quả chuối chín, gan gà hoặc gan heo",
+
+            "D. Hỗn hợp muối ăn",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Trong quá trình tách chiết DNA, vai trò của nước dứa là gì?",
+
+          options: [
+            "A. Giúp DNA kết tủa",
+
+            "B. Làm tan màng tế bào",
+
+            "C. Phân giải protein để giải phóng DNA",
+
+            "D. Làm DNA tan trong nước",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Vai trò của nước rửa chén hoặc dung dịch tẩy rửa trong thí nghiệm là:",
+
+          options: [
+            "A. Làm tăng độ nhớt của dung dịch",
+
+            "B. Phá vỡ màng tế bào và màng nhân để giải phóng DNA",
+
+            "C. Làm DNA kết tủa",
+
+            "D. Tạo môi trường axit để bảo vệ DNA",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Bước nào dưới đây được thực hiện để tách DNA ra khỏi hỗn hợp?",
+
+          options: [
+            "A. Thêm dung dịch cồn lạnh",
+
+            "B. Khuấy đều hỗn hợp",
+
+            "C. Nghiền mẫu vật",
+
+            "D. Thêm muối",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Dấu hiệu nhận biết DNA đã được tách ra là:",
+
+          options: [
+            "A. Xuất hiện kết tủa trắng sợi nổi lên",
+
+            "B. Dung dịch có màu vàng nhạt",
+
+            "C. Dung dịch trong suốt",
+
+            "D. Xuất hiện bọt khí trên bề mặt",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Vì sao cần dùng cồn lạnh thay vì cồn thường trong bước kết tủa DNA?",
+
+          options: [
+            "A. Cồn lạnh giúp phá vỡ protein nhanh hơn",
+
+            "B. Cồn lạnh làm DNA không tan và kết tủa dễ hơn",
+
+            "C. Cồn lạnh giúp DNA tan hoàn toàn",
+
+            "D. Để DNA giữ nguyên cấu trúc xoắn",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Nếu không nghiền nát mẫu vật trước khi cho dung dịch tách chiết thì:",
+
+          options: [
+            "A. Không ảnh hưởng đến việc tách DNA",
+
+            "B. Giúp DNA trong tế bào tan ra nhanh hơn",
+
+            "C. Khó phá vỡ màng tế bào, DNA không được giải phóng",
+
+            "D. Làm DNA bị phân hủy",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Dung dịch chứng minh sự có mặt của DNA là:",
+
+          options: ["A. Cồn 70%", "B. Diphenylamine", "C. NaOH", "D. HCl"],
+
+          answer: 1,
+        },
+
+        {
+          text: "Nếu không thêm cồn lạnh vào hỗn hợp sau khi lọc, điều gì xảy ra?",
+
+          options: [
+            "A. DNA không kết tủa, không quan sát thấy sợi DNA",
+
+            "B. DNA tan ra và đổi màu",
+
+            "C. DNA bị phá hủy hoàn toàn",
+
+            "D. DNA biến đổi cấu trúc xoắn kép",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Lọc hỗn hợp sau khi nghiền, mục đích là:",
+
+          options: [
+            "A. Tách các phần rắn, thu dịch có chứa DNA",
+
+            "B. Làm nguội dung dịch",
+
+            "C. Làm tăng lượng DNA",
+
+            "D. Trung hòa dung dịch",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Thứ tự đúng của các bước tách chiết DNA từ chuối là:<br>(a)Cho nước rửa chén vào để phá hủy màn tế bào.<br>(b)Cho nước dứa vào để phân giải protein.<br>(c)Cho cồn lạnh vào để tạo kết tủa DNA.<br>(d)Nghiền mẫu vật và lọc dịch nghiền.<br>",
+
+          options: ["A. d-b-c-a", "B. d-a-c-b", "C. d-b-a-c", "D. d-a-b-c"],
+
+          answer: 3,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

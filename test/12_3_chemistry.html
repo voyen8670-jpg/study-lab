@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Hóa học - Bài 6: Carbohydrate</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+        margin-left: 20px;
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 3: Giới thiệu về Carbohydrate</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Chọn phát biểu đúng về carbohydrate:",
+
+          options: [
+            "A. Carbohydrate là những hợp chất hữu cơ đa chức, thường có công thức chung C<sub>n</sub>(H<sub>2</sub>O)<sub>m.",
+
+            "B. Carbohydrate là những hợp chất hữu cơ tạp chức, công thức chung C<sub>n</sub>(H<sub>2n</sub>O).",
+
+            "C. Carbohydrate là những hợp chất hữu cơ tạp chức, công thức chung C<sub>n</sub>(H<sub>2</sub>O)<sub>m.",
+
+            "D. Carbohydrate là những hợp chất hữu cơ đa chức, công thức chung C<sub>n</sub>(H<sub>2n</sub>O).",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Carbohydrate được chia làm mấy nhóm chính?",
+
+          options: ["A. 3", "B. 4", "C. 2", "D. 5"],
+          answer: 0,
+        },
+
+        {
+          text: "Chất nào sau đây là disaccharide?",
+
+          options: ["A. Glucose", "B. Maltose", "C. Tinh bột", "D. Cellulose"],
+          answer: 1,
+        },
+
+        {
+          text: "Chất nào sau đây thuộc loại monosaccharide?",
+
+          options: [
+            "A. Tinh bột",
+            "B. Cellulose",
+            "C. Fructose",
+            "D. Saccharose",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Carbohydrate nào sau đây thuộc loại polysaccharide?",
+
+          options: [
+            "A. Saccharose",
+            "B. Cellulose",
+            "C. Fructose",
+            "D. Glucose",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Có bao nhiêu ý dưới đây đúng với monosaccharide: <br>(1) –OH hemiacetal ở C số 2 của fructose và –OH hemiketal ở C số 1 của glucose. <br>(2) Không bị thủy phân thành phân tử nhỏ hơn. <br>(3) Glucose, fructose là rắn rinh khiết, tan trong nước, ngọt.<br>(4) Glucose và fructose là đồng phân, tồn tại dạng mạch hở & vòng (chủ yếu vòng).<br>(5) Dạng mạch hở có 5 –OH và 1 nhóm carbonyl.<br>(6) Dạng hở và vòng không chuyển hóa lẫn nhau. <br>(7) Glucose vòng 5, fructose vòng 6.<br>(8) Phân biệt glucose với fructose bằng Br<sub>2.",
+
+          options: ["A. 6", "B. 4", "C. 5", "D. 3"],
+          answer: 2,
+        },
+
+        {
+          text: "Có bao nhiêu ý đúng với disaccharide: <br>(1) Sacharose & maltose có cấu tạo mạch vòng và mở vòng. <br>(2) Cả sacharose & maltose đều được cấu tạo thành từ 2 đơn vị α-glucose qua liên kết α-1,2-glycoside. <br>(3) Sacharose là đồng phân của maltose; cả hai bị thủy phân (acid) đều cho ra sản phẩm có glucose.<br>(4) Disaccharide rắn, ngọt, dễ tan và làm chất tạo ngọt trong bánh kẹo.<br>(5) Sacharose có trong đường mía, maltose trong mạch nha, cùng công thức C<sub>12</sub>H<sub>22</sub>O<sub>11.",
+
+          options: ["A. 5", "B. 3", "C. 2", "D. 4"],
+          answer: 1,
+        },
+
+        {
+          text: "Có bao nhiêu ý đúng với polysaccharide: <br>(1) Phân tử khối cellulose lớn hơn tinh bột rất nhiều. <br>(2) Amylopectin trong tinh bột có nhiều đơn vị α-glucose liên kết qua α-1,4-glycoside và các chuỗi này liên kết với nhau tạo mạch nhánh qua liên kết α-1,8-glycoside.<br>(3) Cellulose chỉ dùng làm sợi, tơ, giấy, không thể sản xuất xà phòng, chất giặt, ethanol, thuốc súng không khói.<br>(4) Cellulose gồm nhiều đơn vị β-glucose liên kết với nhau qua liên kết β-1,4-glycoside.<br>(5) Thủy phân tinh bột không hoàn toàn cho dextrin, maltose; hoàn toàn cho glucose.<br>(6) Công thức đơn vị cellulose [C<sub> 6</sub>H<sub>7</sub>O<sub>2</sub>(OH)<sub>3</sub>]<sub>n.",
+
+          options: ["A. 6", "B. 5", "C. 4", "D. 2"],
+          answer: 2,
+        },
+
+        {
+          text: "Số nguyên tử cacbon trong phân tử glucose là:",
+
+          options: ["A. 6", "B. 11", "C. 5", "D. 12"],
+          answer: 0,
+        },
+
+        {
+          text: "Trong saccharose, đơn vị glucose và fructose liên kết với nhau qua nguyên tử:",
+
+          options: ["A. Hydrogen", "B. Nitrogen", "C. Carbon", "D. Oxygen"],
+          answer: 3,
+        },
+
+        {
+          text: "Chọn tổ hợp đúng về tính chất của <br>Cellulose có dạng sợi (1). <br>tan trong nước (2) <br>Dùng để sản xuất tơ nhân tạo (3). <br>Chế tạo thuốc súng không khói (4)<br>Tham gia phản ứng tráng bạc (5).<br> Bị thuỷ phân trong dung dịch acid đun nóng (6):",
+
+          options: [
+            "A. (2), (3), (4), (5)",
+
+            "B. (3), (4), (5), (6)",
+
+            "C. (1), (2), (3), (4)",
+
+            "D. (1), (3), (4), (6)",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Chất rắn X không màu, vị ngọt sắc, nhiều trong mật ong; công nghiệp điều chế X bằng thủy phân chất Y. X và Y lần lượt là:",
+
+          options: [
+            "A. Glucose và fructose",
+
+            "B. Saccharose và glucose",
+
+            "C. Saccharose và cellulose",
+
+            "D. Fructose và saccharose",
+          ],
+          answer: 3,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

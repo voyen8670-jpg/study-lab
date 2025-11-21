@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      Bài trắc nghiệm Vật Lý - Bài 4: Thực hành đo các đại lượng nhiệt
+    </title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Vật Lý - Bài 4: Thực hành đo các đại lượng nhiệt</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Để xác định nhiệt dung riêng của một chất bằng thực nghiệm ta không dùng đến dụng cụ nào?",
+
+          options: ["A. Cân điện tử", "B. Oát kế", "C. Nhiệt kế", "D. Vôn kế"],
+          answer: 1,
+        },
+
+        {
+          text: "Công thức tính nhiệt lượng khi làm thay đổi nhiệt độ của vật là",
+
+          options: ["A. Q = mcΔT", "B. Q = mλ", "C. Q = mL", "D. Q = mcΔt"],
+          answer: 0,
+        },
+
+        {
+          text: "Đơn vị của nhiệt dung riêng trong hệ SI là",
+
+          options: ["A. J/kg", "B. J/(kg·K)", "C. cal/(g·°C)", "D. J/(mol·K)"],
+          answer: 1,
+        },
+
+        {
+          text: "Trong thí nghiệm xác định nhiệt dung riêng của chất rắn bằng phương pháp truyền nhiệt, giả thiết cơ bản là",
+
+          options: [
+            "A. Không có sự trao đổi nhiệt giữa các vật.",
+
+            "B. Nhiệt lượng chất rắn tỏa ra bằng nhiệt lượng nước thu vào.",
+
+            "C. Chỉ nước tỏa nhiệt.",
+
+            "D. Nhiệt độ nước không đổi.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nhiệt nóng chảy riêng λ là gì?",
+
+          options: [
+            "A. Nhiệt lượng cần để 1 kg chất lỏng sôi.",
+
+            "B. Nhiệt lượng cần cung cấp để 1 kg chất đó chuyển hoàn toàn từ thể rắn sang thể lỏng tại nhiệt độ nóng chảy.",
+
+            "C. Nhiệt lượng cần để 1 kg chất tăng 1°C.",
+
+            "D. Nhiệt lượng cần để 1 mol chất hóa hơi.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Công thức tính nhiệt lượng trong quá trình nóng chảy là",
+
+          options: ["A. Q = mcΔT", "B. Q = mλ", "C. Q = mL", "D. Q = mcΔt"],
+          answer: 1,
+        },
+
+        {
+          text: "Để xác định nhiệt nóng chảy riêng của nước đá, trong các dụng cụ sau, dụng cụ nào cần thiết nhất?",
+
+          options: [
+            "A. Cân điện tử",
+
+            "B. Oát kế",
+
+            "C. Nhiệt kế có độ chia nhỏ nhất 1°C",
+
+            "D. Vôn kế",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Nhiệt hóa hơi riêng L là",
+
+          options: [
+            "A. Nhiệt lượng cầncung cấp để 1 kg chất lỏng đó hóa hơi hoàn toàn ở nhiệt độ sôi.",
+
+            "B. Nhiệt lượng cần để 1 kg chất lỏng tăng 1°C.",
+
+            "C. Nhiệt lượng cần để 1 mol chất hóa hơi.",
+
+            "D. Nhiệt lượng cần để 1 kg chất bay hơi có tăng nhiệt độ.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Công thức tính nhiệt lượng để làm bay hơi một khối lượng chất lỏng là",
+
+          options: ["A. Q = mcΔT", "B. Q = mλ", "C. Q = mL", "D. Q = mcΔt"],
+          answer: 2,
+        },
+
+        {
+          text: "Trong thí nghiệm xác định nhiệt hóa hơi riêng của nước, nhiệt lượng cung cấp cho nước bao gồm",
+
+          options: [
+            "A. Làm nóng nước đến nhiệt độ sôi và hóa hơi toàn bộ.",
+
+            "B. Chỉ làm nước sôi.",
+
+            "C. Chỉ hóa hơi một phần nước.",
+
+            "D. Chỉ làm tăng nhiệt độ nước mà không bay hơi.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Khi tiến hành thí nghiệm đo các đại lượng nhiệt, để giảm sai số ta cần",
+
+          options: [
+            "A. Dừng thí nghiệm sớm.",
+
+            "B. Cách nhiệt tốt, đo nhiều lần và lấy giá trị trung bình.",
+
+            "C. Đổ thêm nước để dễ đo.",
+
+            "D. Đun mạnh để nhanh có kết quả.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nhiệt nóng chảy riêng của nước đá là 3,34·10^5 J/kg có ý nghĩa gì?",
+
+          options: [
+            "A. Khối lượng nước đá tỏa ra 3,34·10^5 nóng chảy hoàn toàn.",
+
+            "B. Mỗi kilôgam nước đá cần thu nhiệt lượng 3,34·10^5 J để hóa lỏng hoàn toàn ở nhiệt độ nóng chảy.",
+
+            "C. Khối lượng nước đá thu 3,34·10^5 để hóa thành nước lỏng.",
+
+            "D. Mỗi kilôgam nước đá cần tỏa 3,34·10^5 để hóa lỏng hoàn toàn ở nhiệt độ nóng chảy.",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label><br>`
+  )
+  .join("")}
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

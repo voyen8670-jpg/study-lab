@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      Bài trắc nghiệm Sinh học 12 - Bài 6: Quan sát đột biến nhiễm sắc thể và
+      tác hại của chất độc
+    </title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>
+      Bài trắc nghiệm Sinh học 12 - Bài 6: Quan sát đột biến nhiễm sắc thể và
+      tác hại của chất độc
+    </h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Mục tiêu chính của bài thực hành này là gì?",
+
+          options: [
+            "A. Nhận biết các loại gen khác nhau",
+
+            "B. Quan sát nhận dạng đột biến nhiễm sắc thể và các chất độc ",
+
+            "C. Xác định số lượng tế bào đang phân chia",
+
+            "D. Tìm hiểu quá trình nhân đôi ADN",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Đột biến nhiễm sắc thể là gì?",
+
+          options: [
+            "A. Sự thay đổi trong cấu trúc hoặc số lượng của nhiễm sắc thể",
+
+            "B. Sự thay đổi trong trình tự nucleotit của gen",
+
+            "C. Sự thay đổi của môi trường tế bào",
+
+            "D. Sự nhân đôi ADN bị lỗi",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Khi quan sát tiêu bản, tế bào có số lượng NST không bình thường là biểu hiện của:",
+
+          options: [
+            "A. Đột biến gen",
+
+            "B. Đột biến nhiễm sắc thể",
+
+            "C. Thoái hóa tế bào",
+
+            "D. Đột biến ADN",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Một tế bào người có 47 nhiễm sắc thể có thể là do:",
+
+          options: [
+            "A. Đột biến cấu trúc NST",
+
+            "B. Đột biến lệch bội",
+
+            "C. Đột biến đa bội",
+
+            "D. Đột biến gen trội",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Trong quá trình thực hành, việc sử dụng mẫu rễ hành tây nhằm mục đích:",
+
+          options: [
+            "A. Dễ quan sát sự quang hợp",
+
+            "B. Rễ hành tây có nhiều tế bào ở vùng phân sinh, thuận tiện quan sát NST.",
+
+            "C. Có nhiều sắc tố",
+
+            "D. Có tế bào lớn",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi soi kính hiển vi, NST dễ quan sát nhất ở kì nào của nguyên phân?",
+
+          options: ["A. Kì đầu", "B. Kì giữa", "C. Kì sau", "D. Kì cuối"],
+          answer: 1,
+        },
+
+        {
+          text: "Chất độc nào dưới đây có khả năng gây đột biến NST?",
+
+          options: [
+            "A. Rượu etylic",
+
+            "B. Thuốc trừ sâu DDT",
+
+            "C. Cafein",
+
+            "D. Nước muối sinh lý",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Chất phóng xạ ảnh hưởng đến bộ NST bằng cách nào?",
+
+          options: [
+            "A. Làm tăng khả năng nhân đôi ADN",
+
+            "B. Gây đứt gãy hoặc biến dạng NST",
+
+            "C. Kích thích phân bào nhanh hơn",
+
+            "D. Không ảnh hưởng",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Đột biến đa bội xảy ra khi:",
+
+          options: [
+            "A. Tế bào tăng thêm hoặc mất một NST",
+
+            "B. Khi bộ nhiễm sắc thể (NST) của tế bào tăng lên một số nguyên lần so với bộ NST đơn bội (n) của loài, lớn hơn 2n",
+
+            "C. NST bị mất một đoạn nhỏ",
+
+            "D. Một gen bị biến đổi",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Việc tìm hiểu tác hại của chất độc trong bài thực hành giúp học sinh:",
+
+          options: [
+            "A. Hiểu được quy trình nhân đôi ADN",
+
+            "B. Có ý thức bảo vệ môi trường, tránh tiếp xúc chất gây đột biến",
+
+            "C. Biết cách phân biệt động vật và thực vật",
+
+            "D. Hiểu về cấu trúc của gen",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Một trong những chất có thể gây đa bội hóa là:",
+
+          options: ["A. Colchicin", "B. Glucose", "C. NaCl", "D. Vitamin C"],
+          answer: 0,
+        },
+
+        {
+          text: "Tác hại của đột biến NST ở người là:",
+
+          options: [
+            "A. Làm tăng năng suất cây trồng",
+
+            "B. Làm xuất hiện nhiều đặc điểm tốt",
+
+            "C. Gây nên các hội chứng di truyền như Down, Turner",
+
+            "D. Không ảnh hưởng tới sức khỏe",
+          ],
+          answer: 2,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

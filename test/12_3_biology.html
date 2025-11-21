@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Sinh học - Bài 3: Điều hòa gen</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Sinh học - Bài 3: Điều hòa gen</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Điều hòa biểu hiện gen là",
+          options: [
+            "A. Là quá trình tổng hợp protein từ mARN",
+
+            "B. Là kiểm soát quá trình tạo ra sản phẩm của gene",
+
+            "C. Là quá trình nhân đôi DNA",
+
+            "D. Là quá trình biến đổi cấu trúc nhiễm sắc thể",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Cơ chế điều hòa biểu hiện gene được hai nhà khoa học nào phát hiện:",
+          options: [
+            "A. Mendel và Morgan",
+
+            "B. Issac Newton và Elbert Einstein",
+
+            "C. Darwin và Lamark",
+
+            "D. François Jacob và Jacques Monod",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Thành phần của một opêron Lac ở vi khuẩn E. coli gồm:",
+          options: [
+            "A. Vùng điều hòa gen cấu trúc, gen điều hòa",
+
+            "B. Vùng promoter (P), vùng operator (O), nhóm gen cấu trúc",
+
+            "C. Gen điều hòa, gen cấu trúc, vùng kết thúc",
+
+            "D. Chỉ gồm các gen cấu trúc",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Gene Lac I có vai trò:",
+          options: [
+            "A. Tổng hợp enzym lactase",
+
+            "B. Tổng hợp prôtêin ức chế",
+
+            "C. Tổng hợp mARN",
+
+            "D. Quy định sự nhân đôi DNA",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Trong điều kiện môi trường không có lactôzơ, prôtêin ức chế sẽ:",
+          options: [
+            "A. Bám vào vùng vận hành và ngăn cản phiên mã",
+
+            "B. Bị phá hủy, làm gen hoạt động",
+
+            "C. Kích thích quá trình phiên mã",
+
+            "D. Giúp ARN polymerase bám vào vùng khởi đầu",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Khi có lactôzơ trong môi trường, gen của opêron Lac hoạt động vì:",
+          options: [
+            "A. Lactôzơ gắn vào prôtêin ức chế, làm nó mất khả năng bám vào vùng vận hành",
+
+            "B. Lactôzơ kích thích gen điều hòa tổng hợp thêm prôtêin",
+
+            "C. Lactôzơ giúp gen điều hòa hoạt động mạnh hơn",
+
+            "D. Lactôzơ gắn trực tiếp vào vùng khởi đầu để mở gen",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Mục đích của điều hòa hoạt động gen ở sinh vật là:",
+          options: [
+            "A. Đảm bảo tất cả gen đều hoạt động liên tục",
+
+            "B. Giúp tế bào tiết kiệm năng lượng và giúp thích ứng, phù hợp với môi trường",
+
+            "C. Làm cho tế bào có thể phân chia nhanh hơn",
+
+            "D. Làm tăng số lượng gen hoạt động trong nhân",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nếu gen điều hòa bị đột biến làm không tổng hợp được prôtêin ức chế, điều gì xảy ra?",
+          options: [
+            "A. Opêron luôn bị tắt",
+
+            "B. Opêron hoạt động liên tục, dù có hay không có lactôzơ",
+
+            "C. Opêron không bao giờ hoạt động",
+
+            "D. ARN polymerase không thể bám vào vùng khởi đầu",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Điều hòa hoạt động gen ở sinh vật nhân thực phức tạp hơn ở vi khuẩn vì:",
+          options: [
+            "A. Có nhiều gen hơn và nhiều mức độ điều hòa khác nhau",
+
+            "B. Không có vùng khởi đầu và vận hành",
+
+            "C. Không có prôtêin ức chế",
+
+            "D. Không xảy ra phiên mã",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Quá trình điều hòa hoạt động gen chủ yếu có thể diễn ra ở mức độ nào sau đây đối với tế bào nhân sơ?",
+          options: [
+            "A. Mức nhân đôi DNA",
+
+            "B. Mức phiên mã",
+
+            "C. Mức sao mã tARN",
+
+            "D. Mức tái tổ hợp nhiễm sắc thể",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Trong mô hình điều hòa gen ở vi khuẩn, vai trò của vùng khởi đầu (P) là:",
+          options: [
+            "A. Nơi prôtêin ức chế bám vào",
+
+            "B. Nơi RNA polymerase bám vào để khởi đầu phiên mã",
+
+            "C. Nơi gen điều hòa hoạt động",
+
+            "D. Nơi kết thúc phiên mã",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Bao nhiêu ý đúng:<br>-Điều hòa gene được ứng dụng trong y-dược học, nông nghiệp, công nghệ sinh học, nghiên cứu di truyền.<br>-Điều hoà biểu hiện gene ở vi khuẩn không giúp chúng tự điều chỉnh quá trình trao đổi chất.<br>-Trong điều kiện bình thường có hay không có Lactose thì opêron vẫn hoạt động bình thường, vẫn tạo ra sản phẩm.<br>-Lac I là một phần của opêron.<br>-Nếu môi trường không có đường mà operon vẫn hoạt động (gen cấu trúc vẫn phiên mã) thì do vùng O hoặc vùng Lac I bị đột biến.<br>-Khi bổ sung lactose vào môi trường nuôi cấy thì lactose sẽ bị biến đổi thành allolactose (1 dạng đồng phân của lactose).<br>-Điều hòa biểu hiện gene đảm bảo cho tế bào thích ứng với môi trường và quá trình phát triển bình thường của cơ thể.",
+
+          options: ["A. 5", "B. 4", "C. 3", "D. 2"],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

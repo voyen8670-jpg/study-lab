@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Sinh học MĐ1 - Bài 1: Lipit (Chất béo)</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 2: xà phòng và chất giặt rửa tổng hợp</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Khái niệm xà phòng:",
+          options: [
+            "A. Xà phòng là hỗn hợp của các muối Sodium hoặc Potassium của acid béo và một số chất phụ gia.",
+
+            "B. Xà phòng là hỗn hợp của các muối Sodium hoặc Potassium của acid hữu cơ và một số chất phụ gia.",
+
+            "C. Xà phòng là hỗn hợp của các muối Sodium hoặc Potassium của acid vô cơ và một số chất phụ gia.",
+
+            "D. Xà phòng là hỗn hợp của các muối Sodium hoặc Potassium của acid yếu và một số chất phụ gia.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Chất giặt rửa chia thành mấy loại và đó là gì?",
+          options: [
+            "A. 1 loại. Chất giặt rửa tổng hợp",
+
+            "B. 1 loại. Chất giặt rửa tự nhiên",
+
+            "C. 2 loại. Chất giặt rửa tự nhiên và chất giặt rửa tổng hợp",
+
+            "D. 2 loại. Chất giặt của gốc hydrocacbon no mạch dài và chất giặt của gốc hydrocacbon không no mạch dài",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Cấu tạo của xà phòng và chất giặt rửa gồm mấy phần?",
+          options: [
+            "A. 2 phần: phần ưa nước và phần ưa dầu",
+
+            "B. 2 phần: phần ưa nước và phần kị nước",
+
+            "C. 2 phần: phần kị dầu và kị nước",
+
+            "D. 2 phần: phần ưa nước và kị dầu",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Xà phòng và chất giặt rửa có điểm chung là:",
+          options: [
+            "A. Chứa muối sodium có khả năng làm giảm sức căng bề mặt các chất bẩn",
+
+            "B. Các muối được lấy từ phản ứng xà phòng",
+
+            "C. Có nguồn gốc từ động vật, thực vật",
+
+            "D. Có thể tác dụng với nước cứng",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Để tẩy vết dầu, mỡ bám trên quần áo, sử dụng chất nào sau đây là phù hợp nhất?",
+          options: [
+            "A. Nước cất",
+            "B. Dung dịch sodium hydroxide",
+            "C. Dung dịch nước Javel",
+            "D. Dung dịch xà phòng",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Nguyên liệu nào sau đây dùng để điều chế chất giặt rửa tự nhiên?",
+          options: ["A. Dầu mỏ", "B. Mỡ lợn", "C. Gỗ", "D. Bồ kết, bồ hòn"],
+          answer: 3,
+        },
+
+        {
+          text: "Chất nào sau đây có thể là chất giặt rửa tổng hợp?",
+          options: [
+            "A. CH₃[CH₂]₁₄COONa",
+            "B. CH₃[CH₂]₁₆COOK",
+            "C. CH₃[CH₂]₁₀CH₂OSO₃Na",
+            "D. CH₃[CH₂]₁₁CO₃Na",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Phát biểu nào sau đây là sai?",
+          options: [
+            "A. Xà phòng và chất giặt rửa tự nhiên khó bị phân hủy sinh học nên gây ô nhiễm môi trường.",
+
+            "B. Không nên dùng xà phòng với nước cứng do tạo kết tủa bám trên bề mặt vải, làm hỏng vải.",
+
+            "C. Chất giặt rửa tổng hợp dùng được với nước cứng.",
+
+            "D. Chất giặt rửa tổng hợp khó bị phân hủy sinh học, gây ô nhiễm môi trường.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Sơ đồ nào đúng về xà phòng được sản xuất từ alkane lấy từ công nghiệp chế biến dầu mỏ:",
+          options: [
+            "A. Alkane → Acid béo → Muối sodium (hoặc potassium) của acid béo",
+
+            "B. Alkane → Acid vô cơ → Muối sodium (hoặc potassium) của acid vô cơ",
+
+            "C. Alkane → Acid hữu cơ → Muối sodium (hoặc potassium) của acid hữu cơ",
+
+            "D. Alkane → Acid mạnh → Muối sodium (hoặc potassium) của acid mạnh",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Chất gì trong bồ hòn và bồ kết có khả năng tạo ra lớp bọt nhẹ tương tự xà phòng khi tiếp xúc nước?",
+          options: [
+            "A. Tinh dầu",
+            "B. Saponin",
+            "C. Acid béo",
+            "D. Triglyceride",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Đâu là ưu và nhược điểm của chất giặt rửa tự nhiên? <br>(1)Lành tính với da, không gây kích ứng. <br>(2)Dễ phân hủy nên không gây ô nhiễm <br>(3)Khó sản xuất ở quy mô công nghiệp<br>(4)Giá thành cao",
+          options: [
+            "A. Nhược: 1-3 và ưu: 2-4",
+
+            "B. Nhược: 1-3-4 và ưu: 2",
+
+            "C. Nhược: 3-4 và ưu: 1-2",
+
+            "D. Nhược: 2-3-4 và ưu: 1",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Điểm khác biệt giữa chất giặt rửa tổng hợp và xà phòng:",
+          options: [
+            "A. Dùng được ở nước cứng vì không có kết tủa",
+
+            "B. Gây ô nhiễm môi trường",
+
+            "C. Khó bị vi sinh vật phân hủy",
+
+            "D. Có thể bị phân hủy bởi các vi sinh vật môi trường",
+          ],
+          answer: 0,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Vật Lý - Bài 5: Thuyết động học phân tử</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .correct-answer {
+        margin-top: 8px;
+
+        color: green;
+
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Vật Lý - Bài 5: Thuyết động học phân tử</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Trong mô hình động học phân tử chất khí, các phân tử khí được giả định:",
+
+          options: [
+            "A. đứng yên tại vị trí cân bằng cố định.",
+
+            "B. chuyển động hỗn loạn, không ngừng.",
+
+            "C. chỉ va chạm với nhau chứ không va thành bình.",
+
+            "D. chỉ chuyển động thành các đường thẳng xác định.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nguyên nhân chính gây ra áp suất của một khí lý tưởng trong bình là:",
+
+          options: [
+            "A. các phân tử khí va chạm với thành bình.",
+
+            "B. các phân tử khí bị hút vào thành bình.",
+
+            "C. các phân tử khí dừng lại tại thành bình.",
+
+            "D. thành bình chuyển động.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Đối với chất khí, khoảng cách trung bình giữa các phân tử so với chất lỏng và chất rắn là:",
+
+          options: [
+            "A. nhỏ hơn rất nhiều.",
+
+            "B. bằng.",
+
+            "C. lớn hơn rất nhiều.",
+
+            "D. chẳng thay đổi theo mức nhiệt độ",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Hiện tượng chuyển động Brown của các hạt lơ lửng trong khí hoặc lỏng là do:",
+
+          options: [
+            "A. chuyển động có trật tự của phân tử môi trường.",
+
+            "B. va chạm của các phân tử môi trường với các hạt.",
+
+            "C. lực hút tĩnh điện giữa các hạt.",
+
+            "D. nhiệt độ thấp",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi nhiệt độ của một lượng khí lý tưởng tăng lên, các phân tử khí chuyển động:",
+
+          options: [
+            "A. chậm lại.",
+
+            "B. không thay đổi.",
+
+            "C. nhanh hơn.",
+
+            "D. chuyển thành thể lỏng.",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Trong một bình chứa khí lý tưởng, nếu giảm thể tích giữ nguyên nhiệt độ và lượng khí, áp suất sẽ:",
+
+          options: [
+            "A. tăng.",
+
+            "B. giảm.",
+
+            "C. không thay đổi.",
+
+            "D. phụ thuộc vào màu sắc của bình.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Đệm hơi cứu nạn thay vì thay đổi thành phần khí chứa bên trong thì chủ yếu hoạt động dựa trên tính chất nào của khí?",
+
+          options: [
+            "A. Khí không có khối lượng riêng.",
+
+            "B. Khí dễ bị nén và có thể phân tán lực va chạm.",
+
+            "C. Khí luôn đứng yên trong bị chứa.",
+
+            "D. Khí không va chạm với thành bình",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Nội dung nào sau đây không phải là tính chất của phân tử khí theo mô hình động học phân tử?",
+
+          options: [
+            "A. Chuyển động hỗn loạn, không ngừng.",
+
+            "B. Nhiệt độ càng cao → phân tử chuyển động càng nhanh.",
+
+            "C. Va chạm thành bình gây áp suất.",
+
+            "D. Chuyển động hỗn loạn xung quanh các vị trí cân bằng cố định.",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Hiện tượng mùi hôi từ bãi rác lan nhanh hơn khi trời nắng nóng là vì:",
+
+          options: [
+            "A. phân tử mùi hôi hết chuyển động.",
+
+            "B. phân tử môi trường chuyển động nhanh hơn, khuếch tán mùi nhanh.",
+
+            "C. áp suất giảm trong không khí.",
+
+            "D. khối lượng phân tử mùi hôi tăng lên.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Khi đun nồi nước, đến khi nước sôi thì nắp nồi thường bị đẩy lên bởi:",
+
+          options: [
+            "A. lực hút từ nắp.",
+
+            "B. áp suất hơi nước và các phân tử khí va thành nắp.",
+
+            "C. lực ma sát giữa nước và nắp.",
+
+            "D. nhiệt độ giảm đột ngột.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Trong mô hình động học phân tử, nếu lượng khí và thể tích không đổi nhưng nhiệt độ giảm, thì chuyển động của phân tử sẽ:",
+
+          options: [
+            "A. tăng nhanh.",
+
+            "B. chậm lại.",
+
+            "C. không thay đổi.",
+
+            "D. biến thành chất rắn.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Tại sao khi bơm xe đạp đến gần căng, ta cảm thấy khó hơn mỗi lần đạp pit-tông xuống?",
+
+          options: [
+            "A. Vì thể tích khí trong săm tăng → áp suất giảm → dễ hơn.",
+
+            "B. Vì thể tích khí trong săm giảm → áp suất tăng → pit‐tông bị ép lại.",
+
+            "C. Vì pit-tông trở nên nhẹ hơn.",
+
+            "D. Vì nhiệt độ của khí tự giảm.",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label><br>`
+  )
+  .join("")}
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

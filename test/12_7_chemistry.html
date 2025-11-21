@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Hóa học - Bài 7: Peptide, Protein, Enzyme</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f9fafb;
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+        margin-left: 20px;
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 7: Peptide, Protein, Enzyme</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Trong phân tử một α-amino acid, những nhóm chức nào tham gia hình thành liên kết peptide?",
+
+          options: [
+            "A. –COOH và –OH",
+            "B. –NH₂ và –COOH",
+            "C. –NH₂ và –NH₂",
+            "D. –COOH và –CHO",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Theo quy ước, khi biểu diễn phân tử peptide, nhóm amino (của amino acid đầu N) và nhóm carboxyl (của amino acid đầu C) nằm ở đâu?",
+
+          options: [
+            "A. Bên trái, bên phải",
+            "B. Chỉ ở bên trái",
+            "C. Chỉ ở bên phải",
+            "D. bên phải, bên trái",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Phát biểu nào sau đây đúng về peptide?",
+
+          options: [
+            "A. Peptide là chuỗi dài > 1000 đơn vị amino acid.",
+
+            "B. Peptide chỉ gồm hai α-amino acid.",
+
+            "C. Peptide gồm từ 2 đến vài chục đơn vị α-amino acid.",
+
+            "D. Peptide luôn có cấu trúc mạng tinh thể.",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Trong thí nghiệm “phản ứng màu biuret” với peptide, nếu thu được màu tím thì chứng tỏ có:",
+
+          options: [
+            "A. Nhiều nhóm –OH",
+
+            "B. Liên kết peptit còn nguyên vẹn (chuỗi peptit chưa bị thủy phân)",
+
+            "C. Amino acid tự do nhiều",
+
+            "D. Đã thủy phân thành amino acid",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Phát biểu nào sau đây đúng về protein so với peptide?",
+
+          options: [
+            "A. Protein là phân tử tạo từ 1–2 α-amino acid.",
+
+            "B. Protein chỉ gồm các α-amino acid kết hợp bằng liên kết ester.",
+
+            "C. Protein là chuỗi nhiều polypeptide hoặc nhiều chuỗi peptide liên kết với nhau.",
+
+            "D. Protein luôn không tan trong nước và vô hoạt sinh học.",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Trong phản ứng thủy phân hoàn toàn một tripeptide Ala–Gly–Val bằng dung dịch kiềm dư, sản phẩm thu được là:",
+
+          options: [
+            "A. Một loại amino acid duy nhất.",
+
+            "B. Muối của ba loại α-amino acid: alanine, glycine và valine.",
+
+            "C. Một dipeptide và một amino acid.",
+
+            "D. Ba peptide nhỏ hơn.",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Phát biểu nào không đúng về enzyme?",
+
+          options: [
+            "A. Enzyme là protein xúc tác các phản ứng sinh hóa trong cơ thể.",
+
+            "B. Enzyme làm tăng tốc độ phản ứng.",
+
+            "C. Enzyme có thể bị tác động bởi nhiệt độ và pH.",
+
+            "D. Enzyme không bị biến tính khi gặp nhiệt độ cao.",
+          ],
+
+          answer: 3,
+        },
+
+        {
+          text: "Vì sao khi ướp thịt với nước ép quả dứa hoặc đu đủ, quá trình nấu thịt thường diễn ra nhanh hơn?",
+
+          options: [
+            "A. Vì trong quả dứa/đu đủ có enzyme thủy phân protein như bromelain hoặc papain.",
+
+            "B. Vì trong quả dứa/đu đủ có nhiều acid làm tan thịt.",
+
+            "C. Vì trong quả dứa/đu đủ có ion kim loại nặng kết tủa protein.",
+
+            "D. Vì trong quả dứa/đu đủ có nhiều muối giúp phá hủy peptide.",
+          ],
+
+          answer: 0,
+        },
+
+        {
+          text: "Phản ứng nào sau đây là ví dụ của phản ứng đông tụ protein?",
+
+          options: [
+            "A. Trộn dung dịch peptit với dung dịch NaOH.",
+
+            "B. Đun nóng dung dịch lòng trắng trứng và quan sát kết tủa trắng.",
+
+            "C. Thêm dung dịch NaCl vào dung dịch peptide còn khỏe.",
+
+            "D. Cho enzyme hoạt động trong môi trường thích hợp.",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Khi thủy phân hoàn toàn một peptide bằng dung dịch kiềm, phản ứng màu biuret có còn xảy ra không?",
+
+          options: [
+            "A. Có, vì vẫn còn liên kết –CO–NH–.",
+
+            "B. Không, vì liên kết peptit đã bị phá và chỉ còn amino acid.",
+
+            "C. Có, vì amino acid cũng cho màu biuret.",
+
+            "D. Không, vì môi trường kiềm không cho phản ứng biuret.",
+          ],
+
+          answer: 1,
+        },
+
+        {
+          text: "Một đặc điểm nào sau đây không phải là tính chất của protein?",
+
+          options: [
+            "A. Có khả năng đông tụ dưới tác dụng của nhiệt, acid, muối kim loại nặng.",
+
+            "B. Có trình tự xác định của các α-amino acid và cấu trúc cao.",
+
+            "C. Làm mất màu dung dịch brom nếu có nhóm –CHO.",
+
+            "D. Có chức năng sinh học như enzyme, cấu trúc tế bào,…",
+          ],
+
+          answer: 2,
+        },
+
+        {
+          text: "Khẳng định nào sau đây là đúng về mối quan hệ giữa α-amino acid, peptide và protein?",
+
+          options: [
+            "A. α-aminoacid (đơn vị cấu tạo nên peptide) → peptide (1 hay nhiều chuỗi polypeptide sẽ tạo thành protein) → protein.",
+
+            "B. α-amino acid và protein không liên quan.",
+
+            "C. Protein là đơn vị nhỏ hơn peptide.",
+
+            "D. Peptide không phải được cấu tạo từ α-amino acid.",
+          ],
+
+          answer: 0,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

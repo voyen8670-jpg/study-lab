@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bài trắc nghiệm Hóa học - Bài 1: Este</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin: 40px;
+
+        background-color: #f9fafb;
+
+        color: #222;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      .question {
+        background: #fff;
+
+        padding: 15px;
+
+        margin-bottom: 15px;
+
+        border-radius: 10px;
+
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .question.correct {
+        border-left: 6px solid green;
+      }
+
+      .question.incorrect {
+        border-left: 6px solid red;
+      }
+
+      button {
+        background: #007bff;
+
+        color: white;
+
+        border: none;
+
+        padding: 12px 24px;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+        margin-right: 10px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        margin-top: 20px;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      .options {
+        margin-top: 10px;
+      }
+
+      .options label {
+        display: block;
+
+        margin-left: 20px;
+
+        line-height: 1.8em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bài trắc nghiệm Hóa học - Bài 1: Este</h1>
+
+    <div id="quiz"></div>
+
+    <button onclick="checkAnswers()">Kiểm tra</button>
+
+    <button onclick="resetQuiz()">Làm lại bài</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+      const questions = [
+        {
+          text: "Định nghĩa đúng về Ester:",
+          options: [
+            "A. Khi thay nhóm -OH ở nhóm carboxyl của carboxylic acid (RCOOH) bằng nhóm OR’ thì được Ester trong đó R’ là gốc hydrocacbon.",
+
+            "B. Ester là hợp chất vô cơ.",
+
+            "C. Ester là hợp chất hữu cơ có nhóm chữ -CHO.",
+
+            "D. Khi thay nhóm -H ở nhóm carboxyl của carboxylic acid (RCOOH) bằng nhóm OR’ thì được Ester trong đó R’ là gốc hydrocacbon.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Công thức tổng quát của Ester:",
+          options: ["A. RCOOR’", "B. RCOOH", "C. RCHO", "D. ROH"],
+          answer: 0,
+        },
+
+        {
+          text: "Có bao nhiêu câu đúng về tính chất của Este:<br>• Ester có nhiệt độ sôi thấp hơn hydrocacbon.<br>• Ở điều kiện thường, các ester đều ở thể lỏng và rắn.<br>• Ester có nhiệt độ sôi thấp hơn alcohol.<br>• Ester nhẹ hơn nước và ít tan trong nước.<br>• Ester bị thủy phân trong môi trường base và acid.<br>• Ester không có mùi.",
+
+          options: ["A. 5", "B. 4", "C. 3", "D. 2"],
+          answer: 1,
+        },
+
+        {
+          text: "Thủy phân trong môi trường base là phản ứng mấy chiều và còn được gọi là phản ứng gì?",
+
+          options: [
+            "A. 2 chiều - phản ứng xà phòng hóa.",
+
+            "B. 1 chiều - phản ứng xà phòng hóa.",
+
+            "C. 2 chiều - phản Ester hóa.",
+
+            "D. 1 chiều - phản Ester hóa.",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Tên gọi của HCOOC₂H₅ là:",
+          options: [
+            "A. Methyl formate",
+            "B. Ethyl formate",
+            "C. Methyl acetate",
+            "D. Ethyl acetate",
+          ],
+          answer: 1,
+        },
+
+        {
+          text: "Tên gọi của mùi chuối chín và công thức cấu tạo là:",
+          options: [
+            "A. Isoamyl formate - HCOOCH₂CH₂CH(CH₃)₂",
+
+            "B. Isoamyl propionate - CH₃CH₂COOCH₂CH₂CH(CH₃)₂",
+
+            "C. Isoamyl acrylate - CH₂=CHCOOCH₂CH₂CH(CH₃)₂",
+
+            "D. Isoamyl acetate - CH₃COOCH₂CH₂CH(CH₃)₂",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Công thức cấu tạo CH₃CH₂CH₂COOC₂H₅ có tên và mùi là:",
+          options: [
+            "A. Benzyl acetate - mùi hoa nhài",
+
+            "B. Ethyl propionate - mùi dứa chín",
+
+            "C. Ethyl butyrate - mùi dứa chín",
+
+            "D. Isoamyl acetate - mùi chuối chín",
+          ],
+          answer: 2,
+        },
+
+        {
+          text: "Trong các ứng dụng của Este, ý nào không đúng:",
+          options: [
+            "A. Este có mùi thơm nên dùng làm mùi hương cho mỹ phẩm.",
+
+            "B. Este còn làm dung môi, tổng hợp poly(vinyl acetate) làm keo dán.",
+
+            "C. Este dùng để tổng hợp Poly(methyl methacrylate) làm thủy tinh hữu cơ.",
+
+            "D. Este chỉ có thể làm mùi hương cho mỹ phẩm, không thể dùng làm hương liệu cho bánh kẹo.",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Ester no, đơn chức, mạch hở có công thức cấu tạo:",
+          options: [
+            "A. C<sub>n</sub>H<sub>2n</sub>NO (n ≥ 2)",
+
+            "B. C<sub>n</sub>H<sub>2n−2</sub>NO<sub>2</sub> (n ≥ 2)",
+
+            "C. C<sub>n</sub>H<sub>2n+2</sub>NO<sub>2</sub> (n ≥ 2)",
+
+            "D. C<sub>n</sub>H<sub>2n</sub>O<sub>2</sub> (n ≥ 2)",
+          ],
+          answer: 3,
+        },
+
+        {
+          text: "Điều chế Ester bằng cách nào:",
+          options: [
+            "A. Đun nóng hỗn hợp gồm acid và alcohol với H₂SO₄ đặc làm xúc tác.",
+
+            "B. Đun nóng hỗn hợp gồm acid và alcohol với NaOH làm xúc tác.",
+
+            "C. Cho acid và alcohol phản ứng ở nhiệt độ thường, H₂SO₄ đặc làm xúc tác.",
+
+            "D. Cho acid và alcohol phản ứng ở nhiệt độ thường, NaOH làm xúc tác.",
+          ],
+          answer: 0,
+        },
+
+        {
+          text: "Chất nào sau đây là este:",
+          options: ["A. CH₃COOH", "B. CH₃CH₂CHO", "C. CH₃COOCH₃", "D. CH₃OH"],
+          answer: 2,
+        },
+
+        {
+          text: "Đặc điểm nào sau đây là của phản ứng este hóa:",
+          options: [
+            "A. Phản ứng thuận nghịch, cần đun nóng và không cần xúc tác.",
+
+            "B. Phản ứng thuận nghịch, cần đun nóng và cần xúc tác.",
+
+            "C. Phản ứng một chiều, cần đun nóng và cần xúc tác.",
+
+            "D. Phản ứng một chiều, cần đun nóng và không cần xúc tác.",
+          ],
+          answer: 1,
+        },
+      ];
+
+      const quizContainer = document.getElementById("quiz");
+
+      function loadQuiz() {
+        quizContainer.innerHTML = "";
+
+        questions.forEach((q, i) => {
+          const div = document.createElement("div");
+
+          div.classList.add("question");
+
+          div.innerHTML = `
+
+<p><b>Câu ${i + 1}:</b> ${q.text}</p>
+
+<div class="options">
+
+${q.options
+  .map(
+    (opt, idx) =>
+      `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label>`
+  )
+  .join("")}
+
+</div>
+
+<div class="correct-answer" id="correct${i}"></div>
+
+`;
+
+          quizContainer.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correct = 0;
+
+        const questionDivs = document.querySelectorAll(".question");
+
+        questionDivs.forEach((div, i) => {
+          const selected = div.querySelector(`input[name="q${i}"]:checked`);
+
+          const correctAnswerDiv = div.querySelector(`#correct${i}`);
+
+          const correctText = questions[i].options[questions[i].answer];
+
+          if (selected) {
+            const answer = parseInt(selected.value);
+
+            if (answer === questions[i].answer) {
+              div.classList.add("correct");
+
+              div.classList.remove("incorrect");
+
+              correctAnswerDiv.innerHTML = "";
+
+              correct++;
+            } else {
+              div.classList.add("incorrect");
+
+              div.classList.remove("correct");
+
+              correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+            }
+          } else {
+            div.classList.add("incorrect");
+
+            div.classList.remove("correct");
+
+            correctAnswerDiv.innerHTML = `👉 <b>Đáp án đúng là:</b> ${correctText}`;
+          }
+        });
+
+        const total = questions.length;
+
+        const score = ((correct / total) * 10).toFixed(2);
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `✅ Số câu đúng: ${correct}/${total} — 💯 Điểm: ${score}`;
+      }
+
+      function resetQuiz() {
+        document.getElementById("result").innerHTML = "";
+
+        loadQuiz();
+      }
+
+      loadQuiz();
+    </script>
+  </body>
+</html>
