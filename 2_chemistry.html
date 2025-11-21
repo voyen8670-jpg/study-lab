@@ -3,16 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Sim: Glucose + Cu(OH)₂</title>
+    <title>Sim: Glucose + CuSO₄/NaOH → Cu(OH)₂</title>
     <style>
       :root {
         --bg: #071227;
         --panel: #0b1520;
-        --blueTop: rgb(60, 163, 255);
-        --blueBottom: rgb(27, 111, 179);
+        /* Xanh đậm cho Cu(OH)2 */
+        --blueTop: rgb(40, 140, 255);
+        --blueBottom: rgb(10, 90, 210);
+        /* Xanh nhạt cho CuSO4 */
+        --blueLightTop: rgb(160, 210, 255);
+        --blueLightBottom: rgb(110, 180, 240);
+        /* Đỏ gạch cho Cu2O */
         --redTop: rgb(170, 78, 40);
         --redBottom: rgb(110, 40, 18);
       }
+
       body {
         font-family: Inter, Arial, Helvetica, sans-serif;
         background: linear-gradient(180deg, #031426, #071227);
@@ -22,48 +28,56 @@
         display: flex;
         justify-content: center;
       }
+
       .wrap {
-        max-width: 980px;
+        max-width: 1100px;
         width: 100%;
       }
+
       h1 {
         margin: 0 0 8px;
         font-size: 18px;
       }
+
       .bench {
         display: flex;
-        gap: 28px;
+        gap: 24px;
         align-items: flex-end;
         justify-content: center;
         margin: 16px 0;
+        flex-wrap: wrap;
       }
+
       .tube {
-        width: 100px;
-        height: 300px;
+        width: 90px;
+        height: 280px;
         border: 2px solid rgba(255, 255, 255, 0.08);
         border-radius: 18px 18px 30px 30px;
         position: relative;
         overflow: hidden;
         background: rgba(255, 255, 255, 0.02);
       }
+
       .neck {
         position: absolute;
         top: -28px;
-        left: calc(50% - 22px);
-        width: 44px;
-        height: 50px;
+        left: calc(50% - 20px);
+        width: 40px;
+        height: 46px;
         border-radius: 8px;
         background: rgba(255, 255, 255, 0.03);
       }
+
       .liquid {
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
         height: 0;
-        transition: height 1.5s linear, background 2.5s linear;
+        transition: height 1.5s linear;
         border-radius: 0 0 28px 28px;
       }
+
       .liquid .precip {
         position: absolute;
         left: 0;
@@ -73,12 +87,14 @@
         pointer-events: none;
         overflow: hidden;
       }
+
       .precip-dot {
         position: absolute;
         border-radius: 50%;
         opacity: 0.95;
         box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
       }
+
       .label {
         position: absolute;
         top: 6px;
@@ -86,17 +102,20 @@
         font-size: 13px;
         color: #cfe3ff;
       }
+
       .caption {
         text-align: center;
         margin-top: 6px;
         font-size: 14px;
       }
+
       .controls {
         margin-top: 12px;
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
       }
+
       button {
         padding: 8px 12px;
         border-radius: 8px;
@@ -105,12 +124,18 @@
         color: #e6f5ff;
         cursor: pointer;
       }
+
+      button:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 12px;
         color: #dfeeff;
       }
+
       td,
       th {
         padding: 6px;
@@ -118,6 +143,7 @@
         font-size: 13px;
         text-align: left;
       }
+
       .explain {
         margin-top: 12px;
         background: rgba(255, 255, 255, 0.03);
@@ -126,23 +152,92 @@
         font-size: 14px;
         line-height: 1.5;
       }
+
       pre {
         background: transparent;
         color: #dfeeff;
         padding: 6px;
         font-size: 13px;
       }
-      .muted {
-        color: #9fb7e6;
-        font-size: 13px;
+
+      /* =========================
+         RESPONSIVE CHO MOBILE
+         ========================= */
+
+      /* Tablet & điện thoại ngang */
+      @media (max-width: 768px) {
+        body {
+          padding: 12px;
+        }
+
+        h1 {
+          font-size: 16px;
+          text-align: center;
+        }
+
+        .bench {
+          gap: 16px;
+          margin-top: 12px;
+        }
+
+        .tube {
+          width: 70px;
+          height: 220px;
+        }
+
+        .neck {
+          width: 32px;
+          height: 38px;
+          top: -24px;
+          left: calc(50% - 16px);
+        }
+
+        .caption {
+          font-size: 12px;
+        }
+      }
+
+      /* Điện thoại nhỏ (≤ 480px) */
+      @media (max-width: 480px) {
+        body {
+          padding: 8px;
+        }
+
+        .bench {
+          gap: 10px;
+        }
+
+        .tube {
+          width: 60px;
+          height: 190px;
+        }
+
+        .caption {
+          font-size: 11px;
+        }
+
+        .label {
+          font-size: 11px;
+        }
+
+        button {
+          font-size: 12px;
+          padding: 6px 8px;
+        }
+
+        td,
+        th {
+          font-size: 12px;
+        }
       }
     </style>
   </head>
-  <body data-experiment="2_chemistry">
+  <body data-experiment="2_chemistry_cuso4_naoh">
     <div class="wrap">
-      <h1>Mô phỏng: Glucose + Cu(OH)₂</h1>
+      <h1>Mô phỏng: Điều chế Cu(OH)₂ từ CuSO₄/NaOH và phản ứng với Glucose</h1>
 
       <div class="bench" aria-hidden="false">
+        <!-- Ống A: CuSO4 (xanh nhạt) -->
         <div style="display: flex; flex-direction: column; align-items: center">
           <div class="tube" id="tubeA">
             <div class="neck"></div>
@@ -153,8 +248,8 @@
               style="
                 background: linear-gradient(
                   180deg,
-                  var(--blueTop),
-                  var(--blueBottom)
+                  var(--blueLightTop),
+                  var(--blueLightBottom)
                 );
               "
             >
@@ -162,12 +257,13 @@
             </div>
           </div>
           <div class="caption">
-            Cu(OH)<sub>2</sub><br /><strong
+            CuSO<sub>4</sub><br /><strong
               >0.5 M, <span id="capA">20</span> mL</strong
             >
           </div>
         </div>
 
+        <!-- Ống B: NaOH -->
         <div style="display: flex; flex-direction: column; align-items: center">
           <div class="tube" id="tubeB">
             <div class="neck"></div>
@@ -181,10 +277,11 @@
             </div>
           </div>
           <div class="caption">
-            Glucose<br /><strong>0.5 M, <span id="capB">15</span> mL</strong>
+            NaOH<br /><strong>1.0 M, <span id="capB">20</span> mL</strong>
           </div>
         </div>
 
+        <!-- Ống C: Glucose -->
         <div style="display: flex; flex-direction: column; align-items: center">
           <div class="tube" id="tubeC">
             <div class="neck"></div>
@@ -194,19 +291,38 @@
               id="liqC"
               style="background: linear-gradient(180deg, #eef3ff, #e9f4ff)"
             >
-              <div class="precip" id="precipC"></div>
+              <div class="precip"></div>
             </div>
           </div>
           <div class="caption">
-            Hỗn hợp<br /><strong><span id="capC">0</span> mL</strong>
+            Glucose<br /><strong>0.5 M, <span id="capC">10</span> mL</strong>
+          </div>
+        </div>
+
+        <!-- Ống D: Hỗn hợp -->
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div class="tube" id="tubeD">
+            <div class="neck"></div>
+            <div class="label">Ống D</div>
+            <div
+              class="liquid"
+              id="liqD"
+              style="background: linear-gradient(180deg, #eef3ff, #e9f4ff)"
+            >
+              <div class="precip" id="precipD"></div>
+            </div>
+          </div>
+          <div class="caption">
+            Hỗn hợp (phản ứng)<br /><strong><span id="capD">0</span> mL</strong>
           </div>
         </div>
       </div>
 
       <div class="controls">
-        <button id="pourA">Rót A → C</button>
-        <button id="pourB">Rót B → C</button>
-        <button id="heat">Đun C</button>
+        <button id="pourA">Rót CuSO₄ → D</button>
+        <button id="pourB">Rót NaOH → D</button>
+        <button id="pourC">Rót Glucose → D</button>
+        <button id="heat">Đun ống D</button>
         <button id="reset">Đặt lại</button>
       </div>
 
@@ -220,19 +336,24 @@
         </thead>
         <tbody>
           <tr>
-            <td>Ống A (Cu(OH)₂)</td>
+            <td>Ống A (CuSO₄)</td>
             <td>0.5 M</td>
             <td id="volA">20 mL</td>
           </tr>
           <tr>
-            <td>Ống B (Glucose)</td>
-            <td>0.5 M</td>
-            <td id="volB">15 mL</td>
+            <td>Ống B (NaOH)</td>
+            <td>1.0 M</td>
+            <td id="volB">20 mL</td>
           </tr>
           <tr>
-            <td>Ống C (Hỗn hợp)</td>
+            <td>Ống C (Glucose)</td>
+            <td>0.5 M</td>
+            <td id="volC">10 mL</td>
+          </tr>
+          <tr>
+            <td>Ống D (Hỗn hợp)</td>
             <td>—</td>
-            <td id="volC">0 mL</td>
+            <td id="volD">0 mL</td>
           </tr>
         </tbody>
       </table>
@@ -240,83 +361,92 @@
       <div class="explain" id="explain">
         <strong>Giải thích theo thao tác</strong>
         <div id="explainText" style="margin-top: 6px">
-          Chuẩn bị: A — Cu(OH)<sub>2</sub> (0.5 M, 20 mL, xanh lam); B — Glucose
-          (0.5 M, 15 mL, không màu).<br />
-          Hãy rót A và/hoặc B vào C (thể tích sẽ dâng từ từ). Phần giải thích sẽ
-          cập nhật từng bước.
+          Chuẩn bị: <br />
+          A — CuSO<sub>4</sub> (0.5 M, 20 mL, xanh nhạt);<br />
+          B — NaOH (1.0 M, 20 mL, không màu);<br />
+          C — Glucose (0.5 M, 10 mL, không màu).<br /><br />
+          Hãy rót A, B, C vào ống D. Trước hết trộn CuSO<sub>4</sub> và NaOH để
+          tạo kết tủa Cu(OH)<sub>2</sub> xanh đậm, sau đó mới cho Glucose và đun
+          nóng.
         </div>
       </div>
 
       <div class="explain" style="margin-top: 8px">
         <strong>Phương trình (tóm tắt):</strong>
-        <pre>C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O</pre>
+        <pre>
+(1) CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄
+(2) C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O
+        </pre>
       </div>
     </div>
 
     <script>
-      // Initial fixed volumes (mL)
-      const INIT = { A: 20, B: 15, C: 0 };
+      // Thể tích ban đầu (mL)
+      const INIT = { A: 20, B: 20, C: 10, D: 0 };
       let A = INIT.A,
         B = INIT.B,
-        C = INIT.C;
-      let c_hasCu = false,
-        c_hasG = false; // flags to track contents of C
-      let isHeating = false;
+        C = INIT.C,
+        D = INIT.D;
 
-      // DOM refs
+      // cờ trạng thái ống D
+      let d_hasCuSalt = false,
+        d_hasOH = false,
+        d_hasG = false,
+        d_hasCuOH2 = false,
+        isHeating = false,
+        heatAnimId = null;
+
+      const MAX_TOTAL_VOL = 50; // 20 + 20 + 10
+
+      // Màu dạng mảng RGB để nội suy
+      const LIGHT_TOP = [160, 210, 255];
+      const LIGHT_BOTTOM = [110, 180, 240];
+      const DARK_TOP = [40, 140, 255];
+      const DARK_BOTTOM = [10, 90, 210];
+      const RED_TOP = [170, 78, 40];
+      const RED_BOTTOM = [110, 40, 18];
+
+      // DOM
       const liqA = document.getElementById("liqA");
       const liqB = document.getElementById("liqB");
       const liqC = document.getElementById("liqC");
-      const precipC = document.getElementById("precipC");
+      const liqD = document.getElementById("liqD");
+      const precipD = document.getElementById("precipD");
+
       const capA = document.getElementById("capA");
       const capB = document.getElementById("capB");
       const capC = document.getElementById("capC");
+      const capD = document.getElementById("capD");
+
       const volA = document.getElementById("volA");
       const volB = document.getElementById("volB");
       const volC = document.getElementById("volC");
+      const volD = document.getElementById("volD");
       const explainText = document.getElementById("explainText");
 
-      // helpers
       function volToPct(v) {
-        return Math.min(v / 40, 0.85) * 100 + "%";
+        return Math.min(v / MAX_TOTAL_VOL, 0.9) * 100 + "%";
       }
+
       function refreshAll() {
         liqA.style.height = volToPct(A);
         liqB.style.height = volToPct(B);
         liqC.style.height = volToPct(C);
+        liqD.style.height = volToPct(D);
+
         capA.textContent = Math.round(A);
         capB.textContent = Math.round(B);
         capC.textContent = Math.round(C);
+        capD.textContent = Math.round(D);
+
         volA.textContent = Math.round(A) + " mL";
         volB.textContent = Math.round(B) + " mL";
         volC.textContent = Math.round(C) + " mL";
-        updateCColor();
+        volD.textContent = Math.round(D) + " mL";
+
+        if (!isHeating) updateDColor();
       }
 
-      // Set color of C depending on contents & heating progress
-      function updateCColor(progress) {
-        // progress: if provided (0..1) indicates heating progress; if not provided, use heated state (isHeating)
-        if (typeof progress === "number") {
-          // blend blue -> red based on progress
-          const top = blend([60, 163, 255], [170, 78, 40], progress);
-          const bottom = blend([27, 111, 179], [110, 40, 18], progress);
-          liqC.style.background = `linear-gradient(180deg, ${top}, ${bottom})`;
-        } else {
-          if (isHeating) {
-            liqC.style.background =
-              "linear-gradient(180deg, rgb(170,78,40), rgb(110,40,18))";
-          } else if (C > 0 && c_hasCu) {
-            liqC.style.background =
-              "linear-gradient(180deg, rgb(60,163,255), rgb(27,111,179))";
-          } else if (C > 0 && !c_hasCu) {
-            liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
-          } else {
-            liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
-          }
-        }
-      }
-
-      // color blending helper
       function blend(a, b, t) {
         const r = Math.round(a[0] + (b[0] - a[0]) * t);
         const g = Math.round(a[1] + (b[1] - a[1]) * t);
@@ -324,39 +454,155 @@
         return `rgb(${r},${g},${bl})`;
       }
 
-      // animate pour: volumes change from source to C over ~1.5s
+      // Màu ống D theo trạng thái
+      function updateDColor(progress) {
+        if (typeof progress === "number") {
+          // khi đun: DARK -> RED
+          const top = blend(DARK_TOP, RED_TOP, progress);
+          const bottom = blend(DARK_BOTTOM, RED_BOTTOM, progress);
+          liqD.style.background = `linear-gradient(180deg, ${top}, ${bottom})`;
+        } else {
+          if (D <= 0) {
+            liqD.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+          } else if (d_hasCuOH2) {
+            liqD.style.background =
+              "linear-gradient(180deg,var(--blueTop),var(--blueBottom))";
+          } else if (d_hasCuSalt) {
+            liqD.style.background =
+              "linear-gradient(180deg,var(--blueLightTop),var(--blueLightBottom))";
+          } else {
+            liqD.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+          }
+        }
+      }
+
+      function clearPrecip() {
+        while (precipD.firstChild) precipD.removeChild(precipD.firstChild);
+      }
+
+      // Kết tủa Cu(OH)2 xanh đậm
+      function showCuOH2Precip() {
+        clearPrecip();
+        const count = Math.min(60, Math.round(D * 1.2));
+        for (let i = 0; i < count; i++) {
+          const dot = document.createElement("div");
+          dot.className = "precip-dot";
+          const size = 4 + Math.round(Math.random() * 8);
+          dot.style.width = size + "px";
+          dot.style.height = size + "px";
+
+          const left = 8 + Math.random() * 84;
+          const bottom = 2 + Math.random() * 16;
+          dot.style.left = left + "%";
+          dot.style.bottom = bottom + "px";
+
+          const r = 20 + Math.round(Math.random() * 30);
+          const g = 120 + Math.round(Math.random() * 50);
+          const b = 200 + Math.round(Math.random() * 40);
+          dot.style.background = `rgb(${r},${g},${b})`;
+
+          dot.style.transform = "scale(0.1)";
+          dot.style.transition = "transform 300ms ease, opacity 400ms ease";
+          precipD.appendChild(dot);
+          requestAnimationFrame(() => {
+            dot.style.transform = "scale(1)";
+          });
+        }
+      }
+
+      // Chuyển màu mượt từ xanh nhạt (CuSO4) -> xanh đậm (Cu(OH)2)
+      function animateToCuOH2Color() {
+        const duration = 1000; // ms
+        const start = performance.now();
+
+        function step(now) {
+          const t = Math.min(1, (now - start) / duration);
+
+          const top = blend(LIGHT_TOP, DARK_TOP, t);
+          const bottom = blend(LIGHT_BOTTOM, DARK_BOTTOM, t);
+          liqD.style.background = `linear-gradient(180deg, ${top}, ${bottom})`;
+
+          if (t < 1 && !isHeating && d_hasCuOH2) {
+            requestAnimationFrame(step);
+          } else if (!isHeating) {
+            updateDColor();
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      function checkCuOH2() {
+        const before = d_hasCuOH2;
+
+        if (d_hasCuSalt && d_hasOH && D > 0) {
+          d_hasCuOH2 = true;
+        } else {
+          d_hasCuOH2 = false;
+        }
+
+        // vừa hình thành Cu(OH)2
+        if (!before && d_hasCuOH2 && !isHeating) {
+          showCuOH2Precip();
+          animateToCuOH2Color();
+        }
+
+        if (!d_hasCuOH2 && !isHeating) {
+          clearPrecip();
+          updateDColor();
+        }
+      }
+
       function animatePour(source) {
         if (isHeating) {
-          // if user pours while heating, cancel heating and reset precipitate
           isHeating = false;
+          if (heatAnimId) cancelAnimationFrame(heatAnimId);
           clearPrecip();
-          updateCColor();
+          updateDColor();
         }
-        let amount = source === "A" ? A : B;
+
+        let amount = source === "A" ? A : source === "B" ? B : C;
+
         if (amount <= 0) {
           explainText.innerHTML = `<strong>Ống ${source} đã rỗng.</strong>`;
           return;
         }
-        // set flags: if pouring A => C will contain Cu
-        if (source === "A") c_hasCu = true;
-        if (source === "B") c_hasG = true;
-        explainText.innerHTML = `<strong>Đang rót ${source} vào ống C...</strong>`;
-        const steps = 15;
-        const dt = 100; // ms => ~1.5s total
+
+        if (source === "A") d_hasCuSalt = true;
+        if (source === "B") d_hasOH = true;
+        if (source === "C") d_hasG = true;
+
+        let ten;
+        if (source === "A") ten = "CuSO₄";
+        else if (source === "B") ten = "NaOH";
+        else ten = "Glucose";
+
+        explainText.innerHTML = `<strong>Đang rót ${ten} vào ống D...</strong>`;
+
+        const steps = 18;
+        const dt = 90;
         let step = 0;
         const delta = amount / steps;
+
         const iv = setInterval(() => {
           step++;
           if (source === "A") {
             const transfer = Math.min(delta, A);
             A = Math.max(0, A - transfer);
-            C = C + transfer;
-          } else {
+            D += transfer;
+          } else if (source === "B") {
             const transfer = Math.min(delta, B);
             B = Math.max(0, B - transfer);
-            C = C + transfer;
+            D += transfer;
+          } else {
+            const transfer = Math.min(delta, C);
+            C = Math.max(0, C - transfer);
+            D += transfer;
           }
+
+          checkCuOH2();
           refreshAll();
+
           if (step >= steps) {
             clearInterval(iv);
             explainAfterPour(source);
@@ -364,111 +610,145 @@
         }, dt);
       }
 
-      // explanation after pouring
       function explainAfterPour(source) {
         if (source === "A") {
-          explainText.innerHTML = `<strong>Đã rót Cu(OH)₂ vào ống C.</strong><br>Ống C chứa ion Cu²⁺ — dung dịch có màu xanh lam do Cu(OH)₂. Ở nhiệt độ phòng, glucozơ chưa khử Cu²⁺ rõ rệt.`;
-        } else {
-          if (c_hasCu) {
-            explainText.innerHTML = `<strong>Đã rót Glucose vào ống C.</strong><br>Hỗn hợp chứa cả glucozơ và ion Cu²⁺ — màu xanh có thể thấy. Tuy nhiên phản ứng khử cần nhiệt để diễn ra nhanh.`;
+          if (d_hasOH) {
+            explainText.innerHTML =
+              `<strong>Đã rót CuSO₄ vào ống D (đã có NaOH).</strong><br>` +
+              `CuSO₄ gặp NaOH tạo kết tủa Cu(OH)₂ màu xanh đậm: CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄.`;
           } else {
-            explainText.innerHTML = `<strong>Đã rót Glucose vào ống C.</strong><br>Ống C hiện chưa chứa Cu²⁺ nên vẫn trong suốt; phản ứng cần Cu²⁺ và nhiệt.`;
+            explainText.innerHTML =
+              `<strong>Đã rót CuSO₄ vào ống D.</strong><br>` +
+              `Dung dịch trong ống D có ion Cu²⁺ màu xanh nhạt. Cần thêm NaOH để tạo Cu(OH)₂.`;
+          }
+        } else if (source === "B") {
+          if (d_hasCuSalt) {
+            explainText.innerHTML =
+              `<strong>Đã rót NaOH vào ống D (đã có CuSO₄).</strong><br>` +
+              `Cu²⁺ gặp OH⁻ tạo kết tủa Cu(OH)₂ màu xanh đậm: CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄.`;
+          } else {
+            explainText.innerHTML =
+              `<strong>Đã rót NaOH vào ống D.</strong><br>` +
+              `Dung dịch kiềm không màu; cần thêm CuSO₄ để tạo Cu(OH)₂.`;
+          }
+        } else if (source === "C") {
+          if (d_hasCuOH2) {
+            explainText.innerHTML =
+              `<strong>Đã rót Glucose vào ống D (đã có Cu(OH)₂).</strong><br>` +
+              `Khi đun nóng, Glucose sẽ khử Cu(II) trong Cu(OH)₂ thành Cu₂O đỏ gạch.`;
+          } else {
+            explainText.innerHTML =
+              `<strong>Đã rót Glucose vào ống D.</strong><br>` +
+              `Trong ống D chưa có Cu(OH)₂, nên đun lên chưa thấy kết tủa đỏ gạch đặc trưng.`;
           }
         }
       }
 
-      // clear precipitate visuals
-      function clearPrecip() {
-        while (precipC.firstChild) precipC.removeChild(precipC.firstChild);
-      }
+      function heatD() {
+        if (D <= 0) {
+          explainText.innerHTML = `<strong>Ống D đang rỗng.</strong> Hãy rót CuSO₄, NaOH và Glucose vào ống D trước khi đun.`;
+          return;
+        }
+        if (!d_hasCuOH2) {
+          explainText.innerHTML = `<strong>Trong ống D chưa có Cu(OH)₂.</strong> Cần trộn CuSO₄ và NaOH trước.`;
+          return;
+        }
+        if (!d_hasG) {
+          explainText.innerHTML = `<strong>Trong ống D chưa có Glucose.</strong> Đun Cu(OH)₂ một mình không tạo Cu₂O đỏ gạch.`;
+          return;
+        }
 
-      // heating simulation: gradual color change + precipitate formation
-      function heatC() {
-        if (C <= 0) {
-          explainText.innerHTML = `<strong>Ống C đang rỗng.</strong> Hãy rót A và/hoặc B vào C trước khi đun.`;
-          return;
-        }
-        // If no Cu present, heating does nothing meaningful in our model
-        if (!c_hasCu) {
-          explainText.innerHTML = `<strong>Không có Cu²⁺ trong ống C.</strong> Đun sẽ không tạo kết tủa đỏ.`;
-          return;
-        }
-        // start heating
         isHeating = true;
-        explainText.innerHTML = `<strong>Đang đun ống C...</strong><br>Glucose bị oxi hoá, Cu²⁺ bị khử, Cu₂O kết tủa sẽ hình thành.`;
         clearPrecip();
-        const duration = Math.min(6000, 2000 + C * 120); // ms
-        const steps = 60;
-        const dt = Math.max(20, Math.round(duration / steps));
-        let step = 0;
-        const maxPrecip = Math.min(50, Math.round(C * 1.6)); // more volume => more visible precip
-        const heatIv = setInterval(() => {
-          step++;
-          const p = Math.min(1, step / steps);
-          // update color blend
-          updateCColor(p);
-          // create precipitate dots progressively
-          const targetCount = Math.round(maxPrecip * p);
-          let curr = precipC.childElementCount;
+
+        explainText.innerHTML =
+          `<strong>Đang đun ống D...</strong><br>` +
+          `Glucose bị oxi hoá, Cu(II) trong Cu(OH)₂ bị khử thành Cu(I), Cu₂O đỏ gạch dần xuất hiện.`;
+
+        const duration = Math.min(7000, 2500 + D * 120);
+        const maxPrecip = Math.min(70, Math.round(D * 1.6));
+        const start = performance.now();
+
+        function step(now) {
+          const t = Math.min(1, (now - start) / duration);
+          updateDColor(t);
+
+          const targetCount = Math.round(maxPrecip * t);
+          let curr = precipD.childElementCount;
           while (curr < targetCount) {
             const dot = document.createElement("div");
             dot.className = "precip-dot";
             const size = 4 + Math.round(Math.random() * 10);
             dot.style.width = size + "px";
             dot.style.height = size + "px";
-            // position random along bottom area inside liqC
-            const left = 8 + Math.random() * 84; // %
-            const bottom = 2 + Math.random() * 12; // px from bottom of liqC
+
+            const left = 8 + Math.random() * 84;
+            const bottom = 2 + Math.random() * 14;
             dot.style.left = left + "%";
             dot.style.bottom = bottom + "px";
-            // color variations in red-brown
+
             const r = 140 + Math.round(Math.random() * 30);
             const g = 40 + Math.round(Math.random() * 30);
             const b = 20 + Math.round(Math.random() * 10);
             dot.style.background = `rgb(${r},${g},${b})`;
-            // slight scale-in animation
+
             dot.style.transform = "scale(0.1)";
             dot.style.transition = "transform 300ms ease, opacity 400ms ease";
-            precipC.appendChild(dot);
-            // trigger scale
+            precipD.appendChild(dot);
             requestAnimationFrame(() => {
               dot.style.transform = "scale(1)";
             });
             curr++;
           }
-          if (step >= steps) {
-            clearInterval(heatIv);
+
+          if (t < 1 && isHeating) {
+            heatAnimId = requestAnimationFrame(step);
+          } else {
             isHeating = false;
-            // final state
-            updateCColor(1);
-            explainText.innerHTML = `<strong>Phản ứng hoàn tất (mô phỏng).</strong><br>Glucose bị oxi hoá; Cu²⁺ bị khử thành Cu₂O (kết tủa đỏ gạch) như trong phương trình.`;
+            updateDColor(1);
+            explainText.innerHTML =
+              `<strong>Phản ứng hoàn tất (mô phỏng).</strong><br>` +
+              `Glucose đã bị oxi hoá; Cu(II) trong Cu(OH)₂ bị khử thành Cu(I), ` +
+              `kết tủa Cu₂O đỏ gạch xuất hiện rõ trong ống D.`;
           }
-        }, dt);
+        }
+
+        heatAnimId = requestAnimationFrame(step);
       }
 
-      // button wiring
-      document.getElementById("pourA").addEventListener("click", () => {
-        animatePour("A");
-      });
-      document.getElementById("pourB").addEventListener("click", () => {
-        animatePour("B");
-      });
-      document.getElementById("heat").addEventListener("click", heatC);
+      // buttons
+      document
+        .getElementById("pourA")
+        .addEventListener("click", () => animatePour("A"));
+      document
+        .getElementById("pourB")
+        .addEventListener("click", () => animatePour("B"));
+      document
+        .getElementById("pourC")
+        .addEventListener("click", () => animatePour("C"));
+      document.getElementById("heat").addEventListener("click", heatD);
       document.getElementById("reset").addEventListener("click", () => {
-        // reset state and visuals
         A = INIT.A;
         B = INIT.B;
         C = INIT.C;
-        c_hasCu = false;
-        c_hasG = false;
+        D = INIT.D;
+        d_hasCuSalt = false;
+        d_hasOH = false;
+        d_hasG = false;
+        d_hasCuOH2 = false;
         isHeating = false;
+        if (heatAnimId) cancelAnimationFrame(heatAnimId);
         clearPrecip();
-        liqC.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
-        explainText.innerHTML = `Chuẩn bị: A — Cu(OH)₂ (0.5 M, 20 mL, xanh lam); B — Glucose (0.5 M, 15 mL, không màu).<br>Hãy rót A và/hoặc B vào C (thể tích dâng từ từ).`;
+        liqD.style.background = "linear-gradient(180deg,#eef3ff,#e9f4ff)";
+        explainText.innerHTML =
+          `Chuẩn bị: <br>` +
+          `A — CuSO₄ (0.5 M, 20 mL, xanh nhạt);<br>` +
+          `B — NaOH (1.0 M, 20 mL, không màu);<br>` +
+          `C — Glucose (0.5 M, 10 mL, không màu).<br><br>` +
+          `Hãy rót A và B vào ống D để tạo kết tủa Cu(OH)₂, sau đó thêm Glucose và đun nóng.`;
         refreshAll();
       });
 
-      // initialize
       refreshAll();
     </script>
 
