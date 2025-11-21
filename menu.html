@@ -353,6 +353,7 @@
       <div class="cube-label">UNITY LAB</div>
     </div>
 
+    <!-- Particles -->
     <script>
       const container = document.querySelector(".particles");
       for (let i = 0; i < 35; i++) {
@@ -367,6 +368,16 @@
       }
     </script>
 
+    <div id="mobile-banner">
+      <span class="banner-part1">
+        💡 Unity Lab 3D chỉ hỗ trợ <b>Laptop/PC</b> –
+      </span>
+      <span class="banner-part2">
+        &nbsp;vui lòng chuyển thiết bị để chơi game.
+      </span>
+    </div>
+
+    <!-- CSS cho counter + mobile banner -->
     <style>
       #visitor-counter {
         position: fixed;
@@ -400,6 +411,58 @@
       #visitor-counter img {
         vertical-align: middle;
         height: 22px;
+      }
+
+      /* Ẩn banner mặc định */
+      #mobile-banner {
+        display: none;
+      }
+
+      /* 📱 Chỉ hiển thị banner trên mobile / tablet */
+      @media (max-width: 991px) {
+        body {
+          /* chừa khoảng trống cho banner, tránh che nút */
+          padding-bottom: 70px;
+        }
+
+        #mobile-banner {
+          display: flex;
+          flex-wrap: wrap; /* cho phép xuống dòng giữa các span */
+          justify-content: center;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 14px 18px;
+          background: linear-gradient(
+            90deg,
+            rgba(0, 234, 255, 0.25),
+            rgba(150, 0, 255, 0.25)
+          );
+          backdrop-filter: blur(8px);
+          border-top: 2px solid rgba(0, 234, 255, 0.8);
+          color: #e0faff;
+          font-size: 16px;
+          font-weight: 600;
+          text-align: center;
+          z-index: 9999;
+          text-shadow: 0 0 10px rgba(0, 234, 255, 0.9);
+          animation: bannerGlow 2.2s ease-in-out infinite alternate;
+        }
+
+        /* vế đầu luôn trên một dòng, không bị cắt */
+        #mobile-banner .banner-part1 {
+          white-space: nowrap;
+        }
+
+        @keyframes bannerGlow {
+          from {
+            box-shadow: 0 -4px 12px rgba(0, 234, 255, 0.5);
+          }
+          to {
+            box-shadow: 0 -4px 26px rgba(0, 234, 255, 1);
+          }
+        }
       }
     </style>
   </body>
