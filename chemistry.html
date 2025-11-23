@@ -198,6 +198,35 @@
   <circle cx="16.5" cy="15" r="1.2" fill="#d0f0ff"/>
   <circle cx="16" cy="13" r="1.2" fill="#d0f0ff"/>
 </svg>`,
+        6: `
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="g">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <linearGradient id="acid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Flask -->
+  <path d="M24 4h16v18l12 24c4 8-2 14-10 14H22c-8 0-14-6-10-14l12-24z"
+        stroke="#67e8f9" stroke-width="3"
+        fill="rgba(15,23,42,0.85)" filter="url(#g)"/>
+
+  <!-- Liquid -->
+  <path d="M18 44c4-6 24-6 28 0v6c0 4-4 6-14 6s-14-2-14-6z"
+        fill="url(#acid)" filter="url(#g)"/>
+
+  <!-- Bubbles -->
+  <circle cx="28" cy="34" r="3" fill="#fef9c3" filter="url(#g)"/>
+  <circle cx="36" cy="30" r="2" fill="#fef9c3" filter="url(#g)"/>
+  <circle cx="32" cy="26" r="1.8" fill="#fef9c3" filter="url(#g)"/>
+</svg>
+`,
       };
 
       const data = [
@@ -238,6 +267,14 @@
           desc: "Quá trình H₂SO₄ đặc rút nước cực mạnh khỏi đường.",
           icon: "🧪",
           link: "h2so4_duong.html",
+          topic: "Phản ứng",
+          grade: "11",
+        },
+        {
+          title: "Nước cường toan (HNO₃ + HCl)",
+          desc: "Mô phỏng sự hòa tan vàng.",
+          icon: ICONS["6"],
+          link: "6_chemistry.html",
           topic: "Phản ứng",
           grade: "11",
         },

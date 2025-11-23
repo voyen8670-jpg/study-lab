@@ -1,0 +1,86 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "giải thích",
+        "quan sát",
+        "hướng dẫn",
+        "vì sao",
+        "tại sao",
+        "mục đích",
+        "ý nghĩa",
+        "tỉ lệ",
+        "1:3",
+        "1 : 3",
+        "tại sao vàng tan",
+        "tại sao vàng không tan"
+      ],
+      "guide": [
+        "Bước 1: Quan sát ống HNO₃ đặc nguội, cho vàng vào và ghi nhận hiện tượng (vàng không tan, không bọt).",
+        "Bước 2: Đun nóng ống HNO₃ đặc bằng đèn cồn, tiếp tục quan sát (vẫn không tan, không có khí đặc trưng).",
+        "Bước 3: Lặp lại thao tác tương tự với ống HCl đặc (nguội và đun nóng), so sánh hiện tượng với ống HNO₃.",
+        "Bước 4: Chọn tỉ lệ HNO₃ : HCl ở ống thứ ba, nhấn nút trộn và cho vàng vào để quan sát sự khác biệt.",
+        "Gợi ý: Thử trước tỉ lệ 1 : 3 hoặc các tỉ lệ có dạng HCl = 3 × HNO₃ (1:3, 2:6, 3:9...) để thấy vàng tan rõ.",
+        "Nhấn 'Đặt lại' để đưa tất cả ống nghiệm về trạng thái ban đầu trước khi thử tỉ lệ mới."
+      ],
+      "explain": [
+        "Mục đích: so sánh khả năng tác dụng của HNO₃ đặc, HCl đặc riêng lẻ với hỗn hợp hai axit (nước cường toan) lên vàng, từ đó hiểu vì sao vàng chỉ tan trong nước cường toan mà không tan trong từng axit riêng lẻ.",
+        "Vì sao HNO₃ đặc không hòa tan vàng: HNO₃ là chất oxi hóa mạnh nhưng vàng rất trơ, lớp bề mặt vàng bị thụ động hóa, không tạo dung dịch muối vàng bền vững.",
+        "Vì sao HCl đặc không hòa tan vàng: HCl chỉ tạo phức với ion Au³⁺, nhưng bản thân HCl không oxi hóa được Au⁰ lên Au³⁺ nên vàng không tan.",
+        "Vì sao tỉ lệ 1 : 3 (hoặc các bội số như 2 : 6, 3 : 9) hòa tan được vàng: HNO₃ cung cấp tác nhân oxi hóa để chuyển Au⁰ thành Au³⁺, HCl dư cung cấp ion Cl⁻ tạo phức tan [AuCl₄]⁻, đồng thời tạo khí NO, NOCl, Cl₂ làm bề mặt vàng luôn được 'lột' lớp thụ động.",
+        "Giải thích về bọt khí và khối khí nâu đỏ: trong quá trình vàng tan, có các khí như NO, NO₂, NOCl và Cl₂ thoát ra, tạo bọt khí và vùng khí màu nâu đỏ bay lên từ dung dịch.",
+        "Ý nghĩa học tập: củng cố kiến thức về kim loại quý (vàng), tính thụ động, tính oxi hóa của HNO₃ và cơ chế hòa tan kim loại nhờ tạo phức trong nước cường toan.",
+        "Kết quả mong đợi: với tỉ lệ HNO₃ : HCl đúng 1 : 3 hoặc các bội số, vàng dần tan, dung dịch chuyển màu vàng đậm dần, xuất hiện nhiều bọt khí và khối khí nâu đỏ trong quá trình tan; với các tỉ lệ sai, vàng hầu như không tan, ít hoặc không có bọt khí."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "không tan",
+        "không có bọt",
+        "ít bọt",
+        "không thấy khí",
+        "không ra hiện tượng",
+        "tỉ lệ sai"
+      ],
+      "guide": [
+        "Nếu vàng không tan và hầu như không có bọt khí ở ống thứ ba, hãy kiểm tra lại tỉ lệ HNO₃ : HCl xem đã đúng dạng HCl = 3 × HNO₃ (ví dụ 1:3, 2:6, 3:9) hay chưa.",
+        "Nếu đã chọn đúng tỉ lệ nhưng không thấy dung dịch dâng lên hoặc không có hiện tượng, hãy kiểm tra lại xem đã nhấn nút trộn/cho vàng vào hay chưa.",
+        "Nếu ở 2 ống HNO₃ và HCl riêng lẻ mà bạn mong đợi có bọt khí mạnh thì cần lưu ý: trong mô phỏng này, vàng không tan và gần như không có bọt ở hai ống đó, đây là kết quả đúng.",
+        "Khi quan sát khí nâu đỏ, hãy chú ý vùng phía trên mặt dung dịch ở ống nước cường toan; nếu để ý quá ngắn, có thể bỏ sót giai đoạn khí xuất hiện rồi giảm đi.",
+        "Nếu đã thử nhiều lần nhưng vẫn không thấy khác biệt, hãy nhấn 'Đặt lại' để đưa mô phỏng về trạng thái ban đầu rồi chọn lại tỉ lệ chuẩn."
+      ],
+      "explain": [
+        "Lỗi thường gặp 1: người học chọn tỉ lệ bất kỳ (ví dụ 1:1, 1:2, 3:5) nên dung dịch không phải nước cường toan chuẩn, dẫn tới vàng không tan, không có bọt khí rõ.",
+        "Lỗi thường gặp 2: nhầm lẫn rằng chỉ cần có đủ nhiều axit là vàng sẽ tan, trong khi cơ chế hòa tan vàng cần cả tác nhân oxi hóa (HNO₃) và lượng ion Cl⁻ dư (HCl) theo tỉ lệ thích hợp.",
+        "Lỗi thường gặp 3: mong đợi HNO₃ đặc hoặc HCl đặc riêng lẻ cũng hòa tan được vàng; thực tế và trong mô phỏng đều cho thấy chúng không làm vàng tan rõ rệt.",
+        "Khi tăng tỉ lệ đúng theo bội số (1:3, 2:6, 3:9...), bản chất hóa học không đổi: tỉ lệ rút gọn vẫn là 1:3, nên hiện tượng vàng tan và sinh khí vẫn xảy ra tương tự."
+      ]
+    },
+    {
+      "patterns": [
+        "an toàn",
+        "cảnh báo",
+        "khí độc",
+        "quy trình",
+        "reset",
+        "làm sạch",
+        "kết luận"
+      ],
+      "guide": [
+        "Trong phòng thí nghiệm thực, luôn làm việc với HNO₃ và HCl đặc trong tủ hút, đeo kính bảo hộ, găng tay và áo choàng phòng thí nghiệm.",
+        "Không hít trực tiếp hơi bốc lên từ dung dịch nước cường toan vì có thể chứa NO₂, Cl₂ và các khí độc khác.",
+        "Thực hiện thí nghiệm theo trình tự: so sánh HNO₃ đặc → HCl đặc → cuối cùng mới trộn hai axit để tạo nước cường toan và cho vàng vào.",
+        "Sau khi hoàn thành mô phỏng, nhấn 'Đặt lại' để đưa các ống nghiệm về trạng thái ban đầu trước khi chuyển sang bài học khác."
+      ],
+      "explain": [
+        "Trong thực tế, HNO₃ và HCl đặc đều là axit mạnh, ăn mòn cao, hơi của chúng cũng gây hại cho đường hô hấp và mắt, nên tuyệt đối không làm thí nghiệm ngoài tủ hút.",
+        "Nước cường toan sinh ra hỗn hợp khí độc (NO₂, NOCl, Cl₂...), do đó phải hạn chế tối đa việc tiếp xúc trực tiếp, mô phỏng giúp người học quan sát hiện tượng mà không gặp rủi ro an toàn.",
+        "Giữ quy trình thao tác nhất quán (quan sát riêng từng axit trước, sau đó mới trộn) giúp người học so sánh được vai trò riêng lẻ và kết hợp của từng axit trong việc hòa tan vàng.",
+        "Việc sử dụng nút 'Đặt lại' trong mô phỏng tương đương với thao tác thu dọn, làm sạch dụng cụ trong phòng thí nghiệm, giúp chuẩn bị điều kiện chuẩn cho lần thí nghiệm tiếp theo."
+      ]
+    }
+  ]
+}
