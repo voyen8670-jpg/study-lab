@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thí nghiệm H₂SO₄ đặc tác dụng với đường</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --bg-alt: #020617;
+        --card: #111827;
+        --accent: #22c55e;
+        --accent-soft: rgba(34, 197, 94, 0.15);
+        --accent-strong: rgba(34, 197, 94, 0.35);
+        --text: #e5e7eb;
+        --text-muted: #9ca3af;
+        --border-subtle: rgba(148, 163, 184, 0.25);
+        --danger: #f97316;
+        --danger-soft: rgba(249, 115, 22, 0.15);
+        --danger-strong: rgba(249, 115, 22, 0.35);
+        --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+        --radius-lg: 18px;
+        --radius-xl: 24px;
+        --transition-fast: 0.2s ease-out;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #1e293b 0,
+          #020617 45%,
+          #000 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .app {
+        max-width: 1120px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        gap: 24px;
+      }
+
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .card {
+        background: radial-gradient(
+            circle at top left,
+            rgba(148, 163, 184, 0.08),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(34, 197, 94, 0.08),
+            transparent 40%
+          ),
+          var(--card);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-soft);
+        padding: 20px 22px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top right,
+          rgba(34, 197, 94, 0.09),
+          transparent 55%
+        );
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease-out;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        gap: 12px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 999px;
+        padding: 4px 10px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.8);
+        color: var(--text-muted);
+      }
+
+      .badge-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
+      }
+
+      h1 {
+        font-size: clamp(22px, 2.1vw, 26px);
+        line-height: 1.2;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-muted);
+      }
+
+      .subtitle {
+        margin-top: 4px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .pill {
+        font-size: 11px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: var(--text-muted);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .pill strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .section {
+        margin-bottom: 16px;
+        padding: 12px 12px 10px;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(
+            circle at top left,
+            rgba(148, 163, 184, 0.12),
+            transparent 45%
+          ),
+          rgba(15, 23, 42, 0.85);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      .section-header span {
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .list {
+        margin-left: 18px;
+        margin-top: 4px;
+      }
+
+      .list li {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+
+      /* SECTION CẢNH BÁO NGUY HIỂM */
+      .section-danger {
+        border-color: var(--danger-strong);
+        background: radial-gradient(
+            circle at top left,
+            rgba(249, 115, 22, 0.25),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(15, 23, 42, 0.98),
+            rgba(15, 23, 42, 0.9)
+          );
+        box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.5),
+          0 18px 40px rgba(15, 23, 42, 0.95);
+      }
+
+      .section-danger .dot {
+        background: var(--danger);
+        box-shadow: 0 0 8px rgba(249, 115, 22, 0.9);
+      }
+
+      .section-danger .section-header span {
+        color: #fed7aa;
+      }
+
+      .section-danger .list li {
+        color: #e5e7eb;
+      }
+
+      .section-danger .list li strong {
+        color: #fed7aa;
+        font-weight: 600;
+      }
+
+      code {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 1px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: #e5e7eb;
+      }
+
+      .equation {
+        font-size: 13px;
+        margin-top: 4px;
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: #e5e7eb;
+        background: rgba(15, 23, 42, 0.9);
+        border-radius: var(--radius-lg);
+        border: 1px dashed rgba(148, 163, 184, 0.6);
+        padding: 6px 10px;
+        display: inline-block;
+      }
+
+      .tagline {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-muted);
+        font-style: italic;
+      }
+
+      /* RIGHT: simulation */
+
+      .sim-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .sim-scene {
+        border-radius: var(--radius-xl);
+        background: radial-gradient(
+            circle at top,
+            rgba(34, 197, 94, 0.14),
+            transparent 50%
+          ),
+          radial-gradient(circle at bottom, rgba(15, 23, 42, 0.9), #020617);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        padding: 16px 16px 18px;
+        position: relative;
+        overflow: hidden;
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .sim-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .sim-title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .sim-state {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.8);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .state-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+      }
+
+      .sim-lab {
+        flex: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 24px;
+        padding: 8px 4px 4px;
+        position: relative;
+      }
+
+      .sim-table {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 46px;
+        background: linear-gradient(
+          to top,
+          rgba(15, 23, 42, 0.95),
+          rgba(15, 23, 42, 0.2)
+        );
+        border-top: 1px solid rgba(148, 163, 184, 0.6);
+      }
+
+      .beaker {
+        position: relative;
+        width: 120px;
+        height: 180px;
+        border-radius: 0 0 24px 24px;
+        border: 2px solid rgba(148, 163, 184, 0.85);
+        background: linear-gradient(
+          to bottom,
+          rgba(15, 23, 42, 0.8),
+          rgba(15, 23, 42, 0.4)
+        );
+        /* cho hơi bay ra ngoài cốc */
+        overflow: visible;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+        transition: transform 0.25s ease-in-out;
+      }
+
+      .beaker::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 4px;
+        right: 4px;
+        height: 6px;
+        border-radius: 12px;
+        border: 2px solid rgba(148, 163, 184, 0.85);
+        background: radial-gradient(
+          circle at top,
+          rgba(148, 163, 184, 0.7),
+          rgba(15, 23, 42, 0.3)
+        );
+      }
+
+      .beaker::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(148, 163, 184, 0.25),
+          transparent 35%
+        );
+        mix-blend-mode: screen;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      .sugar-layer {
+        position: absolute;
+        bottom: 0;
+        width: 80%;
+        height: 40%;
+        border-radius: 18px 18px 0 0;
+        box-shadow: inset 0 12px 16px rgba(148, 163, 184, 0.7),
+          0 -6px 12px rgba(15, 23, 42, 0.5);
+        transition: background 1.3s ease-in-out, height 1.3s ease-in-out,
+          transform 1.3s ease-in-out, box-shadow 1.3s ease-in-out;
+        z-index: 1;
+      }
+
+      .sugar-layer.s1 {
+        background: linear-gradient(to top, #f9fafb, #e5e7eb);
+      }
+
+      .sugar-layer.s1-wet {
+        background: linear-gradient(to top, #4b5563, #e5e7eb);
+      }
+
+      .sugar-layer.s2 {
+        background: linear-gradient(to top, #facc15, #fbbf24);
+        height: 45%;
+      }
+
+      .sugar-layer.s3 {
+        background: linear-gradient(to top, #b45309, #92400e);
+        height: 52%;
+        filter: contrast(1.1);
+      }
+
+      .sugar-layer.s4 {
+        background: linear-gradient(to top, #020617, #111827);
+        height: 95%;
+        border-radius: 24px 24px 18px 18px;
+        transform: translateY(-14px);
+        box-shadow: 0 0 22px var(--danger-strong),
+          0 -10px 26px rgba(15, 23, 42, 0.9);
+      }
+
+      .acid-in-beaker {
+        position: absolute;
+        bottom: 0;
+        width: 82%;
+        height: 0%;
+        border-radius: 18px 18px 0 0;
+        background: linear-gradient(to top, #16a34a, #4ade80);
+        box-shadow: 0 0 14px rgba(34, 197, 94, 0.7),
+          inset 0 6px 10px rgba(15, 23, 42, 0.9);
+        opacity: 0;
+        transform: translateY(0);
+        transition: height 1.2s ease-out, opacity 1s ease-out,
+          transform 0.8s ease-out;
+        z-index: 2;
+      }
+
+      .acid-in-beaker.visible {
+        opacity: 0.95;
+        height: 22%;
+        transform: translateY(-2px);
+      }
+
+      .foam-column {
+        position: absolute;
+        bottom: 40%;
+        width: 76%;
+        height: 0;
+        border-radius: 24px 24px 12px 12px;
+        transform-origin: bottom center;
+        background: radial-gradient(
+            circle at 30% 10%,
+            rgba(248, 250, 252, 0.8),
+            transparent 60%
+          ),
+          repeating-radial-gradient(
+            circle at 50% 10%,
+            rgba(30, 64, 175, 0.5),
+            rgba(15, 23, 42, 0.9) 4px,
+            rgba(15, 23, 42, 1) 7px
+          );
+        filter: contrast(1.4);
+        opacity: 0;
+        transition: height 2.5s ease-out, transform 2.5s ease-out,
+          box-shadow 1.4s ease-out, opacity 1.1s ease-out;
+        box-shadow: 0 0 0 transparent;
+      }
+
+      .foam-column.active {
+        height: 150%;
+        opacity: 1;
+        transform: translateY(-30%) rotate(-1deg);
+        box-shadow: 0 0 26px rgba(15, 23, 42, 0.9),
+          0 0 40px rgba(248, 250, 252, 0.55);
+      }
+
+      /* HƠI TRẮNG – bay ra khỏi cốc */
+      .steam {
+        position: absolute;
+        bottom: 95%; /* xuất phát ngay miệng cốc */
+        width: 160px;
+        height: 150px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out,
+          filter 0.5s ease-out;
+        filter: blur(1.2px);
+      }
+
+      .steam-bubble {
+        position: absolute;
+        bottom: 0;
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.9);
+        background: radial-gradient(
+          circle at 30% 20%,
+          rgba(248, 250, 252, 0.98),
+          rgba(148, 163, 184, 0.18)
+        );
+        opacity: 0;
+        animation: steam 3s linear infinite;
+      }
+
+      .steam-bubble:nth-child(2) {
+        left: 35%;
+        animation-delay: 0.4s;
+      }
+
+      .steam-bubble:nth-child(3) {
+        left: 70%;
+        animation-delay: 0.9s;
+      }
+
+      @keyframes steam {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, 0, 0) scale(0.7);
+        }
+        20% {
+          opacity: 0.9;
+        }
+        60% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 0;
+          transform: translate3d(-16px, -150px, 0) scale(1.6);
+        }
+      }
+
+      .steam.visible {
+        opacity: 0.9;
+      }
+
+      .steam.strong {
+        opacity: 1;
+        transform: scale(1.25) translateY(-10px);
+        filter: blur(1.6px);
+      }
+
+      .acid-cup {
+        position: relative;
+        width: 70px;
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+      }
+
+      .acid-cup-body {
+        width: 40px;
+        height: 55px;
+        border-radius: 10px 10px 12px 12px;
+        border: 2px solid rgba(148, 163, 184, 0.85);
+        background: linear-gradient(
+          to bottom,
+          rgba(15, 23, 42, 0.8),
+          rgba(15, 23, 42, 0.4)
+        );
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.8);
+      }
+
+      .acid-fill {
+        position: absolute;
+        bottom: 0;
+        left: 3px;
+        right: 3px;
+        height: 35%;
+        border-radius: 0 0 10px 10px;
+        background: linear-gradient(to top, #16a34a, #4ade80);
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.7),
+          inset 0 4px 8px rgba(15, 23, 42, 0.8);
+        transition: height 0.5s ease-out, opacity 0.5s ease-out,
+          box-shadow 0.5s ease-out;
+      }
+
+      .acid-fill.empty {
+        height: 6%;
+        opacity: 0.4;
+        box-shadow: 0 0 4px rgba(34, 197, 94, 0.5),
+          inset 0 2px 4px rgba(15, 23, 42, 0.9);
+      }
+
+      .acid-cup-label {
+        font-size: 10px;
+        color: var(--text-muted);
+        padding: 2px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.9);
+        white-space: nowrap;
+      }
+
+      .sim-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .steps {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .step-chip {
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0.7;
+        cursor: pointer;
+      }
+
+      .step-chip.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: #dcfce7;
+        opacity: 1;
+      }
+
+      .step-index {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+      }
+
+      .step-chip.disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .buttons-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .speed-control {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        font-size: 11px;
+        color: var(--text-muted);
+        min-width: 140px;
+      }
+
+      .speed-control-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .speed-control input[type="range"] {
+        flex: 1;
+      }
+
+      .speed-label {
+        font-size: 11px;
+        min-width: 36px;
+        text-align: right;
+        color: #e5e7eb;
+      }
+
+      .speed-caption {
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      button {
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 7px 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform var(--transition-fast),
+          box-shadow var(--transition-fast), background var(--transition-fast),
+          color var(--transition-fast);
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: radial-gradient(
+          circle at top left,
+          rgba(34, 197, 94, 0.4),
+          rgba(22, 163, 74, 1)
+        );
+        color: #e5e7eb;
+        box-shadow: 0 10px 25px rgba(22, 163, 74, 0.55),
+          0 0 0 1px rgba(34, 197, 94, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(22, 163, 74, 0.7),
+          0 0 0 1px rgba(34, 197, 94, 0.6);
+      }
+
+      .btn-ghost {
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text-muted);
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .btn-ghost:hover {
+        background: rgba(15, 23, 42, 1);
+        color: #e5e7eb;
+      }
+
+      .btn-primary:active,
+      .btn-ghost:active {
+        transform: translateY(1px) scale(0.99);
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.9);
+      }
+
+      .hint {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .hint strong {
+        color: #e5e7eb;
+      }
+
+      .sim-log {
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 10px 12px 9px;
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 260px;
+        overflow-y: auto;
+      }
+
+      .sim-log-title {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #9ca3af;
+      }
+
+      .sim-log-line {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        opacity: 0.55;
+        transition: opacity 0.25s ease-out, background 0.25s ease-out,
+          transform 0.25s ease-out;
+      }
+
+      .sim-log-line span {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 11px;
+        color: #e5e7eb;
+        margin-top: 2px;
+      }
+
+      .sim-log-line small {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .sim-log-line.active {
+        opacity: 1;
+        background: radial-gradient(
+          circle at top left,
+          rgba(148, 163, 184, 0.2),
+          transparent 55%
+        );
+        border-radius: 12px;
+        padding: 6px 8px;
+        transform: translateY(-1px);
+      }
+
+      .sim-log-line.active small {
+        font-size: 13px;
+        color: #e5e7eb;
+      }
+
+      .sim-log-line.active strong {
+        color: #fef9c3;
+        font-weight: 600;
+      }
+
+      .sim-log-line.active .tag-danger {
+        color: #fb923c;
+      }
+
+      .sim-log-line.active .tag-accent {
+        color: #4ade80;
+      }
+
+      .tag-danger {
+        color: var(--danger);
+        font-weight: 600;
+      }
+
+      .tag-accent {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      @keyframes stir {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-2deg);
+        }
+        50% {
+          transform: rotate(2deg);
+        }
+        75% {
+          transform: rotate(-1deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      .beaker.stir {
+        animation: stir 0.6s ease-in-out;
+      }
+
+      /* --------- responsive rút gọn --------- */
+      @media (max-width: 768px) {
+        body {
+          padding: 16px;
+        }
+        .card,
+        .sim-scene {
+          padding: 14px 14px 16px;
+        }
+        .sim-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .sim-footer {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        .sim-lab {
+          gap: 18px;
+        }
+        .sim-log {
+          max-height: 220px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 12px;
+        }
+        h1 {
+          font-size: 20px;
+        }
+        .subtitle,
+        .hint {
+          font-size: 12px;
+        }
+        .beaker {
+          width: 100px;
+          height: 155px;
+        }
+        .acid-cup {
+          width: 60px;
+          height: 80px;
+        }
+        .acid-cup-body {
+          width: 34px;
+          height: 48px;
+        }
+        .steps {
+          justify-content: flex-start;
+        }
+        .step-chip {
+          font-size: 10px;
+        }
+        .sim-log {
+          max-height: 200px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .badge {
+          font-size: 10px;
+        }
+        .pill {
+          font-size: 10px;
+        }
+        .sim-title {
+          font-size: 13px;
+        }
+        .sim-state {
+          font-size: 10px;
+        }
+        button {
+          font-size: 12px;
+          padding: 6px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <!-- LEFT -->
+      <section class="card">
+        <header class="card-header">
+          <div>
+            <div class="badge">
+              <span class="badge-dot"></span>
+              THÍ NGHIỆM ẢO · HÓA HỌC 11
+            </div>
+            <h1>H₂SO₄ đặc tác dụng với đường (C₁₂H₂₂O₁₁)</h1>
+            <p class="subtitle">
+              Quan sát khả năng <strong>hút nước mạnh</strong> của H₂SO₄ đặc, sự
+              <strong>chuyển màu</strong> của đường từ trắng → vàng → nâu → đen
+              và sự hình thành <strong>cột than xốp</strong>.
+            </p>
+            <div class="pill-row">
+              <span class="pill"
+                ><strong>Ý chính:</strong> H₂SO₄ đặc rút nước khỏi đường → than
+                + hơi nước</span
+              >
+              <span class="pill"
+                ><strong>Dùng cho:</strong> Dạy – học, mô phỏng ảo</span
+              >
+            </div>
+          </div>
+        </header>
+
+        <div class="section">
+          <div class="section-header">
+            <div class="dot"></div>
+            <span>Mô tả nhanh phản ứng</span>
+          </div>
+          <p>
+            Đường (C₁₂H₂₂O₁₁) là chất hữu cơ giàu C, H và O. Khi rót H₂SO₄ đặc
+            vào, axit sulfuric đặc <strong>hút nước rất mạnh</strong>, đồng thời
+            có tính oxi hoá nhẹ.
+          </p>
+          <p style="margin-top: 6px">Phương trình giản lược:</p>
+          <div class="equation">
+            C₁₂H₂₂O₁₁ ⟶ 12C + 11H₂O &nbsp; (xúc tác: H₂SO₄ đặc)
+          </div>
+          <p class="tagline">
+            Nước sinh ra bị H₂SO₄ giữ lại, phản ứng toả nhiệt mạnh → hơi trắng,
+            khí nóng và cột than xốp đen nở phồng.
+          </p>
+        </div>
+
+        <div class="section section-danger">
+          <div class="section-header">
+            <div class="dot"></div>
+            <span>⚠ Cảnh báo an toàn khi làm thí nghiệm thật</span>
+          </div>
+          <ul class="list">
+            <li>
+              <strong>Thí nghiệm nguy hiểm:</strong> H₂SO₄ đặc cực kỳ ăn mòn,
+              phản ứng toả nhiệt mạnh, hỗn hợp có thể bắn tung tóe.
+            </li>
+            <li>
+              <strong>Hơi và khí sinh ra:</strong> tạo hơi trắng nóng, có thể
+              kèm khí SO₂ gây kích ứng mắt, da và đường hô hấp.
+            </li>
+            <li>
+              <strong>Chỉ thực hiện trong phòng thí nghiệm</strong> có giáo
+              viên/kỹ thuật viên giám sát, tủ hút hoặc không gian thật thoáng.
+            </li>
+            <li>
+              <strong>Bảo hộ bắt buộc:</strong> kính bảo hộ, găng tay chống hoá
+              chất, áo blouse; có sẵn nước rửa và dung dịch trung hoà.
+            </li>
+            <li>
+              <strong>Không tự ý làm ở nhà</strong> hoặc để học sinh tự làm nếu
+              không có người lớn giám sát.
+            </li>
+            <li>
+              <strong>Khi sự cố xảy ra:</strong> dính da → rửa ngay dưới vòi
+              nước 10–15 phút; văng vào mắt → xối nước ≥15 phút và đi khám; hít
+              nhiều hơi → ra nơi thoáng khí, báo ngay cho giáo viên.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="sim-wrapper">
+        <div class="sim-scene" id="simScene">
+          <div class="sim-header">
+            <div>
+              <div class="sim-title">Mô phỏng trực quan phản ứng</div>
+              <p class="hint">
+                Nhấn <strong>Rót H₂SO₄</strong> để mô phỏng quá trình axit được
+                rót vào cốc đường. Sau đó bạn có thể bấm vào từng giai đoạn bên
+                dưới để quan sát hiện tượng chi tiết.
+              </p>
+            </div>
+            <div class="sim-state">
+              <span class="state-dot" id="stateDot"></span>
+              <span id="stateLabel">Trạng thái: Chưa bắt đầu</span>
+            </div>
+          </div>
+
+          <div class="sim-lab">
+            <div class="sim-table"></div>
+
+            <div class="acid-cup" id="acidCup">
+              <div class="acid-cup-body">
+                <div class="acid-fill" id="acidFill"></div>
+              </div>
+              <div class="acid-cup-label">2 mL H₂SO₄ đặc</div>
+            </div>
+
+            <div class="beaker" id="beaker">
+              <div class="sugar-layer s1" id="sugarLayer"></div>
+              <div class="acid-in-beaker" id="acidInBeaker"></div>
+              <div class="foam-column" id="foamColumn"></div>
+              <div class="steam" id="steam">
+                <div class="steam-bubble"></div>
+                <div class="steam-bubble"></div>
+                <div class="steam-bubble"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-footer">
+            <div class="steps">
+              <div class="step-chip" data-step="0">
+                <span class="step-index">0</span>
+                Chuẩn bị: đường trắng
+              </div>
+              <div class="step-chip" data-step="1">
+                <span class="step-index">1</span>
+                H₂SO₄ tác dụng với đường
+              </div>
+              <div class="step-chip" data-step="2">
+                <span class="step-index">2</span>
+                Đường vàng – nâu, nóng lên
+              </div>
+              <div class="step-chip" data-step="3">
+                <span class="step-index">3</span>
+                Đen + cột than xốp, hơi trắng
+              </div>
+            </div>
+            <div class="controls">
+              <div class="buttons-group">
+                <button class="btn-ghost" id="resetBtn">Đặt lại</button>
+                <button class="btn-primary" id="playBtn">▶ Rót H₂SO₄</button>
+              </div>
+              <div class="speed-control">
+                <div class="speed-control-row">
+                  <label for="speedRange">Tốc độ:</label>
+                  <input
+                    type="range"
+                    id="speedRange"
+                    min="0.5"
+                    max="2"
+                    step="0.25"
+                    value="1"
+                  />
+                  <span class="speed-label" id="speedLabel">1.0x</span>
+                </div>
+                <div class="speed-caption">
+                  Kéo trái: chậm • Kéo phải: nhanh
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-log" id="simLog">
+          <div class="sim-log-title">
+            NHẬT KÝ PHẢN ỨNG (GIẢI THÍCH THEO MÔ PHỎNG)
+          </div>
+
+          <div class="sim-log-line" data-step="0">
+            <span>[B1]</span>
+            <small>
+              <strong>Giai đoạn 0 – Chuẩn bị:</strong> Đường C₁₂H₂₂O₁₁ được cho
+              vào cốc thuỷ tinh, ở trạng thái rắn, màu trắng. Chưa có phản ứng,
+              đây là chất hữu cơ giàu C, H, O.
+            </small>
+          </div>
+
+          <div class="sim-log-line" data-step="1">
+            <span>[B2]</span>
+            <small>
+              <strong>Giai đoạn 1 – Rót H₂SO₄ đặc:</strong> Khi H₂SO₄ đặc được
+              rót vào cốc đường, axit đóng vai trò
+              <strong>chất háo nước rất mạnh</strong>, bắt đầu rút H₂O ra khỏi
+              phân tử đường:
+              <span class="tag-accent">C₁₂H₂₂O₁₁ ⟶ 12C + 11H₂O</span> (xúc tác:
+              H₂SO₄ đặc). Lớp đường ở đáy bắt đầu thâm lại do bị H₂SO₄ thấm vào.
+            </small>
+          </div>
+
+          <div class="sim-log-line" data-step="2">
+            <span>[B3]</span>
+            <small>
+              <strong>Giai đoạn 2 – Đường đổi màu, hỗn hợp nóng lên:</strong>
+              Nước tạo thành bị H₂SO₄ giữ lại, dung dịch nóng lên mạnh (phản ứng
+              toả nhiệt). Đường dần chuyển <strong>trắng → vàng → nâu</strong>:
+              một phần đường bị <strong>caramen hoá</strong> và
+              <strong>carbon hoá</strong>. Một phần C, H có thể bị H₂SO₄
+              <strong>oxi hoá nhẹ</strong>, sinh ra khí CO₂, SO₂ và hơi nước.
+            </small>
+          </div>
+
+          <div class="sim-log-line" data-step="3">
+            <span>[B4]</span>
+            <small>
+              <strong>Giai đoạn 3 – Than xốp trồi lên:</strong>
+              Khi đã rút gần hết nước, khung cacbon còn lại tạo thành
+              <span class="tag-danger">than (C)</span> xốp màu đen. Hơi nước
+              nóng và khí sinh ra đẩy cột than nở phồng trồi khỏi miệng cốc.
+              Dung dịch H₂SO₄ bị pha loãng dần nên
+              <strong>nhạt màu rồi “biến mất”</strong>
+              trong khối than xốp.
+            </small>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const playBtn = document.getElementById("playBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const sugarLayer = document.getElementById("sugarLayer");
+        const foamColumn = document.getElementById("foamColumn");
+        const steam = document.getElementById("steam");
+        const stateLabel = document.getElementById("stateLabel");
+        const stateDot = document.getElementById("stateDot");
+        const simScene = document.getElementById("simScene");
+        const steps = document.querySelectorAll(".step-chip");
+        const beaker = document.getElementById("beaker");
+        const acidFill = document.getElementById("acidFill");
+        const acidInBeaker = document.getElementById("acidInBeaker");
+        const speedRange = document.getElementById("speedRange");
+        const speedLabel = document.getElementById("speedLabel");
+        const logLines = document.querySelectorAll(".sim-log-line");
+
+        let currentStep = 0;
+        let playing = false;
+        let timers = [];
+        let acidPoured = false;
+
+        function clearTimers() {
+          timers.forEach((t) => clearTimeout(t));
+          timers = [];
+        }
+
+        function setStep(step) {
+          currentStep = step;
+
+          steps.forEach((chip) => {
+            chip.classList.toggle("active", Number(chip.dataset.step) === step);
+          });
+
+          logLines.forEach((line) => {
+            line.classList.toggle("active", Number(line.dataset.step) === step);
+          });
+        }
+
+        function getSpeed() {
+          const v = parseFloat(speedRange.value);
+          return isNaN(v) ? 1 : v;
+        }
+
+        function updateSpeedLabel() {
+          const v = getSpeed();
+          speedLabel.textContent = v.toFixed(1) + "x";
+        }
+
+        speedRange.addEventListener("input", updateSpeedLabel);
+        updateSpeedLabel();
+
+        function resetScene(resetAll = false) {
+          clearTimers();
+          playing = false;
+
+          sugarLayer.className = "sugar-layer s1";
+          foamColumn.classList.remove("active");
+          foamColumn.style.height = "0";
+          steam.classList.remove("visible", "strong");
+          beaker.classList.remove("stir");
+          acidFill.classList.remove("empty");
+          acidInBeaker.classList.remove("visible");
+          acidInBeaker.style.height = "0%";
+          acidInBeaker.style.opacity = "0";
+
+          simScene.style.filter = "none";
+          simScene.style.boxShadow = "";
+
+          if (resetAll) {
+            currentStep = 0;
+            setStep(0);
+            stateLabel.textContent = "Trạng thái: Chưa bắt đầu";
+            stateDot.style.background = "#22c55e";
+            stateDot.style.boxShadow = "0 0 0 4px rgba(34, 197, 94, 0.25)";
+            playBtn.textContent = "▶ Rót H₂SO₄";
+
+            acidPoured = false;
+            steps.forEach((chip) => chip.classList.add("disabled"));
+          } else {
+            currentStep = 0;
+            setStep(0);
+          }
+        }
+
+        function animateSimulation() {
+          if (playing) return;
+          playing = true;
+          clearTimers();
+
+          if (!acidPoured) {
+            acidPoured = true;
+            steps.forEach((chip) => chip.classList.remove("disabled"));
+          }
+
+          const speed = getSpeed();
+          const delay = (baseMs) => baseMs / speed;
+
+          setStep(0);
+          stateLabel.textContent = "Trạng thái: Chuẩn bị cốc đường trắng";
+
+          timers.push(
+            setTimeout(() => {
+              setStep(1);
+              stateLabel.textContent =
+                "Trạng thái: H₂SO₄ tác dụng với đường trong cốc";
+              acidFill.classList.add("empty");
+              acidInBeaker.classList.add("visible");
+              sugarLayer.className = "sugar-layer s1-wet";
+            }, delay(600))
+          );
+
+          timers.push(
+            setTimeout(() => {
+              setStep(2);
+              stateLabel.textContent =
+                "Trạng thái: Đường chuyển vàng – nâu, hỗn hợp nóng lên";
+              sugarLayer.className = "sugar-layer s2";
+              beaker.classList.add("stir");
+              steam.classList.add("visible", "strong");
+            }, delay(2400))
+          );
+
+          timers.push(
+            setTimeout(() => {
+              sugarLayer.className = "sugar-layer s3";
+              beaker.classList.remove("stir");
+            }, delay(4300))
+          );
+
+          timers.push(
+            setTimeout(() => {
+              setStep(3);
+              stateLabel.textContent =
+                "Trạng thái: Đường đen, cột than xốp,hơi trắng bốc nhiều";
+              sugarLayer.className = "sugar-layer s4";
+              foamColumn.classList.add("active");
+              steam.classList.add("visible", "strong");
+              simScene.style.filter =
+                "drop-shadow(0 0 18px rgba(248, 250, 252, 0.5))";
+            }, delay(6800))
+          );
+
+          timers.push(
+            setTimeout(() => {
+              acidInBeaker.classList.remove("visible");
+            }, delay(8000))
+          );
+
+          timers.push(
+            setTimeout(() => {
+              playing = false;
+              playBtn.textContent = "▶ Xem lại (rót lại H₂SO₄)";
+              stateDot.style.background = "#22c55e";
+            }, delay(10500))
+          );
+
+          playBtn.textContent = "⏳ Đang mô phỏng...";
+        }
+
+        playBtn.addEventListener("click", animateSimulation);
+        resetBtn.addEventListener("click", () => resetScene(true));
+
+        steps.forEach((chip) => {
+          chip.addEventListener("click", () => {
+            const step = Number(chip.dataset.step);
+            if (chip.classList.contains("disabled")) return;
+
+            resetScene(false);
+
+            switch (step) {
+              case 0:
+                sugarLayer.className = "sugar-layer s1";
+                break;
+              case 1:
+                acidFill.classList.add("empty");
+                acidInBeaker.classList.add("visible");
+                sugarLayer.className = "sugar-layer s1-wet";
+                break;
+              case 2:
+                acidFill.classList.add("empty");
+                acidInBeaker.classList.add("visible");
+                sugarLayer.className = "sugar-layer s3";
+                steam.classList.add("visible", "strong");
+                beaker.classList.add("stir");
+                setTimeout(() => beaker.classList.remove("stir"), 700);
+                break;
+              case 3:
+                acidFill.classList.add("empty");
+                acidInBeaker.classList.remove("visible");
+                sugarLayer.className = "sugar-layer s4";
+                foamColumn.classList.add("active");
+                steam.classList.add("visible", "strong");
+                break;
+            }
+
+            setStep(step);
+            stateLabel.textContent =
+              step === 0
+                ? "Trạng thái: Chuẩn bị cốc đường trắng"
+                : step === 1
+                ? "Trạng thái: H₂SO₄ tác dụng với đường trong cốc"
+                : step === 2
+                ? "Trạng thái: Đường chuyển vàng – nâu, hỗn hợp nóng lên"
+                : "Trạng thái: Đường đen, cột than xốp, hơi trắng bốc nhiều";
+          });
+        });
+
+        resetScene(true);
+      })();
+    </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
+  </body>
+</html>

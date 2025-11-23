@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng chuyển động Brown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      :root {
+        --bg: #020617;
+        --card: #020617;
+        --accent: #22c55e;
+        --text: #f3f4f6;
+        --text-muted: #cfd4dc;
+        --border-subtle: rgba(148, 163, 184, 0.35);
+        --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --transition-fast: 0.2s ease-out;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #0f172a 0,
+          #020617 45%,
+          #000 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .app {
+        max-width: 1180px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        gap: 24px;
+      }
+
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 16px 10px;
+        }
+
+        .app {
+          gap: 16px;
+        }
+
+        .card,
+        .sim-card,
+        .sim-log {
+          padding: 14px 12px;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+
+        .sim-title {
+          font-size: 14px;
+        }
+
+        .sim-controls {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .buttons-group {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .slider-group {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .slider-row {
+          flex-wrap: wrap;
+        }
+
+        .slider-row label {
+          min-width: 120px;
+        }
+
+        .slider-label {
+          min-width: auto;
+        }
+
+        .pill-row {
+          flex-direction: column;
+        }
+      }
+
+      .card {
+        background: radial-gradient(
+            circle at top left,
+            rgba(148, 163, 184, 0.12),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(34, 197, 94, 0.09),
+            transparent 40%
+          ),
+          var(--card);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-soft);
+        padding: 20px 22px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top right,
+          rgba(34, 197, 94, 0.1),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity 0.35s ease-out;
+        pointer-events: none;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-muted);
+      }
+
+      .badge-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+      }
+
+      h1 {
+        margin-top: 8px;
+        font-size: clamp(24px, 2.6vw, 30px);
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        margin-top: 6px;
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      .subtitle strong {
+        color: #e5e7eb;
+        font-weight: 600;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .pill {
+        font-size: 12px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-muted);
+      }
+
+      .pill strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .section {
+        margin-top: 16px;
+        padding: 10px 12px;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(
+            circle at top left,
+            rgba(148, 163, 184, 0.14),
+            transparent 45%
+          ),
+          rgba(15, 23, 42, 0.92);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .section-header span {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .list {
+        margin-left: 18px;
+        margin-top: 4px;
+      }
+
+      .list li {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+
+      .equation {
+        margin-top: 4px;
+        font-size: 12px;
+        font-family: "JetBrains Mono", ui-monospace;
+        padding: 5px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px dashed rgba(148, 163, 184, 0.6);
+        color: #e5e7eb;
+        display: inline-block;
+      }
+
+      .sim-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .sim-card {
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        padding: 14px 16px 16px;
+        background: radial-gradient(
+            circle at top,
+            rgba(34, 197, 94, 0.12),
+            transparent 52%
+          ),
+          radial-gradient(circle at bottom, rgba(15, 23, 42, 0.95), #020617);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .sim-header-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .sim-title {
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .sim-hint {
+        margin-top: 4px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .sim-hint strong {
+        color: #e5e7eb;
+      }
+
+      .sim-state-chip {
+        font-size: 12px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.9);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      .sim-state-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+      }
+
+      .sim-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .buttons-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 7px 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform var(--transition-fast),
+          box-shadow var(--transition-fast), background var(--transition-fast),
+          color var(--transition-fast);
+        white-space: nowrap;
+        color: #f1f5f9;
+      }
+
+      .btn-primary {
+        background: radial-gradient(
+          circle at top left,
+          rgba(34, 197, 94, 0.4),
+          rgba(22, 163, 74, 1)
+        );
+        box-shadow: 0 10px 25px rgba(22, 163, 74, 0.55),
+          0 0 0 1px rgba(34, 197, 94, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(22, 163, 74, 0.7),
+          0 0 0 1px rgba(34, 197, 94, 0.6);
+      }
+
+      .btn-ghost {
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text-muted);
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
+      .btn-ghost:hover {
+        background: rgba(15, 23, 42, 1);
+        color: #e5e7eb;
+      }
+
+      .btn-primary:active,
+      .btn-ghost:active {
+        transform: translateY(1px) scale(0.99);
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.9);
+      }
+
+      .slider-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        font-size: 12px;
+        color: var(--text-muted);
+        min-width: 170px;
+      }
+
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .slider-row input[type="range"] {
+        flex: 1;
+      }
+
+      .slider-row label {
+        font-size: 13px;
+      }
+
+      .slider-label {
+        min-width: 32px;
+        text-align: right;
+        color: #e5e7eb;
+        font-size: 12px;
+      }
+
+      .slider-caption {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .trail-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: var(--text-muted);
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .trail-toggle input {
+        accent-color: #22c55e;
+        cursor: pointer;
+      }
+
+      .view-wrapper {
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: radial-gradient(
+          circle at top,
+          rgba(248, 250, 252, 0.08),
+          rgba(15, 23, 42, 0.96)
+        );
+        padding: 10px;
+      }
+
+      .microscope-frame {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      canvas {
+        background: radial-gradient(
+          circle at center,
+          rgba(15, 23, 42, 0.95),
+          #020617
+        );
+        border-radius: 999px;
+        box-shadow: 0 0 0 4px #020617, 0 0 0 10px #0f172a,
+          0 18px 40px rgba(0, 0, 0, 0.9);
+        max-width: 100%;
+        height: auto;
+      }
+
+      .legend {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #d7dce5;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .legend > span {
+        padding: 2px 7px;
+        border-radius: 999px;
+        border: 1px solid rgba(200, 210, 230, 0.55);
+        background: rgba(15, 23, 42, 0.95);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9);
+      }
+
+      .legend-dot-water {
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(191, 219, 254, 1) 0%,
+          rgba(59, 130, 246, 1) 55%,
+          rgba(15, 118, 110, 1) 100%
+        );
+      }
+
+      .legend-dot-pollen {
+        background: radial-gradient(
+          circle at 30% 30%,
+          #fefce8 0%,
+          #fde68a 50%,
+          #f59e0b 100%
+        );
+      }
+
+      .legend-dot-tracked {
+        background: radial-gradient(
+          circle at 30% 30%,
+          #eef2ff 0%,
+          #818cf8 50%,
+          #4f46e5 100%
+        );
+      }
+
+      .sim-log {
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        padding: 9px 10px 8px;
+        background: rgba(15, 23, 42, 0.98);
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .sim-log-title {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #cdd3dd;
+      }
+
+      .sim-log-line {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+      }
+
+      .sim-log-line span {
+        font-family: "JetBrains Mono", ui-monospace;
+        font-size: 12px;
+        color: #e5e7eb;
+      }
+
+      .sim-log-line small {
+        font-size: 12px;
+        color: #d0d4db;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="app">
+      <!-- LEFT -->
+      <section class="card">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          MÔ PHỎNG · THÍ NGHIỆM BROWN
+        </div>
+
+        <h1>Thí nghiệm Brown – Chuyển động nhiệt hỗn độn</h1>
+
+        <p class="subtitle">
+          Quan sát <strong>chuyển động zigzag không ngừng</strong> của các hạt
+          rất nhỏ (hạt phấn hoa, hạt bụi) lơ lửng trong chất lỏng dưới kính hiển
+          vi – đó là <strong>chuyển động Brown</strong>.
+        </p>
+
+        <div class="pill-row">
+          <span class="pill">
+            <strong>Ý nghĩa:</strong> Bằng chứng trực tiếp cho chuyển động nhiệt
+            của các phân tử chất lỏng
+          </span>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <div class="dot"></div>
+            <span>Mô tả ngắn thí nghiệm</span>
+          </div>
+          <ul class="list">
+            <li>
+              Lấy giọt nước có chứa <strong>hạt phấn hoa rất nhỏ</strong> đặt
+              lên lam kính.
+            </li>
+            <li>
+              Đặt dưới kính hiển vi, điều chỉnh tiêu cự để nhìn rõ các hạt nhỏ.
+            </li>
+            <li>
+              Quan sát thấy các hạt này
+              <strong>chuyển động hỗn độn, không theo quỹ đạo cố định</strong>.
+            </li>
+          </ul>
+          <p style="margin-top: 4px; font-size: 14px; color: var(--text-muted)">
+            Trong mô phỏng, các hạt sáng tượng trưng cho
+            <strong>hạt phấn</strong>, còn
+            <strong>các phân tử nước vô hình</strong> được minh hoạ bằng vô số
+            hạt nước rất nhỏ chuyển động hỗn độn và việc
+            <em>vận tốc của hạt phấn liên tục bị đổi hướng ngẫu nhiên</em>.
+          </p>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <div class="dot"></div>
+            <span>Bản chất vật lý</span>
+          </div>
+          <ul class="list">
+            <li>
+              Hạt phấn bị <strong>vô số phân tử nước</strong> xung quanh va chạm
+              vào từ mọi phía.
+            </li>
+            <li>
+              Các phân tử nước luôn chuyển động nhiệt → số va chạm không cân
+              bằng → hạt phấn chuyển động giật cục.
+            </li>
+            <li>
+              Càng tăng nhiệt độ, phân tử nước chuyển động càng mạnh →
+              <strong>chuyển động Brown càng “gắt”</strong>.
+            </li>
+          </ul>
+          <div class="equation">
+            &lt;v²&gt; ∼ T &nbsp;&nbsp; (cường độ chuyển động Brown tăng theo
+            nhiệt độ)
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="sim-wrapper">
+        <div class="sim-card">
+          <div class="sim-header-row">
+            <div>
+              <div class="sim-title">
+                Vùng kính hiển vi – mô phỏng chuyển động Brown
+              </div>
+              <p class="sim-hint">
+                Nhấn <strong>Bắt đầu</strong> để xem các hạt phấn hoa (lớn,
+                sáng) chuyển động zigzag do va chạm ngẫu nhiên với các
+                <strong>phân tử nước rất nhỏ màu xanh</strong>. Một số hạt phấn
+                được tô <strong>nhiều màu khác nhau</strong> và có
+                <strong>quỹ đạo riêng</strong>. Dùng thanh
+                <strong>Cường độ va chạm (nhiệt độ)</strong> để điều chỉnh độ
+                “gắt” của chuyển động.
+              </p>
+            </div>
+            <div class="sim-state-chip">
+              <span class="sim-state-dot"></span>
+              <span id="stateLabel">Trạng thái: Tạm dừng</span>
+            </div>
+          </div>
+
+          <div class="sim-controls">
+            <div class="buttons-group">
+              <button class="btn-primary" id="toggleBtn">▶ Bắt đầu</button>
+              <button class="btn-ghost" id="resetBtn">Đặt lại hạt</button>
+              <button class="btn-ghost" id="replayBtn">
+                ⏩ Tua nhanh quỹ đạo 1 hạt phấn
+              </button>
+              <label class="trail-toggle">
+                <input type="checkbox" id="trailCheckbox" checked />
+                Hiện quỹ đạo các hạt phấn màu
+              </label>
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-row">
+                <label for="tempRange">Cường độ va chạm:</label>
+                <input
+                  type="range"
+                  id="tempRange"
+                  min="0.3"
+                  max="2.5"
+                  step="0.1"
+                  value="1.0"
+                />
+                <span class="slider-label" id="tempLabel">1.0×</span>
+              </div>
+              <div class="slider-caption">
+                Kéo sang phải: nhiệt độ cao hơn → phân tử nước chuyển động mạnh
+                hơn → hạt phấn dao động “gắt” hơn
+              </div>
+            </div>
+          </div>
+
+          <div class="view-wrapper">
+            <div class="microscope-frame">
+              <canvas id="brownCanvas" width="420" height="420"></canvas>
+            </div>
+            <div class="legend">
+              <span>
+                <span class="legend-dot legend-dot-water"></span>
+                Hạt nhỏ xanh lam: phân tử nước
+              </span>
+              <span>
+                <span class="legend-dot legend-dot-pollen"></span>
+                Hạt tròn sáng (lớn): hạt phấn hoa / hạt bụi nhỏ
+              </span>
+              <span>
+                <span class="legend-dot legend-dot-tracked"></span>
+                Hạt phấn màu + đường mảnh: quỹ đạo chuyển động Brown của các hạt
+                phấn được theo dõi
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-log">
+          <div class="sim-log-title">NHẬT KÝ QUAN SÁT (MÔ PHỎNG)</div>
+          <div class="sim-log-line">
+            <span>[B1]</span>
+            <small
+              >Đặt giọt nước chứa hạt phấn lên lam kính, đặt dưới kính hiển
+              vi.</small
+            >
+          </div>
+          <div class="sim-log-line">
+            <span>[B2]</span>
+            <small
+              >Điều chỉnh tiêu cự, quan sát được rất nhiều hạt nhỏ (phân tử
+              nước) và một số hạt lớn hơn (hạt phấn).</small
+            >
+          </div>
+          <div class="sim-log-line">
+            <span>[B3]</span>
+            <small
+              >Các hạt phấn <strong>không đứng yên</strong>, chuyển động zigzag
+              hỗn độn do va chạm với các phân tử nước → chuyển động
+              Brown.</small
+            >
+          </div>
+          <div class="sim-log-line">
+            <span>[B4]</span>
+            <small
+              >Vẽ <strong>quỹ đạo đường đi của nhiều hạt phấn</strong> cho thấy
+              rõ tính ngẫu nhiên. Khi tăng “cường độ va chạm”, quỹ đạo trở nên
+              <strong>gắt và ngoằn ngoèo hơn</strong>.</small
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const canvas = document.getElementById("brownCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const toggleBtn = document.getElementById("toggleBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const replayBtn = document.getElementById("replayBtn");
+        const tempRange = document.getElementById("tempRange");
+        const tempLabel = document.getElementById("tempLabel");
+        const stateLabel = document.getElementById("stateLabel");
+        const trailCheckbox = document.getElementById("trailCheckbox");
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        const NUM_POLLEN = 8;
+        const NUM_WATER = 180;
+
+        const POLLEN_RADIUS = 4.8;
+        const WATER_RADIUS = 2.0;
+
+        const DAMPING_POLLEN = 0.985;
+        const DAMPING_WATER = 0.94;
+
+        const BASE_KICK_POLLEN = 0.06;
+        const BASE_KICK_WATER = 0.22;
+
+        const TRACKED_COUNT = 5;
+        const MAX_HISTORY = 900;
+
+        const TRACK_COLORS = [
+          {
+            stroke: "rgba(190,242,100,0.9)",
+            fill1: "#f5fef5",
+            fill2: "#22c55e",
+            fill3: "#16a34a",
+            shadow: "rgba(22,163,74,0.9)",
+          },
+          {
+            stroke: "rgba(56,189,248,0.9)",
+            fill1: "#e0f2fe",
+            fill2: "#38bdf8",
+            fill3: "#0ea5e9",
+            shadow: "rgba(56,189,248,0.9)",
+          },
+          {
+            stroke: "rgba(251,191,36,0.9)",
+            fill1: "#fef9c3",
+            fill2: "#fbbf24",
+            fill3: "#f59e0b",
+            shadow: "rgba(245,158,11,0.9)",
+          },
+          {
+            stroke: "rgba(244,114,182,0.9)",
+            fill1: "#fdf2ff",
+            fill2: "#f472b6",
+            fill3: "#db2777",
+            shadow: "rgba(236,72,153,0.9)",
+          },
+          {
+            stroke: "rgba(129,140,248,0.9)",
+            fill1: "#eef2ff",
+            fill2: "#818cf8",
+            fill3: "#4f46e5",
+            shadow: "rgba(79,70,229,0.9)",
+          },
+        ];
+
+        let pollen = [];
+        let water = [];
+        let animationId = null;
+        let replayId = null;
+        let running = false;
+        let replaying = false;
+        let showTrail = true;
+
+        function rand(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        function randNormal() {
+          return (
+            Math.random() + Math.random() + Math.random() + Math.random() - 2
+          );
+        }
+
+        function createPollen() {
+          pollen = [];
+          for (let i = 0; i < NUM_POLLEN; i++) {
+            pollen.push({
+              x: rand(POLLEN_RADIUS + 30, width - POLLEN_RADIUS - 30),
+              y: rand(POLLEN_RADIUS + 30, height - POLLEN_RADIUS - 30),
+              vx: rand(-0.2, 0.2),
+              vy: rand(-0.2, 0.2),
+              r: POLLEN_RADIUS,
+              tracked: i < TRACKED_COUNT,
+              colorIndex: i < TRACKED_COUNT ? i : null,
+              history: [],
+            });
+          }
+        }
+
+        function createWater() {
+          water = [];
+          for (let i = 0; i < NUM_WATER; i++) {
+            water.push({
+              x: rand(WATER_RADIUS, width - WATER_RADIUS),
+              y: rand(WATER_RADIUS, height - WATER_RADIUS),
+              vx: rand(-0.5, 0.5),
+              vy: rand(-0.5, 0.5),
+              r: WATER_RADIUS,
+            });
+          }
+        }
+
+        function createParticles() {
+          createPollen();
+          createWater();
+        }
+
+        function drawBackground() {
+          const grd = ctx.createRadialGradient(
+            width / 2,
+            height / 2,
+            10,
+            width / 2,
+            height / 2,
+            width / 1.2
+          );
+          grd.addColorStop(0, "#020617");
+          grd.addColorStop(1, "#000000");
+          ctx.fillStyle = grd;
+          ctx.fillRect(0, 0, width, height);
+        }
+
+        function drawTrail() {
+          if (!showTrail) return;
+          ctx.save();
+          ctx.lineWidth = 1.3;
+          for (const p of pollen) {
+            if (!p.tracked || p.history.length < 2) continue;
+            const color = TRACK_COLORS[p.colorIndex % TRACK_COLORS.length];
+            ctx.beginPath();
+            ctx.strokeStyle = color.stroke;
+            ctx.moveTo(p.history[0].x, p.history[0].y);
+            for (let i = 1; i < p.history.length; i++) {
+              ctx.lineTo(p.history[i].x, p.history[i].y);
+            }
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        function drawParticles() {
+          ctx.save();
+
+          for (const w of water) {
+            const g = ctx.createRadialGradient(
+              w.x - w.r / 3,
+              w.y - w.r / 3,
+              0.1,
+              w.x,
+              w.y,
+              w.r
+            );
+            g.addColorStop(0, "rgba(191,219,254,0.95)");
+            g.addColorStop(0.6, "rgba(59,130,246,0.9)");
+            g.addColorStop(1, "rgba(15,118,110,0.9)");
+            ctx.beginPath();
+            ctx.fillStyle = g;
+            ctx.globalAlpha = 0.9;
+            ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          for (const p of pollen) {
+            if (p.tracked) {
+              const c = TRACK_COLORS[p.colorIndex % TRACK_COLORS.length];
+              const r = p.r * 1.15;
+              const g = ctx.createRadialGradient(
+                p.x - r / 3,
+                p.y - r / 3,
+                0.1,
+                p.x,
+                p.y,
+                r
+              );
+              g.addColorStop(0, c.fill1);
+              g.addColorStop(0.45, c.fill2);
+              g.addColorStop(1, c.fill3);
+              ctx.beginPath();
+              ctx.fillStyle = g;
+              ctx.shadowColor = c.shadow;
+              ctx.shadowBlur = 14;
+              ctx.globalAlpha = 1;
+              ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              const r = p.r;
+              const g = ctx.createRadialGradient(
+                p.x - r / 3,
+                p.y - r / 3,
+                0.1,
+                p.x,
+                p.y,
+                r
+              );
+              g.addColorStop(0, "#fefce8");
+              g.addColorStop(0.5, "#fde68a");
+              g.addColorStop(1, "#f59e0b");
+              ctx.beginPath();
+              ctx.fillStyle = g;
+              ctx.shadowColor = "rgba(245,158,11,0.85)";
+              ctx.shadowBlur = 10;
+              ctx.globalAlpha = 1;
+              ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          ctx.restore();
+        }
+
+        function step() {
+          const tempFactor = parseFloat(tempRange.value);
+
+          for (const w of water) {
+            const kickW = BASE_KICK_WATER * tempFactor;
+            w.vx += randNormal() * kickW;
+            w.vy += randNormal() * kickW;
+            w.vx *= DAMPING_WATER;
+            w.vy *= DAMPING_WATER;
+
+            const maxW = 3.2 * tempFactor;
+            const speedW = Math.sqrt(w.vx * w.vx + w.vy * w.vy);
+            if (speedW > maxW) {
+              const s = maxW / speedW;
+              w.vx *= s;
+              w.vy *= s;
+            }
+
+            w.x += w.vx;
+            w.y += w.vy;
+
+            if (w.x < w.r) {
+              w.x = w.r;
+              w.vx *= -1;
+            } else if (w.x > width - w.r) {
+              w.x = width - w.r;
+              w.vx *= -1;
+            }
+
+            if (w.y < w.r) {
+              w.y = w.r;
+              w.vy *= -1;
+            } else if (w.y > height - w.r) {
+              w.y = height - w.r;
+              w.vy *= -1;
+            }
+          }
+
+          for (const p of pollen) {
+            const kickP = BASE_KICK_POLLEN * tempFactor;
+            p.vx += randNormal() * kickP;
+            p.vy += randNormal() * kickP;
+            p.vx *= DAMPING_POLLEN;
+            p.vy *= DAMPING_POLLEN;
+
+            const maxP = 1.4 * tempFactor;
+            const speedP = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+            if (speedP > maxP) {
+              const s = maxP / speedP;
+              p.vx *= s;
+              p.vy *= s;
+            }
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < p.r) {
+              p.x = p.r;
+              p.vx *= -1;
+            } else if (p.x > width - p.r) {
+              p.x = width - p.r;
+              p.vx *= -1;
+            }
+
+            if (p.y < p.r) {
+              p.y = p.r;
+              p.vy *= -1;
+            } else if (p.y > height - p.r) {
+              p.y = height - p.r;
+              p.vy *= -1;
+            }
+
+            if (p.tracked) {
+              p.history.push({ x: p.x, y: p.y });
+              if (p.history.length > MAX_HISTORY) p.history.shift();
+            }
+          }
+        }
+
+        function render() {
+          drawBackground();
+          drawTrail();
+          drawParticles();
+        }
+
+        function loop() {
+          step();
+          render();
+          animationId = requestAnimationFrame(loop);
+        }
+
+        function updateTempLabel() {
+          const v = parseFloat(tempRange.value);
+          tempLabel.textContent = v.toFixed(1) + "×";
+        }
+
+        function start() {
+          if (running || replaying) return;
+          running = true;
+          stateLabel.textContent =
+            "Trạng thái: Đang chạy (quan sát chuyển động Brown)";
+          toggleBtn.textContent = "⏸ Tạm dừng";
+          loop();
+        }
+
+        function stop() {
+          running = false;
+          toggleBtn.textContent = "▶ Bắt đầu";
+          if (!replaying) stateLabel.textContent = "Trạng thái: Tạm dừng";
+          if (animationId !== null) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        }
+
+        function reset() {
+          running = false;
+          replaying = false;
+          if (animationId !== null) cancelAnimationFrame(animationId);
+          if (replayId !== null) cancelAnimationFrame(replayId);
+          animationId = null;
+          replayId = null;
+          toggleBtn.textContent = "▶ Bắt đầu";
+          stateLabel.textContent = "Trạng thái: Tạm dừng";
+          createParticles();
+          render();
+        }
+
+        function replayPath() {
+          const tracked = pollen.find(
+            (p) => p.tracked && p.history.length >= 2
+          );
+          if (!tracked) return;
+
+          stop();
+          replaying = true;
+          stateLabel.textContent = "Trạng thái: Tua nhanh quỹ đạo 1 hạt phấn";
+
+          const path = tracked.history.slice();
+          let i = 0;
+
+          function stepReplay() {
+            if (!replaying) return;
+
+            drawBackground();
+
+            ctx.save();
+            const color =
+              TRACK_COLORS[tracked.colorIndex % TRACK_COLORS.length];
+
+            if (i > 1) {
+              ctx.beginPath();
+              ctx.lineWidth = 1.6;
+              ctx.strokeStyle = color.stroke;
+              ctx.moveTo(path[0].x, path[0].y);
+              for (let k = 1; k <= i && k < path.length; k++) {
+                ctx.lineTo(path[k].x, path[k].y);
+              }
+              ctx.stroke();
+            }
+
+            ctx.globalAlpha = 0.4;
+            for (const w of water) {
+              const g = ctx.createRadialGradient(
+                w.x - w.r / 3,
+                w.y - w.r / 3,
+                0.1,
+                w.x,
+                w.y,
+                w.r
+              );
+              g.addColorStop(0, "rgba(191,219,254,0.8)");
+              g.addColorStop(0.6, "rgba(59,130,246,0.7)");
+              g.addColorStop(1, "rgba(15,118,110,0.7)");
+              ctx.beginPath();
+              ctx.fillStyle = g;
+              ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+
+            const idx = Math.min(i, path.length - 1);
+            const pt = path[idx];
+            ctx.beginPath();
+            const r = tracked.r * 1.6;
+            const gP = ctx.createRadialGradient(
+              pt.x - 2,
+              pt.y - 2,
+              0.1,
+              pt.x,
+              pt.y,
+              r
+            );
+            gP.addColorStop(0, color.fill1);
+            gP.addColorStop(0.5, color.fill2);
+            gP.addColorStop(1, color.fill3);
+            ctx.fillStyle = gP;
+            ctx.shadowColor = color.shadow;
+            ctx.shadowBlur = 16;
+            ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            i += 4;
+            if (i < path.length) {
+              replayId = requestAnimationFrame(stepReplay);
+            } else {
+              replaying = false;
+              stateLabel.textContent =
+                "Trạng thái: Kết thúc tua nhanh (có thể Bắt đầu lại)";
+              render();
+            }
+          }
+
+          stepReplay();
+        }
+
+        toggleBtn.addEventListener("click", () => {
+          if (replaying) return;
+          if (running) stop();
+          else start();
+        });
+
+        resetBtn.addEventListener("click", reset);
+
+        replayBtn.addEventListener("click", () => {
+          if (replaying) return;
+          replayPath();
+        });
+
+        tempRange.addEventListener("input", updateTempLabel);
+
+        trailCheckbox.addEventListener("change", () => {
+          showTrail = trailCheckbox.checked;
+          render();
+        });
+
+        updateTempLabel();
+        createParticles();
+        render();
+      })();
+    </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
+  </body>
+</html>

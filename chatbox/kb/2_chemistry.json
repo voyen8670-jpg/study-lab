@@ -5,200 +5,112 @@
         "thao tác",
         "cách làm",
         "hướng dẫn",
-        "điều khiển",
-        "rót",
-        "đun",
-        "nút",
-        "reset",
-        "ống a",
-        "ống b",
-        "ống c",
-        "ống d",
-        "hỗn hợp",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
+        "các bước",
+        "rót dung dịch",
+        "rót cuso4",
+        "rót naoh",
+        "rót glucose",
+        "đun ống d",
+        "trộn dung dịch",
+        "quan sát hiện tượng"
       ],
       "guide": [
-        "Bấm “Rót CuSO₄ → D” để chuyển dung dịch CuSO₄ từ ống A sang ống D theo từng bước nhỏ (~1.5 s).",
-        "Bấm “Rót NaOH → D” để chuyển dung dịch NaOH từ ống B sang ống D, tạo môi trường kiềm cho Cu²⁺.",
-        "Bấm “Rót Glucose → D” để chuyển dung dịch Glucose từ ống C sang ống D.",
-        "Khi trong ống D đã có CuSO₄ và NaOH, mô phỏng coi như đã tạo được kết tủa Cu(OH)₂ (xanh đậm) trong ống D.",
-        "Bấm “Đun ống D” để mô phỏng gia nhiệt ống D: Cu(OH)₂ dần chuyển thành Cu₂O đỏ gạch nếu có mặt Glucose.",
-        "Bấm “Đặt lại” để khôi phục các thể tích ban đầu: A = 20 mL (CuSO₄), B = 20 mL (NaOH), C = 10 mL (Glucose), D = 0 mL."
+        "Chuẩn bị: Ống A chứa CuSO₄ 0,5 M (20 mL, màu xanh nhạt), ống B chứa NaOH 1,0 M (20 mL, không màu), ống C chứa dung dịch Glucose 0,5 M (10 mL, không màu), ống D rỗng.",
+        "Bước 1 – Rót CuSO₄: Nhấn nút \"Rót CuSO₄ → D\" để chuyển dần dung dịch CuSO₄ từ ống A sang ống D. Ống A vơi dần, ống D bắt đầu có màu xanh nhạt của ion Cu²⁺.",
+        "Bước 2 – Rót NaOH: Nhấn \"Rót NaOH → D\" để thêm NaOH từ ống B vào ống D. Khi Cu²⁺ gặp OH⁻, kết tủa Cu(OH)₂ màu xanh đậm hình thành, xuất hiện dưới đáy ống D.",
+        "Bước 3 – Kiểm tra kết tủa: Sau khi đã có CuSO₄ và NaOH trong ống D, quan sát ống D chuyển màu xanh đậm và xuất hiện các hạt kết tủa xanh – đó là Cu(OH)₂.",
+        "Bước 4 – Thêm Glucose: Nhấn \"Rót Glucose → D\" để cho dung dịch Glucose từ ống C vào ống D. Lúc này, trong ống D có Cu(OH)₂ và Glucose trong môi trường kiềm.",
+        "Bước 5 – Đun nóng: Nhấn nút \"Đun ống D\". Khi đun, màu xanh đậm của Cu(OH)₂ dần biến đổi, xuất hiện kết tủa Cu₂O màu đỏ gạch dưới đáy ống D.",
+        "Sử dụng nút \"Đặt lại\": Nếu muốn làm lại từ đầu, nhấn \"Đặt lại\" để đưa các thể tích và màu sắc ống A, B, C, D về trạng thái ban đầu, xoá kết tủa và mô tả thao tác lại từ đầu."
       ],
       "explain": [
-        "Mục đích: rèn kỹ năng thao tác và quan sát phản ứng hóa học theo đúng trình tự: điều chế Cu(OH)₂ từ CuSO₄/NaOH rồi cho phản ứng với Glucose.",
-        "Vì sao cần mô phỏng: giúp người học quan sát rõ mối liên hệ giữa thao tác (rót A, B, C; đun D), hiện tượng (kết tủa xanh, đỏ gạch) và bản chất phản ứng.",
-        "Ý nghĩa học tập: giúp học sinh hiểu được vai trò từng thuốc thử (CuSO₄, NaOH, Glucose) và bước gia nhiệt trong phản ứng oxi hóa – khử.",
-        "Kết quả mong đợi: người học nhận biết rõ các giai đoạn: dung dịch CuSO₄ xanh nhạt → Cu(OH)₂ kết tủa xanh đậm → Cu₂O đỏ gạch khi đun với Glucose."
+        "Mục đích thí nghiệm: minh hoạ hai bước quan trọng: (1) điều chế Cu(OH)₂ từ CuSO₄ và NaOH trong môi trường kiềm; (2) chứng minh Glucose là chất khử, có thể khử Cu(II) trong Cu(OH)₂ thành Cu(I) dưới dạng Cu₂O màu đỏ gạch khi đun nóng.",
+        "Khi rót CuSO₄ vào ống D, ta chỉ mới có ion Cu²⁺ trong dung dịch, màu xanh nhạt. Việc thêm NaOH cung cấp ion OH⁻ để tạo kết tủa Cu(OH)₂: CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄.",
+        "Kết tủa Cu(OH)₂ là chất rắn màu xanh đậm, ít tan, được mô phỏng bằng các hạt màu xanh đậm ở đáy ống D. Đây là điều kiện cần để bước sau Glucose có thể khử Cu(II).",
+        "Khi thêm Glucose vào ống D (đã có Cu(OH)₂ trong môi trường kiềm), rồi đun nóng, Glucose bị oxi hoá, đồng thời Cu(II) trong Cu(OH)₂ bị khử thành Cu(I) tạo thành Cu₂O kết tủa đỏ gạch: C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O.",
+        "Màu đỏ gạch của Cu₂O là dấu hiệu đặc trưng cho phản ứng của Glucose (một monosaccarit có nhóm –CHO) với Cu(OH)₂ trong môi trường kiềm, tương tự cơ chế của thuốc thử Fehling/Benedict.",
+        "Thí nghiệm cho thấy: cần đúng thứ tự và điều kiện (CuSO₄ + NaOH → Cu(OH)₂, rồi mới thêm Glucose và đun) thì mới xuất hiện kết tủa đỏ gạch; nếu thiếu một bước hoặc sai điều kiện, hiện tượng sẽ khác hoặc không rõ."
       ]
     },
     {
       "patterns": [
-        "kết quả",
-        "màu gì",
-        "hiện tượng",
-        "đổi màu",
-        "kết tủa",
-        "đun lên thì sao",
-        "ống d",
-        "hỗn hợp",
         "giải thích",
+        "bản chất",
         "vì sao",
+        "tại sao",
         "mục đích",
-        "ý nghĩa"
-      ],
-      "guide": [
-        "Chỉ rót CuSO₄ (A) vào ống D → dung dịch trong ống D có màu xanh nhạt (Cu²⁺ trong môi trường nước).",
-        "Chỉ rót NaOH (B) vào ống D → dung dịch kiềm không màu, không có sự đổi màu đáng kể.",
-        "Rót CuSO₄ và NaOH vào ống D (đủ cả A và B) → trong ống D xuất hiện kết tủa Cu(OH)₂ màu xanh đậm.",
-        "Chỉ rót Glucose (C) vào ống D → dung dịch gần như không màu, không có hiện tượng đặc biệt.",
-        "Đã có Cu(OH)₂ trong ống D, nhưng chưa rót Glucose → khi chưa đun, hệ vẫn chỉ là kết tủa xanh Cu(OH)₂, chưa có Cu₂O đỏ gạch.",
-        "Khi trong ống D có cả Cu(OH)₂ và Glucose, bấm “Đun ống D” → màu chuyển dần từ xanh đậm sang đỏ nâu, xuất hiện kết tủa Cu₂O đỏ gạch."
-      ],
-      "explain": [
-        "Mục đích: giúp người học theo dõi trực quan sự thay đổi màu sắc và trạng thái của hệ khi lần lượt thêm CuSO₄, NaOH, Glucose và khi đun nóng.",
-        "Vì sao dung dịch đổi màu: Glucose khử ion Cu²⁺ (trong Cu(OH)₂) thành Cu₂O khi được gia nhiệt, tạo màu đỏ gạch đặc trưng ở đáy ống nghiệm.",
-        "Ý nghĩa học tập: giúp xác định vai trò của Glucose như một chất khử, phân biệt rõ pha hình thành Cu(OH)₂ (xanh đậm) và pha tạo Cu₂O (đỏ gạch).",
-        "Kết quả mong đợi: sau khi đun ống D có đủ Cu(OH)₂ và Glucose, học sinh quan sát được kết tủa Cu₂O đỏ gạch và hiểu mối liên hệ với phản ứng oxi hóa – khử."
-      ]
-    },
-    {
-      "patterns": [
+        "ý nghĩa",
         "phương trình",
-        "phản ứng",
-        "cu2o",
-        "oxi hóa",
-        "khử",
-        "fehling",
-        "benedict",
         "cuoh2",
-        "cuso4",
-        "naoh",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
+        "cu(oh)2",
+        "cu2o",
+        "cu2o đỏ gạch",
+        "glucose khử",
+        "tính khử của glucose"
       ],
       "guide": [
-        "Bước 1 – điều chế Cu(OH)₂ trong ống D:",
-        "CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄",
-        "Bước 2 – Glucose khử Cu(OH)₂ khi đun nóng:",
-        "C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 2H₂O"
+        "Khi muốn giải thích sâu cho học sinh, hãy tách rõ hai giai đoạn: (1) tạo Cu(OH)₂ trong môi trường kiềm; (2) Glucose khử Cu(II) thành Cu(I) khi đun nóng.",
+        "Có thể yêu cầu học sinh viết hai phương trình tóm tắt: phản ứng tạo Cu(OH)₂ và phản ứng oxi hoá – khử giữa Glucose và Cu(OH)₂, rồi đối chiếu với mô phỏng.",
+        "Nên nhấn mạnh vai trò của môi trường kiềm: NaOH vừa tạo Cu(OH)₂, vừa tạo môi trường thuận lợi để Glucose biểu lộ tính khử.",
+        "Khi minh hoạ tính khử của Glucose, có thể liên hệ với thí nghiệm tráng bạc (AgNO₃/NH₃) để học sinh thấy điểm chung: aldehyde/nhóm –CHO bị oxi hoá, còn ion kim loại bị khử."
       ],
       "explain": [
-        "Mục đích: minh họa trọn vẹn hai giai đoạn của thí nghiệm – từ việc điều chế Cu(OH)₂ bằng CuSO₄/NaOH cho đến phản ứng khử Cu²⁺ bởi Glucose.",
-        "Vì sao cần phần này: giúp người học gắn kết hiện tượng (kết tủa xanh, đỏ gạch) với các phương trình phản ứng cụ thể chứ không chỉ nhìn màu sắc.",
-        "Ý nghĩa học tập: củng cố khái niệm oxi hóa – khử trong hóa học hữu cơ, đồng thời liên hệ tới các phản ứng nhận biết đường khử như Fehling hoặc Benedict.",
-        "Kết quả mong đợi: học sinh hiểu rằng Cu₂O đỏ gạch là sản phẩm khử của Cu²⁺ sau khi Cu(OH)₂ tham gia phản ứng với Glucose trong điều kiện đun nóng."
+        "Trong bước đầu, CuSO₄ chỉ cung cấp ion Cu²⁺; dung dịch có màu xanh nhạt nhưng chưa phải là dạng thích hợp để Glucose khử. Cần thêm NaOH để tạo thành kết tủa Cu(OH)₂ – đây là dạng Cu(II) hidroxit trong môi trường kiềm.",
+        "Phản ứng tạo Cu(OH)₂: CuSO₄ + 2NaOH → Cu(OH)₂↓ + Na₂SO₄. Kết tủa Cu(OH)₂ màu xanh đậm là dấu hiệu cho thấy đã có đủ Cu²⁺ và OH⁻ phản ứng với nhau.",
+        "Glucose là một monosaccarit có nhóm chức –CHO (dạng mạch hở), có tính khử. Trong môi trường kiềm và khi đun nóng, Glucose bị oxi hoá (số oxi hoá của C trong nhóm –CHO tăng), đồng thời Cu(II) trong Cu(OH)₂ bị khử thành Cu(I).",
+        "Sản phẩm Cu(I) kết tinh dưới dạng Cu₂O – một chất rắn màu đỏ gạch. Đó chính là kết tủa đỏ gạch xuất hiện ở đáy ống D khi mô phỏng đun nóng ống chứa Cu(OH)₂ và Glucose.",
+        "Ý nghĩa: thí nghiệm là bằng chứng hoá học cho tính khử của Glucose và các monosaccarit tương tự; đồng thời giúp học sinh nắm vững khái niệm phản ứng oxi hoá – khử: tác chất bị oxi hoá (Glucose) và tác chất bị khử (Cu(II))."
       ]
     },
     {
       "patterns": [
-        "điều kiện",
-        "khi nào có kết tủa",
-        "vì sao không có kết tủa",
-        "tại sao không đổi màu",
-        "không đỏ gạch",
-        "không xuất hiện cu2o",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
+        "lỗi thường gặp",
+        "không thấy kết tủa",
+        "không thấy màu xanh",
+        "không thấy đỏ gạch",
+        "không có cu(oh)2",
+        "không có cu2o",
+        "sai thứ tự",
+        "đun không đổi màu",
+        "chưa thấy hiện tượng"
       ],
       "guide": [
-        "Ống D phải nhận CuSO₄ từ ống A để có ion Cu²⁺.",
-        "Ống D phải nhận NaOH từ ống B để tạo kết tủa Cu(OH)₂ màu xanh đậm.",
-        "Ống D phải nhận thêm Glucose từ ống C để có chất khử.",
-        "Cần gia nhiệt (bấm “Đun ống D”) để phản ứng khử diễn ra rõ rệt, tạo kết tủa Cu₂O đỏ gạch."
+        "Nếu không thấy kết tủa xanh đậm Cu(OH)₂ trong ống D sau khi trộn, hãy kiểm tra: đã rót cả CuSO₄ và NaOH vào ống D chưa. Chỉ có CuSO₄ hoặc chỉ có NaOH sẽ không tạo được kết tủa.",
+        "Nếu bạn rót Glucose vào ống D trước khi tạo Cu(OH)₂ rồi mới đun thì có thể không thấy rõ màu đỏ gạch; hãy đảm bảo trộn CuSO₄ với NaOH để tạo Cu(OH)₂ trước, rồi mới thêm Glucose.",
+        "Nếu đun mà không thấy màu đỏ gạch Cu₂O: kiểm tra trong ống D đã có đủ cả Cu(OH)₂ (từ CuSO₄ + NaOH) và Glucose chưa. Thiếu một trong hai thì phản ứng khử Cu(II) → Cu(I) không xảy ra đúng.",
+        "Trong mô phỏng, nếu bạn đã đun một lần và muốn quan sát lại từ đầu, hãy nhấn \"Đặt lại\" trước khi rót lại các dung dịch để tránh nhầm lẫn với trạng thái cũ.",
+        "Khi muốn so sánh rõ rệt, nên quan sát theo đúng trình tự: (1) màu xanh nhạt CuSO₄; (2) xanh đậm + kết tủa Cu(OH)₂; (3) sau khi thêm Glucose và đun → xuất hiện màu đỏ gạch Cu₂O dưới đáy."
       ],
       "explain": [
-        "Mục đích: nhấn mạnh những điều kiện bắt buộc để phản ứng tạo Cu₂O có thể xảy ra trong mô phỏng.",
-        "Vì sao cần đủ điều kiện: nếu thiếu một trong ba yếu tố (Cu²⁺, môi trường kiềm tạo Cu(OH)₂, Glucose) hoặc thiếu nhiệt, phản ứng khử không xảy ra hoặc không rõ rệt.",
-        "Ý nghĩa học tập: giúp người học hiểu rằng mỗi phản ứng phụ thuộc vào cả thành phần hóa chất lẫn năng lượng cung cấp (ở đây là gia nhiệt).",
-        "Kết quả mong đợi: khi hội đủ CuSO₄ + NaOH + Glucose và được đun nóng, ống D xuất hiện kết tủa Cu₂O đỏ gạch đúng như lý thuyết."
-      ]
-    },
-    {
-      "patterns": [
-        "thể tích",
-        "bao nhiêu ml",
-        "bảng",
-        "còn lại",
-        "ống d chứa bao nhiêu",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
-      ],
-      "guide": [
-        "Bảng dưới mô tả thể tích còn lại ở ống A (CuSO₄), B (NaOH), C (Glucose) và tổng thể tích hỗn hợp trong ống D.",
-        "Mỗi lần rót, mô phỏng chia nhỏ dòng chảy theo nhiều bước để người học quan sát mức chất lỏng dâng dần trong từng ống.",
-        "Thể tích ban đầu: A = 20 mL (CuSO₄), B = 20 mL (NaOH), C = 10 mL (Glucose), D = 0 mL.",
-        "Tổng thể tích tối đa trong ống D được giới hạn để chiều cao cột chất lỏng nhìn trực quan và không bị tràn so với hình ống nghiệm."
-      ],
-      "explain": [
-        "Mục đích: giúp người học theo dõi sự thay đổi thể tích giữa các ống và nhận ra mối liên hệ giữa lượng chất và mức độ hiện tượng xảy ra.",
-        "Vì sao cần phần này: phản ánh gần đúng thao tác định lượng trong thí nghiệm thật (rót hết hay rót một phần dung dịch vào ống phản ứng).",
-        "Ý nghĩa học tập: rèn kỹ năng đọc, so sánh dữ liệu định lượng và liên hệ với màu sắc/kết tủa thu được khi thực hành thí nghiệm hóa học.",
-        "Kết quả mong đợi: học sinh hiểu rằng thể tích và nồng độ các dung dịch (CuSO₄, NaOH, Glucose) ảnh hưởng đến lượng Cu(OH)₂ và Cu₂O tạo thành."
-      ]
-    },
-    {
-      "patterns": [
-        "lỗi",
-        "không đổi màu",
-        "không có kết tủa",
-        "không chạy",
-        "reset",
-        "sửa lỗi",
-        "không đỏ gạch",
-        "không tạo cuoh2",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
-      ],
-      "guide": [
-        "Không thấy kết tủa xanh Cu(OH)₂ trong ống D? → Hãy đảm bảo đã rót cả CuSO₄ (A) và NaOH (B) vào ống D.",
-        "Không thấy đỏ gạch sau khi đun? → Kiểm tra xem trong ống D đã có cả Cu(OH)₂ (từ A + B) và Glucose (C) chưa, sau đó mới bấm “Đun ống D”.",
-        "Nếu đang đun mà tiếp tục rót thêm A/B/C, mô phỏng sẽ hủy quá trình đun hiện tại và trạng thái kết tủa sẽ được đặt lại – cần thao tác lại theo đúng thứ tự.",
-        "Nếu hiện tượng bất thường hoặc khó quan sát, bấm “Đặt lại” rồi thực hiện lại theo: Rót CuSO₄ → Rót NaOH → (quan sát Cu(OH)₂) → Rót Glucose → Đun ống D."
-      ],
-      "explain": [
-        "Mục đích: giúp người học nhận ra và khắc phục các lỗi thao tác phổ biến khi làm mô phỏng (thiếu thuốc thử, sai thứ tự rót, quên đun…).",
-        "Vì sao cần phần này: đảm bảo người học nắm được quy trình chuẩn để phản ứng xảy ra đúng như lý thuyết và quan sát được hiện tượng chuẩn.",
-        "Ý nghĩa học tập: tăng tính tự chủ, giúp học sinh biết tự kiểm tra điều kiện phản ứng và sửa sai thao tác trước khi kết luận ‘thí nghiệm không thành công’.",
-        "Kết quả mong đợi: học sinh thao tác đúng thứ tự với đủ thuốc thử, đun đúng lúc và thu được kết tủa Cu₂O đỏ gạch trong ống D như mong đợi."
+        "Việc không thấy Cu(OH)₂ là do chưa đủ điều kiện về mặt hoá học: Cu(OH)₂ chỉ được tạo ra khi có mặt đồng thời ion Cu²⁺ và OH⁻ với tỉ lệ thích hợp. Chỉ có CuSO₄ hoặc chỉ có NaOH thì dung dịch vẫn trong hoặc chỉ hơi đổi màu, không có kết tủa xanh đậm.",
+        "Không thấy kết tủa Cu₂O đỏ gạch thường là do thiếu bước: hoặc chưa tạo được Cu(OH)₂, hoặc chưa có Glucose, hoặc không đun đủ thời gian. Phản ứng khử Cu(II) thành Cu(I) cần có cả chất khử (Glucose), chất oxi hoá (Cu(OH)₂) và năng lượng nhiệt.",
+        "Thứ tự thao tác ảnh hưởng trực tiếp đến hiện tượng: nếu thêm Glucose khi chưa có Cu(OH)₂ thì Glucose không có \"đối tác\" Cu(II) ở dạng thích hợp để khử, nên khi đun sẽ không cho màu đỏ gạch rõ ràng.",
+        "Trong thực tế, nồng độ và tỉ lệ thể tích cũng ảnh hưởng độ rõ của màu và lượng kết tủa. Trong mô phỏng, các giá trị đã được chuẩn hoá để đảm bảo hiện tượng dễ quan sát, nhưng nếu bỏ qua một thao tác (không rót một trong các dung dịch hoặc không nhấn Đun) thì hệ vẫn tuân theo logic hoá học và không cho kết quả đầy đủ."
       ]
     },
     {
       "patterns": [
         "an toàn",
-        "cẩn trọng",
-        "thực nghiệm thật",
-        "phòng thí nghiệm",
-        "cuso4",
-        "naoh",
-        "hóa chất độc",
-        "giải thích",
-        "vì sao",
-        "mục đích",
-        "ý nghĩa"
+        "lưu ý an toàn",
+        "nguy hiểm",
+        "bảo hộ",
+        "ăn mòn",
+        "naoh nguy hiểm",
+        "đun nóng",
+        "làm thật trong phòng thí nghiệm"
       ],
       "guide": [
-        "Trong thí nghiệm thật, các muối Cu²⁺ (như CuSO₄) có thể gây kích ứng da và độc nếu nuốt phải; cần đeo găng tay, không để dính lên tay và không nếm thử.",
-        "Dung dịch NaOH là chất ăn mòn mạnh; khi làm thí nghiệm thật phải đeo găng, kính bảo hộ và tránh để bắn vào da, mắt hoặc quần áo.",
-        "Khi gia nhiệt ống nghiệm ngoài đời thật, phải dùng kẹp ống nghiệm và luôn hướng miệng ống tránh phía người thao tác và người xung quanh.",
-        "Không được hơ ống nghiệm liên tục tại một điểm trên ngọn lửa; cần đưa qua lại nhẹ nhàng để tránh nứt vỡ ống nghiệm."
+        "Trong thí nghiệm thật, NaOH là chất ăn mòn, có thể gây bỏng da và tổn thương mắt. Khi thao tác phải đeo găng tay, kính bảo hộ và áo blouse.",
+        "Khi rót dung dịch, nên dùng ống nhỏ giọt hoặc ống đong, không để dung dịch tiếp xúc trực tiếp với da. Nếu bị dính NaOH hoặc dung dịch kiềm lên da, cần rửa ngay dưới vòi nước chảy nhiều phút.",
+        "Khi đun ống nghiệm chứa dung dịch Cu(OH)₂ và Glucose, phải dùng kẹp ống nghiệm, hướng miệng ống nghiệm ra xa người và bạn cùng nhóm để tránh bắn nóng.",
+        "Không đổ trực tiếp dung dịch thí nghiệm còn nóng vào thùng rác hoặc bồn rửa. Cần để nguội rồi mới xử lý theo hướng dẫn của giáo viên/kỹ thuật viên phòng thí nghiệm.",
+        "Thí nghiệm mô phỏng giúp quan sát hiện tượng một cách an toàn; thí nghiệm thật chỉ nên thực hiện trong phòng thí nghiệm với sự giám sát của giáo viên."
       ],
       "explain": [
-        "Mục đích: giúp người học ý thức rằng dù đang làm việc trong môi trường mô phỏng an toàn, nhưng khi ra phòng thí nghiệm thật thì CuSO₄, NaOH và sản phẩm phản ứng đều có nguy cơ gây hại.",
-        "Vì sao cần chú ý: muối Cu²⁺ và dung dịch NaOH có tính độc và ăn mòn; việc không tuân thủ quy tắc bảo hộ có thể gây bỏng da, tổn thương mắt hoặc nhiễm độc.",
-        "Ý nghĩa học tập: hình thành cho học sinh thói quen làm việc an toàn với hóa chất và nguồn nhiệt, từ đó dễ dàng chuyển từ mô phỏng sang thực nghiệm thật.",
-        "Kết quả mong đợi: người học vừa nắm vững kiến thức hóa học, vừa biết tuân thủ các nguyên tắc an toàn cơ bản khi làm thí nghiệm CuSO₄/NaOH/Glucose trong phòng thí nghiệm."
+        "NaOH là bazơ mạnh, có tính ăn mòn cao. Dung dịch NaOH có thể làm hỏng protein của mô sống, gây bỏng hoá học cho da, mắt và niêm mạc, do đó phải sử dụng bảo hộ thích hợp khi thao tác.",
+        "Khi đun nóng ống nghiệm, dung dịch có thể sôi cục bộ và bắn ra ngoài; nếu miệng ống nghiệm hướng vào người thì dễ gây bỏng. Đó là lý do quy tắc an toàn luôn yêu cầu hướng miệng ống nghiệm ra xa và không nhìn thẳng vào miệng ống.",
+        "Hỗn hợp sau phản ứng chứa cả muối (Na₂SO₄), Cu(II), Cu(I) và Glucose/dẫn xuất của Glucose; không nên tự ý đổ bừa bãi ra môi trường mà cần xử lý theo quy định an toàn hoá chất.",
+        "Mô phỏng ảo cho phép học sinh nắm chắc trình tự thao tác, hiện tượng và bản chất phản ứng trước khi tiếp cận thí nghiệm thật, giảm rủi ro sai sót và tai nạn trong phòng thí nghiệm."
       ]
     }
   ]

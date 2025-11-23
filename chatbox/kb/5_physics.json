@@ -1,0 +1,93 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "cách làm",
+        "hướng dẫn",
+        "sử dụng mô phỏng",
+        "bắt đầu",
+        "pause",
+        "tạm dừng",
+        "đặt lại",
+        "tua nhanh",
+        "replay",
+        "cường độ va chạm",
+        "thanh trượt",
+        "quỹ đạo",
+        "hiện quỹ đạo"
+      ],
+      "guide": [
+        "Nhấn nút \"▶ Bắt đầu\" để khởi động mô phỏng. Các hạt nước nhỏ màu xanh và các hạt phấn lớn, sáng sẽ bắt đầu chuyển động hỗn độn.",
+        "Nhấn lại nút này (khi đang chạy) để \"⏸ Tạm dừng\" mô phỏng, dừng lại trạng thái hiện tại để quan sát chi tiết.",
+        "Dùng thanh trượt \"Cường độ va chạm\" để điều chỉnh mức độ mạnh – yếu của chuyển động: kéo sang phải tương ứng với nhiệt độ cao hơn → phân tử nước chuyển động mạnh hơn → hạt phấn dao động \"gắt\" hơn.",
+        "Quan sát: hạt nhỏ xanh lam biểu diễn các phân tử nước; hạt tròn sáng (vàng) là các hạt phấn; một số hạt phấn được tô màu (tím, xanh dương, hồng, vàng chanh...) có quỹ đạo riêng được vẽ bằng đường mảnh.",
+        "Tích chọn / bỏ chọn ô \"Hiện quỹ đạo các hạt phấn màu\" để bật / tắt việc vẽ đường đi của các hạt phấn được theo dõi.",
+        "Nhấn \"Đặt lại hạt\" để tạo lại vị trí và vận tốc ban đầu của các hạt, xoá lịch sử quỹ đạo và quay về trạng thái tạm dừng.",
+        "Nhấn \"⏩ Tua nhanh quỹ đạo 1 hạt phấn\" để xem lại (replay) nhanh đường đi của một hạt phấn màu đã được ghi lại. Kết thúc tua nhanh, bạn có thể nhấn \"▶ Bắt đầu\" để chạy mô phỏng bình thường."
+      ],
+      "explain": [
+        "Mục đích của mô phỏng là giúp người học \"nhìn thấy\" trực quan chuyển động Brown: chuyển động hỗn độn, zigzag, không ngừng của các hạt nhỏ (hạt phấn, hạt bụi) lơ lửng trong chất lỏng do va chạm với các phân tử môi trường.",
+        "Trong mô phỏng, các hạt nước rất nhỏ (màu xanh lam) luôn chuyển động ngẫu nhiên, va chạm từ nhiều phía vào các hạt phấn lớn hơn. Vì số va chạm từ các phía không cân bằng tại từng thời điểm, mỗi hạt phấn bị đổi vận tốc liên tục và chuyển động giật cục, đường đi ngoằn ngoèo.",
+        "Thanh trượt \"Cường độ va chạm\" đóng vai trò minh hoạ nhiệt độ: khi kéo sang phải, hệ như được làm nóng hơn → vận tốc trung bình của các phân tử nước tăng → hạt phấn bị va chạm mạnh hơn, quỹ đạo trở nên gắt, ngoằn ngoèo và biên độ dao động lớn hơn.",
+        "Các hạt phấn màu và đường quỹ đạo đi kèm cho phép người học theo dõi đường đi của một hạt cụ thể trong một khoảng thời gian dài. Hình dạng quỹ đạo không có tính chu kì, không lặp lại, thể hiện rõ tính chất ngẫu nhiên của chuyển động Brown.",
+        "Chức năng tua nhanh quỹ đạo (replay) giúp \"nén\" thời gian quan sát, cho phép người học nhìn lại toàn bộ đường đi của một hạt phấn trong thời gian ngắn, từ đó rút ra nhận xét định tính về độ \"rối\" của chuyển động và ảnh hưởng của nhiệt độ đến hình dạng quỹ đạo."
+      ]
+    },
+    {
+      "patterns": [
+        "giải thích",
+        "vì sao",
+        "tại sao",
+        "bản chất",
+        "mục đích",
+        "ý nghĩa",
+        "chuyển động brown",
+        "bằng chứng",
+        "nhiệt độ",
+        "tăng nhiệt",
+        "cường độ chuyển động"
+      ],
+      "guide": [
+        "Khi muốn phân tích bản chất vật lý, hãy tập trung vào quan hệ giữa phân tử nước (rất nhỏ, khó quan sát trực tiếp) và hạt phấn (lớn hơn, dễ thấy dưới kính).",
+        "Bạn có thể thay đổi cường độ va chạm (nhiệt độ) rồi so sánh quỹ đạo hạt phấn trước và sau khi chỉnh. Hãy chú ý độ ngoằn ngoèo, biên độ dao động và tốc độ thay đổi hướng của quỹ đạo.",
+        "Nên vẽ lại (hoặc chụp màn hình) quỹ đạo của 1–2 hạt phấn trong hai trường hợp: cường độ va chạm thấp và cao, để so sánh trực quan.",
+        "Khi giải thích cho học sinh, nên nhấn mạnh: hạt phấn không tự \"chủ động\" chuyển động mà chỉ là hạt chỉ thị cho chuyển động nhiệt của các phân tử nước xung quanh."
+      ],
+      "explain": [
+        "Chuyển động Brown là chuyển động hỗn độn, không theo quy luật rõ ràng của các hạt nhỏ (hạt phấn, hạt bụi) lơ lửng trong chất lỏng hoặc chất khí, gây ra bởi va chạm không cân bằng của vô số phân tử môi trường xung quanh.",
+        "Các phân tử nước luôn chuyển động nhiệt, nghĩa là ở bất kỳ nhiệt độ nào (trên 0 K) chúng đều dao động và chuyển động hỗn độn. Vì có rất nhiều phân tử nước va chạm vào hạt phấn từ mọi phía, nên lực tổng hợp tác dụng lên hạt phấn liên tục thay đổi cả về độ lớn và hướng, làm cho hạt phấn bị đổi vận tốc không ngừng.",
+        "Chuyển động Brown là một bằng chứng thực nghiệm quan trọng chứng minh sự tồn tại và chuyển động không ngừng của các phân tử, ủng hộ mạnh mẽ thuyết nguyên tử – phân tử.",
+        "Khi tăng nhiệt độ (tăng cường độ va chạm trong mô phỏng), năng lượng dao động và vận tốc trung bình của các phân tử nước tăng lên. Điều này dẫn đến việc các cú va chạm vào hạt phấn trở nên mạnh và thường xuyên hơn, làm đường đi của hạt phấn trở nên \"gắt\" hơn (quỹ đạo ngoằn ngoèo hơn, bước nhảy lớn hơn).",
+        "Trong mô phỏng, mối liên hệ định tính này được minh hoạ bằng thanh trượt cường độ va chạm: <v²> ~ T, nghĩa là bình phương vận tốc đặc trưng tỉ lệ với nhiệt độ tuyệt đối T."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy chuyển động",
+        "không thấy hạt",
+        "hạt đứng yên",
+        "hạt không di chuyển",
+        "quỹ đạo không hiện",
+        "không hiện quỹ đạo",
+        "bị lag",
+        "chạy chậm",
+        "mô phỏng lỗi"
+      ],
+      "guide": [
+        "Nếu bạn \"không thấy chuyển động\": kiểm tra xem mô phỏng đã được Bắt đầu chưa (nút phải ở trạng thái ⏸ Tạm dừng). Nếu nút vẫn là \"▶ Bắt đầu\" thì mô phỏng đang dừng, hạt sẽ đứng yên.",
+        "Nếu chỉ thấy vài hạt phấn mà không thấy tia (quỹ đạo) nhiều màu: kiểm tra ô \"Hiện quỹ đạo các hạt phấn màu\" đã được tích chọn hay chưa.",
+        "Khi thay đổi thanh trượt \"Cường độ va chạm\" mà cảm giác chuyển động không khác nhiều, hãy thử kéo về cực trái rồi cực phải để tạo sự tương phản rõ hơn, sau đó quan sát kỹ các hạt phấn màu.",
+        "Nếu mô phỏng bị giật/lag trên máy cấu hình yếu, hãy thu nhỏ cửa sổ trình duyệt hoặc đóng bớt tab khác để giảm tải CPU.",
+        "Nếu muốn các quỹ đạo \"sạch\" và dễ nhìn hơn sau một thời gian chạy lâu, hãy nhấn \"Đặt lại hạt\" để xoá lịch sử quỹ đạo và khởi động lại hệ từ đầu."
+      ],
+      "explain": [
+        "Khi nút \"▶ Bắt đầu\" chưa được bấm, hàm cập nhật vị trí hạt không được gọi nên tất cả các hạt giữ nguyên ở vị trí ban đầu; đây không phải là sai về vật lý mà chỉ là trạng thái tạm dừng mô phỏng.",
+        "Quỹ đạo chỉ được vẽ cho một số hạt phấn được đánh dấu là \"tracked\"; nếu tắt hiển thị quỹ đạo, bạn vẫn thấy hạt chuyển động nhưng không thấy đường đi, điều này có thể khiến người học tưởng rằng mô phỏng thiếu phần vẽ quỹ đạo.",
+        "Ở mức cường độ va chạm thấp, chuyển động Brown vẫn tồn tại nhưng biên độ nhỏ và đổi hướng ít hơn; nếu học sinh mới làm quen, có thể khó nhận ra sự khác biệt so với trạng thái mạnh. Vì vậy cần so sánh hai trạng thái: cường độ thấp và cao.",
+        "Hiệu ứng giật/lag nếu có là do giới hạn hiệu năng thiết bị, không phải là tính chất của chuyển động Brown; trong thực tế, chuyển động Brown là quá trình liên tục ở thang thời gian rất ngắn."
+      ]
+    }
+  ]
+}

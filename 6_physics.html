@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng vòng tuần hoàn nước – bầu trời & nước đơn giản</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --bg: #020617;
+        --card: #020617;
+        --accent: #22c55e;
+        --accent2: #38bdf8;
+        --text: #f9fafb;
+        --muted: #cbd5f5;
+        --border: rgba(148, 163, 184, 0.6);
+        --shadow: 0 18px 40px rgba(15, 23, 42, 0.95);
+        --radius: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #0b1120,
+          #020617 55%,
+          #000 100%
+        );
+        color: var(--text);
+        min-height: 100vh;
+        padding: 18px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .app {
+        max-width: 1180px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.85fr);
+        gap: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .app {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .card {
+        background: radial-gradient(
+            circle at top left,
+            rgba(148, 163, 184, 0.15),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(30, 64, 175, 0.22),
+            transparent 55%
+          ),
+          var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        padding: 20px 22px 18px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-size: clamp(28px, 3.4vw, 36px);
+        margin-bottom: 10px;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        text-shadow: 0 0 18px rgba(96, 165, 250, 0.7),
+          0 0 30px rgba(59, 130, 246, 0.8);
+      }
+
+      .subtitle {
+        font-size: 15px;
+        color: #e5edff;
+        margin-bottom: 16px;
+        line-height: 1.6;
+      }
+
+      .subtitle strong {
+        color: #bfdbfe;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+
+      .pill {
+        font-size: 12px;
+        padding: 6px 11px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: radial-gradient(
+          circle at top left,
+          rgba(148, 163, 184, 0.3),
+          rgba(15, 23, 42, 0.98)
+        );
+        color: #e5edff;
+        backdrop-filter: blur(6px);
+      }
+
+      .pill strong {
+        color: var(--accent);
+      }
+
+      .section {
+        margin-top: 4px;
+        padding: 12px 13px 10px;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: radial-gradient(
+          circle at top left,
+          rgba(15, 23, 42, 0.96),
+          rgba(15, 23, 42, 1)
+        );
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #f9fafb;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #38bdf8, #22c55e);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35);
+      }
+
+      .list {
+        margin-left: 18px;
+      }
+
+      .list li {
+        font-size: 14px;
+        color: #e5edf9;
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+
+      .list strong {
+        color: #ffffff;
+      }
+
+      .label {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #f9fafb;
+        margin-bottom: 6px;
+      }
+
+      .layout-right {
+        display: grid;
+        grid-template-rows: auto minmax(320px, 1.7fr) auto;
+        gap: 10px;
+      }
+
+      .controls-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .slider-label {
+        font-size: 13px;
+        color: #e5e7f5;
+      }
+      .slider-label strong {
+        color: #ffffff;
+      }
+
+      .slider-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 220px;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 170px;
+        height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(
+          to right,
+          rgba(56, 189, 248, 0.4),
+          rgba(59, 130, 246, 0.95)
+        );
+        outline: none;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        background: #0ea5e9;
+        border: 2px solid #e5e7eb;
+        box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.45);
+        cursor: pointer;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border-radius: 999px;
+        background: #0ea5e9;
+        border: 2px solid #e5e7eb;
+        box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.45);
+        cursor: pointer;
+      }
+
+      button {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.85);
+        background: radial-gradient(
+          circle at top left,
+          rgba(30, 64, 175, 0.7),
+          rgba(15, 23, 42, 0.98)
+        );
+        color: #f9fafb;
+        font-size: 13px;
+        padding: 7px 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        transition: 0.18s ease-out;
+        backdrop-filter: blur(6px);
+      }
+
+      button:hover {
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.95);
+      }
+
+      .scene {
+        position: relative;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.75);
+        background: #020617;
+        overflow: hidden;
+      }
+
+      .scene-left {
+        position: relative;
+        min-height: 320px;
+        overflow: hidden;
+        transition: filter 0.4s ease-out;
+        isolation: isolate;
+      }
+
+      .sky {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          #f9fafb 0%,
+          #e0f2fe 35%,
+          #bfdbfe 70%,
+          #93c5fd 100%
+        );
+      }
+
+      .sky::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            circle at top left,
+            rgba(255, 255, 255, 0.35),
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgba(191, 219, 254, 0.45),
+            transparent 55%
+          );
+        mix-blend-mode: screen;
+        opacity: 0.8;
+      }
+
+      .water {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 35%;
+        background: linear-gradient(
+          to top,
+          #0369a1 0%,
+          #0ea5e9 55%,
+          #7dd3fc 100%
+        );
+        border-top: 2px solid rgba(191, 219, 254, 0.9);
+        box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.9);
+      }
+
+      .sun {
+        position: absolute;
+        top: 12%;
+        left: 9%;
+        width: 62px;
+        height: 62px;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          #fefce8,
+          #fde047,
+          #f97316 80%
+        );
+        box-shadow: 0 0 22px rgba(250, 204, 21, 0.9),
+          0 0 60px rgba(251, 191, 36, 0.85);
+        transition: filter 0.4s ease-out, opacity 0.4s ease-out;
+      }
+
+      .sun::before {
+        content: "";
+        position: absolute;
+        inset: -26px;
+        border-radius: inherit;
+        background: radial-gradient(
+          circle,
+          rgba(252, 211, 77, 0.35),
+          transparent 68%
+        );
+        opacity: 0.9;
+      }
+
+      .cloud {
+        position: absolute;
+        top: 22%;
+        left: 52%;
+        width: 32%;
+        height: 18%;
+        transform: translateX(-50%);
+        pointer-events: none;
+        transform-origin: center;
+        transition: transform 0.4s ease-out, filter 0.4s ease-out;
+        filter: drop-shadow(0 8px 18px rgba(15, 23, 42, 0.35));
+        animation: cloud-bob 6s ease-in-out infinite;
+      }
+
+      @keyframes cloud-bob {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-3px) scale(1.02);
+        }
+      }
+
+      .cloud-circle {
+        position: absolute;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle at 30% 20%,
+          #ffffff,
+          #e5f0ff 60%,
+          #dbeafe 100%
+        );
+        border: 1px solid rgba(209, 213, 219, 0.6);
+      }
+
+      .cloud-circle.big {
+        width: 62%;
+        height: 76%;
+        left: 20%;
+        top: 20%;
+      }
+
+      .cloud-circle.left {
+        width: 46%;
+        height: 68%;
+        left: 0;
+        top: 30%;
+      }
+
+      .cloud-circle.right {
+        width: 46%;
+        height: 64%;
+        right: 0;
+        top: 32%;
+      }
+
+      .cloud-label {
+        position: absolute;
+        top: 10%;
+        left: 52%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: #0f172a;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid #cbd5f5;
+        box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+        font-weight: 600;
+      }
+
+      .vapor {
+        position: absolute;
+        width: 22px;
+        height: 32px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 15%,
+          rgba(224, 242, 254, 0.95),
+          rgba(96, 165, 250, 0.9)
+        );
+        opacity: 0;
+        pointer-events: none;
+        animation: vapor-rise 3.5s linear forwards;
+        filter: blur(0.3px);
+        mix-blend-mode: screen;
+        box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+      }
+
+      @keyframes vapor-rise {
+        0% {
+          transform: translateY(0) scale(0.7);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.85;
+        }
+        60% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-150px) scale(1.1);
+          opacity: 0;
+        }
+      }
+
+      .raindrop {
+        position: absolute;
+        width: 3px;
+        height: 22px;
+        border-radius: 999px;
+        background: linear-gradient(
+          to bottom,
+          #e0f2fe 0%,
+          #38bdf8 40%,
+          #0ea5e9 100%
+        );
+        opacity: 0.95;
+        pointer-events: none;
+        animation: rain-fall 2.2s linear forwards;
+        box-shadow: 0 0 4px rgba(56, 189, 248, 0.8);
+      }
+
+      @keyframes rain-fall {
+        0% {
+          transform: translateY(0);
+          opacity: 0.2;
+        }
+        15% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(155px);
+          opacity: 0;
+        }
+      }
+
+      .snowflake {
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ffffff, #e0f2fe);
+        opacity: 0.9;
+        pointer-events: none;
+        animation: snow-fall 4.5s linear forwards;
+        filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+      }
+
+      @keyframes snow-fall {
+        0% {
+          transform: translateY(0) translateX(0) scale(0.7);
+          opacity: 0.6;
+        }
+        40% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(170px) translateX(12px) scale(1);
+          opacity: 0;
+        }
+      }
+
+      .scene-right {
+        margin-top: 4px;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.9);
+        padding: 13px 15px;
+        background: radial-gradient(
+          circle at top left,
+          rgba(15, 23, 42, 0.98),
+          rgba(15, 23, 42, 1)
+        );
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 0 25px rgba(15, 23, 42, 0.9);
+      }
+
+      .info-title {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 4px;
+        color: #fdfdff;
+        letter-spacing: 0.01em;
+        text-shadow: 0 0 12px rgba(129, 140, 248, 0.9),
+          0 0 24px rgba(37, 99, 235, 0.9);
+      }
+
+      .info-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        padding: 7px 13px;
+        border-radius: 999px;
+        border: 1px solid rgba(191, 219, 254, 0.95);
+        background: radial-gradient(
+          circle at top left,
+          rgba(30, 64, 175, 0.95),
+          rgba(15, 23, 42, 0.98)
+        );
+        color: #e5efff;
+        margin-bottom: 6px;
+        box-shadow: 0 0 14px rgba(37, 99, 235, 0.8),
+          0 0 26px rgba(30, 64, 175, 0.8);
+      }
+
+      .info-badge strong {
+        color: #e0e7ff;
+      }
+
+      .info-text {
+        font-size: 15px;
+        color: #ffffff;
+        margin-bottom: 8px;
+        line-height: 1.75;
+        text-shadow: 0 0 8px rgba(129, 140, 248, 0.7),
+          0 0 14px rgba(59, 130, 246, 0.8);
+      }
+
+      .info-text strong {
+        color: #e0f2fe;
+        font-weight: 700;
+      }
+
+      .info-list {
+        margin-left: 18px;
+      }
+
+      .info-list li {
+        font-size: 15px;
+        color: #ffffff;
+        margin-bottom: 4px;
+        line-height: 1.7;
+        text-shadow: 0 0 6px rgba(129, 140, 248, 0.6),
+          0 0 10px rgba(37, 99, 235, 0.7);
+      }
+
+      .status-row {
+        font-size: 14px;
+        color: #eef4ff; /* màu trắng dịu */
+        margin-top: 5px;
+        font-weight: 600;
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.55); /* viền nhẹ hơn */
+        background: rgba(15, 23, 42, 0.75); /* nền dịu, mờ */
+        box-shadow: 0 0 6px rgba(37, 99, 235, 0.45),
+          /* bóng nhẹ hơn */ 0 0 12px rgba(30, 64, 175, 0.35);
+        backdrop-filter: blur(4px); /* nhẹ, tăng độ trong trẻo */
+      }
+
+      .status-row strong {
+        color: #ffffff;
+      }
+
+      .process-labels {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 12px;
+        color: #e5edff;
+        margin-top: 5px;
+      }
+
+      .tag {
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(191, 219, 254, 0.95);
+        background: radial-gradient(
+          circle at top left,
+          rgba(30, 64, 175, 0.9),
+          rgba(15, 23, 42, 0.98)
+        );
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <section class="card">
+        <h1>Mô phỏng vòng tuần hoàn nước</h1>
+        <p class="subtitle">
+          Vòng tuần hoàn nước gồm các quá trình nối tiếp nhau:
+          <strong>bốc hơi</strong>, <strong>ngưng tụ</strong>,
+          <strong>mưa / tuyết</strong>, <strong>dòng chảy</strong> và
+          <strong>thấm xuống đất</strong>. Bên phải là mô phỏng: hơi nước bay
+          lên thành mây, mây to dần, che bớt Mặt Trời và tạo
+          <strong>hạt mưa hoặc bông tuyết</strong> rơi xuống.
+        </p>
+
+        <div class="pill-row">
+          <span class="pill"
+            ><strong>Bốc hơi:</strong> nước lỏng → hơi nước</span
+          >
+          <span class="pill"
+            ><strong>Ngưng tụ:</strong> hơi nước tụ lại thành mây</span
+          >
+          <span class="pill"
+            ><strong>Mưa / tuyết:</strong> nước rơi lại xuống mặt đất</span
+          >
+          <span class="pill"
+            ><strong>Dòng chảy / thấm:</strong> nước quay lại sông, biển</span
+          >
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <span class="dot"></span>
+            <span>Các bước chính của vòng tuần hoàn</span>
+          </div>
+          <ul class="list">
+            <li>
+              <strong>1. Bốc hơi:</strong> nước từ biển, sông, hồ, cây cối bốc
+              lên không khí (mạnh hơn khi trời nóng, khô).
+            </li>
+            <li>
+              <strong>2. Ngưng tụ:</strong> hơi nước gặp lạnh → tụ lại thành các
+              hạt nhỏ tạo mây (không khí càng ẩm càng dễ tạo mây).
+            </li>
+            <li>
+              <strong>3. Mưa / tuyết:</strong> các hạt nước lớn dần và rơi
+              xuống; nếu không khí lạnh dưới 0°C có thể tạo thành tuyết.
+            </li>
+            <li>
+              <strong>4. Dòng chảy mặt:</strong> nước chảy trên bề mặt về sông,
+              hồ, biển.
+            </li>
+            <li>
+              <strong>5. Thấm xuống đất:</strong> nước ngấm vào đất, bổ sung
+              nước ngầm.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="layout-right">
+          <div>
+            <div class="label">ĐIỀU CHỈNH NHIỆT ĐỘ & ĐỘ ẨM</div>
+            <div class="controls-row">
+              <div class="slider-wrap">
+                <span class="slider-label">
+                  Nhiệt độ:
+                  <strong><span id="tempValue">28</span>°C</strong>
+                </span>
+                <input
+                  type="range"
+                  id="tempRange"
+                  min="-10"
+                  max="40"
+                  value="28"
+                />
+              </div>
+
+              <div class="slider-wrap">
+                <span class="slider-label">
+                  Độ ẩm:
+                  <strong><span id="humidityValue">60</span>%</strong>
+                </span>
+                <input
+                  type="range"
+                  id="humidityRange"
+                  min="0"
+                  max="100"
+                  value="60"
+                />
+              </div>
+
+              <button id="btnReset">⟲ Đặt lại chu trình</button>
+            </div>
+          </div>
+
+          <div class="scene">
+            <div class="scene-left" id="sceneLeft">
+              <div class="sky"></div>
+              <div class="sun"></div>
+              <div class="cloud" id="cloud">
+                <div class="cloud-circle left"></div>
+                <div class="cloud-circle big"></div>
+                <div class="cloud-circle right"></div>
+              </div>
+              <div class="cloud-label">Mây</div>
+              <div class="water" id="water"></div>
+            </div>
+          </div>
+
+          <div class="scene-right">
+            <div class="info-title" id="infoTitle">Trời quang, ít mây</div>
+            <div class="info-badge">
+              Trạng thái chính:
+              <strong id="processName">Mây rất ít – chưa có mưa / tuyết</strong>
+            </div>
+            <p class="info-text" id="infoDesc">
+              Ban đầu, lượng hơi nước ngưng tụ trong không khí chưa nhiều nên
+              mây rất mỏng. Khi nhiệt độ và độ ẩm thay đổi, hơi nước bốc hơi và
+              ngưng tụ sẽ làm mây dày dần lên, có thể tạo mưa hoặc tuyết (khi
+              nhiệt độ dưới 0°C).
+            </p>
+            <ul class="info-list" id="infoList"></ul>
+
+            <div class="status-row" id="statusRow"></div>
+
+            <div class="process-labels">
+              <span class="tag">Hơi nước: khối xanh bay lên từ mặt nước</span>
+              <span class="tag">Mây dày: mây che bớt Mặt Trời</span>
+              <span class="tag"
+                >Mưa / tuyết: hạt nước hoặc bông tuyết rơi xuống</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const sceneLeft = document.getElementById("sceneLeft");
+      const water = document.getElementById("water");
+      const cloud = document.getElementById("cloud");
+      const sun = document.querySelector(".sun");
+
+      const tempRange = document.getElementById("tempRange");
+      const tempValue = document.getElementById("tempValue");
+      const humidityRange = document.getElementById("humidityRange");
+      const humidityValue = document.getElementById("humidityValue");
+      const btnReset = document.getElementById("btnReset");
+
+      const infoTitle = document.getElementById("infoTitle");
+      const processNameSpan = document.getElementById("processName");
+      const infoDesc = document.getElementById("infoDesc");
+      const infoList = document.getElementById("infoList");
+      const statusRow = document.getElementById("statusRow");
+
+      let temperature = 28;
+      let humidity = 0.6;
+      let evapIntensity = 0.4;
+      let condensationLevel = 0;
+
+      let mainTimer = null;
+
+      function recalcEvapIntensity() {
+        const hNorm = humidity;
+
+        let effectiveTemp = Math.max(0, temperature);
+        let tNorm = (effectiveTemp - 5) / 30;
+        if (tNorm < 0) tNorm = 0;
+        if (tNorm > 1) tNorm = 1;
+
+        const dryness = 1 - hNorm;
+
+        let base = tNorm * dryness;
+        if (base < 0) base = 0;
+        if (base > 1) base = 1;
+
+        evapIntensity = base;
+      }
+
+      function updateTexts() {
+        infoList.innerHTML = "";
+        const li1 = document.createElement("li");
+        const li2 = document.createElement("li");
+        const li3 = document.createElement("li");
+
+        const isCold = temperature <= 0;
+
+        if (condensationLevel < 0.2) {
+          infoTitle.textContent = "Trời quang, ít mây";
+          processNameSpan.textContent = "Mây rất ít – chưa có mưa / tuyết";
+          infoDesc.textContent =
+            "Không khí đang khô hoặc độ ẩm còn thấp nên ngưng tụ rất ít. Bầu trời chủ yếu trong xanh, " +
+            "dù nước vẫn có thể bốc hơi mạnh nếu trời nóng và khô (nhiệt độ cao, độ ẩm thấp).";
+          li1.textContent =
+            "Hơi nước bay lên nhanh hơn khi nhiệt độ cao và độ ẩm thấp (không khí khô).";
+          li2.textContent =
+            "Mây chỉ xuất hiện rất mỏng hoặc gần như không nhìn thấy.";
+          li3.textContent =
+            "Hầu như không có mưa hay tuyết, nguy cơ khô hạn cao nếu kéo dài.";
+        } else if (condensationLevel < 0.6) {
+          infoTitle.textContent = "Bốc hơi và ngưng tụ vừa phải";
+          processNameSpan.textContent = "Mây đang hình thành";
+          infoDesc.textContent =
+            "Độ ẩm không khí tăng giúp hơi nước dễ ngưng tụ → mây dày dần lên. " +
+            "Nếu nhiệt độ đủ cao, bốc hơi vẫn mạnh nên liên tục bổ sung hơi nước cho không khí.";
+          li1.textContent =
+            "Hơi nước bốc lên đều từ mặt nước, làm không khí ngày càng ẩm hơn.";
+          li2.textContent =
+            "Mây che bớt ánh nắng, nhiệt độ cảm nhận dễ chịu hơn.";
+          li3.textContent =
+            "Nếu mây tiếp tục dày lên, có thể xuất hiện mưa hoặc tuyết (khi nhiệt độ dưới 0°C).";
+        } else if (condensationLevel < 0.85) {
+          if (isCold) {
+            infoTitle.textContent = "Mây dày – tuyết đang rơi";
+            processNameSpan.textContent = "Tuyết rơi (Snow)";
+            infoDesc.textContent =
+              "Không khí rất ẩm và lạnh (≤ 0°C), hơi nước ngưng tụ và đóng băng → hình thành các bông tuyết rơi xuống mặt đất.";
+            li1.textContent = "Mây dày và lạnh, ánh sáng Mặt Trời bị che bớt.";
+            li2.textContent = "Tuyết rơi đều, phủ trắng mặt đất nếu kéo dài.";
+            li3.textContent =
+              "Băng tuyết tan sau đó sẽ trở lại dạng nước, tiếp tục vòng tuần hoàn.";
+          } else {
+            infoTitle.textContent = "Mây dày – mưa đang rơi";
+            processNameSpan.textContent = "Mưa (Precipitation)";
+            infoDesc.textContent =
+              "Không khí rất ẩm, hơi nước ngưng tụ mạnh → mây dày, các giọt nước đủ nặng để rơi xuống dưới dạng mưa.";
+            li1.textContent = "Mây che phần lớn Mặt Trời, bầu trời tối hơn.";
+            li2.textContent =
+              "Mưa rơi đều, bổ sung nước cho sông, ao, hồ và đất.";
+            li3.textContent =
+              "Một phần nước chảy trên mặt, một phần thấm xuống đất tạo nước ngầm.";
+          }
+        } else {
+          if (isCold) {
+            infoTitle.textContent = "Mây rất dày – tuyết rơi nhiều, trời u ám";
+            processNameSpan.textContent = "Tuyết rơi dày đặc";
+            infoDesc.textContent =
+              "Không khí cực kì ẩm và rất lạnh → tuyết rơi dày, có thể gây băng giá, trơn trượt và che phủ mặt đất.";
+            li1.textContent = "Mây dày đặc bao phủ, bầu trời xám và rất lạnh.";
+            li2.textContent = "Tuyết rơi mạnh, có thể tích tụ thành lớp dày.";
+            li3.textContent =
+              "Băng tuyết tan sau đó sẽ trở lại dạng nước, tiếp tục vòng tuần hoàn.";
+          } else {
+            infoTitle.textContent = "Mây rất dày – mưa to, trời u ám";
+            processNameSpan.textContent = "Mưa lớn, mây dày đặc";
+            infoDesc.textContent =
+              "Không khí cực kì ẩm, lượng ngưng tụ rất lớn → mây đen dày đặc, mưa rơi dày và mạnh, có thể gây ngập úng.";
+            li1.textContent =
+              "Mây dày đặc bao phủ, ánh nắng hầu như bị chặn lại.";
+            li2.textContent =
+              "Mưa lớn, nước chảy mạnh trên bề mặt, dễ gây ngập.";
+            li3.textContent =
+              "Sau mưa, lượng nước mặt và nước ngầm đều tăng mạnh.";
+          }
+        }
+
+        infoList.appendChild(li1);
+        infoList.appendChild(li2);
+        infoList.appendChild(li3);
+
+        const precipType = temperature <= 0 ? "tuyết" : "mưa";
+
+        statusRow.innerHTML =
+          "<strong>Nhiệt độ:</strong> " +
+          temperature +
+          "°C · " +
+          "<strong>Độ ẩm:</strong> " +
+          Math.round(humidity * 100) +
+          "% · " +
+          "<strong>Cường độ bốc hơi ước tính:</strong> " +
+          Math.round(evapIntensity * 100) +
+          "% · " +
+          "<strong>Mức ngưng tụ (độ dày mây):</strong> " +
+          Math.round(condensationLevel * 100) +
+          "% · " +
+          "<strong>Loại giáng thuỷ chính:</strong> " +
+          precipType +
+          ".";
+      }
+
+      function createVapor(fromElement) {
+        const rect = fromElement.getBoundingClientRect();
+        const sceneRect = sceneLeft.getBoundingClientRect();
+
+        const vapor = document.createElement("div");
+        vapor.className = "vapor";
+
+        const randX = rect.left - sceneRect.left + Math.random() * rect.width;
+
+        const baseY = rect.top - sceneRect.top - 6;
+
+        vapor.style.left = randX + "px";
+        vapor.style.top = baseY + "px";
+
+        sceneLeft.appendChild(vapor);
+        vapor.addEventListener("animationend", () => vapor.remove());
+      }
+
+      function createRaindrop() {
+        const rectCloud = cloud.getBoundingClientRect();
+        const sceneRect = sceneLeft.getBoundingClientRect();
+        const drop = document.createElement("div");
+        drop.className = "raindrop";
+
+        const randX =
+          rectCloud.left -
+          sceneRect.left +
+          10 +
+          Math.random() * (rectCloud.width - 20);
+
+        const startY = rectCloud.bottom - sceneRect.top - 2;
+
+        drop.style.left = randX + "px";
+        drop.style.top = startY + "px";
+
+        sceneLeft.appendChild(drop);
+        drop.addEventListener("animationend", () => drop.remove());
+      }
+
+      function createSnowflake() {
+        const rectCloud = cloud.getBoundingClientRect();
+        const sceneRect = sceneLeft.getBoundingClientRect();
+
+        const snow = document.createElement("div");
+        snow.className = "snowflake";
+
+        const randX =
+          rectCloud.left -
+          sceneRect.left +
+          10 +
+          Math.random() * (rectCloud.width - 20);
+
+        const startY = rectCloud.bottom - sceneRect.top - 2;
+
+        snow.style.left = randX + "px";
+        snow.style.top = startY + "px";
+
+        sceneLeft.appendChild(snow);
+        snow.addEventListener("animationend", () => snow.remove());
+      }
+
+      function updateCloud() {
+        const scale = 1 + condensationLevel * 0.7;
+        cloud.style.transform =
+          "translateX(-50%) scale(" + scale.toFixed(2) + ")";
+
+        const cloudBrightness = 1 - condensationLevel * 0.35;
+        const cloudGray = condensationLevel * 0.8;
+        cloud.style.filter =
+          "brightness(" +
+          cloudBrightness.toFixed(2) +
+          ")" +
+          " grayscale(" +
+          cloudGray.toFixed(2) +
+          ")" +
+          " drop-shadow(0 8px 18px rgba(15,23,42,0.35))";
+
+        const skyBright = 1 - condensationLevel * 0.25;
+        sceneLeft.style.filter = "brightness(" + skyBright.toFixed(2) + ")";
+
+        if (sun) {
+          const sunBright = 1 - condensationLevel * 0.7;
+          const sunOpacity = 1 - condensationLevel * 0.6;
+          sun.style.filter = "brightness(" + sunBright.toFixed(2) + ")";
+          sun.style.opacity = sunOpacity.toFixed(2);
+        }
+      }
+
+      function stepCondensation() {
+        const h = humidity;
+
+        const humidityEffect = Math.pow(h, 1.7);
+        const target = humidityEffect;
+
+        const speed = 0.04;
+
+        condensationLevel += (target - condensationLevel) * speed;
+
+        if (condensationLevel < 0) condensationLevel = 0;
+        if (condensationLevel > 1) condensationLevel = 1;
+      }
+
+      function startSimulation() {
+        if (mainTimer) clearInterval(mainTimer);
+
+        mainTimer = setInterval(() => {
+          if (evapIntensity > 0.02) {
+            const count = 1 + Math.round(evapIntensity * 6);
+            for (let i = 0; i < count; i++) {
+              if (Math.random() < 0.85) {
+                createVapor(water);
+              }
+            }
+          }
+
+          stepCondensation();
+          updateCloud();
+
+          if (condensationLevel > 0.6) {
+            const fallChance = (condensationLevel - 0.5) * 1.5;
+
+            if (Math.random() < fallChance) {
+              if (temperature <= 0) {
+                createSnowflake();
+              } else {
+                createRaindrop();
+              }
+            }
+          }
+
+          updateTexts();
+        }, 200);
+      }
+
+      function resetAll() {
+        document
+          .querySelectorAll(".vapor, .raindrop, .snowflake")
+          .forEach((el) => el.remove());
+
+        temperature = 28;
+        humidity = 0.6;
+        condensationLevel = 0;
+
+        tempRange.value = 28;
+        humidityRange.value = 60;
+        tempValue.textContent = "28";
+        humidityValue.textContent = "60";
+
+        recalcEvapIntensity();
+        updateCloud();
+        updateTexts();
+
+        startSimulation();
+      }
+
+      tempRange.addEventListener("input", () => {
+        temperature = Number(tempRange.value);
+        tempValue.textContent = temperature;
+        recalcEvapIntensity();
+        updateTexts();
+      });
+
+      humidityRange.addEventListener("input", () => {
+        const value = Number(humidityRange.value);
+        humidity = value / 100;
+        humidityValue.textContent = value;
+        recalcEvapIntensity();
+        updateTexts();
+      });
+
+      btnReset.addEventListener("click", resetAll);
+
+      recalcEvapIntensity();
+      condensationLevel = 0;
+      updateCloud();
+      updateTexts();
+      startSimulation();
+    </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
+  </body>
+</html>

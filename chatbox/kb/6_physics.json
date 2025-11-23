@@ -1,0 +1,82 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "giải thích",
+        "quan sát",
+        "hướng dẫn",
+        "vì sao",
+        "tại sao",
+        "mục đích",
+        "ý nghĩa",
+        "nhiệt độ",
+        "độ ẩm",
+        "mưa",
+        "tuyết",
+        "bốc hơi",
+        "ngưng tụ"
+      ],
+      "guide": [
+        "Dùng thanh trượt Nhiệt độ để điều chỉnh từ -10°C đến 40°C. Kéo sang phải → trời nóng hơn, bốc hơi mạnh hơn; kéo sang trái → lạnh hơn, có thể xuất hiện tuyết khi ≤ 0°C.",
+        "Dùng thanh trượt Độ ẩm (0–100%) để chỉnh độ ẩm không khí. Độ ẩm càng cao → mây càng dày, dễ có mưa hoặc tuyết; độ ẩm thấp → trời quang, ít mây.",
+        "Quan sát vùng mô phỏng: các vệt xanh nhỏ bay lên từ mặt nước tượng trưng cho hơi nước bốc lên; mây ở giữa trời dày dần khi ngưng tụ tăng; hạt dài rơi xuống là mưa, chấm tròn nhỏ rơi chậm là tuyết.",
+        "Theo dõi khung bên phải: tiêu đề, trạng thái chính và dòng trạng thái (Nhiệt độ, Độ ẩm, Cường độ bốc hơi, Mức ngưng tụ, Loại giáng thuỷ) sẽ cập nhật tự động theo thiết lập của bạn.",
+        "Nhấn nút \"Đặt lại chu trình\" để đưa mô phỏng về trạng thái ban đầu (28°C, 60% độ ẩm), xoá các hiệu ứng hơi nước, mưa/tuyết và bắt đầu quan sát lại từ đầu."
+      ],
+      "explain": [
+        "Mục đích: giúp người học hình dung trực quan vòng tuần hoàn nước đơn giản, thấy được mối liên hệ giữa nhiệt độ – độ ẩm – bốc hơi – ngưng tụ – mưa/tuyết và dòng nước quay lại bề mặt Trái Đất.",
+        "Khi nhiệt độ cao và không khí khô (độ ẩm thấp), nước bốc hơi mạnh nhưng do không khí còn khô nên ngưng tụ ít → mây mỏng, trời quang, ít mưa. Đây là lí do vùng nóng, khô thường dễ hạn hán.",
+        "Khi độ ẩm cao, hơi nước dễ ngưng tụ thành nhiều hạt nhỏ → mây dày. Nếu mây đủ dày, các hạt nước lớn dần sẽ rơi xuống thành mưa; nếu toàn khối khí lạnh dưới 0°C, nước đóng băng và rơi xuống dạng tuyết.",
+        "Các hiệu ứng trong mô phỏng: hơi nước màu xanh bay lên biểu diễn quá trình bốc hơi; mây phồng to và xám đi là ngưng tụ tăng; mưa/tuyết rơi xuống biểu diễn giáng thuỷ; phần mô tả bên phải tương ứng với từng trạng thái (trời quang, mây nhiều, mưa, tuyết...).",
+        "Ý nghĩa học tập: củng cố khái niệm nước luôn tuần hoàn giữa biển – khí quyển – lục địa, giúp giải thích vì sao có vùng mưa nhiều, vùng khô hạn; vì sao ở nơi lạnh có tuyết thay vì mưa; và vai trò của mưa/tuyết trong việc bổ sung nước mặt và nước ngầm."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "không có mưa",
+        "không có tuyết",
+        "không thấy mây",
+        "không thấy hơi nước"
+      ],
+      "guide": [
+        "Nếu không thấy hơi nước bay lên: hãy tăng nhiệt độ (kéo thanh Nhiệt độ sang phải) và giảm bớt độ ẩm. Trời càng nóng và không khí càng khô thì hiệu ứng bốc hơi càng rõ.",
+        "Nếu mây mãi không dày lên: thử tăng dần độ ẩm lên trên 60–70%. Độ ẩm thấp → mây mỏng, khó thấy thay đổi rõ.",
+        "Không thấy mưa: cần vừa có độ ẩm cao (mây dày) vừa chờ vài giây để ngưng tụ đủ mạnh. Hãy kéo độ ẩm cao (≈80–100%), giữ nhiệt độ trên 0°C, và quan sát một lúc.",
+        "Không thấy tuyết: chỉ khi nhiệt độ ≤ 0°C và độ ẩm cao thì mới có tuyết. Hãy kéo Nhiệt độ xuống dưới 0°C, tăng Độ ẩm cao rồi chờ để các bông tuyết bắt đầu rơi.",
+        "Nếu cảnh trở nên quá tối và mây che hết Mặt Trời: giảm độ ẩm hoặc nhấn \"Đặt lại chu trình\" để quay về trạng thái ban đầu trước khi thử bộ giá trị mới."
+      ],
+      "explain": [
+        "Cường độ bốc hơi trong mô phỏng phụ thuộc vào NHIỆT ĐỘ và ĐỘ KHÔ của không khí: trời nóng và khô → nhiều hơi nước bay lên; trời lạnh hoặc độ ẩm đã cao → bốc hơi chậm hơn nên hiệu ứng có vẻ 'yếu'.",
+        "Mưa hoặc tuyết chỉ xuất hiện khi mức ngưng tụ (độ dày mây) đủ lớn. Trong mô phỏng, điều này được điều khiển chủ yếu bởi độ ẩm: độ ẩm càng cao thì mây càng nhanh dày lên và sớm có giáng thuỷ.",
+        "Tuyết cần hai điều kiện: không khí rất ẩm (nhiều hơi nước để ngưng tụ) và nhiệt độ dưới 0°C để nước đóng băng. Nếu chỉ kéo nhiệt độ xuống thấp mà độ ẩm còn nhỏ thì vẫn khó thấy tuyết.",
+        "Hiệu ứng được cập nhật theo chu kì thời gian (vài phần mười giây một lần), nên sau khi thay đổi nhiệt độ/độ ẩm cần đợi một chút để quan sát rõ sự khác biệt trong mây, mưa hoặc tuyết."
+      ]
+    },
+    {
+      "patterns": [
+        "quy trình",
+        "trình tự",
+        "reset",
+        "đặt lại",
+        "bắt đầu lại",
+        "cách làm",
+        "cách sử dụng"
+      ],
+      "guide": [
+        "Bước 1: Quan sát trạng thái ban đầu (28°C, 60% độ ẩm) – trời quang, mây mỏng, gần như chưa có mưa.",
+        "Bước 2: Tăng dần Nhiệt độ trong khi giữ Độ ẩm trung bình để thấy bốc hơi mạnh hơn nhưng mây chưa chắc đã dày (không khí còn khá khô).",
+        "Bước 3: Giữ nhiệt độ gần cố định, tăng Độ ẩm lên cao để quan sát mây dày dần, ánh sáng Mặt Trời giảm và bắt đầu xuất hiện mưa khi mây đủ dày.",
+        "Bước 4: Giảm Nhiệt độ xuống dưới 0°C trong khi giữ Độ ẩm cao để so sánh mưa với tuyết: mây dày nhưng giáng thuỷ chuyển thành các bông tuyết trắng rơi chậm hơn.",
+        "Giữa mỗi loạt thử nghiệm, nên nhấn \"Đặt lại chu trình\" để về cấu hình ban đầu, tránh bị ảnh hưởng bởi các cài đặt trước đó."
+      ],
+      "explain": [
+        "Giữ một quy trình thay đổi từng đại lượng (chỉ thay đổi nhiệt độ hoặc chỉ thay đổi độ ẩm trong mỗi lần thử) giúp học sinh dễ thấy vai trò riêng của từng yếu tố lên vòng tuần hoàn nước.",
+        "Đặt lại mô phỏng trước khi thử cấu hình mới giúp việc so sánh các trạng thái (trời nắng nóng khô, trời mát ẩm, trời rất lạnh và ẩm) rõ ràng hơn, tránh nhầm lẫn do các hiệu ứng còn sót lại.",
+        "Trình tự quan sát bốc hơi → ngưng tụ → mưa/tuyết → nước trở lại mặt đất khuyến khích người học hình dung vòng tuần hoàn nước như một chu trình khép kín lặp đi lặp lại trong tự nhiên."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "cách làm",
+        "các bước",
+        "hướng dẫn",
+        "quan sát",
+        "hiện tượng",
+        "giải thích",
+        "mục đích",
+        "ý nghĩa",
+        "vì sao",
+        "tại sao",
+        "phương trình",
+        "C12H22O11",
+        "H2SO4 đặc"
+      ],
+      "guide": [
+        "Chuẩn bị: cho một lượng đường trắng (C12H22O11) vào cốc thuỷ tinh chịu nhiệt, đặt cốc lên khay hoặc trong chậu để tránh văng bắn ra bàn.",
+        "Dùng ống nhỏ giọt hoặc xilanh nhựa lấy khoảng 2 mL H2SO4 đặc, rót từ từ lên bề mặt đường, tránh để axit dính ra ngoài thành cốc.",
+        "Sau khi rót, không khuấy dung dịch; chỉ quan sát sự thay đổi màu sắc và thể tích khối chất trong cốc theo thời gian.",
+        "Quan sát theo trình tự: ban đầu đường trắng khô → đường thấm ướt, thâm lại → chuyển vàng, nâu → đen và nở phồng thành cột than xốp.",
+        "Nhận biết thêm các dấu hiệu: cốc nóng lên rõ rệt khi chạm gần, xuất hiện hơi trắng nóng và có thể có mùi hắc (SO2, CO2, hơi nước).",
+        "Kết thúc thí nghiệm: để cốc nguội hẳn rồi mới thu dọn, tuyệt đối không đổ ngay khối than nóng và axit xuống bồn rửa."
+      ],
+      "explain": [
+        "Mục đích thí nghiệm: minh hoạ tính háo nước rất mạnh của H2SO4 đặc và khả năng làm mất nước của chất hữu cơ (đường), đồng thời cho thấy phản ứng toả nhiệt mạnh, tạo hơi và cột than xốp.",
+        "Ý nghĩa học tập: giúp học sinh phân biệt rõ tính chất H2SO4 đặc (háo nước, oxi hoá) với H2SO4 loãng (tính axit mạnh, làm quỳ tím đổi màu), liên hệ đến hiện tượng làm than hoá nhiều hợp chất hữu cơ.",
+        "Phương trình giản lược: C12H22O11 ⟶ 12C + 11H2O (H2SO4 đặc chỉ đóng vai trò chất xúc tác và chất hút nước, không bị tiêu hao hoàn toàn).",
+        "Nước sinh ra bị H2SO4 đặc giữ lại, làm axit bị pha loãng dần. Quá trình tách H2O khỏi đường toả nhiều nhiệt nên hỗn hợp nóng lên, tạo hơi trắng (hơi nước và hơi khí nóng).",
+        "Đường chuyển từ trắng → vàng → nâu do hiện tượng caramen hoá và carbon hoá từng phần; sau cùng, phần khung cacbon còn lại tạo thành than xốp màu đen.",
+        "Hơi nước nóng và khí sinh ra (CO2, SO2, hơi nước) đẩy khối than xốp trồi lên khỏi miệng cốc, tạo thành cột than phồng đặc trưng mà ta quan sát được."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "không có cột than",
+        "phản ứng yếu",
+        "ít hơi",
+        "ít nóng",
+        "không đổi màu",
+        "lỗi mô phỏng",
+        "sai hiện tượng"
+      ],
+      "guide": [
+        "Nếu phản ứng yếu, ít hơi hoặc không thấy cột than: kiểm tra lại nồng độ H2SO4; phải dùng H2SO4 đặc, không dùng H2SO4 đã pha loãng.",
+        "Dùng lượng đường đủ dày trong cốc; nếu lớp đường quá mỏng, cột than sẽ nhỏ, khó quan sát rõ.",
+        "Ưu tiên dùng cốc thuỷ tinh hẹp và cao để cột than có chỗ trồi lên, dễ thấy hiện tượng.",
+        "Không rót quá nhiều H2SO4 ngay từ đầu; rót quá nhiều sẽ làm hỗn hợp bị pha loãng nhanh, nhiệt độ giảm, cột than ít nở.",
+        "Nếu không thấy hơi trắng: có thể do thí nghiệm làm ở nơi quá thoáng gió hoặc nhiệt toả ra chưa đủ lớn; có thể tăng nhẹ lượng đường và axit (vẫn phải an toàn, dưới sự giám sát).",
+        "Trong mô phỏng ảo, nếu không chuyển được giữa các giai đoạn, hãy nhấn nút Đặt lại (Reset) rồi chạy lại mô phỏng từ đầu."
+      ],
+      "explain": [
+        "Khi H2SO4 không đủ đặc hoặc dùng lượng quá ít, khả năng hút nước và toả nhiệt giảm đi, dẫn đến đường không bị mất nước mạnh, cột than khó hình thành.",
+        "Nếu đổ quá nhiều H2SO4 đặc ngay từ đầu, axit sẽ nhanh chóng bị pha loãng bởi lượng nước lớn sinh ra, nhiệt độ không đủ cao để đẩy mạnh quá trình carbon hoá, hiện tượng sẽ kém rõ.",
+        "Hình dạng dụng cụ cũng ảnh hưởng: cốc thấp và rộng làm than xốp lan sang hai bên, không tạo thành cột cao trồi lên miệng cốc như mong đợi.",
+        "Lượng hơi trắng, khí nóng phụ thuộc vào tốc độ và mức độ toả nhiệt của phản ứng; nếu phản ứng diễn ra chậm hoặc ở không gian quá thoáng, người quan sát sẽ ít thấy màn hơi trắng rõ rệt.",
+        "Trong mô phỏng ảo, mỗi giai đoạn 0–3 tương ứng với các trạng thái vật lý khác nhau của hệ: chuẩn bị đường trắng, H2SO4 thấm vào đường, đường nóng lên và đổi màu, cuối cùng là cột than xốp đen và hơi trắng bốc ra."
+      ]
+    },
+    {
+      "patterns": [
+        "an toàn",
+        "nguy hiểm",
+        "bảo hộ",
+        "lưu ý",
+        "rủi ro",
+        "tai nạn",
+        "sự cố",
+        "xử lý khi bị",
+        "không làm ở nhà",
+        "H2SO4 đặc nguy hiểm"
+      ],
+      "guide": [
+        "Chỉ thực hiện thí nghiệm thật với H2SO4 đặc trong phòng thí nghiệm, có giáo viên hoặc kỹ thuật viên giám sát, ưu tiên làm trong tủ hút hoặc nơi rất thoáng khí.",
+        "Luôn đeo kính bảo hộ, găng tay chống hoá chất, áo blouse; không cúi sát mặt vào miệng cốc khi phản ứng đang diễn ra.",
+        "Dùng lượng H2SO4 đặc nhỏ (ví dụ khoảng 2 mL) và lượng đường vừa phải, đặt cốc trên khay hoặc chậu để hứng phần tràn, tránh gây bỏng hoặc làm hỏng mặt bàn.",
+        "Tuyệt đối không để H2SO4 đặc dính vào da, quần áo, bàn ghế; khi rót phải thao tác chậm, chắc tay, đặt chai axit cách xa mép bàn.",
+        "Sau thí nghiệm, chờ khối than nguội, sau đó trung hoà phần axit còn thừa bằng dung dịch kiềm loãng hoặc nhiều nước, không đổ trực tiếp axit đặc nóng xuống cống.",
+        "Nếu có sự cố: dính da → rửa ngay dưới vòi nước chảy mạnh 10–15 phút; văng vào mắt → xối nước ít nhất 15 phút và đưa đi khám; hít nhiều hơi → đưa nạn nhân ra nơi thoáng khí, thông báo ngay cho giáo viên hoặc người phụ trách."
+      ],
+      "explain": [
+        "H2SO4 đặc là chất cực kỳ ăn mòn và háo nước, có thể gây bỏng hoá chất nghiêm trọng trên da và niêm mạc; vì vậy bắt buộc phải sử dụng đầy đủ phương tiện bảo hộ.",
+        "Phản ứng giữa H2SO4 đặc và đường toả nhiệt mạnh, làm hỗn hợp sôi nhẹ và bắn; nếu không che chắn hoặc đặt cốc trong khay, axit và khối than nóng có thể văng ra ngoài gây bỏng.",
+        "Hơi trắng bốc lên chủ yếu là hơi nước nóng, có thể lẫn khí SO2 và CO2; SO2 có mùi hắc, gây kích ứng mắt và đường hô hấp nên không được hít sát gần miệng cốc.",
+        "Không được tự ý làm thí nghiệm này ở nhà vì điều kiện an toàn và xử lý sự cố không đảm bảo; việc thao tác với H2SO4 đặc luôn phải có người lớn hoặc chuyên môn hoá học giám sát.",
+        "Quy trình xử lý sự cố (rửa dưới vòi nước chảy, trung hoà axit, đi khám) giúp giảm tối đa tổn thương do axit đặc gây ra; đây là phần bắt buộc khi hướng dẫn thí nghiệm có hoá chất nguy hiểm."
+      ]
+    }
+  ]
+}

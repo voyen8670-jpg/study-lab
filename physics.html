@@ -1,235 +1,333 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Study Lab - Vật lý</title>
-<style>
-:root{
-  --accent:#00eaff;
-  --card-bg:rgba(0,0,0,0.6);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:#000010;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  text-align:center;
-  min-height:100vh;
-  padding-bottom:40px;
-  overflow-x:hidden;
-}
-canvas#bg{position:fixed;left:0;top:0;width:100%;height:100%;z-index:-1;display:block}
-header{padding:24px 16px 8px}
-h1{font-size:32px;text-shadow:0 0 10px var(--accent)}
-.controls {
-  margin-top: 12px;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-input#search,
-select#filter,
-select#grade {
-  padding: 12px 16px;
-  border-radius: 10px;
-  border:1px solid rgba(0,234,255,0.4);
-  background:rgba(0,0,0,0.5);
-  color:#fff;
-  min-width:220px;
-  font-size:15px;
-  outline:none;
-  box-shadow:0 0 8px rgba(0,234,255,0.2);
-  transition:box-shadow 0.3s, border 0.3s;
-}
-input#search:focus,
-select#filter:focus,
-select#grade:focus,
-input#search:hover,
-select#filter:hover,
-select#grade:hover{
-  border:1px solid var(--accent);
-  box-shadow:0 0 14px rgba(0,234,255,0.6);
-}
-select#filter option,
-select#grade option{
-  background:#000020;
-  color:#fff;
-  font-size:14px;
-  padding:8px;
-}
-main.wrap{max-width:1100px;margin:28px auto;padding:0 16px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:24px;
-}
-.card{
-  background:var(--card-bg);
-  padding:25px;
-  border-radius:15px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.7);
-  transition: transform 0.3s, box-shadow 0.3s;
-  cursor:pointer;
-  text-align:center;
-  opacity:1;
-}
-.card:hover{
-  transform:translateY(-10px) scale(1.05);
-  box-shadow:0 8px 30px rgba(0,234,255,0.8);
-}
-.icon-wrap{
-  font-size:60px;
-  margin-bottom:15px;
-  display:inline-block;
-  filter:drop-shadow(0 0 6px rgba(0,234,255,0.6));
-  transition:transform 0.3s,filter 0.3s;
-}
-.card:hover .icon-wrap{
-  transform:scale(1.2);
-  filter:drop-shadow(0 0 12px rgba(0,234,255,1));
-}
-h2{
-  font-size:20px;
-  margin:8px 0 6px;
-  color:var(--accent);
-  text-shadow:0 0 6px rgba(0,234,255,0.7);
-}
-p{
-  font-size:14px;
-  color:#ddd;
-}
-footer{margin-top:24px;padding:12px;color:#bcd}
-a.back{color:#000;background:var(--accent);padding:8px 14px;border-radius:8px;text-decoration:none;display:inline-block}
-</style>
-</head>
-<body>
-<canvas id="bg"></canvas>
-<header>
-<h1>🔬 Study Lab — Thí nghiệm Vật lý</h1>
-<div class="controls">
-  <input id="search" placeholder="Tìm kiếm mô phỏng..." />
-  <select id="filter">
-    <option value="all">Tất cả chủ đề</option>
-    <option value="Cơ học">Cơ học</option>
-    <option value="Dao động">Dao động & Sóng</option>
-    <option value="Điện học">Điện & Từ</option>
-    <option value="Thiên văn">Thiên văn</option>
-    <option value="Hạt nhân">Hạt nhân</option>
-  </select>
-  <select id="grade">
-    <option value="all">Tất cả khối</option>
-    <option value="10">Khối 10</option>
-    <option value="11">Khối 11</option>
-    <option value="12">Khối 12</option>
-  </select>
-</div>
-</header>
-<main class="wrap">
-<div id="simulations" class="grid"></div>
-</main>
-<footer>
-<a href="menu.html" class="back">⬅ Quay lại</a>
-</footer>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Study Lab - Vật lý</title>
+    <style>
+      :root {
+        --accent: #00eaff;
+        --card-bg: rgba(0, 0, 0, 0.6);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #000010;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        min-height: 100vh;
+        padding-bottom: 40px;
+        overflow-x: hidden;
+      }
+      canvas#bg {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        display: block;
+      }
+      header {
+        padding: 24px 16px 8px;
+      }
+      h1 {
+        font-size: 32px;
+        text-shadow: 0 0 10px var(--accent);
+      }
+      .controls {
+        margin-top: 12px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      input#search,
+      select#filter,
+      select#grade {
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 234, 255, 0.4);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        min-width: 220px;
+        font-size: 15px;
+        outline: none;
+        box-shadow: 0 0 8px rgba(0, 234, 255, 0.2);
+        transition: box-shadow 0.3s, border 0.3s;
+      }
+      input#search:focus,
+      select#filter:focus,
+      select#grade:focus,
+      input#search:hover,
+      select#filter:hover,
+      select#grade:hover {
+        border: 1px solid var(--accent);
+        box-shadow: 0 0 14px rgba(0, 234, 255, 0.6);
+      }
+      select#filter option,
+      select#grade option {
+        background: #000020;
+        color: #fff;
+        font-size: 14px;
+        padding: 8px;
+      }
+      main.wrap {
+        max-width: 1100px;
+        margin: 28px auto;
+        padding: 0 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
+      }
+      .card {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        text-align: center;
+        opacity: 1;
+      }
+      .card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 8px 30px rgba(0, 234, 255, 0.8);
+      }
+      .icon-wrap {
+        font-size: 60px;
+        margin-bottom: 15px;
+        display: inline-block;
+        filter: drop-shadow(0 0 6px rgba(0, 234, 255, 0.6));
+        transition: transform 0.3s, filter 0.3s;
+      }
+      .card:hover .icon-wrap {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 12px rgba(0, 234, 255, 1));
+      }
+      h2 {
+        font-size: 20px;
+        margin: 8px 0 6px;
+        color: var(--accent);
+        text-shadow: 0 0 6px rgba(0, 234, 255, 0.7);
+      }
+      p {
+        font-size: 14px;
+        color: #ddd;
+      }
+      footer {
+        margin-top: 24px;
+        padding: 12px;
+        color: #bcd;
+      }
+      a.back {
+        color: #000;
+        background: var(--accent);
+        padding: 8px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg"></canvas>
+    <header>
+      <h1>🔬 Study Lab — Thí nghiệm Vật lý</h1>
+      <div class="controls">
+        <input id="search" placeholder="Tìm kiếm mô phỏng..." />
+        <select id="filter">
+          <option value="all">Tất cả chủ đề</option>
+          <option value="Cơ học">Cơ học</option>
+          <option value="Dao động">Dao động & Sóng</option>
+          <option value="Điện học">Điện & Từ</option>
+          <option value="Khoa học Trái Đất & Vũ trụ">
+            Khoa học Trái Đất & Vũ trụ
+          </option>
+          <option value="Hạt nhân">Hạt nhân</option>
+        </select>
+        <select id="grade">
+          <option value="all">Tất cả khối</option>
+          <option value="10">Khối 10</option>
+          <option value="11">Khối 11</option>
+          <option value="12">Khối 12</option>
+        </select>
+      </div>
+    </header>
+    <main class="wrap">
+      <div id="simulations" class="grid"></div>
+    </main>
+    <footer>
+      <a href="menu.html" class="back">⬅ Quay lại</a>
+    </footer>
 
-<script>
-const ICONS={
-"con-lac":`<svg width="96" height="96" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+    <script>
+      const ICONS = {
+        "con-lac": `<svg width="96" height="96" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
   <line x1="50" y1="10" x2="50" y2="70" stroke="black" stroke-width="3"/>
   <circle cx="50" cy="90" r="20" fill="orange" stroke="black" stroke-width="2"/>
 </svg>`,
-"va-cham":`<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 64 64">
+        "va-cham": `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 64 64">
   <circle cx="32" cy="32" r="28" stroke="#4fe0c0" stroke-dasharray="4,4" fill="none"/>
   <circle cx="18" cy="32" r="8" fill="#66d9ef"/>
   <circle cx="46" cy="32" r="8" fill="#ffd966"/>
   <circle cx="32" cy="32" r="5" fill="white" opacity="0.8"/>
 </svg>`,
-"thuy-trieu":"🌊"
-};
-const data=[
-{title:"Con lắc đơn",desc:"Mô phỏng dao động điều hòa của con lắc.",icon:ICONS["con-lac"],link:"1_physics.html",topic:"Dao động",grade:"12"},
-{title:"Bảo toàn động lượng",desc:"Phân tích và dự đoán kết quả va chạm.",icon:ICONS["va-cham"],link:"2_physics.html",topic:"Cơ học",grade:"10"},
-{title:"Thủy triều và Pha Trăng",desc:"Mối liên hệ giữa Mặt Trăng – Trái Đất – Mặt Trời.",icon:ICONS["thuy-trieu"],link:"3_physics.html",topic:"Thiên văn",grade:"10"},
-{title:"Phóng xạ – Chu kỳ bán rã",desc:"Mô phỏng quá trình phân rã hạt nhân và hiện tượng chu kỳ bán rã.",icon:"☢️",link:"4_physics.html",topic:"Hạt nhân",grade:"11"}
-];
+        "thuy-trieu": "🌊",
+      };
+      const data = [
+        {
+          title: "Con lắc đơn",
+          desc: "Mô phỏng dao động điều hòa của con lắc.",
+          icon: ICONS["con-lac"],
+          link: "1_physics.html",
+          topic: "Dao động",
+          grade: "12",
+        },
+        {
+          title: "Bảo toàn động lượng",
+          desc: "Phân tích và dự đoán kết quả va chạm.",
+          icon: ICONS["va-cham"],
+          link: "2_physics.html",
+          topic: "Cơ học",
+          grade: "10",
+        },
+        {
+          title: "Thủy triều và Pha Trăng",
+          desc: "Mối liên hệ giữa Mặt Trăng – Trái Đất – Mặt Trời.",
+          icon: ICONS["thuy-trieu"],
+          link: "3_physics.html",
+          topic: "Khoa học Trái Đất & Vũ trụ",
+          grade: "10",
+        },
+        {
+          title: "Phóng xạ – Chu kỳ bán rã",
+          desc: "Mô phỏng quá trình phân rã hạt nhân và hiện tượng chu kỳ bán rã.",
+          icon: "☢️",
+          link: "4_physics.html",
+          topic: "Hạt nhân",
+          grade: "11",
+        },
+        {
+          title: "Chuyển động Brown – Chuyển động nhiệt hỗn độn",
+          desc: "Quan sát các hạt phấn hoa dao động do va chạm với các phân tử nước.",
+          icon: "🔬",
+          link: "5_physics.html",
+          topic: "Nhiệt học",
+          grade: "10",
+        },
+        {
+          title: "Vòng tuần hoàn nước – Mưa, tuyết & mây",
+          desc: "Quan sát nước bốc hơi, tạo mây, rồi hình thành mưa hoặc tuyết.",
+          icon: "💧",
+          link: "6_physics.html",
+          topic: "Khoa học Trái Đất & Vũ trụ",
+          grade: "10",
+        },
+      ];
 
-const container=document.getElementById('simulations');
-function render(list){
-  container.innerHTML='';
-  list.forEach(sim=>{
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`
+      const container = document.getElementById("simulations");
+      function render(list) {
+        container.innerHTML = "";
+        list.forEach((sim) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
       <div class="icon-wrap">${sim.icon}</div>
       <h2>${sim.title}</h2>
       <p>${sim.desc}</p>
     `;
-    card.onclick=()=>{window.location.href=sim.link;};
-    container.appendChild(card);
-  });
-}
-render(data);
+          card.onclick = () => {
+            window.location.href = sim.link;
+          };
+          container.appendChild(card);
+        });
+      }
+      render(data);
 
-const searchEl=document.getElementById('search');
-const filterEl=document.getElementById('filter');
-const gradeEl=document.getElementById('grade');
+      const searchEl = document.getElementById("search");
+      const filterEl = document.getElementById("filter");
+      const gradeEl = document.getElementById("grade");
 
-function updateList(){
-  const q=searchEl.value.trim().toLowerCase();
-  const f=filterEl.value;
-  const g=gradeEl.value;
+      function updateList() {
+        const q = searchEl.value.trim().toLowerCase();
+        const f = filterEl.value;
+        const g = gradeEl.value;
 
-  const out=data.filter(s=>{
-    const okQ=!q||s.title.toLowerCase().includes(q)||s.desc.toLowerCase().includes(q);
-    const okF=(f==='all')||(s.topic===f);
-    const okG=(g==='all')||(s.grade===g);
-    return okQ&&okF&&okG;
-  });
-  render(out);
-}
-[searchEl,filterEl,gradeEl].forEach(el=>el.addEventListener('input',updateList));
-filterEl.addEventListener('change',updateList);
-gradeEl.addEventListener('change',updateList);
+        const out = data.filter((s) => {
+          const okQ =
+            !q ||
+            s.title.toLowerCase().includes(q) ||
+            s.desc.toLowerCase().includes(q);
+          const okF = f === "all" || s.topic === f;
+          const okG = g === "all" || s.grade === g;
+          return okQ && okF && okG;
+        });
+        render(out);
+      }
+      [searchEl, filterEl, gradeEl].forEach((el) =>
+        el.addEventListener("input", updateList)
+      );
+      filterEl.addEventListener("change", updateList);
+      gradeEl.addEventListener("change", updateList);
 
-/* === Background sao static === */
-const canvas=document.getElementById('bg');
-const ctx=canvas.getContext('2d');
-let W=innerWidth,H=innerHeight;
-function fit(){
-  const dpr=window.devicePixelRatio||1;
-  canvas.width=innerWidth*dpr;
-  canvas.height=innerHeight*dpr;
-  canvas.style.width=innerWidth+'px';
-  canvas.style.height=innerHeight+'px';
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  W=innerWidth; H=innerHeight;
-  initStars();
-  drawStatic();
-}
-let stars=[];
-function initStars(){
-  stars=Array.from({length:80},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+0.6}));
-}
-window.addEventListener('resize',fit);
-function drawStatic(){
-  ctx.clearRect(0,0,W,H);
-  const g=ctx.createRadialGradient(W/2,H/2,60,W/2,H/2,Math.max(W,H)*0.8);
-  g.addColorStop(0,"#120040");
-  g.addColorStop(1,"#000010");
-  ctx.fillStyle=g;
-  ctx.fillRect(0,0,W,H);
-  stars.forEach(s=>{
-    ctx.beginPath();
-    ctx.fillStyle="rgba(200,240,255,0.85)";
-    ctx.shadowColor="#88ccff";
-    ctx.shadowBlur=10;
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fill();
-  });
-  ctx.shadowBlur=0;
-}
-fit();
-</script>
-</body>
+      /* === Background sao static === */
+      const canvas = document.getElementById("bg");
+      const ctx = canvas.getContext("2d");
+      let W = innerWidth,
+        H = innerHeight;
+      function fit() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = innerWidth * dpr;
+        canvas.height = innerHeight * dpr;
+        canvas.style.width = innerWidth + "px";
+        canvas.style.height = innerHeight + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        W = innerWidth;
+        H = innerHeight;
+        initStars();
+        drawStatic();
+      }
+      let stars = [];
+      function initStars() {
+        stars = Array.from({ length: 80 }, () => ({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.6 + 0.6,
+        }));
+      }
+      window.addEventListener("resize", fit);
+      function drawStatic() {
+        ctx.clearRect(0, 0, W, H);
+        const g = ctx.createRadialGradient(
+          W / 2,
+          H / 2,
+          60,
+          W / 2,
+          H / 2,
+          Math.max(W, H) * 0.8
+        );
+        g.addColorStop(0, "#120040");
+        g.addColorStop(1, "#000010");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+        stars.forEach((s) => {
+          ctx.beginPath();
+          ctx.fillStyle = "rgba(200,240,255,0.85)";
+          ctx.shadowColor = "#88ccff";
+          ctx.shadowBlur = 10;
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.shadowBlur = 0;
+      }
+      fit();
+    </script>
+  </body>
 </html>

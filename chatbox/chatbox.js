@@ -17,6 +17,8 @@
           "'": "&#39;",
         }[c])
     );
+
+  // bỏ dấu + lowercase để match tiếng Việt
   const foldVN = (s) =>
     String(s)
       .toLowerCase()
@@ -25,13 +27,29 @@
 
   // ============ experiment scope ============
   function getExperimentId() {
-    const d = document.body?.dataset?.experiment;
+    // 1. Ưu tiên data-experiment (nếu bạn có dùng)
+    const d = document.body?.dataset?.experiment?.trim();
     if (d) return d;
-    const m = document.querySelector('meta[name="sl-experiment"]')?.content;
+
+    // 2. Sau đó tới meta name="sl-experiment"
+    const m = document
+      .querySelector('meta[name="sl-experiment"]')
+      ?.content?.trim();
     if (m) return m;
+
+    // 3. Nếu không có gì, tự lấy theo tên file HTML
+    //    vd: /html/5_chemistry.html -> 5_chemistry
+    const file = window.location.pathname.split("/").pop() || "";
+    const base = file.split(".")[0];
+    if (base) return base;
+
+    // 4. Fallback cuối cùng
     return "global";
   }
+
   const EXP = getExperimentId();
+  console.log("[SL] experiment id:", EXP);
+
   const LS_HIST = `sl-hist-${EXP}`;
   const LS_OPEN = `sl-open-${EXP}`;
   const LS_MIN = `sl-min-${EXP}`;
@@ -121,7 +139,7 @@
     }
   }
 
-  // khởi phục lịch sử / lời chào
+  // khôi phục lịch sử / lời chào
   const old = getHist();
   if (old.length) old.forEach((m) => addMsg(m.text, m.who, { persist: false }));
   else
@@ -150,7 +168,7 @@
   xBtn.addEventListener("click", closeBox);
   mBtn.addEventListener("click", toggleMin);
 
-  // Mặc định luôn ĐÓNG khi vào trang (đồng nhất giữa các thí nghiệm)
+  // Luôn đóng khi vào trang
   wrap.classList.remove("open");
   wrap.classList.remove("min");
   localStorage.removeItem(LS_OPEN);
@@ -182,13 +200,21 @@
   // ============ KB loader ============
   async function loadKB(id) {
     try {
-      const r = await fetch(`chatbox/kb/${id}.json?v=1`, { cache: "no-store" });
-      if (!r.ok) throw new Error("kb not found");
-      return r.json();
-    } catch {
+      const url = `chatbox/kb/${id}.json?v=1`;
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) {
+        console.warn("[SL] KB not found:", url);
+        throw new Error("kb not found");
+      }
+      const data = await r.json();
+      console.log("[SL] KB loaded:", id, data);
+      return data;
+    } catch (e) {
+      console.warn("[SL] KB load error for", id, e);
       return { topics: [] };
     }
   }
+
   const KB_GLOBAL = await loadKB("global");
   const KB_LOCAL = await loadKB(EXP);
   const TOPICS = [...(KB_GLOBAL.topics || []), ...(KB_LOCAL.topics || [])];
@@ -207,8 +233,10 @@
 
       const q = foldVN(msg);
       let found = null;
+
       for (const t of TOPICS) {
-        if (t?.patterns?.some((p) => foldVN(q).includes(foldVN(p)))) {
+        if (!t?.patterns) continue;
+        if (t.patterns.some((p) => q.includes(foldVN(p)))) {
           found = t;
           break;
         }
