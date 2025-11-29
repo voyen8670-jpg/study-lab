@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng chuỗi thức ăn: Cỏ - Thỏ - Cáo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #020617;
+        --bg-elevated: rgba(15, 23, 42, 0.9);
+        --border-subtle: rgba(148, 163, 184, 0.25);
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.2);
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --danger: #f97373;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #020617,
+          #020617 45%,
+          #000 100%
+        );
+        color: var(--text-main);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 16px;
+      }
+
+      #container {
+        width: 100%;
+        max-width: 1100px;
+        padding: 18px 18px 14px;
+        border-radius: 18px;
+        background: linear-gradient(
+            140deg,
+            rgba(56, 189, 248, 0.2),
+            transparent 40%
+          ),
+          linear-gradient(320deg, rgba(129, 140, 248, 0.25), transparent 40%),
+          radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), #020617);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8),
+          0 0 0 1px rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(18px);
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        font-size: 24px;
+        letter-spacing: 0.03em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      h1 span.badge {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-muted);
+      }
+
+      p.subtitle {
+        margin: 0 0 14px;
+        font-size: 13px;
+        color: var(--text-muted);
+        max-width: 700px;
+      }
+
+      #simCanvas {
+        width: 100%;
+        height: 430px;
+        border-radius: 15px;
+        display: block;
+        background: radial-gradient(
+          circle at top,
+          #1f2937,
+          #020617 60%,
+          #020617 100%
+        );
+        box-shadow: inset 0 0 40px rgba(15, 23, 42, 0.9),
+          0 0 0 1px rgba(148, 163, 184, 0.45),
+          0 20px 35px rgba(15, 23, 42, 0.85);
+        margin-bottom: 12px;
+      }
+
+      .top-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 6px;
+        margin-bottom: 10px;
+      }
+
+      .stat {
+        position: relative;
+        padding: 8px 10px 7px;
+        border-radius: 14px;
+        background: radial-gradient(
+            circle at top left,
+            rgba(15, 118, 110, 0.18),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(30, 64, 175, 0.25),
+            transparent 60%
+          ),
+          rgba(15, 23, 42, 0.96);
+        border: 1px solid var(--border-subtle);
+        overflow: hidden;
+      }
+
+      .stat::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top,
+          rgba(255, 255, 255, 0.06),
+          transparent 55%
+        );
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .stat-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .stat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        margin-bottom: 2px;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .stat-label span.icon {
+        font-size: 13px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+
+      .stat-footnote {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 1px;
+      }
+
+      .stat-speed {
+        color: var(--accent);
+      }
+
+      .sliders {
+        margin-top: 6px;
+        background: rgba(15, 23, 42, 0.94);
+        border-radius: 16px;
+        border: 1px solid var(--border-subtle);
+        padding: 10px 12px 9px;
+        box-shadow: 0 14px 26px rgba(15, 23, 42, 0.85);
+      }
+
+      .sliders-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .sliders-header-title {
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .sliders-header-title span.dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+      }
+
+      .sliders-header-note {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .slider-row {
+        margin-bottom: 10px;
+      }
+
+      .slider-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+
+      .slider-label {
+        color: var(--text-main);
+      }
+
+      .slider-value {
+        font-variant-numeric: tabular-nums;
+        color: var(--accent);
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(56, 189, 248, 0.3),
+          rgba(129, 140, 248, 0.25),
+          rgba(30, 64, 175, 0.35)
+        );
+        outline: none;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        border: 2px solid var(--accent);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15),
+          0 6px 12px rgba(15, 23, 42, 0.8);
+        cursor: pointer;
+        margin-top: -5px;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        border: 2px solid var(--accent);
+        box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15),
+          0 6px 12px rgba(15, 23, 42, 0.8);
+        cursor: pointer;
+      }
+
+      input[type="range"]::-moz-range-track {
+        height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(56, 189, 248, 0.3),
+          rgba(129, 140, 248, 0.25),
+          rgba(30, 64, 175, 0.35)
+        );
+      }
+
+      .bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2px;
+        font-size: 11.5px;
+        color: var(--text-muted);
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .bottom-row strong {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 6px;
+      }
+
+      button {
+        padding: 7px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        cursor: pointer;
+        background: radial-gradient(
+          circle at top,
+          rgba(56, 189, 248, 0.2),
+          rgba(37, 99, 235, 0.4)
+        );
+        color: #f9fafb;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      button:hover {
+        background: radial-gradient(
+          circle at top,
+          rgba(56, 189, 248, 0.25),
+          rgba(37, 99, 235, 0.55)
+        );
+        box-shadow: 0 0 18px rgba(56, 189, 248, 0.45),
+          0 10px 18px rgba(15, 23, 42, 0.9);
+      }
+
+      button.secondary {
+        background: rgba(15, 23, 42, 0.9);
+        border-color: rgba(148, 163, 184, 0.6);
+      }
+
+      button.secondary:hover {
+        background: rgba(30, 64, 175, 0.6);
+      }
+
+      @media (max-width: 820px) {
+        .top-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        #simCanvas {
+          height: 360px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        body {
+          padding: 10px;
+        }
+        #container {
+          padding: 14px 12px 11px;
+        }
+        .top-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Mô phỏng chuỗi thức ăn: Cỏ – Thỏ – Cáo</h1>
+
+      <canvas id="simCanvas"></canvas>
+
+      <div class="top-row">
+        <div class="stat">
+          <div class="stat-inner">
+            <div class="stat-header">
+              <div class="stat-label"><span class="icon">🌿</span> Cỏ</div>
+            </div>
+            <div id="grassCount" class="stat-value">0</div>
+            <div class="stat-footnote">Giới hạn môi trường K = 800</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-inner">
+            <div class="stat-header">
+              <div class="stat-label"><span class="icon">🐇</span> Thỏ</div>
+            </div>
+            <div id="rabbitCount" class="stat-value">0</div>
+            <div class="stat-footnote">Ăn cỏ để sinh trưởng</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-inner">
+            <div class="stat-header">
+              <div class="stat-label"><span class="icon">🦊</span> Cáo</div>
+            </div>
+            <div id="foxCount" class="stat-value">0</div>
+            <div class="stat-footnote">Săn thỏ, dễ tuyệt chủng hơn</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-inner">
+            <div class="stat-header">
+              <div class="stat-label">
+                <span class="icon">⏱️</span> Tốc độ mô phỏng
+              </div>
+            </div>
+            <div id="speedLabel" class="stat-value stat-speed">1.0x</div>
+            <div class="stat-footnote">Thay đổi “time scale” ở thanh trượt</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sliders">
+        <div class="sliders-header">
+          <div class="sliders-header-title">
+            <span class="dot"></span>
+            THAM SỐ SINH THÁI
+          </div>
+          <div class="sliders-header-note"></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-label"
+              >Tốc độ sinh cỏ (<em>r<sub>G</sub></em
+              >)</span
+            >
+            <span id="label_rG" class="slider-value"></span>
+          </div>
+          <input
+            id="slider_rG"
+            type="range"
+            min="0"
+            max="3"
+            step="0.05"
+            value="1.0"
+          />
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-label">Chết tự nhiên của thỏ (<em>c</em>)</span>
+            <span id="label_c" class="slider-value"></span>
+          </div>
+          <input
+            id="slider_c"
+            type="range"
+            min="0"
+            max="1"
+            step="0.02"
+            value="0.10"
+          />
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-label">Chết tự nhiên của cáo (<em>f</em>)</span>
+            <span id="label_f" class="slider-value"></span>
+          </div>
+          <input
+            id="slider_f"
+            type="range"
+            min="0"
+            max="1"
+            step="0.02"
+            value="0.10"
+          />
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-top">
+            <span class="slider-label">Cường độ cáo ăn thỏ (<em>d</em>)</span>
+            <span id="label_d" class="slider-value"></span>
+          </div>
+          <input
+            id="slider_d"
+            type="range"
+            min="0"
+            max="0.012"
+            step="0.0002"
+            value="0.006"
+          />
+        </div>
+
+        <div class="slider-row" style="margin-bottom: 6px">
+          <div class="slider-top">
+            <span class="slider-label">Tốc độ thời gian (time scale)</span>
+            <span id="label_speed" class="slider-value"></span>
+          </div>
+          <input
+            id="slider_speed"
+            type="range"
+            min="0.25"
+            max="4"
+            step="0.25"
+            value="1"
+          />
+        </div>
+
+        <div class="bottom-row">
+          <span>
+            Mỗi ô biểu diễn <strong>một nhóm cá thể</strong>. Khi một loài về 0
+            &rarr; xem như <strong>tuyệt chủng</strong>.
+          </span>
+          <div class="button-group">
+            <button id="pauseBtn" class="secondary">⏸ Tạm dừng</button>
+            <button id="resetBtn">↻ Đặt lại mô phỏng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ====== LOAD SPRITES ======
+      const grassImg = new Image();
+      grassImg.src = "../picture/grass.png";
+      const rabbitImg = new Image();
+      rabbitImg.src = "../picture/rabbit.png";
+      const foxImg = new Image();
+      foxImg.src = "../picture/fox.png";
+
+      // ====== CANVAS ======
+      const canvas = document.getElementById("simCanvas");
+      const ctx = canvas.getContext("2d");
+      let logicalWidth = 0;
+      let logicalHeight = 0;
+
+      // ====== TRẠNG THÁI BAN ĐẦU ======
+      const initialState = {
+        grass: 400,
+        rabbits: 60,
+        foxes: 15,
+        rG: 1.0,
+        c: 0.1,
+        f: 0.1,
+        d: 0.006,
+        timeScale: 1.0,
+      };
+
+      // ====== BIẾN MÔ PHỎNG ======
+      let grass, rabbits, foxes;
+      let rG, c, f, d;
+      const a = 0.004;
+      const b = 0.12;
+      const e = 0.2;
+      const K = 800;
+      let timeScale;
+      const dt = 0.04;
+      const extinctionThreshold = 0.01;
+
+      // HIỂN THỊ SPRITE
+      const individualsPerIconGrass = 10;
+      const individualsPerIconRabbit = 3;
+      const individualsPerIconFox = 2;
+      const maxIconsPerSpecies = 300;
+      const grassSize = 18;
+      const rabbitSize = 26;
+      const foxSize = 30;
+
+      // ====== AGENT ======
+      class Agent {
+        constructor(x, y, speed) {
+          this.x = x;
+          this.y = y;
+          this.speed = speed;
+          const angle = Math.random() * Math.PI * 2;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+          this.facingRight = this.vx >= 0;
+        }
+        wander(width, height) {
+          const turn = (Math.random() - 0.5) * 0.6;
+          const angle = Math.atan2(this.vy, this.vx) + turn;
+          const sp = this.speed;
+          this.vx = Math.cos(angle) * sp;
+          this.vy = Math.sin(angle) * sp;
+
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.vx > 0.05) this.facingRight = true;
+          if (this.vx < -0.05) this.facingRight = false;
+
+          const margin = 10;
+          if (this.x < margin) {
+            this.x = margin;
+            this.vx = Math.abs(this.vx);
+            this.facingRight = true;
+          }
+          if (this.x > width - margin) {
+            this.x = width - margin;
+            this.vx = -Math.abs(this.vx);
+            this.facingRight = false;
+          }
+          if (this.y < margin) {
+            this.y = margin;
+            this.vy = Math.abs(this.vy);
+          }
+          if (this.y > height - margin) {
+            this.y = height - margin;
+            this.vy = -Math.abs(this.vy);
+          }
+        }
+      }
+
+      const grassAgents = [];
+      const rabbitAgents = [];
+      const foxAgents = [];
+
+      function randomPos() {
+        return {
+          x: Math.random() * logicalWidth,
+          y: Math.random() * logicalHeight,
+        };
+      }
+
+      function ensureCount(list, target, speed, movable) {
+        while (list.length < target) {
+          const p = randomPos();
+          const a = new Agent(p.x, p.y, movable ? speed : 0);
+          list.push(a);
+        }
+        if (list.length > target) list.length = target;
+      }
+
+      function syncAgentsWithPopulation() {
+        if (
+          logicalWidth === 0 ||
+          logicalHeight === 0 ||
+          grass === undefined ||
+          rabbits === undefined ||
+          foxes === undefined
+        )
+          return;
+
+        const grassIcons = Math.min(
+          maxIconsPerSpecies,
+          Math.round(grass / individualsPerIconGrass)
+        );
+        const rabbitIcons = Math.min(
+          maxIconsPerSpecies,
+          Math.round(rabbits / individualsPerIconRabbit)
+        );
+        const foxIcons = Math.min(
+          maxIconsPerSpecies,
+          Math.round(foxes / individualsPerIconFox)
+        );
+
+        ensureCount(grassAgents, grassIcons, 0, false);
+        ensureCount(rabbitAgents, rabbitIcons, 1.1, true);
+        ensureCount(foxAgents, foxIcons, 2.0, true);
+      }
+
+      // ====== MÔ HÌNH TOÁN ======
+      function derivatives(G, R, F) {
+        const dG = rG * G * (1 - G / K) - a * G * R;
+        const dR = b * a * G * R - c * R - d * R * F;
+        const dF = e * d * R * F - f * F;
+        return { dG, dR, dF };
+      }
+
+      function rk4Step(G, R, F, h) {
+        const k1 = derivatives(G, R, F);
+        const k2 = derivatives(
+          G + 0.5 * h * k1.dG,
+          R + 0.5 * h * k1.dR,
+          F + 0.5 * h * k1.dF
+        );
+        const k3 = derivatives(
+          G + 0.5 * h * k2.dG,
+          R + 0.5 * h * k2.dR,
+          F + 0.5 * h * k2.dF
+        );
+        const k4 = derivatives(G + h * k3.dG, R + h * k3.dR, F + h * k3.dF);
+
+        const dG = (h / 6) * (k1.dG + 2 * k2.dG + 2 * k3.dG + k4.dG);
+        const dR = (h / 6) * (k1.dR + 2 * k2.dR + 2 * k3.dR + k4.dR);
+        const dF = (h / 6) * (k1.dF + 2 * k2.dF + 2 * k3.dF + k4.dF);
+
+        return { G: G + dG, R: R + dR, F: F + dF };
+      }
+
+      function simulate(dtReal) {
+        const h = dtReal * timeScale;
+        const maxH = 0.05;
+        const steps = Math.max(1, Math.ceil(h / maxH));
+        const subH = h / steps;
+
+        for (let i = 0; i < steps; i++) {
+          const next = rk4Step(grass, rabbits, foxes, subH);
+
+          grass = Math.max(next.G, 0);
+          rabbits = Math.max(next.R, 0);
+          foxes = Math.max(next.F, 0);
+
+          if (grass < extinctionThreshold) grass = 0;
+          if (rabbits < extinctionThreshold) rabbits = 0;
+          if (foxes < extinctionThreshold) foxes = 0;
+        }
+
+        syncAgentsWithPopulation();
+      }
+
+      // ====== VẼ ======
+      function draw() {
+        ctx.clearRect(0, 0, logicalWidth, logicalHeight);
+
+        if (grassImg.complete) {
+          for (const g of grassAgents) {
+            const w = grassSize;
+            const h = grassSize;
+            ctx.drawImage(grassImg, g.x - w / 2, g.y - h / 2, w, h);
+          }
+        }
+
+        for (const r of rabbitAgents) r.wander(logicalWidth, logicalHeight);
+        if (rabbitImg.complete) {
+          for (const r of rabbitAgents) {
+            const w = rabbitSize;
+            const h = rabbitSize;
+            ctx.save();
+            ctx.translate(r.x, r.y);
+            if (!r.facingRight) ctx.scale(-1, 1);
+            ctx.drawImage(rabbitImg, -w / 2, -h / 2, w, h);
+            ctx.restore();
+          }
+        }
+
+        for (const fA of foxAgents) fA.wander(logicalWidth, logicalHeight);
+        if (foxImg.complete) {
+          for (const fA of foxAgents) {
+            const w = foxSize;
+            const h = foxSize;
+            ctx.save();
+            ctx.translate(fA.x, fA.y);
+            if (!fA.facingRight) ctx.scale(-1, 1);
+            ctx.drawImage(foxImg, -w / 2, -h / 2, w, h);
+            ctx.restore();
+          }
+        }
+      }
+
+      // ====== UI ======
+      const grassCountEl = document.getElementById("grassCount");
+      const rabbitCountEl = document.getElementById("rabbitCount");
+      const foxCountEl = document.getElementById("foxCount");
+      const speedLabelEl = document.getElementById("speedLabel");
+
+      const slider_rG = document.getElementById("slider_rG");
+      const slider_c = document.getElementById("slider_c");
+      const slider_f = document.getElementById("slider_f");
+      const slider_d = document.getElementById("slider_d");
+      const slider_speed = document.getElementById("slider_speed");
+
+      const label_rG = document.getElementById("label_rG");
+      const label_c = document.getElementById("label_c");
+      const label_f = document.getElementById("label_f");
+      const label_d = document.getElementById("label_d");
+      const label_speed = document.getElementById("label_speed");
+
+      const resetBtn = document.getElementById("resetBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+
+      let isPaused = false;
+
+      function updateStatsUI() {
+        grassCountEl.textContent = grass.toFixed(0);
+        rabbitCountEl.textContent = rabbits.toFixed(0);
+        foxCountEl.textContent = foxes.toFixed(0);
+        speedLabelEl.textContent = timeScale.toFixed(1) + "x";
+      }
+
+      function updateLabels() {
+        label_rG.textContent = rG.toFixed(2);
+        label_c.textContent = c.toFixed(2);
+        label_f.textContent = f.toFixed(2);
+        label_d.textContent = d.toFixed(4);
+        label_speed.textContent = timeScale.toFixed(2) + "x";
+      }
+
+      function bindSliders() {
+        slider_rG.addEventListener("input", () => {
+          rG = parseFloat(slider_rG.value);
+          updateLabels();
+        });
+        slider_c.addEventListener("input", () => {
+          c = parseFloat(slider_c.value);
+          updateLabels();
+        });
+        slider_f.addEventListener("input", () => {
+          f = parseFloat(slider_f.value);
+          updateLabels();
+        });
+        slider_d.addEventListener("input", () => {
+          d = parseFloat(slider_d.value);
+          updateLabels();
+        });
+        slider_speed.addEventListener("input", () => {
+          timeScale = parseFloat(slider_speed.value);
+          updateLabels();
+        });
+      }
+
+      function applyInitialState() {
+        grass = initialState.grass;
+        rabbits = initialState.rabbits;
+        foxes = initialState.foxes;
+        rG = initialState.rG;
+        c = initialState.c;
+        f = initialState.f;
+        d = initialState.d;
+        timeScale = initialState.timeScale;
+
+        slider_rG.value = rG;
+        slider_c.value = c;
+        slider_f.value = f;
+        slider_d.value = d;
+        slider_speed.value = timeScale;
+
+        isPaused = false;
+        pauseBtn.textContent = "⏸ Tạm dừng";
+
+        updateLabels();
+        syncAgentsWithPopulation();
+        updateStatsUI();
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        logicalWidth = rect.width;
+        logicalHeight = rect.height;
+
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        syncAgentsWithPopulation();
+      }
+
+      resetBtn.addEventListener("click", applyInitialState);
+      pauseBtn.addEventListener("click", () => {
+        isPaused = !isPaused;
+        pauseBtn.textContent = isPaused ? "▶ Tiếp tục" : "⏸ Tạm dừng";
+      });
+
+      window.addEventListener("resize", resizeCanvas);
+
+      // ====== KHỞI TẠO & VÒNG LẶP ======
+      bindSliders();
+      applyInitialState();
+      resizeCanvas();
+
+      let lastTime = performance.now();
+      function loop(now) {
+        const delta = (now - lastTime) / 1000;
+        lastTime = now;
+
+        let acc = delta;
+        if (!isPaused) {
+          while (acc > 0) {
+            const step = Math.min(acc, dt);
+            simulate(step);
+            acc -= step;
+          }
+        }
+
+        updateStatsUI();
+        draw();
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "giải thích",
+        "quan sát",
+        "hướng dẫn",
+        "vì sao",
+        "tại sao",
+        "tăng giảm",
+        "dao động",
+        "tuyệt chủng",
+        "ổn định",
+        "rG",
+        "c",
+        "f",
+        "d",
+        "tốc độ mô phỏng",
+        "time scale",
+        "cỏ tăng",
+        "thỏ tăng",
+        "cáo tăng",
+        "cáo mất",
+        "chuỗi thức ăn",
+        "mô hình lotka",
+        "lotka volterra"
+      ],
+      "guide": [
+        "Bước 1: Nhấn 'Đặt lại mô phỏng' để đưa quần thể cỏ – thỏ – cáo về giá trị ban đầu (cỏ ≈ 400, thỏ ≈ 60, cáo ≈ 15). Quan sát một lúc xem số lượng từng loài biến đổi tự nhiên thế nào.",
+        "Bước 2: Để nguyên các tham số, chỉ thay đổi 'Tốc độ sinh cỏ (rG)' rồi quan sát: khi rG nhỏ, cỏ ít, thỏ và cáo khó duy trì; khi rG lớn, cỏ nhiều hơn, thỏ và cáo cũng có cơ hội tăng theo.",
+        "Bước 3: Lần lượt thay đổi tham số 'Chết tự nhiên của thỏ (c)' và 'Chết tự nhiên của cáo (f)': kéo c hoặc f lên cao sẽ làm loài đó suy giảm, có thể dẫn tới tuyệt chủng; kéo xuống thấp giúp chúng dễ duy trì hơn.",
+        "Bước 4: Thử chỉnh 'Cường độ cáo ăn thỏ (d)': nếu d quá nhỏ, cáo khó kiếm ăn nên giảm; nếu d ở mức vừa phải, cáo tăng khi thỏ nhiều nhưng cũng giảm khi thỏ cạn kiệt.",
+        "Bước 5: Dùng thanh 'Tốc độ thời gian (time scale)' để tăng/giảm tốc độ mô phỏng (0.25x–4x); giá trị này chỉ làm thời gian trôi nhanh/chậm hơn, không thay đổi bản chất quan hệ sinh thái.",
+        "Bước 6: Thực hiện các kịch bản: (1) tăng mạnh rG, (2) cho thỏ chết tự nhiên nhiều (c cao), (3) giảm hoặc tăng mạnh f, d… rồi ghi lại xem loài nào bùng nổ, loài nào dao động quanh mức ổn định, loài nào bị tuyệt chủng.",
+        "Gợi ý: Chỉ nên thay đổi 1 tham số mỗi lần thử để dễ so sánh ảnh hưởng của từng tham số lên cấu trúc chuỗi thức ăn."
+      ],
+      "explain": [
+        "Mục đích mô phỏng: giúp người học thấy rõ mối quan hệ giữa sinh vật sản xuất (cỏ), sinh vật tiêu thụ bậc 1 (thỏ) và sinh vật tiêu thụ bậc cao hơn (cáo) trong một chuỗi thức ăn, đồng thời hiểu cách các tham số sinh thái (tốc độ sinh, chết tự nhiên, cường độ săn mồi) làm quần thể tăng giảm, dao động hoặc tuyệt chủng.",
+        "Tốc độ sinh cỏ rG càng lớn thì cỏ càng phục hồi nhanh sau khi bị thỏ ăn, nhờ đó có thể nuôi được quần thể thỏ và gián tiếp nuôi cáo; khi rG quá nhỏ, nguồn thức ăn cơ sở cho cả chuỗi bị thiếu, các loài phía trên dễ suy giảm.",
+        "Thông số c mô tả xác suất thỏ chết tự nhiên (do tuổi già, bệnh tật, thiếu thức ăn…). Khi c tăng, thỏ giảm ngay cả khi cỏ còn nhiều; nếu c quá lớn, thỏ có thể giảm về gần 0, kéo theo cáo cũng suy giảm vì thiếu mồi.",
+        "Thông số f mô tả xác suất cáo chết tự nhiên. Nếu f nhỏ, cáo dễ duy trì quần thể, chỉ giảm khi thỏ quá ít; nếu f lớn, cáo rất dễ tuyệt chủng, đặc biệt khi thỏ không đủ nhiều để bù lại số chết tự nhiên.",
+        "Thông số d biểu diễn cường độ tương tác săn mồi (cáo ăn thỏ). d càng lớn thì cáo càng 'săn giỏi': khi thỏ nhiều, cáo tăng rất nhanh; nhưng nếu d quá lớn, cáo có thể làm thỏ cạn kiệt, sau đó bản thân cáo cũng suy giảm do thiếu thức ăn.",
+        "Mô phỏng sử dụng biến thiên logistic cho cỏ (có sức chứa môi trường K) và mô hình Lotka–Volterra cho quan hệ thỏ–cáo, vì vậy người học có thể quan sát được các dạng động lực học điển hình: cân bằng ổn định, dao động quanh cân bằng, hoặc đi tới tuyệt chủng một hay nhiều loài tùy tham số."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "không có cáo",
+        "cáo biến mất",
+        "cáo tuyệt chủng",
+        "thỏ tuyệt chủng",
+        "cỏ bằng 0",
+        "tất cả bằng 0",
+        "mô phỏng đứng",
+        "không chạy",
+        "không thay đổi",
+        "reset",
+        "đặt lại"
+      ],
+      "guide": [
+        "Nếu bạn mở mô phỏng mà thấy tất cả quần thể đều bằng 0 và không có sprite nào, hãy nhấn nút 'Đặt lại mô phỏng' để khởi tạo lại các giá trị ban đầu.",
+        "Nếu số liệu phía dưới vẫn thay đổi nhưng không thấy cỏ/thỏ/cáo trên canvas, hãy kiểm tra lại xem cửa sổ mô phỏng có đang quá nhỏ không; thử phóng to hoặc kéo rộng trình duyệt để vùng hiển thị đủ lớn cho các sprite.",
+        "Khi bạn thấy cáo 'biến mất' (số cáo về 0 và không trở lại), đó không phải lỗi mà là mô hình đang cho thấy cáo đã tuyệt chủng. Hãy nhấn 'Đặt lại' rồi thử giảm tham số 'f' (chết tự nhiên của cáo) hoặc tăng d, rG để xem khi nào cáo có thể tồn tại trở lại.",
+        "Nếu thỏ giảm về 0 nhanh chóng, hãy kiểm tra bạn có để c (chết tự nhiên của thỏ) quá cao hoặc d (cường độ cáo ăn thỏ) quá lớn không. Thử kéo c nhỏ hơn và/hoặc giảm d để xem thỏ có thể giữ được quần thể dương.",
+        "Khi tất cả loài đều về 0 sau một thời gian, đó là kịch bản 'sụp đổ hệ sinh thái' – thường xảy ra khi cỏ không kịp phục hồi (rG nhỏ) hoặc thỏ và cáo đều có tốc độ chết tự nhiên quá lớn. Hãy nhấn 'Đặt lại' và thử bộ tham số ôn hòa hơn.",
+        "Nếu kéo các thanh trượt mà không thấy mô phỏng đổi ngay, hãy nhớ rằng quần thể biến đổi theo thời gian: sau khi chỉnh tham số, cần chờ vài giây (hoặc tăng 'time scale') để quan sát xu hướng mới."
+      ],
+      "explain": [
+        "Lỗi nhận thức phổ biến 1: tưởng rằng mô phỏng sai khi không còn cáo. Thực ra với một số bộ tham số (f lớn, d nhỏ, thỏ ít), phương trình Lotka–Volterra cho nghiệm mà quần thể cáo giảm dần và cố định ở 0 – đây là kết quả đúng về mặt toán học và sinh thái.",
+        "Lỗi nhận thức phổ biến 2: nghĩ rằng chỉ cần tăng thật nhiều một tham số (ví dụ rG rất lớn) là hệ sẽ 'khỏe' hơn. Trong thực tế, tăng quá mạnh nguồn thức ăn có thể khiến thỏ bùng nổ rồi làm cỏ suy kiệt, sau đó cả thỏ và cáo đều giảm – mô phỏng tái hiện hiện tượng 'overshoot rồi sụp đổ'.",
+        "Lỗi nhận thức phổ biến 3: quên rằng khi quần thể đã bằng 0 thì trong mô hình này nó không thể tự hồi phục (không có nhập cư hay sinh ngẫu nhiên). Do đó, khi một loài chạm 0, nó được xem là tuyệt chủng vĩnh viễn cho tới khi người dùng nhấn 'Đặt lại'.",
+        "Người học cũng dễ nhầm lẫn giữa 'tốc độ mô phỏng (time scale)' và 'tăng trưởng sinh học': time scale chỉ kéo dãn trục thời gian (0.5x, 2x…), không làm mô hình thay đổi bản chất; các tham số rG, c, f, d mới là những yếu tố điều khiển nội tại quần thể.",
+        "Việc thử nhiều bộ tham số khác nhau rồi so sánh kết quả giúp học sinh phân biệt được giữa lỗi thao tác (chưa nhấn Đặt lại, chưa bật tiếp tục) với hành vi thật của mô hình (dao động, bùng nổ, tuyệt chủng)."
+      ]
+    },
+    {
+      "patterns": [
+        "khái niệm",
+        "ý nghĩa",
+        "kết luận",
+        "cân bằng sinh thái",
+        "ổn định",
+        "mất cân bằng",
+        "tác động con người",
+        "săn bắt",
+        "phá rừng",
+        "ứng dụng",
+        "bảo vệ môi trường",
+        "bảo tồn",
+        "chuỗi thức ăn bị đứt"
+      ],
+      "guide": [
+        "Sau khi đã thử một số kịch bản, hãy yêu cầu học sinh mô tả lại ít nhất hai trường hợp: (1) cả ba loài cùng tồn tại lâu dài (gần cân bằng), (2) ít nhất một loài bị tuyệt chủng. So sánh các tham số và rút ra đặc điểm chung của mỗi loại kịch bản.",
+        "Cho học sinh giả lập một tình huống 'săn bắt cáo quá mức' bằng cách tăng f (chết tự nhiên của cáo) hoặc giảm d (cường độ cáo ăn thỏ), rồi quan sát xem thỏ và cỏ thay đổi thế nào khi cáo dần biến mất.",
+        "Tiếp theo, đề nghị học sinh mô tả một 'cú sốc môi trường' làm cỏ khó mọc (ví dụ hạn hán, phá rừng) bằng cách giảm rG và/hoặc giảm K (trong mô phỏng này K cố định, nên chủ yếu dùng rG). Quan sát xem chuỗi cỏ – thỏ – cáo sẽ diễn biến ra sao.",
+        "Khuyến khích học sinh sử dụng mô phỏng như một 'phòng thí nghiệm ảo': đặt câu hỏi 'Nếu… thì…?' (Nếu rG tăng gấp đôi? Nếu c = 0? Nếu d rất lớn?) rồi chạy thử để thu thập bằng chứng trước khi đưa ra kết luận.",
+        "Cuối cùng, yêu cầu học sinh viết đoạn tổng kết ngắn: 'Điều kiện để chuỗi thức ăn cỏ – thỏ – cáo duy trì ổn định là…', kèm theo ví dụ tham số minh họa từ chính mô phỏng."
+      ],
+      "explain": [
+        "Chuỗi thức ăn cỏ – thỏ – cáo là mô hình đơn giản nhưng thể hiện rõ nguyên tắc chung của cân bằng sinh thái: sinh vật sản xuất phải đủ để nuôi sinh vật tiêu thụ bậc 1, từ đó mới nuôi được sinh vật tiêu thụ bậc cao hơn. Nếu một mắt xích bị suy giảm nghiêm trọng, cả hệ có thể mất cân bằng.",
+        "Trong mô phỏng, trạng thái 'gần cân bằng' thể hiện qua việc các quần thể dao động quanh một khoảng giá trị chứ không bùng nổ vô hạn hay rơi về 0. Điều này phù hợp với thực tế: quần thể ngoài tự nhiên luôn dao động do nhiều yếu tố (mùa, khí hậu, dịch bệnh, nguồn thức ăn…).",
+        "Khi một loài bị tuyệt chủng (ví dụ cáo biến mất), mô phỏng cho thấy các loài còn lại thay đổi mạnh: nếu không còn cáo, thỏ có thể tăng mạnh rồi làm cỏ suy kiệt; ngược lại, nếu thỏ biến mất trước, cáo cũng không thể sống. Đây là minh họa trực quan cho khái niệm 'đứt chuỗi thức ăn'.",
+        "Mô phỏng cũng giúp liên hệ với tác động của con người: săn bắt quá mức một loài, phá hủy môi trường sống (làm giảm rG tương đương giảm năng suất sinh học), hoặc đưa thêm loài ngoại lai săn mồi (tăng d) đều có thể khiến hệ sinh thái chuyển từ trạng thái cân bằng sang sụp đổ.",
+        "Ý nghĩa giáo dục: thông qua việc chủ động điều chỉnh tham số và quan sát hậu quả, học sinh hiểu rằng cân bằng sinh thái là kết quả của nhiều yếu tố tương tác tinh tế; can thiệp thiếu cân nhắc (tăng/giảm quá mạnh một yếu tố) có thể dẫn tới hậu quả lâu dài khó đảo ngược như tuyệt chủng loài."
+      ]
+    }
+  ]
+}
