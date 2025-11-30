@@ -568,11 +568,12 @@
       const dt = 0.04;
       const extinctionThreshold = 0.01;
 
-      // HIỂN THỊ SPRITE
-      const individualsPerIconGrass = 10;
-      const individualsPerIconRabbit = 3;
-      const individualsPerIconFox = 2;
-      const maxIconsPerSpecies = 300;
+      // HIỂN THỊ SPRITE – nhạy hơn với biến động quần thể
+      const individualsPerIconGrass = 5; // trước 10
+      const individualsPerIconRabbit = 2; // trước 3
+      const individualsPerIconFox = 1; // trước 2
+      const maxIconsPerSpecies = 400;
+
       const grassSize = 18;
       const rabbitSize = 26;
       const foxSize = 30;
@@ -589,7 +590,8 @@
           this.facingRight = this.vx >= 0;
         }
         wander(width, height) {
-          const turn = (Math.random() - 0.5) * 0.6;
+          // quay ít hơn → chuyển động mượt hơn
+          const turn = (Math.random() - 0.5) * 0.3;
           const angle = Math.atan2(this.vy, this.vx) + turn;
           const sp = this.speed;
           this.vx = Math.cos(angle) * sp;
@@ -667,8 +669,8 @@
         );
 
         ensureCount(grassAgents, grassIcons, 0, false);
-        ensureCount(rabbitAgents, rabbitIcons, 1.1, true);
-        ensureCount(foxAgents, foxIcons, 2.0, true);
+        ensureCount(rabbitAgents, rabbitIcons, 0.6, true); // thỏ chậm hơn
+        ensureCount(foxAgents, foxIcons, 1.0, true); // cáo chậm hơn
       }
 
       // ====== MÔ HÌNH TOÁN ======
