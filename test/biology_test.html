@@ -14,23 +14,32 @@
       }
 
       :root {
-        --bg: #e0f7fa; /* nền chung xanh mint nhạt */
-        --bg-header: #00695c; /* header xanh đậm */
-        --card: #ffffff; /* nền thẻ quiz */
-        --card-hover: #e0f2f1; /* hover thẻ quiz */
-        --nav-orange: #00897b; /* màu nút chính */
-        --nav-orange-hover: #00695c;
-        --text-on-light-green: #0f172a; /* màu chữ chính */
-        --muted: #64748b; /* chữ mô tả */
-        --scroll-track: #b2dfdb;
-        --scroll-thumb: #00897b;
-        --scroll-thumb-hover: #00695c;
+        /* Tông xanh “sinh học” đồng bộ style với Lý & Hóa (dark + glow) */
+        --bg-top: #4ade80aa;
+        --bg-mid: #166534;
+        --bg-bottom: #022c22;
+
+        --bg-header: #15803d; /* header xanh lá đậm */
+        --card: #064e3b; /* nền thẻ */
+        --card-hover: #065f46; /* hover sáng hơn chút */
+        --nav-main: #34d399; /* nút chính xanh lá mint */
+        --nav-main-hover: #6ee7b7;
+        --text-main: #ecfdf5; /* màu chữ chính */
+        --muted: #bbf7d0; /* chữ mô tả */
+        --scroll-track: #022c22;
+        --scroll-thumb: #22c55e;
+        --scroll-thumb-hover: #4ade80;
       }
 
       body {
         min-height: 100vh;
-        background: var(--bg);
-        color: var(--text-on-light-green);
+        background: linear-gradient(
+          to bottom,
+          var(--bg-top),
+          var(--bg-mid),
+          var(--bg-bottom)
+        );
+        color: var(--text-main);
       }
 
       html {
@@ -57,8 +66,14 @@
       }
 
       header {
-        background: var(--bg-header);
-        color: #e0f7fa;
+        background: linear-gradient(
+          90deg,
+          #14532d,
+          var(--bg-header),
+          #22c55e,
+          #a3e635
+        );
+        color: #f0fdf4;
         padding: 12px 20px;
         display: flex;
         justify-content: space-between;
@@ -66,7 +81,7 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
       }
 
       .header-left {
@@ -77,9 +92,9 @@
 
       .back-btn,
       .history-btn {
-        background: rgba(255, 255, 255, 0.08);
-        color: #e0f7fa;
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(5, 46, 22, 0.9);
+        color: #ecfdf5;
+        border: 1px solid rgba(187, 247, 208, 0.4);
         border-radius: 8px;
         padding: 6px 12px;
         font-weight: 600;
@@ -89,16 +104,17 @@
 
       .back-btn:hover,
       .history-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(4, 24, 14, 0.95);
       }
 
       .brand h1 {
         font-size: 22px;
         font-weight: 800;
+        color: #f0fdf4;
       }
 
       nav a {
-        color: #e0f7fa;
+        color: #ecfdf5;
         text-decoration: none;
         font-weight: 700;
         padding: 6px 10px;
@@ -107,7 +123,7 @@
       }
 
       nav a:hover {
-        background: rgba(255, 255, 255, 0.16);
+        background: rgba(5, 46, 22, 0.5);
       }
 
       /* TÌM KIẾM */
@@ -121,10 +137,11 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        background: #ffffff;
+        background: rgba(6, 78, 59, 0.95);
         border-radius: 12px;
         padding: 10px 14px;
-        box-shadow: 0 6px 14px rgba(15, 23, 42, 0.15);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(190, 242, 100, 0.5);
       }
 
       .search-box input {
@@ -132,13 +149,13 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #0f172a;
+        color: var(--text-main);
         font-size: 16px;
       }
 
       .search-box input::placeholder {
-        color: #94a3b8;
-        opacity: 1;
+        color: #bbf7d0;
+        opacity: 0.95;
       }
 
       /* LƯỚI BÀI */
@@ -150,11 +167,12 @@
 
       h2.section-title {
         font-size: 22px;
-        color: var(--bg-header);
-        border-left: 5px solid var(--nav-orange);
+        color: #bbf7d0;
+        border-left: 5px solid #22c55e;
         padding-left: 12px;
         margin: 14px 0 18px;
         font-weight: 800;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       }
 
       .quiz-grid {
@@ -166,9 +184,24 @@
       .quiz-card {
         background: var(--card);
         border-radius: 14px;
-        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+        box-shadow: 0 8px 18px rgba(2, 24, 18, 0.9);
         padding: 20px;
         transition: 0.2s;
+        border: 1px solid rgba(134, 239, 172, 0.5);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quiz-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top left,
+          rgba(74, 222, 128, 0.22),
+          transparent 55%
+        );
+        pointer-events: none;
       }
 
       .quiz-card:hover {
@@ -189,24 +222,26 @@
 
       .action-row {
         display: flex;
-        justify-content: flex-start; /* chỉ còn nút, không cần giãn 2 bên */
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
       }
 
       .start-btn {
-        background: var(--nav-orange);
-        color: #ffffff;
+        background: var(--nav-main);
+        color: #052e16;
         border: none;
         padding: 10px 20px;
         border-radius: 10px;
         font-weight: 800;
         cursor: pointer;
         transition: 0.25s;
+        box-shadow: 0 4px 12px rgba(4, 47, 26, 0.85);
       }
 
       .start-btn:hover {
-        background: var(--nav-orange-hover);
+        background: var(--nav-main-hover);
+        transform: translateY(-1px);
       }
 
       /* GHI CHÚ */
@@ -214,15 +249,15 @@
         position: fixed;
         bottom: 24px;
         right: 24px;
-        background: var(--nav-orange);
-        color: #fff;
+        background: #22c55e;
+        color: #022c22;
         border: none;
         border-radius: 50%;
         width: 55px;
         height: 55px;
         font-size: 24px;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.35);
+        box-shadow: 0 4px 15px rgba(2, 6, 8, 0.9);
         z-index: 10;
       }
 
@@ -232,9 +267,9 @@
         right: 24px;
         width: 300px;
         height: 250px;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(148, 163, 184, 0.3);
+        background: rgba(6, 47, 35, 0.96);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(190, 242, 100, 0.7);
         border-radius: 12px;
         padding: 12px;
         display: none;
@@ -244,7 +279,7 @@
 
       .note-panel h3 {
         text-align: center;
-        color: var(--bg-header);
+        color: #bbf7d0;
         margin-bottom: 8px;
       }
 
@@ -253,19 +288,19 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #0f172a;
+        color: var(--text-main);
         font-size: 14px;
       }
 
       .note-panel textarea::placeholder {
-        color: #94a3b8;
+        color: #bbf7d0;
         opacity: 0.9;
       }
 
       .note-panel button {
         margin-top: 8px;
-        background: var(--nav-orange);
-        color: #ffffff;
+        background: var(--nav-main);
+        color: #052e16;
         border: none;
         border-radius: 6px;
         padding: 6px;
@@ -274,7 +309,7 @@
       }
 
       .note-panel button:hover {
-        background: var(--nav-orange-hover);
+        background: var(--nav-main-hover);
       }
 
       /* LỊCH SỬ */
@@ -285,9 +320,9 @@
         width: 350px;
         max-height: 450px;
         overflow-y: auto;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(5, 46, 22, 0.97);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(187, 247, 208, 0.7);
         border-radius: 10px;
         padding: 12px;
         display: none;
@@ -305,13 +340,13 @@
       .panel-title {
         font-size: 16px;
         font-weight: 800;
-        color: var(--bg-header);
+        color: #bbf7d0;
       }
 
       .clear-history-btn {
         background: none;
         border: none;
-        color: var(--nav-orange-hover);
+        color: #f97373;
         font-weight: 700;
         cursor: pointer;
         display: flex;
@@ -322,14 +357,14 @@
       }
 
       .clear-history-btn:hover {
-        color: #b91c1c;
+        color: #fecaca;
       }
 
       .history-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(241, 245, 249, 0.9);
+        background: rgba(6, 78, 59, 0.95);
         padding: 6px 8px;
         margin-bottom: 6px;
         border-radius: 6px;
@@ -338,16 +373,16 @@
       }
 
       .history-item:hover {
-        background: rgba(226, 232, 240, 1);
+        background: rgba(4, 120, 87, 1);
       }
 
       .history-item span {
         font-size: 14px;
-        color: #0f172a;
+        color: var(--text-main);
       }
 
       .score {
-        color: var(--nav-orange-hover);
+        color: #bbf7d0;
         font-weight: 600;
       }
     </style>
@@ -371,7 +406,7 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path
             d="M21 21l-4.35-4.35m1.1-4.65a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"
-            stroke="#64748b"
+            stroke="#bbf7d0"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -514,7 +549,7 @@
 
       document.getElementById("saveNote").onclick = () => {
         localStorage.setItem(
-          "noteContent",
+          "bio_noteContent",
           document.getElementById("noteArea").value
         );
         alert("✅ Ghi chú đã lưu!");
@@ -532,10 +567,10 @@
       };
 
       function loadHistory() {
-        const data = JSON.parse(localStorage.getItem("history") || "[]");
+        const data = JSON.parse(localStorage.getItem("bio_history") || "[]");
         historyList.innerHTML = data.length
           ? ""
-          : '<p style="text-align:center;color:#94a3b8">Chưa có bài nào.</p>';
+          : '<p style="text-align:center;color:#bbf7d0">Chưa có bài nào.</p>';
 
         data.forEach((item) => {
           const div = document.createElement("div");
@@ -555,7 +590,7 @@
       clearHistoryBtn.onclick = () => {
         if (!confirm("⚠️ Xóa toàn bộ lịch sử làm bài?")) return;
 
-        localStorage.removeItem("history");
+        localStorage.removeItem("bio_history");
         loadHistory();
         alert("🧹 Đã xóa toàn bộ lịch sử!");
       };
@@ -563,7 +598,7 @@
       /* === KHỞI TẠO === */
       window.onload = () => {
         document.getElementById("noteArea").value =
-          localStorage.getItem("noteContent") || "";
+          localStorage.getItem("bio_noteContent") || "";
         loadHistory();
       };
     </script>

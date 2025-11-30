@@ -14,27 +14,27 @@
       }
 
       :root {
-        /* Tông xanh lab – cyan cho Hóa học */
-        --bg: #020c18; /* nền chung tối, hơi xanh */
-        --bg-header: #036672; /* header xanh lab */
-        --card: #031822; /* nền thẻ */
-        --card-hover: #052230; /* hover sáng hơn chút */
+        /* Tông xanh lab – cyan cho Hóa học (bản sáng hơn) */
+        --bg: #042732; /* nền chung tối, nhưng sáng hơn */
+        --bg-header: #0597a5; /* header xanh lab sáng hơn */
+        --card: #063142; /* nền thẻ sáng hơn */
+        --card-hover: #094155; /* hover sáng hơn chút */
         --nav-main: #22d3ee; /* nút chính cyan */
         --nav-main-hover: #67e8f9;
-        --text-on-dark: #e0fdfa; /* chữ chính */
-        --muted: #94a3b8; /* chữ mô tả */
-        --scroll-track: #020812;
-        --scroll-thumb: #0ea5e9;
-        --scroll-thumb-hover: #38bdf8;
+        --text-on-dark: #e6fcff; /* chữ chính */
+        --muted: #a8c0d4; /* chữ mô tả sáng hơn */
+        --scroll-track: #03151c;
+        --scroll-thumb: #06b6d4;
+        --scroll-thumb-hover: #22d3ee;
       }
 
       body {
         min-height: 100vh;
         background: radial-gradient(
           circle at top,
-          #082f49 0,
-          #020617 45%,
-          #000000 100%
+          #0f5c71 0,
+          #043244 45%,
+          #021017 100%
         );
         color: var(--text-on-dark);
       }
@@ -63,7 +63,7 @@
       }
 
       header {
-        background: var(--bg-header);
+        background: linear-gradient(90deg, #036672, #0597a5, #22d3ee);
         color: #e0f2f1;
         padding: 12px 20px;
         display: flex;
@@ -72,7 +72,7 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
       }
 
       .header-left {
@@ -83,7 +83,7 @@
 
       .back-btn,
       .history-btn {
-        background: rgba(15, 23, 42, 0.9);
+        background: rgba(8, 31, 45, 0.9);
         color: #e0fdfa;
         border: 1px solid rgba(148, 163, 184, 0.4);
         border-radius: 8px;
@@ -95,13 +95,13 @@
 
       .back-btn:hover,
       .history-btn:hover {
-        background: #020617;
+        background: #02151f;
       }
 
       .brand h1 {
         font-size: 22px;
         font-weight: 800;
-        color: #e0fdfa;
+        color: #effeff;
       }
 
       nav a {
@@ -114,7 +114,7 @@
       }
 
       nav a:hover {
-        background: rgba(15, 23, 42, 0.35);
+        background: rgba(8, 31, 45, 0.5);
       }
 
       /* TÌM KIẾM */
@@ -128,11 +128,11 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(6, 36, 51, 0.95);
         border-radius: 12px;
         padding: 10px 14px;
-        box-shadow: 0 6px 14px rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 6px 16px rgba(3, 16, 23, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.45);
       }
 
       .search-box input {
@@ -145,8 +145,8 @@
       }
 
       .search-box input::placeholder {
-        color: #64748b;
-        opacity: 0.9;
+        color: #7b8fa4;
+        opacity: 0.95;
       }
 
       /* LƯỚI BÀI */
@@ -175,10 +175,10 @@
       .quiz-card {
         background: var(--card);
         border-radius: 14px;
-        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
+        box-shadow: 0 8px 18px rgba(2, 10, 14, 0.9);
         padding: 20px;
         transition: 0.2s;
-        border: 1px solid rgba(148, 163, 184, 0.4);
+        border: 1px solid rgba(148, 163, 184, 0.5);
         position: relative;
         overflow: hidden;
       }
@@ -189,7 +189,7 @@
         inset: 0;
         background: radial-gradient(
           circle at top left,
-          rgba(34, 211, 238, 0.18),
+          rgba(45, 212, 191, 0.22),
           transparent 55%
         );
         pointer-events: none;
@@ -227,7 +227,7 @@
         font-weight: 800;
         cursor: pointer;
         transition: 0.25s;
-        box-shadow: 0 4px 10px rgba(8, 47, 73, 0.85);
+        box-shadow: 0 4px 12px rgba(4, 47, 73, 0.85);
       }
 
       .start-btn:hover {
@@ -248,7 +248,7 @@
         height: 55px;
         font-size: 24px;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.9);
+        box-shadow: 0 4px 15px rgba(2, 6, 10, 0.9);
         z-index: 10;
       }
 
@@ -258,9 +258,9 @@
         right: 24px;
         width: 300px;
         height: 250px;
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(6, 26, 36, 0.98);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.7);
         border-radius: 12px;
         padding: 12px;
         display: none;
@@ -311,9 +311,9 @@
         width: 350px;
         max-height: 450px;
         overflow-y: auto;
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(6, 26, 36, 0.98);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.7);
         border-radius: 10px;
         padding: 12px;
         display: none;
@@ -348,14 +348,14 @@
       }
 
       .clear-history-btn:hover {
-        color: #ef4444;
+        color: #fecaca;
       }
 
       .history-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(31, 41, 55, 0.9);
+        background: rgba(9, 35, 48, 0.95);
         padding: 6px 8px;
         margin-bottom: 6px;
         border-radius: 6px;
@@ -364,7 +364,7 @@
       }
 
       .history-item:hover {
-        background: rgba(55, 65, 81, 1);
+        background: rgba(15, 48, 65, 1);
       }
 
       .history-item span {

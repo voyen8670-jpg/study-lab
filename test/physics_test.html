@@ -14,27 +14,34 @@
       }
 
       :root {
-        /* Tông “vũ trụ” cho Vật lý */
-        --card: #020b3a;
-        --card-hover: #0b1f4b;
-        --nav-orange: #38bdf8; /* nút + header accent (cyan) */
-        --nav-orange-hover: #0ea5e9;
-        --text-on-blue: #e5f2ff;
-        --muted: #9ca3af;
-        --scroll-track: #020617;
-        --scroll-thumb: #1d4ed8;
-        --scroll-thumb-hover: #2563eb;
+        /* Phiên bản sáng hơn cho Vật lý */
+        --bg-top: #3b82f680;
+        --bg-mid: #1e3a8a;
+        --bg-bottom: #0b1120;
+
+        --card: #112b4e;
+        --card-hover: #16345c;
+
+        --nav-main: #5eead4;
+        --nav-main-hover: #99f6e4;
+
+        --text-main: #e9faff;
+        --muted: #aec6dd;
+
+        --scroll-track: #0f172a;
+        --scroll-thumb: #38bdf8;
+        --scroll-thumb-hover: #5cc8ff;
       }
 
       body {
         min-height: 100vh;
-        background: radial-gradient(
-          circle at top,
-          #1d4ed8 0,
-          #020617 45%,
-          #000000 100%
+        background: linear-gradient(
+          to bottom,
+          var(--bg-top),
+          var(--bg-mid),
+          var(--bg-bottom)
         );
-        color: var(--text-on-blue);
+        color: var(--text-main);
       }
 
       html {
@@ -46,23 +53,21 @@
       ::-webkit-scrollbar {
         width: 12px;
       }
-
       ::-webkit-scrollbar-track {
         background: var(--scroll-track);
       }
-
       ::-webkit-scrollbar-thumb {
         background: var(--scroll-thumb);
         border-radius: 6px;
       }
-
       ::-webkit-scrollbar-thumb:hover {
         background: var(--scroll-thumb-hover);
       }
 
+      /* HEADER */
       header {
-        background: linear-gradient(90deg, #020617, #0f172a, #1d4ed8, #22d3ee);
-        color: #e5f2ff;
+        background: linear-gradient(90deg, #0ea5e9, #22d3ee, #5eead4);
+        color: #06223b;
         padding: 12px 20px;
         display: flex;
         justify-content: space-between;
@@ -70,7 +75,7 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
       }
 
       .header-left {
@@ -79,19 +84,20 @@
         gap: 14px;
       }
 
-      .back-btn {
-        background: rgba(15, 23, 42, 0.9);
-        color: #e5f2ff;
-        border: 1px solid rgba(148, 163, 184, 0.5);
+      .back-btn,
+      .history-btn {
+        background: rgba(11, 17, 32, 0.85);
+        color: #e0fcff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
         border-radius: 8px;
-        padding: 6px 10px;
-        font-weight: 600;
+        padding: 6px 12px;
+        font-weight: 700;
         cursor: pointer;
         transition: 0.25s;
       }
-
-      .back-btn:hover {
-        background: #020617;
+      .back-btn:hover,
+      .history-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
       }
 
       .brand h1 {
@@ -100,31 +106,15 @@
       }
 
       nav a {
-        color: #e5f2ff;
+        color: #06223b;
         text-decoration: none;
         font-weight: 700;
         padding: 6px 10px;
         border-radius: 8px;
         transition: 0.25s;
       }
-
       nav a:hover {
-        background: rgba(15, 23, 42, 0.35);
-      }
-
-      .history-btn {
-        background: rgba(15, 23, 42, 0.9);
-        color: #e5f2ff;
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        border-radius: 8px;
-        padding: 6px 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.25s;
-      }
-
-      .history-btn:hover {
-        background: #020617;
+        background: rgba(255, 255, 255, 0.3);
       }
 
       /* TÌM KIẾM */
@@ -138,11 +128,11 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(17, 36, 66, 0.8);
         border-radius: 12px;
         padding: 10px 14px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.15);
       }
 
       .search-box input {
@@ -150,30 +140,29 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #e5f2ff;
+        color: #e9faff;
         font-size: 16px;
       }
 
       .search-box input::placeholder {
-        color: #64748b;
-        opacity: 1;
+        color: #9cc2dd;
       }
 
-      /* LƯỚI BÀI */
+      /* GRID DANH SÁCH BÀI */
       .container {
         max-width: 1100px;
-        margin: 16px auto 40px;
+        margin: 20px auto 40px;
         padding: 0 20px;
       }
 
-      h2.section-title {
+      .section-title {
         font-size: 22px;
-        color: #38bdf8;
-        border-left: 5px solid #facc15;
+        color: #5eead4;
+        border-left: 4px solid #fde047;
         padding-left: 12px;
-        margin: 14px 0 18px;
         font-weight: 800;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        margin-bottom: 20px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
       }
 
       .quiz-grid {
@@ -185,29 +174,27 @@
       .quiz-card {
         background: var(--card);
         border-radius: 14px;
-        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.9);
         padding: 20px;
-        transition: 0.2s;
-        border: 1px solid rgba(148, 163, 184, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+        transition: 0.25s;
         position: relative;
         overflow: hidden;
       }
-
+      .quiz-card:hover {
+        transform: translateY(-4px);
+        background: var(--card-hover);
+      }
       .quiz-card::before {
         content: "";
         position: absolute;
         inset: 0;
         background: radial-gradient(
-          circle at top left,
-          rgba(56, 189, 248, 0.18),
+          circle at top right,
+          rgba(94, 234, 212, 0.22),
           transparent 55%
         );
         pointer-events: none;
-      }
-
-      .quiz-card:hover {
-        transform: translateY(-4px);
-        background: var(--card-hover);
       }
 
       .quiz-card h3 {
@@ -216,39 +203,32 @@
       }
 
       .quiz-info {
-        font-size: 14px;
         color: var(--muted);
         margin-bottom: 16px;
       }
 
       .action-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
-        gap: 10px;
       }
 
+      /* NÚT BẮT ĐẦU */
       .start-btn {
-        background: var(--nav-orange);
-        color: #012a3b;
+        background: var(--nav-main);
+        color: #08313d;
         border: none;
         padding: 10px 20px;
         border-radius: 10px;
         font-weight: 800;
         cursor: pointer;
-        transition: 0.25s;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.8);
+        transition: 0.2s;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
       }
 
       .start-btn:hover {
-        background: var(--nav-orange-hover);
-        transform: translateY(-1px);
-      }
-
-      .attempt-count {
-        color: #facc15;
-        font-size: 14px;
-        font-weight: 600;
+        background: var(--nav-main-hover);
+        transform: translateY(-2px);
       }
 
       /* GHI CHÚ */
@@ -256,15 +236,15 @@
         position: fixed;
         bottom: 24px;
         right: 24px;
-        background: #22c55e;
-        color: #012b1a;
+        background: #fde047;
+        color: #0f172a;
         border: none;
         border-radius: 50%;
         width: 55px;
         height: 55px;
         font-size: 24px;
         cursor: pointer;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
         z-index: 10;
       }
 
@@ -273,10 +253,10 @@
         bottom: 90px;
         right: 24px;
         width: 300px;
-        height: 250px;
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(148, 163, 184, 0.7);
+        height: 260px;
+        background: rgba(17, 36, 66, 0.95);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 12px;
         padding: 12px;
         display: none;
@@ -286,7 +266,7 @@
 
       .note-panel h3 {
         text-align: center;
-        color: #38bdf8;
+        color: #5eead4;
         margin-bottom: 8px;
       }
 
@@ -295,8 +275,7 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #e5f2ff;
-        font-size: 14px;
+        color: #e9faff;
       }
 
       .note-panel textarea::placeholder {
@@ -305,18 +284,17 @@
       }
 
       .note-panel button {
-        margin-top: 8px;
-        background: var(--nav-orange);
-        color: #012a3b;
+        margin-top: 10px;
+        background: var(--nav-main);
+        color: #062023;
+        padding: 6px;
         border: none;
         border-radius: 6px;
-        padding: 6px;
-        font-weight: bold;
+        font-weight: 700;
         cursor: pointer;
       }
-
       .note-panel button:hover {
-        background: var(--nav-orange-hover);
+        background: var(--nav-main-hover);
       }
 
       /* LỊCH SỬ */
@@ -326,15 +304,13 @@
         right: 20px;
         width: 350px;
         max-height: 450px;
-        overflow-y: auto;
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(17, 36, 66, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
         border-radius: 10px;
         padding: 12px;
         display: none;
-        flex-direction: column;
-        z-index: 10;
+        overflow-y: auto;
       }
 
       .panel-head {
@@ -347,49 +323,40 @@
       .panel-title {
         font-size: 16px;
         font-weight: 800;
-        color: #38bdf8;
+        color: #5eead4;
       }
 
       .clear-history-btn {
         background: none;
         border: none;
-        color: #f97373;
+        color: #fca5a5;
         font-weight: 700;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 15px;
-        transition: 0.2s;
       }
-
       .clear-history-btn:hover {
         color: #fecaca;
       }
 
       .history-item {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 6px 8px;
+        border-radius: 6px;
+        margin-bottom: 6px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        background: rgba(31, 41, 55, 0.9);
-        padding: 6px 8px;
-        margin-bottom: 6px;
-        border-radius: 6px;
         cursor: pointer;
-        transition: 0.2s;
       }
-
       .history-item:hover {
-        background: rgba(55, 65, 81, 1);
+        background: rgba(255, 255, 255, 0.18);
       }
 
       .history-item span {
         font-size: 14px;
-        color: #e5f2ff;
+        color: #e9faff;
       }
 
       .score {
-        color: #facc15;
+        color: #fde047;
         font-weight: 600;
       }
     </style>
@@ -402,7 +369,6 @@
         <div class="brand"><h1>Trắc Nghiệm Vật Lý</h1></div>
         <nav><a href="#">Lớp 12</a></nav>
       </div>
-
       <div class="header-right">
         <button class="history-btn" id="historyBtn">📜 Lịch sử</button>
       </div>
@@ -441,7 +407,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -455,12 +420,11 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="3">
-          <h3>BÀI 3: NỘI NĂNG. ĐỊNH LUẬT Q CỦA NHIỆT ĐỘNG LỰC HỌC</h3>
+          <h3>BÀI 3: NỘI NĂNG – ĐỊNH LUẬT Q</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -469,15 +433,11 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="4">
-          <h3>
-            BÀI 4: THỰC HÀNH ĐO NHIỆT DUNG RIÊNG, NHIỆT NÓNG CHẢY RIÊNG, NHIỆT
-            HÓA HƠI RIÊNG
-          </h3>
+          <h3>BÀI 4: THỰC HÀNH NHIỆT HỌC</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -486,12 +446,11 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="5">
-          <h3>BÀI 5: THUYẾT ĐỘNG HỌC PHÂN TỬ CHẤT KHÍ</h3>
+          <h3>BÀI 5: THUYẾT ĐỘNG HỌC PHÂN TỬ</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -500,12 +459,11 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="6">
-          <h3>BÀI 6: ĐỊNH LUẬT BOYLE. ĐỊNH LUẬT CHARLE</h3>
+          <h3>BÀI 6: BOYLE – CHARLE</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -514,7 +472,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
       </div>
@@ -522,14 +479,12 @@
 
     <!-- GHI CHÚ -->
     <button class="note-btn" id="noteBtn">📝</button>
-
     <div class="note-panel" id="notePanel">
       <h3>Ghi chú của bạn</h3>
       <textarea id="noteArea" placeholder="Nhập ghi chú tại đây..."></textarea>
       <button id="saveNote">💾 Lưu</button>
     </div>
 
-    <!-- LỊCH SỬ -->
     <div class="history-panel" id="historyPanel">
       <div class="panel-head">
         <div class="panel-title">Lịch sử làm bài</div>
@@ -539,7 +494,6 @@
     </div>
 
     <script>
-      /* === TÌM KIẾM === */
       const input = document.getElementById("search");
       const cards = [...document.querySelectorAll(".quiz-card")];
 
@@ -551,7 +505,6 @@
         });
       });
 
-      /* === GHI CHÚ === */
       const noteBtn = document.getElementById("noteBtn");
       const notePanel = document.getElementById("notePanel");
 
@@ -567,7 +520,6 @@
         alert("✅ Ghi chú đã lưu!");
       };
 
-      /* === LỊCH SỬ === */
       const historyBtn = document.getElementById("historyBtn");
       const historyPanel = document.getElementById("historyPanel");
       const historyList = document.getElementById("historyList");
@@ -582,7 +534,7 @@
 
         historyList.innerHTML = data.length
           ? ""
-          : '<p style="text-align:center;color:#9ca3af">Chưa có bài nào.</p>';
+          : '<p style="text-align:center;color:#aec6dd">Chưa có bài nào.</p>';
 
         data.forEach((item) => {
           const div = document.createElement("div");
@@ -592,40 +544,22 @@
         });
       }
 
-      /* === NÚT QUAY LẠI === */
       document.getElementById("backBtn").onclick = () => {
         if (document.referrer) window.history.back();
         else alert("🚪 Không có trang trước để quay lại!");
       };
 
-      /* === NÚT XÓA === */
       clearHistoryBtn.onclick = () => {
-        if (!confirm("⚠️ Xóa toàn bộ lịch sử và số lần làm?")) return;
+        if (!confirm("⚠️ Xóa toàn bộ lịch sử?")) return;
 
         localStorage.removeItem("phys_history");
-        Object.keys(localStorage).forEach((k) => {
-          if (k.startsWith("phys_attempt_")) localStorage.removeItem(k);
-        });
-
-        document
-          .querySelectorAll(".attempt-count")
-          .forEach((el) => (el.textContent = "🔁 0 lần"));
-
         loadHistory();
-        alert("🧹 Đã xóa toàn bộ lịch sử và số lần làm!");
+        alert("🧹 Đã xóa toàn bộ lịch sử!");
       };
 
-      /* === KHỞI TẠO === */
       window.onload = () => {
         document.getElementById("noteArea").value =
           localStorage.getItem("phys_noteContent") || "";
-
-        document.querySelectorAll(".quiz-card").forEach((card) => {
-          const id = card.dataset.id;
-          const c = localStorage.getItem("phys_attempt_" + id) || 0;
-          card.querySelector(".attempt-count").textContent = `🔁 ${c} lần`;
-        });
-
         loadHistory();
       };
     </script>
