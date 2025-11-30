@@ -189,7 +189,7 @@
 
       .action-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start; /* chỉ còn nút, không cần giãn 2 bên */
         align-items: center;
         gap: 10px;
       }
@@ -207,12 +207,6 @@
 
       .start-btn:hover {
         background: var(--nav-orange-hover);
-      }
-
-      .attempt-count {
-        color: var(--nav-orange-hover);
-        font-size: 14px;
-        font-weight: 600;
       }
 
       /* GHI CHÚ */
@@ -405,7 +399,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -419,7 +412,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -433,7 +425,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -447,7 +438,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -461,7 +451,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -478,7 +467,6 @@
             >
               Bắt đầu làm
             </button>
-            <span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
       </div>
@@ -563,34 +551,19 @@
         else alert("🚪 Không có trang trước để quay lại!");
       };
 
-      /* === NÚT XÓA === */
+      /* === NÚT XÓA LỊCH SỬ === */
       clearHistoryBtn.onclick = () => {
-        if (!confirm("⚠️ Xóa toàn bộ lịch sử và số lần làm?")) return;
+        if (!confirm("⚠️ Xóa toàn bộ lịch sử làm bài?")) return;
 
         localStorage.removeItem("history");
-        Object.keys(localStorage).forEach((k) => {
-          if (k.startsWith("attempt_")) localStorage.removeItem(k);
-        });
-
-        document.querySelectorAll(".attempt-count").forEach((el) => {
-          el.textContent = "🔁 0 lần";
-        });
-
         loadHistory();
-        alert("🧹 Đã xóa toàn bộ lịch sử và số lần làm!");
+        alert("🧹 Đã xóa toàn bộ lịch sử!");
       };
 
       /* === KHỞI TẠO === */
       window.onload = () => {
         document.getElementById("noteArea").value =
           localStorage.getItem("noteContent") || "";
-
-        document.querySelectorAll(".quiz-card").forEach((card) => {
-          const id = card.dataset.id;
-          const c = localStorage.getItem("attempt_" + id) || 0;
-          card.querySelector(".attempt-count").textContent = `🔁 ${c} lần`;
-        });
-
         loadHistory();
       };
     </script>

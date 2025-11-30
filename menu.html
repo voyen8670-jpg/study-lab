@@ -264,6 +264,34 @@
           display: none;
         }
       }
+
+      /* ===== NÚT NEON ĐẸP HƠN ===== */
+      .neon-btn {
+        padding: 14px 32px;
+        font-size: 18px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #00eaff, #7cf9ff);
+        color: #001018;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(0, 234, 255, 0.8),
+          0 0 25px rgba(0, 234, 255, 0.6);
+        transition: 0.3s;
+        line-height: 1.4;
+        text-shadow: none;
+        display: inline-block;
+        white-space: normal;
+      }
+
+      .neon-btn:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 0 20px rgba(0, 234, 255, 1), 0 0 35px rgba(0, 234, 255, 1);
+      }
+
+      .neon-btn:active {
+        transform: scale(0.97);
+      }
     </style>
   </head>
   <body>
@@ -281,51 +309,40 @@
       <div class="card" onclick="location.href='chemistry.html'">
         <div class="icon">🧪</div>
         <h2>Hóa học</h2>
-        <p>Quan sát phản ứng, dung dịch và đồ thị nồng độ,... an toàn trên màn hình.</p>
+        <p>
+          Quan sát phản ứng, dung dịch và đồ thị nồng độ,... an toàn trên màn
+          hình.
+        </p>
       </div>
       <div class="card" onclick="location.href='biology.html'">
         <div class="icon">🧬</div>
         <h2>Sinh học</h2>
-        <p>Khám phá tế bào, di truyền và sinh thái,... qua mô phỏng tương tác.</p>
+        <p>
+          Khám phá tế bào, di truyền và sinh thái,... qua mô phỏng tương tác.
+        </p>
       </div>
     </div>
 
+    <!-- Nút khảo sát -->
     <div style="margin-top: 20px; z-index: 2; position: relative">
       <button
+        class="neon-btn"
         onclick="window.open('https://forms.gle/YSxkDeAEBsgXcXoz7','_blank')"
-        style="
-          padding: 12px 25px;
-          font-size: 18px;
-          background: #00eaff;
-          border: none;
-          border-radius: 8px;
-          color: #000;
-          cursor: pointer;
-          box-shadow: 0 0 12px rgba(0, 234, 255, 0.8);
-          transition: 0.3s;
-        "
       >
-        📝 Làm khảo sát
+        📝 Tham gia khảo sát trải nghiệm StudyLab<br />
+        Giúp nhóm cải thiện chức năng và mô phỏng
       </button>
     </div>
 
+    <!-- Nút kiểm tra kiến thức -->
     <div style="margin-top: 20px; z-index: 2; position: relative">
       <button
+        class="neon-btn"
         onclick="location.href='./test/test.html'"
-        style="
-          padding: 12px 25px;
-          font-size: 18px;
-          background: #00eaff;
-          border: none;
-          border-radius: 8px;
-          color: #000;
-          cursor: pointer;
-          box-shadow: 0 0 12px rgba(0, 234, 255, 0.8);
-          transition: 0.3s;
-          margin-left: 10px;
-        "
+        style="margin-left: 10px"
       >
-        🧠 Thử tài kiến thức
+        🧠 Thử tài kiến thức<br />
+        Trắc nghiệm nhanh - kiểm tra kiến thức của bạn
       </button>
     </div>
 

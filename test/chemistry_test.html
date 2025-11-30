@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>TRẮC NGHIỆM HÓA HỌC</title>
 
     <style>
@@ -17,23 +14,29 @@
       }
 
       :root {
-        --card: #6a4fb6;
+        /* Tông xanh lab – cyan cho Hóa học */
+        --bg: #020c18; /* nền chung tối, hơi xanh */
+        --bg-header: #036672; /* header xanh lab */
+        --card: #031822; /* nền thẻ */
+        --card-hover: #052230; /* hover sáng hơn chút */
+        --nav-main: #22d3ee; /* nút chính cyan */
+        --nav-main-hover: #67e8f9;
+        --text-on-dark: #e0fdfa; /* chữ chính */
+        --muted: #94a3b8; /* chữ mô tả */
+        --scroll-track: #020812;
+        --scroll-thumb: #0ea5e9;
+        --scroll-thumb-hover: #38bdf8;
+      }
 
-        --card-hover: #7b5ce0;
-
-        --nav-yellow: #f6d66f;
-
-        --nav-yellow-hover: #ffeb99;
-
-        --text-on-purple: #f3ecff;
-
-        --muted: #e8defa;
-
-        --scroll-track: #2e1a47;
-
-        --scroll-thumb: #7b5ce0;
-
-        --scroll-thumb-hover: #9a7cff;
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+          circle at top,
+          #082f49 0,
+          #020617 45%,
+          #000000 100%
+        );
+        color: var(--text-on-dark);
       }
 
       html {
@@ -59,25 +62,17 @@
         background: var(--scroll-thumb-hover);
       }
 
-      body {
-        min-height: 100vh;
-        background: #2e1a47;
-        color: var(--text-on-purple);
-      }
-
       header {
-        background: var(--nav-yellow);
-        color: #2e1a47;
+        background: var(--bg-header);
+        color: #e0f2f1;
         padding: 12px 20px;
-
         display: flex;
         justify-content: space-between;
         align-items: center;
-
         position: sticky;
         top: 0;
         z-index: 5;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
       }
 
       .header-left {
@@ -86,34 +81,31 @@
         gap: 14px;
       }
 
-      .back-btn {
-        background: #2e1a47;
-        color: #fff;
-        border: none;
+      .back-btn,
+      .history-btn {
+        background: rgba(15, 23, 42, 0.9);
+        color: #e0fdfa;
+        border: 1px solid rgba(148, 163, 184, 0.4);
         border-radius: 8px;
-
-        padding: 6px 10px;
+        padding: 6px 12px;
         font-weight: 600;
         cursor: pointer;
         transition: 0.25s;
       }
 
-      .back-btn:hover {
-        background: #4f378b;
+      .back-btn:hover,
+      .history-btn:hover {
+        background: #020617;
       }
 
       .brand h1 {
         font-size: 22px;
         font-weight: 800;
-      }
-
-      nav {
-        display: flex;
-        gap: 12px;
+        color: #e0fdfa;
       }
 
       nav a {
-        color: #2e1a47;
+        color: #e0fdfa;
         text-decoration: none;
         font-weight: 700;
         padding: 6px 10px;
@@ -122,27 +114,10 @@
       }
 
       nav a:hover {
-        background: rgba(0, 0, 0, 0.06);
-      }
-
-      .history-btn {
-        background: #2e1a47;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-
-        padding: 6px 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.25s;
-      }
-
-      .history-btn:hover {
-        background: #4f378b;
+        background: rgba(15, 23, 42, 0.35);
       }
 
       /* TÌM KIẾM */
-
       .search-wrap {
         max-width: 1100px;
         margin: 20px auto 0;
@@ -153,10 +128,11 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        background: #4f378b;
+        background: rgba(15, 23, 42, 0.95);
         border-radius: 12px;
         padding: 10px 14px;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 6px 14px rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.5);
       }
 
       .search-box input {
@@ -164,17 +140,16 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #fff;
+        color: var(--text-on-dark);
         font-size: 16px;
       }
 
       .search-box input::placeholder {
-        color: #ffeb99;
-        opacity: 1;
+        color: #64748b;
+        opacity: 0.9;
       }
 
-      /* DANH SÁCH BÀI */
-
+      /* LƯỚI BÀI */
       .container {
         max-width: 1100px;
         margin: 16px auto 40px;
@@ -183,12 +158,12 @@
 
       h2.section-title {
         font-size: 22px;
-        color: #ffec99;
-        border-left: 5px solid var(--card);
-
+        color: var(--nav-main);
+        border-left: 5px solid #22c55e;
         padding-left: 12px;
         margin: 14px 0 18px;
         font-weight: 800;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       }
 
       .quiz-grid {
@@ -200,9 +175,24 @@
       .quiz-card {
         background: var(--card);
         border-radius: 14px;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
         padding: 20px;
         transition: 0.2s;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quiz-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top left,
+          rgba(34, 211, 238, 0.18),
+          transparent 55%
+        );
+        pointer-events: none;
       }
 
       .quiz-card:hover {
@@ -223,48 +213,42 @@
 
       .action-row {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
       }
 
       .start-btn {
-        background: var(--nav-yellow);
-        color: #fff;
+        background: var(--nav-main);
+        color: #022c39;
         border: none;
         padding: 10px 20px;
         border-radius: 10px;
         font-weight: 800;
         cursor: pointer;
         transition: 0.25s;
+        box-shadow: 0 4px 10px rgba(8, 47, 73, 0.85);
       }
 
       .start-btn:hover {
-        background: var(--nav-yellow-hover);
-      }
-
-      .attempt-count {
-        color: #ffec99;
-        font-size: 14px;
-        font-weight: 600;
+        background: var(--nav-main-hover);
+        transform: translateY(-1px);
       }
 
       /* GHI CHÚ */
-
       .note-btn {
         position: fixed;
         bottom: 24px;
         right: 24px;
-        background: #6a4fb6;
-        color: #fff;
+        background: #22c55e;
+        color: #022c22;
         border: none;
         border-radius: 50%;
-
         width: 55px;
         height: 55px;
         font-size: 24px;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.9);
         z-index: 10;
       }
 
@@ -274,11 +258,9 @@
         right: 24px;
         width: 300px;
         height: 250px;
-
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.98);
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-
+        border: 1px solid rgba(148, 163, 184, 0.6);
         border-radius: 12px;
         padding: 12px;
         display: none;
@@ -288,7 +270,7 @@
 
       .note-panel h3 {
         text-align: center;
-        color: #ffec99;
+        color: var(--nav-main);
         margin-bottom: 8px;
       }
 
@@ -297,19 +279,19 @@
         background: transparent;
         border: none;
         outline: none;
-        color: #fff;
+        color: var(--text-on-dark);
         font-size: 14px;
       }
 
       .note-panel textarea::placeholder {
-        color: #ffec99;
-        opacity: 0.8;
+        color: #9ca3af;
+        opacity: 0.9;
       }
 
       .note-panel button {
         margin-top: 8px;
-        background: var(--nav-yellow);
-        color: #2e1a47;
+        background: var(--nav-main);
+        color: #022c39;
         border: none;
         border-radius: 6px;
         padding: 6px;
@@ -318,11 +300,10 @@
       }
 
       .note-panel button:hover {
-        background: var(--nav-yellow-hover);
+        background: var(--nav-main-hover);
       }
 
       /* LỊCH SỬ */
-
       .history-panel {
         position: fixed;
         top: 80px;
@@ -330,14 +311,11 @@
         width: 350px;
         max-height: 450px;
         overflow-y: auto;
-
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.98);
         backdrop-filter: blur(8px);
-
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(148, 163, 184, 0.6);
         border-radius: 10px;
         padding: 12px;
-
         display: none;
         flex-direction: column;
         z-index: 10;
@@ -353,16 +331,15 @@
       .panel-title {
         font-size: 16px;
         font-weight: 800;
-        color: #ffec99;
+        color: var(--nav-main);
       }
 
       .clear-history-btn {
         background: none;
         border: none;
-        color: #ffec99;
+        color: #f97373;
         font-weight: 700;
         cursor: pointer;
-
         display: flex;
         align-items: center;
         gap: 4px;
@@ -371,15 +348,14 @@
       }
 
       .clear-history-btn:hover {
-        color: #fff;
+        color: #ef4444;
       }
 
       .history-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(255, 255, 255, 0.08);
-
+        background: rgba(31, 41, 55, 0.9);
         padding: 6px 8px;
         margin-bottom: 6px;
         border-radius: 6px;
@@ -388,16 +364,16 @@
       }
 
       .history-item:hover {
-        background: rgba(255, 255, 255, 0.18);
+        background: rgba(55, 65, 81, 1);
       }
 
       .history-item span {
         font-size: 14px;
-        color: #fff;
+        color: var(--text-on-dark);
       }
 
       .score {
-        color: #ffec99;
+        color: #22c55e;
         font-weight: 600;
       }
     </style>
@@ -407,31 +383,31 @@
     <header>
       <div class="header-left">
         <button class="back-btn" id="backBtn">🔙 Quay lại</button>
-
         <div class="brand"><h1>Trắc Nghiệm Hóa Học</h1></div>
-
         <nav><a href="#">Lớp 12</a></nav>
       </div>
 
-      <button class="history-btn" id="historyBtn">📜 Lịch sử</button>
+      <div class="header-right">
+        <button class="history-btn" id="historyBtn">📜 Lịch sử</button>
+      </div>
     </header>
 
+    <!-- TÌM KIẾM -->
     <div class="search-wrap">
       <div class="search-box">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path
             d="M21 21l-4.35-4.35m1.1-4.65a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"
-            stroke="white"
+            stroke="#64748b"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
         </svg>
-
         <input
           id="search"
           type="text"
-          placeholder="Tìm đề theo tên hoặc số đề… (ví dụ: 'đề 3')"
+          placeholder="Tìm bài theo tên hoặc số bài… (ví dụ: 'bài 3', 'ester')"
         />
       </div>
     </div>
@@ -450,7 +426,6 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -464,12 +439,11 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="3">
-          <h3>BÀI 2: XÀ PHÒNG VÀ CHẤT GIẶT RỬA TỔNG HỢP</h3>
+          <h3>BÀI 2: XÀ PHÒNG &amp; CHẤT GIẶT RỬA</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -478,12 +452,11 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="4">
-          <h3>BÀI 3: GIỚI THIỆU VỀ CARBOHYDRATE</h3>
+          <h3>BÀI 3: CARBOHYDRATE</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -492,12 +465,11 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
         <div class="quiz-card" data-id="5">
-          <h3>BÀI 4: TÍNH CHẤT HÓA HỌC CỦA CARBOHYDRATE</h3>
+          <h3>BÀI 4: TÍNH CHẤT CARBOHYDRATE</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -506,7 +478,6 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
@@ -520,11 +491,10 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
-        <div class="quiz-card" data-id="6">
+        <div class="quiz-card" data-id="7">
           <h3>BÀI 6: AMINO ACID</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
@@ -534,12 +504,11 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
 
-        <div class="quiz-card" data-id="6">
-          <h3>BÀI 7: PEPTIDE, PROTEIN VÀ ENZYME</h3>
+        <div class="quiz-card" data-id="8">
+          <h3>BÀI 7: PEPTIDE - PROTEIN - ENZYME</h3>
           <p class="quiz-info">12 câu hỏi</p>
           <div class="action-row">
             <button
@@ -548,143 +517,104 @@
             >
               Bắt đầu làm
             </button>
-            ><span class="attempt-count">🔁 0 lần</span>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- GHI CHÚ -->
     <button class="note-btn" id="noteBtn">📝</button>
 
     <div class="note-panel" id="notePanel">
-      <h3>Ghi chú của bạn</h3>
-
+      <h3>Ghi chú Hóa học</h3>
       <textarea id="noteArea" placeholder="Nhập ghi chú tại đây..."></textarea>
-
       <button id="saveNote">💾 Lưu</button>
     </div>
 
+    <!-- LỊCH SỬ -->
     <div class="history-panel" id="historyPanel">
       <div class="panel-head">
         <div class="panel-title">Lịch sử làm bài</div>
-
         <button class="clear-history-btn" id="clearHistoryBtn">🗑️ Xóa</button>
       </div>
-
       <div id="historyList"></div>
     </div>
 
     <script>
-      // === TÌM KIẾM ===
-
+      /* === TÌM KIẾM === */
       const input = document.getElementById("search");
-
       const cards = [...document.querySelectorAll(".quiz-card")];
 
       input.addEventListener("input", (e) => {
         const q = e.target.value.trim().toLowerCase();
-
-        cards.forEach(
-          (c) =>
-            (c.style.display = c
-              .querySelector("h3")
-              .innerText.toLowerCase()
-              .includes(q)
-              ? ""
-              : "none")
-        );
+        cards.forEach((card) => {
+          const title = card.querySelector("h3").innerText.toLowerCase();
+          card.style.display = title.includes(q) ? "" : "none";
+        });
       });
 
-      // === GHI CHÚ ===
+      /* === GHI CHÚ === */
+      const noteBtn = document.getElementById("noteBtn");
+      const notePanel = document.getElementById("notePanel");
 
-      document.getElementById("noteBtn").onclick = () => {
-        const panel = document.getElementById("notePanel");
-
-        panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+      noteBtn.onclick = () => {
+        notePanel.style.display =
+          notePanel.style.display === "flex" ? "none" : "flex";
       };
 
       document.getElementById("saveNote").onclick = () => {
         localStorage.setItem(
-          "noteContent",
+          "chem_noteContent",
           document.getElementById("noteArea").value
         );
-
-        alert("✅ Ghi chú đã lưu!");
+        alert("✅ Ghi chú Hóa học đã lưu!");
       };
 
-      // === LỊCH SỬ ===
-
+      /* === LỊCH SỬ === */
       const historyBtn = document.getElementById("historyBtn");
-
       const historyPanel = document.getElementById("historyPanel");
-
       const historyList = document.getElementById("historyList");
-
       const clearHistoryBtn = document.getElementById("clearHistoryBtn");
 
-      historyBtn.onclick = () =>
-        (historyPanel.style.display =
-          historyPanel.style.display === "flex" ? "none" : "flex");
+      historyBtn.onclick = () => {
+        historyPanel.style.display =
+          historyPanel.style.display === "flex" ? "none" : "flex";
+      };
 
       function loadHistory() {
-        const data = JSON.parse(localStorage.getItem("history") || "[]");
-
+        // dùng key riêng cho Hóa
+        const data = JSON.parse(localStorage.getItem("chem_history") || "[]");
         historyList.innerHTML = data.length
           ? ""
-          : '<p style="text-align:center;color:#e8defa">Chưa có bài nào.</p>';
+          : '<p style="text-align:center;color:#9ca3af">Chưa có bài nào.</p>';
 
         data.forEach((item) => {
           const div = document.createElement("div");
-
           div.className = "history-item";
-
           div.innerHTML = `<span>${item.title}</span><span class="score">${item.score}đ</span>`;
-
           historyList.appendChild(div);
         });
       }
 
-      // === NÚT QUAY LẠI ===
-
+      /* === NÚT QUAY LẠI === */
       document.getElementById("backBtn").onclick = () => {
         if (document.referrer) window.history.back();
         else alert("🚪 Không có trang trước để quay lại!");
       };
 
-      // === NÚT XÓA ===
-
+      /* === NÚT XÓA LỊCH SỬ === */
       clearHistoryBtn.onclick = () => {
-        if (confirm("⚠️ Xóa toàn bộ lịch sử và số lần làm?")) {
-          localStorage.removeItem("history");
+        if (!confirm("⚠️ Xóa toàn bộ lịch sử làm bài Hóa học?")) return;
 
-          Object.keys(localStorage).forEach((k) => {
-            if (k.startsWith("attempt_")) localStorage.removeItem(k);
-          });
-
-          document
-            .querySelectorAll(".attempt-count")
-            .forEach((e) => (e.textContent = "🔁 0 lần"));
-
-          loadHistory();
-
-          alert("🧹 Đã xóa toàn bộ lịch sử và số lần làm!");
-        }
+        localStorage.removeItem("chem_history");
+        loadHistory();
+        alert("🧹 Đã xóa toàn bộ lịch sử Hóa học!");
       };
 
-      // === KHỞI TẠO ===
-
+      /* === KHỞI TẠO === */
       window.onload = () => {
         document.getElementById("noteArea").value =
-          localStorage.getItem("noteContent") || "";
-
-        document.querySelectorAll(".quiz-card").forEach((card) => {
-          const id = card.dataset.id;
-
-          card.querySelector(".attempt-count").textContent = `🔁 ${
-            localStorage.getItem("attempt_" + id) || 0
-          } lần`;
-        });
-
+          localStorage.getItem("chem_noteContent") || "";
         loadHistory();
       };
     </script>
