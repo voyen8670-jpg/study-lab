@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng lai Mendel (A/a) – Bản chuyên nghiệp</title>
+    <style>
+      :root {
+        --bg: #050816;
+        --card-bg: #0f172a;
+        --accent: #22c55e;
+        --accent-soft: #bbf7d0;
+        --border-subtle: #1e293b;
+        --text-main: #e5e7eb;
+        --text-muted: #d1d5db; /* sáng hơn */
+        --danger: #f97373;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+        color: var(--text-main);
+        padding: 24px;
+      }
+
+      .shell {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #f9fafb;
+      }
+
+      header p {
+        margin-top: 8px;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .tagline {
+        margin-top: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(34, 197, 94, 0.08);
+        color: var(--accent-soft);
+        font-size: 12px;
+      }
+
+      .tagline-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 10px var(--accent);
+      }
+
+      main {
+        background: rgba(15, 23, 42, 0.9);
+        border-radius: 16px;
+        border: 1px solid rgba(51, 65, 85, 0.8);
+        padding: 18px 20px 22px;
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.9),
+          0 0 0 1px rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(16px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        gap: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .card {
+        background: radial-gradient(circle at top left, #111827 0, #020617 70%);
+        border-radius: 14px;
+        border: 1px solid rgba(55, 65, 81, 0.7);
+        padding: 14px 16px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top right,
+          rgba(34, 197, 94, 0.15) 0,
+          transparent 55%
+        );
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .card-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .card h2 span.icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(34, 197, 94, 0.16);
+        color: var(--accent);
+        font-size: 11px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      select,
+      input[type="number"] {
+        width: 100%;
+        padding: 6px 9px;
+        margin-bottom: 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(75, 85, 99, 0.9);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-main);
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      }
+
+      select:focus,
+      input[type="number"]:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5);
+        background: #020617;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .btn-row {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      button {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform 0.14s ease, box-shadow 0.14s ease,
+          background 0.14s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #22c55e, #4ade80);
+        color: #022c22;
+        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.35);
+      }
+
+      .btn-secondary {
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-main);
+        border: 1px solid rgba(75, 85, 99, 0.9);
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.7);
+      }
+
+      button:active {
+        transform: translateY(0px) scale(0.98);
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.8);
+      }
+
+      /* Vùng chọn kiểu gen F1 cho F2 */
+      .f1-chooser {
+        margin-top: 8px;
+        display: none; /* sẽ bật lên sau khi tạo F₁ */
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .f1-chooser-label {
+        margin-right: 4px;
+      }
+
+      .geno-chip {
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text-main);
+        cursor: pointer;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .geno-chip-selected {
+        border-color: var(--accent);
+        background: rgba(34, 197, 94, 0.08);
+        color: var(--accent-soft);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--text-muted);
+        line-height: 1.45;
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px dashed rgba(75, 85, 99, 0.7);
+      }
+
+      .note strong {
+        color: var(--accent-soft);
+      }
+
+      .results-block {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .results {
+        font-family: Consolas, Menlo, monospace;
+        font-size: 13px;
+        background: rgba(15, 23, 42, 0.98);
+        border-radius: 10px;
+        padding: 8px 10px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        white-space: pre-line;
+        min-height: 70px;
+      }
+
+      .results .label {
+        color: var(--accent-soft);
+        font-weight: 600;
+      }
+
+      .error {
+        color: var(--danger);
+      }
+
+      .bar-chart {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .bar-item {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .bar-label-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+      }
+
+      .bar {
+        height: 9px;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(148, 163, 184, 0.35),
+          rgba(55, 65, 81, 0.4)
+        );
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #22c55e, #4ade80);
+        width: 0%;
+      }
+
+      .bar-fill-aa {
+        background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      }
+
+      .bar-fill-aa-recessive {
+        background: linear-gradient(90deg, #f97316, #fb923c);
+      }
+
+      #peaDisplayWrapper h2 {
+        margin-top: 16px;
+        font-size: 17px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #peaDisplayWrapper h2 span {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-muted);
+      }
+
+      .pea-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .pea-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .pea-legend-item span {
+        font-size: 12px;
+      }
+
+      #peaDisplay {
+        margin-top: 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(31, 41, 55, 0.95);
+        background: radial-gradient(
+          circle at top left,
+          #020617 0,
+          #020617 48%,
+          #020617 100%
+        );
+        padding: 10px;
+        max-height: 280px;
+        overflow-y: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .pea {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.18s ease, filter 0.18s ease;
+        cursor: default;
+      }
+
+      .pea:hover {
+        transform: translateY(-2px) scale(1.06);
+        filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.4));
+      }
+
+      #peaHint {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+        white-space: pre-line;
+      }
+
+      #punnettTableTitle {
+        margin-top: 18px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #punnettTable {
+        background: radial-gradient(circle at top, #020617 0, #020617 65%);
+        color: #e5e7eb;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        font-family: Consolas, monospace;
+        white-space: pre;
+        overflow-x: auto;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+
+      footer {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <h1>Mô phỏng lai Mendel – 1 cặp gen A/a</h1>
+        <p>
+          P: chọn kiểu gen bố mẹ → tạo F₁ → chọn 1 cá thể F₁ để tự thụ tạo F₂,
+          quan sát tỉ lệ kiểu gen & kiểu hình.
+        </p>
+        <div class="tagline">
+          <span class="tagline-dot"></span>
+          <span>Study Lab • Hạt đậu ảo, thống kê thật</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="grid">
+          <article class="card">
+            <div class="card-inner">
+              <h2><span class="icon">P</span> Thiết lập lai giống</h2>
+
+              <label for="parent1">Kiểu gen bố (P₁):</label>
+              <select id="parent1">
+                <option value="AA">AA (thuần trội)</option>
+                <option value="Aa" selected>Aa (dị hợp)</option>
+                <option value="aa">aa (thuần lặn)</option>
+              </select>
+
+              <label for="parent2">Kiểu gen mẹ (P₂):</label>
+              <select id="parent2">
+                <option value="AA">AA (thuần trội)</option>
+                <option value="Aa" selected>Aa (dị hợp)</option>
+                <option value="aa">aa (thuần lặn)</option>
+              </select>
+
+              <label for="offspringCount"
+                >Số lượng cá thể mô phỏng (F₁ / F₂):</label
+              >
+              <input
+                type="number"
+                id="offspringCount"
+                value="200"
+                min="1"
+                max="2000"
+              />
+
+              <div class="btn-row">
+                <button id="btnF1" class="btn-primary">
+                  <span>▶</span><span>Tạo F₁</span>
+                </button>
+                <button id="btnF2" class="btn-secondary">
+                  <span>⟳</span
+                  ><span>Tạo F₂ (tự thụ từ kiểu gen F₁ đã chọn)</span>
+                </button>
+              </div>
+
+              <!-- vùng chọn kiểu gen F₁ để tạo F₂, sẽ được fill khi tạo F₁ -->
+              <div id="f1GenotypeChooser" class="f1-chooser"></div>
+
+              <div class="note">
+                <strong>Gợi ý thí nghiệm:</strong><br />
+                • P: AA × aa → F₁ dự kiến: 100% Aa (kiểu hình trội).<br />
+                • Chọn kiểu gen F₁ là Aa → F₂ lý thuyết: 1 AA : 2 Aa : 1 aa
+                (gen), 3 trội : 1 lặn (hình).<br />
+                • Nếu F₁ có đủ 3 kiểu gen AA, Aa, aa, bạn có thể lần lượt chọn
+                từng kiểu để xem F₂ tương ứng.
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-inner">
+              <h2><span class="icon">Σ</span> Kết quả & thống kê</h2>
+              <div class="results-block">
+                <div class="results" id="genotypeResult">
+                  <span class="label">Kiểu gen:</span>
+                  <br />
+                  Chưa có dữ liệu. Hãy bấm “Tạo F₁”.
+                </div>
+                <div class="results" id="phenotypeResult">
+                  <span class="label">Kiểu hình:</span>
+                  <br />
+                  Chưa có dữ liệu. Hãy bấm “Tạo F₁”.
+                </div>
+              </div>
+
+              <div class="bar-chart" id="barChart">
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>AA</span><span id="barAAValue">0%</span>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-fill bar-fill-aa" id="barAA"></div>
+                  </div>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>Aa</span><span id="barAaValue">0%</span>
+                  </div>
+                  <div class="bar"><div class="bar-fill" id="barAa"></div></div>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>aa</span><span id="baraaValue">0%</span>
+                  </div>
+                  <div class="bar">
+                    <div
+                      class="bar-fill bar-fill-aa-recessive"
+                      id="baraa"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section id="peaDisplayWrapper">
+          <h2>
+            Hạt đậu mô phỏng
+            <span
+              >(mỗi biểu tượng ứng với 1 cá thể, tối đa 240 hạt hiển thị)</span
+            >
+          </h2>
+          <div class="pea-legend">
+            <!-- Trơn -->
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <defs>
+                  <radialGradient
+                    id="peaSmoothLegend"
+                    cx="30%"
+                    cy="30%"
+                    r="70%"
+                  >
+                    <stop offset="0%" stop-color="#fff8a8" />
+                    <stop offset="50%" stop-color="#f4d03f" />
+                    <stop offset="100%" stop-color="#cda433" />
+                  </radialGradient>
+                  <radialGradient
+                    id="highlightLegend"
+                    cx="25%"
+                    cy="25%"
+                    r="40%"
+                  >
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <ellipse
+                  cx="100"
+                  cy="110"
+                  rx="80"
+                  ry="60"
+                  fill="url(#peaSmoothLegend)"
+                />
+                <ellipse
+                  cx="70"
+                  cy="70"
+                  rx="40"
+                  ry="25"
+                  fill="url(#highlightLegend)"
+                />
+              </svg>
+              <span>Trơn (trội – A)</span>
+            </div>
+
+            <!-- Nhăn: méo & nhúm quanh -->
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <defs>
+                  <radialGradient
+                    id="peaWrinkledLegend"
+                    cx="42%"
+                    cy="32%"
+                    r="75%"
+                  >
+                    <stop offset="0%" stop-color="#e3ffe9" />
+                    <stop offset="45%" stop-color="#82e19d" />
+                    <stop offset="100%" stop-color="#2f8a4f" />
+                  </radialGradient>
+                  <linearGradient
+                    id="wrinkleShadeLegend"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stop-color="#ffffff66" />
+                    <stop offset="100%" stop-color="#00000066" />
+                  </linearGradient>
+                </defs>
+
+                <!-- viền ngoài méo, nhăn -->
+                <path
+                  d="
+              M34,112
+              C32,82 60,55 96,50
+              C125,46 160,60 170,90
+              C178,115 170,145 145,163
+              C120,180 87,178 63,166
+              C45,156 35,137 34,112 Z"
+                  fill="url(#peaWrinkledLegend)"
+                />
+
+                <!-- các nếp nhăn quanh thân -->
+                <path
+                  d="M42,104 C68,88 132,86 160,102"
+                  stroke="url(#wrinkleShadeLegend)"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+
+                <path
+                  d="M46,122 C76,108 124,108 155,122"
+                  stroke="url(#wrinkleShadeLegend)"
+                  stroke-width="6.5"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+
+                <path
+                  d="M48,139 C79,126 121,126 152,139"
+                  stroke="url(#wrinkleShadeLegend)"
+                  stroke-width="5.5"
+                  stroke-linecap="round"
+                  fill="none"
+                />
+
+                <!-- highlight không đều -->
+                <path
+                  d="M60,80
+                     C72,70 95,66 112,70
+                     C100,76 88,82 74,86 Z"
+                  fill="#ffffff"
+                  opacity="0.2"
+                />
+              </svg>
+              <span>Nhăn (lặn – a)</span>
+            </div>
+          </div>
+
+          <div id="peaDisplay"></div>
+          <div id="peaHint">
+            F₁: Hạt đậu chỉ dùng để quan sát kiểu hình (trơn/nhăn). Để tạo F₂,
+            hãy chọn kiểu gen F₁ ở khung bên cạnh nút “Tạo F₂”.
+          </div>
+        </section>
+
+        <section>
+          <div id="punnettTableTitle">
+            Bảng Punnett (lý thuyết cho lai hiện tại)
+          </div>
+          <div id="punnettTable">
+            Chưa có dữ liệu. Hãy bấm “Tạo F₁” để xem bảng Punnett tương ứng với
+            bố mẹ P.
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Virtual Mendel Lab • Mô phỏng giáo dục – có thể nhúng vào website hoặc
+        LMS.
+      </footer>
+    </div>
+
+    <script>
+      class Individual {
+        constructor(a1, a2) {
+          this.allele1 = a1;
+          this.allele2 = a2;
+        }
+
+        getGenotype() {
+          const a1 = this.allele1;
+          const a2 = this.allele2;
+          if (a1 === "A" && a2 === "A") return "AA";
+          if (a1 === "a" && a2 === "a") return "aa";
+          return "Aa";
+        }
+
+        isDominantPhenotype() {
+          return this.allele1 === "A" || this.allele2 === "A";
+        }
+      }
+
+      function individualFromGenotype(genotype) {
+        if (!genotype || genotype.length !== 2) {
+          return new Individual("A", "a");
+        }
+        return new Individual(genotype[0], genotype[1]);
+      }
+
+      function getUniqueGametes(parent) {
+        const set = new Set([parent.allele1, parent.allele2]);
+        return Array.from(set);
+      }
+
+      function createOffspring(parent1, parent2, numberOfOffspring) {
+        const gametes1 = [parent1.allele1, parent1.allele2];
+        const gametes2 = [parent2.allele1, parent2.allele2];
+        const offspring = [];
+
+        for (let i = 0; i < numberOfOffspring; i++) {
+          const g1 = gametes1[Math.floor(Math.random() * gametes1.length)];
+          const g2 = gametes2[Math.floor(Math.random() * gametes2.length)];
+          offspring.push(new Individual(g1, g2));
+        }
+
+        return offspring;
+      }
+
+      function countGenotypes(offspring) {
+        const stats = { countAA: 0, countAa: 0, countaa: 0, total: 0 };
+        offspring.forEach((child) => {
+          const g = child.getGenotype();
+          if (g === "AA") stats.countAA++;
+          else if (g === "Aa") stats.countAa++;
+          else if (g === "aa") stats.countaa++;
+        });
+        stats.total = stats.countAA + stats.countAa + stats.countaa;
+        return stats;
+      }
+
+      function countPhenotypes(stats) {
+        const dominant = stats.countAA + stats.countAa;
+        const recessive = stats.countaa;
+        return { dominant, recessive };
+      }
+
+      function getOffspringCountOrDefault(defaultValue = 200) {
+        const input = document.getElementById("offspringCount");
+        if (!input) return defaultValue;
+        const n = parseInt(input.value, 10);
+        if (!isNaN(n) && n > 0 && n <= 5000) return n;
+        return defaultValue;
+      }
+
+      // trạng thái toàn cục
+      let lastF1Offspring = [];
+      let selectedF1Genotype = null;
+
+      // Hạt trơn & nhăn (nhăn méo xung quanh)
+      function createPeaSVG(isSmooth) {
+        if (isSmooth) {
+          return `
+        <svg width="40" height="40" viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="peaSmooth" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#fff8a8"/>
+              <stop offset="50%" stop-color="#f4d03f"/>
+              <stop offset="100%" stop-color="#cda433"/>
+            </radialGradient>
+            <radialGradient id="highlight" cx="25%" cy="25%" r="40%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="110" rx="80" ry="60" fill="url(#peaSmooth)"/>
+          <ellipse cx="70" cy="70" rx="40" ry="25" fill="url(#highlight)"/>
+        </svg>
+      `;
+        } else {
+          return `
+        <svg width="40" height="40" viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="peaWrinkled" cx="42%" cy="32%" r="77%">
+              <stop offset="0%" stop-color="#e3ffe9"/>
+              <stop offset="45%" stop-color="#82e19d"/>
+              <stop offset="100%" stop-color="#2f8a4f"/>
+            </radialGradient>
+            <linearGradient id="wrinkleShade" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff66"/>
+              <stop offset="100%" stop-color="#00000077"/>
+            </linearGradient>
+          </defs>
+
+          <!-- viền ngoài méo, nhăn xung quanh -->
+          <path d="
+            M30,115
+            C30,80 60,50 100,48
+            C135,46 170,60 176,92
+            C182,120 170,150 145,170
+            C120,186 90,184 63,172
+            C45,164 32,142 30,115 Z"
+            fill="url(#peaWrinkled)"/>
+
+          <!-- các nếp nhăn cong -->
+          <path d="M40,104 C70,88 132,86 165,102"
+                stroke="url(#wrinkleShade)"
+                stroke-width="8"
+                stroke-linecap="round"
+                fill="none"/>
+          <path d="M44,123 C78,108 124,108 160,123"
+                stroke="url(#wrinkleShade)"
+                stroke-width="7"
+                stroke-linecap="round"
+                fill="none"/>
+          <path d="M46,141 C80,127 120,127 156,141"
+                stroke="url(#wrinkleShade)"
+                stroke-width="6"
+                stroke-linecap="round"
+                fill="none"/>
+
+          <!-- highlight méo -->
+          <path d="M62,80
+                   C78,70 98,66 118,70
+                   C104,78 90,84 73,88 Z"
+                fill="#ffffff" opacity="0.22"/>
+        </svg>
+      `;
+        }
+      }
+
+      function displayPeas(list) {
+        const div = document.getElementById("peaDisplay");
+        if (!div) return;
+
+        div.innerHTML = "";
+
+        if (!list || list.length === 0) {
+          div.textContent = "Chưa có cá thể nào được mô phỏng.";
+          return;
+        }
+
+        const maxToShow = Math.min(list.length, 240);
+
+        for (let i = 0; i < maxToShow; i++) {
+          const child = list[i];
+          const genotype = child.getGenotype();
+          const isSmooth = child.isDominantPhenotype();
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "pea";
+          wrapper.title = `Kiểu gen: ${genotype} – Kiểu hình: ${
+            isSmooth ? "trơn (trội – A-)" : "nhăn (lặn – aa)"
+          }`;
+          wrapper.innerHTML = createPeaSVG(isSmooth);
+          div.appendChild(wrapper);
+        }
+
+        if (list.length > maxToShow) {
+          const more = document.createElement("div");
+          more.textContent = `+ ${
+            list.length - maxToShow
+          } hạt nữa (ẩn bớt để tránh nặng giao diện).`;
+          more.style.fontSize = "11px";
+          more.style.color = "var(--text-muted)";
+          more.style.marginTop = "4px";
+          div.appendChild(more);
+        }
+      }
+
+      function updateBarChart(stats) {
+        const total = stats.total || 1;
+
+        const percentAA = ((stats.countAA * 100) / total).toFixed(1);
+        const percentAa = ((stats.countAa * 100) / total).toFixed(1);
+        const percentaa = ((stats.countaa * 100) / total).toFixed(1);
+
+        document.getElementById("barAAValue").textContent = `${percentAA}%`;
+        document.getElementById("barAaValue").textContent = `${percentAa}%`;
+        document.getElementById("baraaValue").textContent = `${percentaa}%`;
+
+        document.getElementById("barAA").style.width = `${percentAA}%`;
+        document.getElementById("barAa").style.width = `${percentAa}%`;
+        document.getElementById("baraa").style.width = `${percentaa}%`;
+      }
+
+      function showResults(generationLabel, p1, p2, stats, phenotypes) {
+        const genotypeDiv = document.getElementById("genotypeResult");
+        const phenotypeDiv = document.getElementById("phenotypeResult");
+
+        let total = stats.total;
+        if (total === 0) total = 1;
+
+        const percentAA = ((stats.countAA * 100) / total).toFixed(1);
+        const percentAa = ((stats.countAa * 100) / total).toFixed(1);
+        const percentaa = ((stats.countaa * 100) / total).toFixed(1);
+        const percentDom = ((phenotypes.dominant * 100) / total).toFixed(1);
+        const percentRec = ((phenotypes.recessive * 100) / total).toFixed(1);
+
+        genotypeDiv.textContent =
+          `${generationLabel}\n` +
+          `Bố: ${p1.getGenotype()}    Mẹ: ${p2.getGenotype()}\n\n` +
+          `Kiểu gen (số lượng – %):\n` +
+          `  AA: ${stats.countAA} (${percentAA}%)\n` +
+          `  Aa: ${stats.countAa} (${percentAa}%)\n` +
+          `  aa: ${stats.countaa} (${percentaa}%)`;
+
+        phenotypeDiv.textContent =
+          `${generationLabel} – Kiểu hình (A trội):\n` +
+          `  Trội (A-): ${phenotypes.dominant} (${percentDom}%)\n` +
+          `  Lặn (aa):  ${phenotypes.recessive} (${percentRec}%)`;
+
+        updateBarChart(stats);
+      }
+
+      function showPunnettTable(p1, p2) {
+        const tableDiv = document.getElementById("punnettTable");
+        if (!tableDiv) return;
+
+        const g1 = getUniqueGametes(p1);
+        const g2 = getUniqueGametes(p2);
+
+        let txt = "      Giao tử mẹ (P₂)\n\n";
+        txt += "        ";
+        g2.forEach((c2) => {
+          txt += `   ${c2}   `;
+        });
+        txt += "\n";
+        txt += "      ┌";
+        g2.forEach(() => {
+          txt += "──────";
+        });
+        txt += "┐\n";
+
+        g1.forEach((c1) => {
+          txt += `G.tử bố ${c1} │`;
+          g2.forEach((c2) => {
+            const child = new Individual(c1, c2);
+            const g = child.getGenotype().padEnd(5, " ");
+            txt += ` ${g}│`;
+          });
+          txt += "\n";
+        });
+
+        txt += "      └";
+        g2.forEach(() => {
+          txt += "──────";
+        });
+        txt += "┘\n";
+
+        tableDiv.textContent = txt;
+      }
+
+      // cập nhật UI chọn kiểu gen F₁ sau khi tạo F₁
+      function updateF1GenotypeChooser(stats) {
+        const container = document.getElementById("f1GenotypeChooser");
+        if (!container) return;
+
+        container.innerHTML = "";
+        selectedF1Genotype = null;
+
+        if (!stats.total) {
+          container.style.display = "none";
+          return;
+        }
+
+        container.style.display = "flex";
+
+        const label = document.createElement("div");
+        label.className = "f1-chooser-label";
+        label.textContent = "Chọn kiểu gen F₁ để tự thụ tạo F₂:";
+        container.appendChild(label);
+
+        const genotypes = [
+          { key: "AA", count: stats.countAA },
+          { key: "Aa", count: stats.countAa },
+          { key: "aa", count: stats.countaa },
+        ];
+
+        genotypes.forEach((item) => {
+          if (item.count > 0) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "geno-chip";
+            btn.dataset.genotype = item.key;
+            btn.textContent = `${item.key} (${item.count})`;
+
+            btn.addEventListener("click", () => {
+              // bỏ chọn tất cả
+              const all = container.querySelectorAll(".geno-chip");
+              all.forEach((el) => el.classList.remove("geno-chip-selected"));
+
+              // chọn nút hiện tại
+              btn.classList.add("geno-chip-selected");
+              selectedF1Genotype = item.key;
+            });
+
+            container.appendChild(btn);
+          }
+        });
+
+        // nếu vì lý do nào đó không có kiểu gen nào có count>0
+        if (!container.querySelector(".geno-chip")) {
+          container.style.display = "none";
+        }
+      }
+
+      function onSimulateF1() {
+        const parent1Value = document.getElementById("parent1").value;
+        const parent2Value = document.getElementById("parent2").value;
+
+        const p1 = individualFromGenotype(parent1Value);
+        const p2 = individualFromGenotype(parent2Value);
+        const numberOfOffspring = getOffspringCountOrDefault();
+
+        lastF1Offspring = createOffspring(p1, p2, numberOfOffspring);
+
+        const stats = countGenotypes(lastF1Offspring);
+        const phenotypes = countPhenotypes(stats);
+
+        showResults("F₁ (con của P)", p1, p2, stats, phenotypes);
+        showPunnettTable(p1, p2);
+        displayPeas(lastF1Offspring);
+        updateF1GenotypeChooser(stats);
+      }
+
+      function onSimulateF2() {
+        const phenotypeDiv = document.getElementById("phenotypeResult");
+
+        if (!lastF1Offspring || lastF1Offspring.length === 0) {
+          phenotypeDiv.innerHTML =
+            '<span class="error">Chưa có F₁! Hãy bấm “Tạo F₁” trước.</span>';
+          return;
+        }
+
+        if (!selectedF1Genotype) {
+          phenotypeDiv.innerHTML =
+            '<span class="error">Chưa chọn kiểu gen F₁! Hãy chọn 1 kiểu gen trong khung bên cạnh nút “Tạo F₂”.</span>';
+          return;
+        }
+
+        const p1 = individualFromGenotype(selectedF1Genotype);
+        const p2 = individualFromGenotype(selectedF1Genotype);
+
+        const numberOfOffspring = getOffspringCountOrDefault();
+        const f2Offspring = createOffspring(p1, p2, numberOfOffspring);
+
+        const stats = countGenotypes(f2Offspring);
+        const phenotypes = countPhenotypes(stats);
+
+        showResults(
+          `F₂ (tự thụ từ F₁ ${selectedF1Genotype})`,
+          p1,
+          p2,
+          stats,
+          phenotypes
+        );
+        showPunnettTable(p1, p2);
+        displayPeas(f2Offspring);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("btnF1")
+          .addEventListener("click", onSimulateF1);
+        document
+          .getElementById("btnF2")
+          .addEventListener("click", onSimulateF2);
+      });
+    </script>
+  </body>
+</html>

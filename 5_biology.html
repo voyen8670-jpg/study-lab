@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng tác động của thuốc kháng sinh</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #0f172a;
+        color: #e5e7eb;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ===== HEADER ===== */
+
+      .header-section {
+        max-width: 960px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 22px;
+        padding: 0 12px;
+      }
+
+      .main-title {
+        font-size: clamp(22px, 4vw, 32px);
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 8px;
+        word-break: break-word;
+      }
+
+      .main-description {
+        font-size: clamp(13px, 2.8vw, 15px);
+        color: #e2e8f0;
+        line-height: 1.55;
+        word-break: break-word;
+      }
+
+      /* ===== APP WRAPPER ===== */
+
+      .app {
+        background: #020617;
+        border-radius: 16px;
+        padding: 24px;
+        width: 960px;
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+      }
+
+      @media (max-width: 900px) {
+        body {
+          padding: 10px;
+        }
+        .app {
+          grid-template-columns: 1fr;
+          padding: 16px;
+          gap: 16px;
+        }
+        /* Đưa vùng mô phỏng (đĩa) LÊN TRƯỚC khối chữ trên mobile */
+        .visual {
+          order: -1;
+          margin-bottom: 10px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .app {
+          padding: 14px;
+        }
+        button {
+          font-size: 12px;
+          padding: 7px 8px;
+        }
+      }
+
+      .controls {
+        margin-top: 10px;
+        margin-bottom: 18px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: radial-gradient(
+            circle at top left,
+            rgba(59, 130, 246, 0.12),
+            transparent
+          ),
+          rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+      }
+
+      .control-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .label {
+        font-size: 13px;
+        color: #e5e7eb;
+        word-break: break-word;
+      }
+
+      .value-pill {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        min-width: 70px;
+        text-align: center;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        margin-top: 4px;
+        cursor: pointer;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      button {
+        flex: 1 1 calc(50% - 8px);
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        transition: 0.15s ease;
+        min-width: 0;
+        /* CHO PHÉP XUỐNG DÒNG */
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+      }
+
+      button:active:not(:disabled) {
+        transform: scale(0.97);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      #btnStart {
+        background: linear-gradient(135deg, #22c55e, #15803d);
+        color: white;
+        font-weight: 600;
+      }
+
+      #btnAddPill {
+        background: linear-gradient(135deg, #facc15, #eab308);
+        color: #1f2937;
+        font-weight: 600;
+      }
+
+      #btnAddPill.placing {
+        background: linear-gradient(135deg, #f97316, #facc15);
+      }
+
+      #btnRemovePill {
+        background: linear-gradient(135deg, #ef4444, #f97316);
+        color: #fff7ed;
+        font-weight: 600;
+      }
+
+      #btnRemovePill.removing {
+        background: linear-gradient(135deg, #dc2626, #f97316);
+      }
+
+      #btnReset {
+        background: rgba(15, 23, 42, 1);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: #e5e7eb;
+      }
+
+      /* ===== STATS ===== */
+
+      .stats {
+        padding: 14px;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        margin-top: 10px;
+      }
+
+      .stats-row {
+        margin-bottom: 10px;
+      }
+
+      .stats-label {
+        font-size: 11px;
+        color: #cbd5e1;
+        /* bỏ all-caps để chữ VN đỡ xấu, đỡ cảm giác mất chữ */
+        text-transform: none;
+        letter-spacing: 0.01em;
+        margin-bottom: 2px;
+        word-break: break-word;
+      }
+
+      .stats-value {
+        font-size: 13px;
+        word-break: break-word;
+      }
+
+      /* ===== EXPLAIN ===== */
+
+      .explain {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(30, 64, 175, 0.35),
+          rgba(15, 23, 42, 0.9)
+        );
+        border: 1px solid rgba(129, 140, 248, 0.35);
+        font-size: 13px;
+        line-height: 1.5;
+        word-break: break-word;
+      }
+
+      .explain-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #c7d2fe;
+        margin-bottom: 6px;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        word-break: break-word;
+      }
+
+      /* ===== HINT ===== */
+
+      .hint {
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px dashed rgba(148, 163, 184, 0.5);
+        font-size: 12px;
+        line-height: 1.5;
+        word-break: break-word;
+      }
+
+      .hint b {
+        color: #fde047;
+      }
+
+      /* ===== VISUAL AREA ===== */
+
+      .visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dish {
+        width: min(280px, 70vw);
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #1e293b, #020617);
+        border: 4px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 0 0 6px rgba(15, 23, 42, 1),
+          0 22px 40px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bacteria-layer {
+        position: absolute;
+        inset: 16px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .bacterium {
+        position: absolute;
+        width: 12px;
+        height: 4px;
+        border-radius: 999px;
+        transform-origin: center;
+        transition: opacity 0.2s;
+      }
+
+      .bacterium.sensitive {
+        background: #bbf7d0;
+        box-shadow: 0 0 4px rgba(74, 222, 128, 0.7);
+      }
+
+      .bacterium.resistant {
+        background: #fecaca;
+        box-shadow: 0 0 4px rgba(248, 113, 113, 0.7);
+      }
+
+      .antibiotic-pill {
+        width: 34px;
+        height: 14px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        background: linear-gradient(90deg, #facc15, #fbbf24);
+        border: 2px solid #92400e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+      }
+
+      .antibiotic-pill::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(0, 0, 0, 0.35);
+      }
+
+      .conc-indicator {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 11px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      @media (max-width: 640px) {
+        .app {
+          padding: 14px;
+        }
+        button {
+          font-size: 12px;
+          padding: 7px 8px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== HEADER ===== -->
+    <div class="header-section">
+      <h1 class="main-title">Mô phỏng tác động của thuốc kháng sinh</h1>
+      <p class="main-description">
+        Nhấn <b>“Bắt đầu ủ”</b> để mô phỏng bắt đầu chạy theo thời gian. Sau đó
+        thay đổi nồng độ và vị trí kháng sinh để quan sát sự thay đổi mật độ vi
+        khuẩn trên đĩa thạch.
+      </p>
+    </div>
+
+    <!-- ===== APP ===== -->
+    <div class="app">
+      <!-- LEFT PANEL -->
+      <div>
+        <div class="controls">
+          <div class="control-row">
+            <div class="label">Nồng độ kháng sinh</div>
+            <div id="txtConc" class="value-pill">0%</div>
+          </div>
+
+          <input type="range" id="sliderConc" min="0" max="100" value="0" />
+
+          <div class="buttons">
+            <button id="btnStart">Bắt đầu ủ</button>
+            <button id="btnAddPill">Thêm kháng sinh</button>
+            <button id="btnRemovePill">Bỏ thuốc kháng sinh</button>
+            <button id="btnReset">Đặt lại</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stats-row">
+            <div class="stats-label">Mật độ vi khuẩn (tương đối)</div>
+            <div id="txtPopulation" class="stats-value">100</div>
+          </div>
+          <div class="stats-row">
+            <div class="stats-label">Tốc độ sinh trưởng (xanh & đỏ)</div>
+            <div id="txtGrowthRate" class="stats-value"></div>
+          </div>
+          <div class="stats-row">
+            <div class="stats-label">Đáp ứng với thuốc</div>
+            <div id="txtDeathRate" class="stats-value"></div>
+          </div>
+        </div>
+
+        <div class="explain">
+          <div class="explain-title">Giải thích kết quả</div>
+          <div id="txtExplain">
+            Bạn vừa mở mô phỏng. Trên đĩa có vi khuẩn nhạy thuốc (xanh) và một
+            tỷ lệ nhỏ vi khuẩn kháng thuốc (đỏ). Hiện chưa ủ, nên chỉ thấy phân
+            bố ban đầu của quần thể. Nhấn “Bắt đầu ủ” để quan sát chúng thay đổi
+            theo thời gian.
+          </div>
+        </div>
+
+        <div class="hint">
+          • <b>Mô hình vi khuẩn</b>: Trên đĩa có cả vi khuẩn nhạy thuốc (màu
+          xanh) và một số ít vi khuẩn có khả năng kháng thuốc (màu đỏ). Chúng
+          sinh trưởng giống vi khuẩn xanh, nhưng chịu được kháng sinh tốt
+          hơn.<br />
+          • <b>Bắt đầu ủ</b>: nhấn nút “Bắt đầu ủ” để mô phỏng bắt đầu cập nhật
+          liên tục (sau đó nút sẽ được khóa).<br />
+          • <b>Thêm kháng sinh</b>: bật chế độ đặt, sau đó click lên đĩa để thêm
+          viên thuốc (tối đa 10 viên).<br />
+          • <b>Bỏ thuốc kháng sinh</b>: bật chế độ xóa, rồi click đúng viên
+          thuốc muốn bỏ.<br />
+          • Nồng độ &gt; 65%: vi khuẩn nhạy thuốc (xanh) gần viên thuốc sẽ mờ
+          dần rồi biến mất; vi khuẩn kháng thuốc (đỏ) vẫn còn nhiều tế bào sống
+          sót.
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="visual">
+        <div class="dish">
+          <div id="bacteriaLayer" class="bacteria-layer"></div>
+          <div id="concIndicator" class="conc-indicator">Conc: 0%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SIMULATION SCRIPT ===== -->
+    <script>
+      const initialPopulation = 100;
+      const INITIAL_BACTERIA = 120;
+      const MAX_BACTERIA = 600; // tăng để có nhiều vi khuẩn hơn
+
+      const RESISTANT_RATIO = 0.1;
+
+      const growthRateSensitive = 0.45;
+      const growthRateResistant = 0.45;
+      const deathRateSensitive = 0.45;
+      const deathRateResistant = deathRateSensitive * 0.15;
+
+      const lowConcThreshold = 0.4;
+      const exposureSigma = 50;
+
+      let conc = 0;
+      let running = false;
+      let lastTime = null;
+      let populationApproximation = initialPopulation;
+
+      const sliderConc = document.getElementById("sliderConc");
+      const txtConc = document.getElementById("txtConc");
+      const txtPopulation = document.getElementById("txtPopulation");
+      const txtGrowthRate = document.getElementById("txtGrowthRate");
+      const txtDeathRate = document.getElementById("txtDeathRate");
+      const btnStart = document.getElementById("btnStart");
+      const btnReset = document.getElementById("btnReset");
+      const btnAddPill = document.getElementById("btnAddPill");
+      const btnRemovePill = document.getElementById("btnRemovePill");
+      const concIndicator = document.getElementById("concIndicator");
+      const bacteriaLayer = document.getElementById("bacteriaLayer");
+      const txtExplain = document.getElementById("txtExplain");
+
+      txtGrowthRate.textContent = `${growthRateSensitive.toFixed(
+        2
+      )} /s (khi chưa có kháng sinh, vi khuẩn xanh và đỏ sinh trưởng gần giống nhau)`;
+      txtDeathRate.textContent =
+        "Vi khuẩn nhạy thuốc (xanh) chết nhanh hơn khi có kháng sinh; vi khuẩn kháng thuốc (đỏ) có tỷ lệ chết thấp hơn, khó bị diệt hoàn toàn.";
+
+      let bacteria = [];
+      let pills = [];
+      const maxPills = 10;
+      let placingPill = false;
+      let removingPill = false;
+      let hadPillsEver = false;
+
+      function updateExplanation(action) {
+        const concPercent = Math.round(conc * 100);
+        const hasPills = pills.length > 0;
+
+        if (action === "reset") {
+          txtExplain.textContent =
+            "Mô phỏng vừa được đặt lại. Trên đĩa có cả vi khuẩn nhạy thuốc (xanh) và một tỷ lệ nhỏ vi khuẩn kháng thuốc (đỏ). Hiện chưa ủ. Nhấn “Bắt đầu ủ” để mô phỏng bắt đầu cập nhật theo thời gian.";
+          return;
+        }
+
+        if (action === "startIncubation") {
+          if (!hasPills) {
+            txtExplain.textContent =
+              "Bạn vừa bắt đầu ủ trong điều kiện KHÔNG có kháng sinh. Vi khuẩn xanh và đỏ đều nhân lên với tốc độ tương tự, làm mật độ quần thể tăng dần trong suốt quá trình ủ.";
+          } else if (concPercent >= 65) {
+            txtExplain.textContent =
+              "Bạn bắt đầu ủ khi đã có kháng sinh và nồng độ cao (" +
+              concPercent +
+              "%). Gần các viên thuốc, vi khuẩn nhạy thuốc (xanh) bị ức chế mạnh và bị diệt dần, chỉ còn nhiều tế bào đỏ kháng thuốc sống sót.";
+          } else {
+            txtExplain.textContent =
+              "Bạn bắt đầu ủ khi đã có kháng sinh với nồng độ trung bình (" +
+              concPercent +
+              "%). Vi khuẩn xanh gần viên thuốc bị ức chế, nhưng không bị quét sạch hoàn toàn; vi khuẩn đỏ chịu thuốc tốt hơn nên có nhiều tế bào vẫn sống.";
+          }
+          return;
+        }
+
+        if (action === "changeConc") {
+          if (!hasPills && concPercent === 0) {
+            txtExplain.textContent =
+              "Chưa có kháng sinh trên đĩa và nồng độ đang là 0%. Khi ủ, vi khuẩn xanh và đỏ sinh trưởng bình thường, không chịu tác động của thuốc.";
+          } else if (!hasPills && concPercent > 0) {
+            txtExplain.textContent =
+              "Bạn tăng nồng độ kháng sinh, nhưng hiện CHƯA đặt viên thuốc nào trên đĩa, nên vi khuẩn vẫn chưa tiếp xúc trực tiếp với thuốc. Khi thêm viên thuốc, vùng quanh viên đó sẽ bị ảnh hưởng.";
+          } else if (hasPills && concPercent < 40) {
+            txtExplain.textContent =
+              "Bạn điều chỉnh nồng độ kháng sinh ở mức thấp (" +
+              concPercent +
+              "%) trong khi đã có viên thuốc trên đĩa. Khi ủ, thuốc chỉ ức chế nhẹ vùng rất gần viên thuốc, phần lớn vi khuẩn vẫn sống được.";
+          } else if (hasPills && concPercent < 65) {
+            txtExplain.textContent =
+              "Nồng độ kháng sinh ở mức trung bình (" +
+              concPercent +
+              "%). Trong quá trình ủ, vi khuẩn nhạy thuốc (xanh) gần viên thuốc giảm mật độ rõ rệt; vi khuẩn kháng thuốc (đỏ) vẫn còn khá nhiều tế bào sống sót.";
+          } else {
+            txtExplain.textContent =
+              "Nồng độ kháng sinh đang cao (" +
+              concPercent +
+              "%). Trong lúc ủ, vùng xung quanh viên thuốc trở thành vùng ức chế mạnh: vi khuẩn xanh bị diệt gần hết, chủ yếu còn các tế bào đỏ kháng thuốc tồn tại.";
+          }
+          return;
+        }
+
+        if (action === "addPill") {
+          if (concPercent === 0) {
+            txtExplain.textContent =
+              "Bạn vừa đặt thêm viên kháng sinh nhưng nồng độ tổng đang là 0%. Khi tăng nồng độ và ủ, vùng quanh viên thuốc sẽ bắt đầu ức chế vi khuẩn, đặc biệt là vi khuẩn nhạy thuốc (xanh).";
+          } else if (concPercent < 40) {
+            txtExplain.textContent =
+              "Bạn vừa đặt thêm viên kháng sinh ở nồng độ thấp (" +
+              concPercent +
+              "%). Trong quá trình ủ, gần viên thuốc mới, vi khuẩn xanh bắt đầu bị chậm sinh trưởng nhưng vẫn còn nhiều tế bào sống; vi khuẩn đỏ gần như không bị ảnh hưởng nhiều.";
+          } else if (concPercent < 65) {
+            txtExplain.textContent =
+              "Bạn vừa đặt thêm viên kháng sinh ở nồng độ trung bình. Khi ủ, vùng quanh viên thuốc mới sẽ có mật độ vi khuẩn xanh giảm dần, trong khi vi khuẩn đỏ vẫn duy trì được quần thể.";
+          } else {
+            txtExplain.textContent =
+              "Bạn vừa đặt thêm viên kháng sinh khi nồng độ đang cao. Trong lúc ủ, vùng quanh viên thuốc mới sẽ nhanh chóng mất gần hết vi khuẩn nhạy thuốc, chủ yếu còn các tế bào kháng thuốc (đỏ) sống sót.";
+          }
+          return;
+        }
+
+        if (action === "removePill") {
+          if (pills.length === 0 && hadPillsEver) {
+            txtExplain.textContent =
+              "Bạn đã bỏ hết các viên kháng sinh khỏi đĩa trong khi mô phỏng vẫn đang ủ. Những vùng từng có thuốc đã mất phần lớn vi khuẩn nhạy thuốc (xanh); chỉ một số tế bào kháng thuốc (đỏ) sống sót và sẽ từ từ sinh trưởng trở lại theo thời gian.";
+          } else if (pills.length > 0) {
+            txtExplain.textContent =
+              "Bạn vừa bỏ bớt một viên kháng sinh. Trong quá trình ủ, các vùng vẫn còn viên thuốc sẽ tiếp tục chịu tác động của kháng sinh; những vùng đã bỏ thuốc sẽ dần cho phép vi khuẩn — đặc biệt là vi khuẩn kháng thuốc — phục hồi.";
+          } else {
+            txtExplain.textContent =
+              "Hiện không còn viên kháng sinh nào trên đĩa. Nếu bạn vẫn đang ủ, cả vi khuẩn xanh và đỏ sẽ dần sinh trưởng lại; tuy nhiên những tế bào kháng thuốc từng sống sót vẫn chiếm lợi thế ở vùng đã chịu thuốc.";
+          }
+          return;
+        }
+
+        if (!hadPillsEver) {
+          txtExplain.textContent =
+            "Chưa đặt kháng sinh: vi khuẩn nhạy thuốc (xanh) và một vài vi khuẩn kháng thuốc (đỏ) mọc đều trên thạch. Khi ủ, cả hai nhóm sinh trưởng với tốc độ tương tự nhau nếu không có thuốc.";
+        } else if (pills.length > 0) {
+          txtExplain.textContent =
+            "Đang có kháng sinh trên đĩa: vùng gần viên thuốc, vi khuẩn nhạy thuốc (xanh) bị ức chế mạnh hoặc chết, đặc biệt khi nồng độ cao. Vi khuẩn kháng thuốc (đỏ) chịu thuốc tốt hơn nên có nhiều tế bào vẫn sống sót và tiếp tục sinh trưởng khi ủ.";
+        } else {
+          txtExplain.textContent =
+            "Đã từng đặt kháng sinh rồi lấy ra: vùng quanh vị trí viên thuốc đã mất đi phần lớn vi khuẩn nhạy thuốc. Một số vi khuẩn kháng thuốc (đỏ) sống sót và từ từ sinh trưởng trở lại trong quá trình ủ, nhưng để quần thể phục hồi như ban đầu cần nhiều thời gian hơn.";
+        }
+      }
+
+      function spawnBacterium(x, y, type = "sensitive") {
+        const el = document.createElement("div");
+        el.className =
+          "bacterium " + (type === "resistant" ? "resistant" : "sensitive");
+        el.style.left = x + "px";
+        el.style.top = y + "px";
+        const angle = Math.random() * 180;
+        const baseTransform = `translate(-50%, -50%) rotate(${angle}deg)`;
+        el.style.transform = baseTransform;
+        el.style.opacity = 0.9;
+        bacteriaLayer.appendChild(el);
+
+        return { el, x, y, life: 1, baseTransform, type };
+      }
+
+      function createBacteria() {
+        bacteriaLayer.innerHTML = "";
+        bacteria = [];
+        pills = [];
+        placingPill = false;
+        removingPill = false;
+        hadPillsEver = false;
+
+        btnAddPill.textContent = "Thêm kháng sinh";
+        btnAddPill.classList.remove("placing");
+        btnRemovePill.textContent = "Bỏ thuốc kháng sinh";
+        btnRemovePill.classList.remove("removing");
+
+        const rect = bacteriaLayer.getBoundingClientRect();
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const R = rect.width / 2;
+
+        for (let i = 0; i < INITIAL_BACTERIA; i++) {
+          const r = Math.sqrt(Math.random()) * R;
+          const theta = Math.random() * 2 * Math.PI;
+          const x = cx + r * Math.cos(theta);
+          const y = cy + r * Math.sin(theta);
+          const type =
+            Math.random() < RESISTANT_RATIO ? "resistant" : "sensitive";
+          const b = spawnBacterium(x, y, type);
+          bacteria.push(b);
+        }
+
+        updateExplanation("reset");
+      }
+
+      function updateUI(popValue) {
+        const concPercent = Math.round(conc * 100);
+        txtConc.textContent = concPercent + "%";
+        concIndicator.textContent = "Conc: " + concPercent + "%";
+        txtPopulation.textContent = Math.round(popValue);
+      }
+
+      function resetSimulation() {
+        conc = 0;
+        sliderConc.value = 0;
+        running = false;
+        lastTime = null;
+        btnStart.disabled = false;
+        btnStart.textContent = "Bắt đầu ủ";
+        createBacteria();
+        populationApproximation = initialPopulation;
+        updateUI(populationApproximation);
+        updateExplanation("reset");
+      }
+
+      btnAddPill.addEventListener("click", () => {
+        if (pills.length >= maxPills) {
+          alert("Đã đạt tối đa 10 viên kháng sinh.");
+          placingPill = false;
+          btnAddPill.textContent = "Thêm kháng sinh";
+          btnAddPill.classList.remove("placing");
+          return;
+        }
+        removingPill = false;
+        btnRemovePill.textContent = "Bỏ thuốc kháng sinh";
+        btnRemovePill.classList.remove("removing");
+
+        placingPill = !placingPill;
+        if (placingPill) {
+          btnAddPill.textContent = "Đang đặt thuốc (click lên đĩa)";
+          btnAddPill.classList.add("placing");
+        } else {
+          btnAddPill.textContent = "Thêm kháng sinh";
+          btnAddPill.classList.remove("placing");
+        }
+      });
+
+      btnRemovePill.addEventListener("click", () => {
+        if (pills.length === 0) {
+          alert("Chưa có viên thuốc nào để bỏ.");
+          return;
+        }
+        placingPill = false;
+        btnAddPill.textContent = "Thêm kháng sinh";
+        btnAddPill.classList.remove("placing");
+
+        removingPill = !removingPill;
+        if (removingPill) {
+          btnRemovePill.textContent = "Đang chọn viên để bỏ";
+          btnRemovePill.classList.add("removing");
+        } else {
+          btnRemovePill.textContent = "Bỏ thuốc kháng sinh";
+          btnRemovePill.classList.remove("removing");
+        }
+      });
+
+      bacteriaLayer.addEventListener("click", (e) => {
+        const target = e.target;
+
+        if (removingPill && target.classList.contains("antibiotic-pill")) {
+          target.remove();
+          pills = pills.filter((p) => p.el !== target);
+          if (pills.length === 0) {
+            removingPill = false;
+            btnRemovePill.textContent = "Bỏ thuốc kháng sinh";
+            btnRemovePill.classList.remove("removing");
+          }
+          updateExplanation("removePill");
+          return;
+        }
+
+        if (!placingPill) return;
+        if (pills.length >= maxPills) {
+          alert("Đã đạt tối đa 10 viên kháng sinh.");
+          placingPill = false;
+          btnAddPill.textContent = "Thêm kháng sinh";
+          btnAddPill.classList.remove("placing");
+          return;
+        }
+
+        const rect = bacteriaLayer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const dx = x - cx;
+        const dy = y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > rect.width / 2) return;
+
+        const pillEl = document.createElement("div");
+        pillEl.className = "antibiotic-pill";
+        pillEl.style.left = x + "px";
+        pillEl.style.top = y + "px";
+
+        bacteriaLayer.appendChild(pillEl);
+        pills.push({ el: pillEl, x, y });
+        hadPillsEver = true;
+        updateExplanation("addPill");
+
+        if (pills.length >= maxPills) {
+          alert("Đã đạt tối đa 10 viên kháng sinh.");
+          placingPill = false;
+          btnAddPill.textContent = "Thêm kháng sinh";
+          btnAddPill.classList.remove("placing");
+        }
+      });
+
+      btnStart.addEventListener("click", () => {
+        if (running) return;
+        running = true;
+        btnStart.disabled = true;
+        btnStart.textContent = "Đang ủ...";
+        updateExplanation("startIncubation");
+      });
+
+      sliderConc.addEventListener("input", () => {
+        conc = sliderConc.value / 100;
+        updateUI(populationApproximation);
+        updateExplanation("changeConc");
+      });
+
+      btnReset.addEventListener("click", resetSimulation);
+
+      function step(timestamp) {
+        if (lastTime == null) lastTime = timestamp;
+        const dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
+        let totalLife = 0;
+
+        if (running) {
+          const hasPills = pills.length > 0;
+          const rect = bacteriaLayer.getBoundingClientRect();
+          const pillCenters = pills.map((p) => ({ x: p.x, y: p.y }));
+          const newBacteria = [];
+
+          for (let i = bacteria.length - 1; i >= 0; i--) {
+            const b = bacteria[i];
+            const isResistant = b.type === "resistant";
+
+            let exposure = 0;
+            if (hasPills) {
+              let minDist = Infinity;
+              pillCenters.forEach((pc) => {
+                const dx = b.x - pc.x;
+                const dy = b.y - pc.y;
+                const d = Math.sqrt(dx * dx + dy * dy);
+                if (d < minDist) minDist = d;
+              });
+              exposure = Math.exp(
+                -(minDist * minDist) / (2 * exposureSigma * exposureSigma)
+              );
+            }
+
+            let death = 0;
+            let growth = 0;
+
+            const gBase = isResistant
+              ? growthRateResistant
+              : growthRateSensitive;
+            const dBase = isResistant ? deathRateResistant : deathRateSensitive;
+
+            if (hasPills) {
+              death = dBase * conc * exposure;
+              if (conc < lowConcThreshold) {
+                const concFactor = 1 - conc / lowConcThreshold;
+                const safeFactor = 1 - exposure;
+                growth = gBase * concFactor * safeFactor;
+              }
+            } else {
+              // không có thuốc: sinh trưởng ổn định
+              growth = gBase * 0.8;
+            }
+
+            b.life += (growth - death) * dt;
+
+            if (!isResistant && hasPills && conc > 0.65 && b.life <= 0.05) {
+              b.el.remove();
+              bacteria.splice(i, 1);
+              continue;
+            }
+
+            if (isResistant && b.life < 0.1) b.life = 0.1;
+
+            if (b.life < 0) b.life = 0;
+            if (b.life > 2.0) b.life = 2.0;
+
+            // Sinh thêm vi khuẩn: dễ hơn, nhiều hơn
+            if (
+              !hasPills &&
+              conc < 0.3 &&
+              b.life > 1.1 &&
+              bacteria.length + newBacteria.length < MAX_BACTERIA
+            ) {
+              const jitterR = 10;
+              let nx = b.x + (Math.random() * 2 - 1) * jitterR;
+              let ny = b.y + (Math.random() * 2 - 1) * jitterR;
+
+              const cx = rect.width / 2;
+              const cy = rect.height / 2;
+              const dx = nx - cx;
+              const dy = ny - cy;
+              const d = Math.sqrt(dx * dx + dy * dy);
+              if (d > rect.width / 2 - 5) {
+                const ratio = (rect.width / 2 - 5) / d;
+                nx = cx + dx * ratio;
+                ny = cy + dy * ratio;
+              }
+
+              const child = spawnBacterium(nx, ny, b.type);
+              b.life = 1.0;
+              child.life = 1.0;
+              newBacteria.push(child);
+            }
+
+            // CHỈ ĐIỀU CHỈNH ĐỘ MỜ, KHÔNG PHÓNG TO
+            const op = 0.3 + Math.min(Math.max(b.life, 0), 1.5) * 0.4;
+            b.el.style.opacity = op;
+
+            totalLife += b.life;
+          }
+
+          if (newBacteria.length > 0) {
+            bacteria = bacteria.concat(newBacteria);
+          }
+        } else {
+          bacteria.forEach((b) => (totalLife += b.life));
+        }
+
+        // 🔢 MẬT ĐỘ = SỐ VI KHUẨN THỰC TẾ
+        const populationApprox = bacteria.length;
+        populationApproximation = populationApprox || initialPopulation;
+        updateUI(populationApproximation);
+
+        requestAnimationFrame(step);
+      }
+
+      resetSimulation();
+      requestAnimationFrame(step);
+    </script>
+  </body>
+</html>
