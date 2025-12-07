@@ -82,7 +82,8 @@
         .app {
           padding: 14px;
         }
-        button {
+        /* chỉ giảm size nút điều khiển mô phỏng, không ảnh hưởng chatbox */
+        .controls .buttons button {
           font-size: 12px;
           padding: 7px 8px;
         }
@@ -133,14 +134,15 @@
         cursor: pointer;
       }
 
-      .buttons {
+      /* NHÓM NÚT ĐIỀU KHIỂN MÔ PHỎNG – giới hạn trong .controls */
+      .controls .buttons {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
         margin-top: 12px;
       }
 
-      button {
+      .controls .buttons button {
         flex: 1 1 calc(50% - 8px);
         padding: 8px 10px;
         border-radius: 999px;
@@ -155,11 +157,11 @@
         text-align: center;
       }
 
-      button:active:not(:disabled) {
+      .controls .buttons button:active:not(:disabled) {
         transform: scale(0.97);
       }
 
-      button:disabled {
+      .controls .buttons button:disabled {
         opacity: 0.6;
         cursor: default;
       }
@@ -348,16 +350,6 @@
         background: rgba(15, 23, 42, 0.85);
         border: 1px solid rgba(148, 163, 184, 0.5);
       }
-
-      @media (max-width: 640px) {
-        .app {
-          padding: 14px;
-        }
-        button {
-          font-size: 12px;
-          padding: 7px 8px;
-        }
-      }
     </style>
   </head>
 
@@ -447,12 +439,16 @@
     <script>
       const initialPopulation = 100;
       const INITIAL_BACTERIA = 120;
-      const MAX_BACTERIA = 600; // tăng để có nhiều vi khuẩn hơn
+
+      // CHO PHÉP NHIỀU VI KHUẨN HƠN
+      const MAX_BACTERIA = 1200;
+
+      // TĂNG TỐC ĐỘ SINH TRƯỞNG CƠ BẢN
+      const growthRateSensitive = 0.8;
+      const growthRateResistant = 0.8;
 
       const RESISTANT_RATIO = 0.1;
 
-      const growthRateSensitive = 0.45;
-      const growthRateResistant = 0.45;
       const deathRateSensitive = 0.45;
       const deathRateResistant = deathRateSensitive * 0.15;
 
@@ -813,8 +809,8 @@
                 growth = gBase * concFactor * safeFactor;
               }
             } else {
-              // không có thuốc: sinh trưởng ổn định
-              growth = gBase * 0.8;
+              // KHÔNG CÓ THUỐC: CHO SINH TRƯỞNG MẠNH HƠN
+              growth = gBase * 1.4;
             }
 
             b.life += (growth - death) * dt;
@@ -833,11 +829,11 @@
             // Sinh thêm vi khuẩn: dễ hơn, nhiều hơn
             if (
               !hasPills &&
-              conc < 0.3 &&
-              b.life > 1.1 &&
+              conc < 0.5 && // vẫn sinh tốt khi nồng độ < 50%
+              b.life > 1.05 && // dễ đạt ngưỡng nhân đôi hơn
               bacteria.length + newBacteria.length < MAX_BACTERIA
             ) {
-              const jitterR = 10;
+              const jitterR = 14; // sinh con lệch xa hơn một chút
               let nx = b.x + (Math.random() * 2 - 1) * jitterR;
               let ny = b.y + (Math.random() * 2 - 1) * jitterR;
 
@@ -883,5 +879,7 @@
       resetSimulation();
       requestAnimationFrame(step);
     </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
   </body>
 </html>

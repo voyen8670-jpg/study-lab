@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "làm sao",
+        "bước làm",
+        "cách dùng",
+        "hướng dẫn",
+        "quan sát",
+        "F1",
+        "F2",
+        "bấm nút",
+        "chọn kiểu gen",
+        "làm thí nghiệm",
+        "thực hiện",
+        "giải thích"
+      ],
+      "guide": [
+        "Bước 1: Ở phần P, chọn kiểu gen cho bố (P₁) và mẹ (P₂). Ví dụ: AA × aa hoặc Aa × Aa. Có thể thay đổi số cá thể mô phỏng để kết quả mượt hơn (200–500 cá thể).",
+        "Bước 2: Nhấn nút “Tạo F₁”. Màn hình sẽ hiển thị:\n• Số lượng và tỉ lệ % các kiểu gen F₁: AA, Aa, aa.\n• Tỉ lệ kiểu hình: trội (A-) và lặn (aa).\n• Một dải hạt đậu mô phỏng: hạt trơn (màu vàng, A-) và hạt nhăn (màu xanh, aa).",
+        "Bước 3: Quan sát bảng Punnett bên dưới để xem lý thuyết phân li giao tử và tất cả các tổ hợp lai có thể xảy ra từ P₁ × P₂. So sánh tỉ lệ lý thuyết với tỉ lệ thực nghiệm F₁.",
+        "Bước 4: Sau khi F₁ đã được tạo, khung bên cạnh nút “Tạo F₂” sẽ xuất hiện các kiểu gen F₁ thực tế (AA, Aa, aa) kèm số lượng. Nhấn chọn một kiểu gen (ví dụ Aa) để làm bố/mẹ cho F₂.",
+        "Bước 5: Nhấn nút “Tạo F₂ (tự thụ từ kiểu gen F₁ đã chọn)”. Chương trình sẽ lấy chính kiểu gen bạn vừa chọn làm cả hai bố mẹ (lai tự thụ), tạo ra F₂, thống kê lại kiểu gen – kiểu hình và vẽ lại dải hạt đậu tương ứng.",
+        "Bước 6: Thay đổi lại kiểu gen P₁, P₂ hoặc số cá thể, rồi lặp lại các bước trên để so sánh các kiểu lai khác nhau, ví dụ: AA × Aa, Aa × aa, hoặc Aa × Aa."
+      ],
+      "explain": [
+        "Ý nghĩa mô phỏng: giúp người học thấy rõ cách các alen A (trội) và a (lặn) tổ hợp lại qua lai P → F₁ → F₂, từ đó rút ra quy luật phân li và phân li độc lập của Mendel, cũng như hiểu mối liên hệ giữa kiểu gen (AA, Aa, aa) và kiểu hình (trơn/nhăn).",
+        "Khi P: AA × aa, tất cả giao tử của bố mang A, của mẹ mang a, nên F₁ nhận luôn tổ hợp Aa. Vì vậy, F₁ có 100% kiểu gen Aa và 100% kiểu hình trội (trơn). Đây là ví dụ kinh điển về phép lai một cặp tính trạng thuần chủng cho F₁ đồng tính.",
+        "Khi chọn kiểu gen F₁ là Aa để tự thụ (Aa × Aa), bảng Punnett cho thấy có 4 tổ hợp giao tử với xác suất bằng nhau: AA, Aa, Aa, aa. Từ đó, tỉ lệ kiểu gen F₂ lý thuyết là 1 AA : 2 Aa : 1 aa và tỉ lệ kiểu hình là 3 trội (A-) : 1 lặn (aa).",
+        "Các hạt đậu trơn/nhăn chỉ biểu diễn kiểu hình. Nhiều kiểu gen khác nhau (AA và Aa) đều cho cùng kiểu hình trơn, vì alen A trội hoàn toàn che lấp alen a. Nhờ mô phỏng, người học có thể thấy rằng phía sau một kiểu hình trội có thể ẩn nhiều kiểu gen khác nhau.",
+        "Khi số cá thể mô phỏng càng lớn (ví dụ 500–1000), tỉ lệ % quan sát được càng tiến gần tỉ lệ lý thuyết. Đây là minh họa trực quan cho quy luật số lớn trong thống kê sinh học: càng nhiều cá thể, kết quả thực nghiệm càng ổn định và ít dao động quanh giá trị lý thuyết."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "sai",
+        "không thấy",
+        "không ra F1",
+        "không ra F2",
+        "không hiện hạt",
+        "không hiện bảng",
+        "reset",
+        "đặt lại",
+        "bị lệch",
+        "tỉ lệ k lạ",
+        "tỉ lệ k lạ quá"
+      ],
+      "guide": [
+        "Nếu bấm “Tạo F₁” mà không thấy thay đổi, hãy kiểm tra lại: (1) đã chọn kiểu gen P₁, P₂ chưa; (2) ô số lượng cá thể có giá trị dương (ví dụ 200) và không vượt quá giới hạn cho phép.",
+        "Nếu F₁ đã có nhưng bấm “Tạo F₂” nhận thông báo lỗi, có thể bạn chưa chọn kiểu gen F₁ trong khung kế bên nút “Tạo F₂”. Hãy nhấp vào một chip kiểu gen (AA, Aa hoặc aa) rồi thử lại.",
+        "Khi không thấy hạt đậu hiển thị, hãy kiểm tra: (1) số cá thể mô phỏng có bằng 0 không; (2) cửa sổ trình duyệt có bị thu nhỏ khiến vùng hiển thị bị ẩn bớt không. Thử phóng to trình duyệt hoặc cuộn xuống dưới.",
+        "Nếu tỉ lệ % thực tế hơi lệch so với lý thuyết (ví dụ 48% : 52% thay vì 50% : 50%), đó không phải lỗi mà là do mô phỏng mang tính ngẫu nhiên. Hãy tăng số cá thể mô phỏng để tỉ lệ gần lý thuyết hơn.",
+        "Khi muốn làm lại từ đầu với P khác, chỉ cần đổi kiểu gen P₁, P₂ hoặc số cá thể rồi bấm “Tạo F₁” lần nữa. Không cần reload lại trang."
+      ],
+      "explain": [
+        "Lỗi nhận thức thường gặp: nghĩ rằng mỗi lần mô phỏng đều phải cho ra đúng tỉ lệ 1:2:1 hoặc 3:1 tuyệt đối. Thực tế, vì quá trình phát sinh giao tử và thụ tinh là ngẫu nhiên, nên với số mẫu hữu hạn, tỉ lệ quan sát được sẽ dao động quanh giá trị lý thuyết.",
+        "Nhiều học sinh nhầm lẫn giữa kiểu gen và kiểu hình: nhìn thấy rất nhiều hạt đậu trơn rồi kết luận 'tất cả là AA'. Mô phỏng giúp nhấn mạnh rằng kiểu hình trơn có thể đi kèm hai kiểu gen khác nhau (AA hoặc Aa); chỉ những hạt nhăn mới chắc chắn là aa.",
+        "Một số em cũng cho rằng F₂ luôn phải có đủ ba kiểu gen, nhưng nếu chọn P hoặc chọn kiểu gen F₁ đặc biệt (ví dụ AA tự thụ), F₂ sẽ chỉ có AA mà không có Aa hay aa. Mô phỏng cho phép thử nhiều trường hợp để nhận ra điều này."
+      ]
+    }
+  ]
+}

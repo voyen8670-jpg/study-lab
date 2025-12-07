@@ -1,0 +1,107 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "hướng dẫn",
+        "cách dùng",
+        "cách sử dụng",
+        "giải thích",
+        "giai thich",
+        "mô phỏng kháng sinh",
+        "thuốc kháng sinh",
+        "đĩa thạch",
+        "bắt đầu ủ",
+        "start",
+        "nồng độ kháng sinh",
+        "conc",
+        "thêm kháng sinh",
+        "đặt thuốc",
+        "bỏ thuốc",
+        "bỏ kháng sinh",
+        "vi khuẩn xanh",
+        "vi khuẩn đỏ"
+      ],
+      "guide": [
+        "Bước 1: Nhấn 'Đặt lại' để đưa mô phỏng về trạng thái ban đầu. Lúc này trên đĩa có vi khuẩn nhạy thuốc (màu xanh) và một tỷ lệ nhỏ vi khuẩn kháng thuốc (màu đỏ), nhưng mô phỏng CHƯA chạy theo thời gian.",
+        "Bước 2: Nhấn 'Bắt đầu ủ' để mô phỏng bắt đầu cập nhật liên tục. Nếu chưa có viên kháng sinh nào trên đĩa, cả vi khuẩn xanh và đỏ sẽ sinh trưởng bình thường theo thời gian.",
+        "Bước 3: Dùng thanh trượt 'Nồng độ kháng sinh' để đặt nồng độ tổng (0–100%). Nồng độ này chỉ có tác dụng khi trên đĩa có ít nhất một viên thuốc; nếu chưa đặt viên nào thì vi khuẩn vẫn chưa 'gặp' thuốc.",
+        "Bước 4: Nhấn 'Thêm kháng sinh' để bật chế độ đặt thuốc, sau đó click chuột vào trong đĩa thạch để thả từng viên kháng sinh (tối đa 10 viên). Mỗi viên là một nguồn khuếch tán thuốc, ảnh hưởng mạnh nhất ở vùng xung quanh nó.",
+        "Bước 5: Nhấn 'Bỏ thuốc kháng sinh' để bật chế độ xóa, rồi click trực tiếp lên viên thuốc muốn bỏ. Khi bỏ hết, trên đĩa không còn nguồn kháng sinh, nhưng các dấu vết về quần thể đã bị tiêu diệt trước đó vẫn được giữ lại.",
+        "Bước 6: Khi mô phỏng đang chạy, hãy quan sát: (1) vùng gần viên thuốc, (2) sự khác biệt giữa vi khuẩn nhạy thuốc (xanh) và kháng thuốc (đỏ), (3) sự thay đổi của số liệu 'Mật độ vi khuẩn' theo thời gian khi bạn thay đổi nồng độ và số viên thuốc."
+      ],
+      "explain": [
+        "Mục đích mô phỏng: giúp người học quan sát sự khác biệt trong đáp ứng với kháng sinh giữa vi khuẩn nhạy thuốc và vi khuẩn kháng thuốc trên một đĩa thạch. Khi có thuốc với nồng độ đủ cao, vi khuẩn nhạy thuốc sẽ bị ức chế hoặc bị diệt, trong khi nhóm kháng thuốc có khả năng sống sót tốt hơn.",
+        "Thanh 'Nồng độ kháng sinh' điều chỉnh cường độ tác động của thuốc lên vi khuẩn. Ở nồng độ thấp, thuốc chỉ ức chế nhẹ vùng rất gần viên thuốc, nên phần lớn vi khuẩn vẫn phát triển. Ở nồng độ trung bình và cao, vùng quanh viên thuốc trở thành vùng ức chế mạnh, nơi mật độ vi khuẩn nhạy thuốc (xanh) giảm rõ rệt.",
+        "Vi khuẩn nhạy thuốc và vi khuẩn kháng thuốc có tốc độ sinh trưởng ban đầu tương tự nhau. Tuy nhiên, khi gặp kháng sinh, vi khuẩn nhạy thuốc có tỷ lệ chết cao hơn nhiều so với vi khuẩn kháng thuốc. Kết quả là sau một thời gian ủ, tỉ lệ vi khuẩn kháng thuốc trong quần thể có xu hướng tăng lên ở những vùng chịu tác động thuốc mạnh.",
+        "Mô phỏng thể hiện rõ nguyên tắc chọn lọc: kháng sinh không 'tạo ra' vi khuẩn kháng thuốc, mà tiêu diệt ưu tiên các tế bào nhạy thuốc. Những tế bào kháng thuốc vốn đã tồn tại ít ỏi trong quần thể sẽ có cơ hội sống sót và sinh trưởng, khiến chúng trở nên chiếm ưu thế tương đối về sau.",
+        "Khi bạn bỏ thuốc (xóa các viên) nhưng tiếp tục ủ, vi khuẩn kháng thuốc từng sống sót vẫn có thể phát triển trở lại và đóng vai trò quan trọng trong việc phục hồi quần thể. Điều này gợi ý về nguy cơ lạm dụng kháng sinh: càng dùng nhiều và không hợp lý, càng dễ chọn lọc ra các dòng vi khuẩn kháng thuốc khó điều trị."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "không thấy",
+        "không có vi khuẩn",
+        "biến mất hết",
+        "không thấy thuốc",
+        "không hiện viên thuốc",
+        "không chạy",
+        "không ủ",
+        "đứng yên",
+        "reset",
+        "đặt lại",
+        "nồng độ 0",
+        "conc 0",
+        "conc 100"
+      ],
+      "guide": [
+        "Nếu bạn không thấy mô phỏng thay đổi theo thời gian (vi khuẩn đứng yên, mật độ không đổi), hãy kiểm tra đã nhấn 'Bắt đầu ủ' chưa. Chỉ sau khi bắt đầu ủ, mô phỏng mới cập nhật liên tục.",
+        "Nếu số liệu vẫn thay đổi nhưng không thấy viên kháng sinh nào trên đĩa dù đã nhấn 'Thêm kháng sinh', hãy đảm bảo bạn đã click CHUỘT trực tiếp lên vùng tròn của đĩa thạch sau khi bật chế độ đặt thuốc. Nhấn lại 'Thêm kháng sinh' để bật chế độ, rồi click vào đĩa.",
+        "Nếu bạn tăng nồng độ (Conc > 0%) nhưng không thấy vùng ức chế quanh viên thuốc, hãy kiểm tra xem đã đặt viên thuốc chưa. Nồng độ kháng sinh không có tác dụng nếu trên đĩa chưa có viên nào.",
+        "Khi bạn thấy vi khuẩn xanh gần viên thuốc mờ dần rồi biến mất còn vi khuẩn đỏ vẫn còn, đó không phải lỗi mà là kết quả dự kiến: vi khuẩn nhạy thuốc bị diệt mạnh hơn, vi khuẩn kháng thuốc sống tốt hơn trong vùng có thuốc.",
+        "Nếu toàn bộ đĩa trông rất ít vi khuẩn sau một thời gian ủ ở nồng độ rất cao, hãy thử nhấn 'Đặt lại' để quay về ban đầu rồi chạy lại mô phỏng với nồng độ thấp hoặc trung bình để dễ quan sát hơn sự khác biệt giữa vùng có và không có thuốc.",
+        "Khi bạn đã đặt đủ 10 viên kháng sinh, nút 'Thêm kháng sinh' sẽ báo tối đa. Muốn thêm vị trí mới, bạn cần dùng 'Bỏ thuốc kháng sinh' để xóa bớt một vài viên trước."
+      ],
+      "explain": [
+        "Lỗi nhận thức thường gặp 1: nghĩ rằng kháng sinh 'không tác dụng' vì tăng nồng độ nhưng chưa đặt viên thuốc trên đĩa. Trong mô phỏng, kháng sinh được giả định khuếch tán từ các viên thuốc; nếu không có viên nào, vi khuẩn không hề tiếp xúc với thuốc.",
+        "Lỗi nhận thức thường gặp 2: tưởng mô phỏng bị sai khi vi khuẩn xanh biến mất mà vi khuẩn đỏ vẫn còn. Thực tế, đây chính là hiện tượng chọn lọc: thuốc làm chết chủ yếu vi khuẩn nhạy, còn các tế bào kháng thuốc sống sót và trở nên chiếm ưu thế tương đối trong quần thể.",
+        "Lỗi nhận thức thường gặp 3: nhầm lẫn giữa 'nồng độ thuốc' và 'số viên thuốc'. Việc tăng nồng độ làm mỗi viên thuốc mạnh hơn (vùng ức chế rộng và sâu hơn), còn việc thêm nhiều viên làm tăng số vùng có thuốc trên đĩa. Hai yếu tố này khác nhau nhưng đều làm tăng cường độ chọn lọc theo những cách khác nhau.",
+        "Việc không thấy vi khuẩn hồi phục ngay sau khi bỏ thuốc là bình thường: trong mô hình, khi một vùng đã mất phần lớn vi khuẩn nhạy thuốc, quần thể cần thời gian để sinh trưởng trở lại, chủ yếu từ các tế bào kháng thuốc còn sót lại.",
+        "Nhấn 'Đặt lại' không chỉ đưa các tham số về ban đầu mà còn khởi tạo lại quần thể vi khuẩn với một tỷ lệ nhỏ vi khuẩn kháng thuốc. Điều này giúp người học làm lại thí nghiệm với bộ điều kiện mới và so sánh các lần thử khác nhau."
+      ]
+    },
+    {
+      "patterns": [
+        "khái niệm",
+        "ý nghĩa",
+        "kết luận",
+        "kháng sinh",
+        "kháng thuốc",
+        "kháng kháng sinh",
+        "lạm dụng kháng sinh",
+        "áp lực chọn lọc",
+        "chọn lọc",
+        "vi khuẩn kháng thuốc",
+        "evolution",
+        "tiến hóa",
+        "ứng dụng",
+        "bài học"
+      ],
+      "guide": [
+        "Sau khi cho học sinh thử nhiều kịch bản (không có thuốc, thuốc nồng độ thấp, nồng độ cao, nhiều viên, ít viên…), yêu cầu các em so sánh: ở mỗi kịch bản, vùng nào trên đĩa còn nhiều vi khuẩn xanh, vùng nào chủ yếu là vi khuẩn đỏ, và sự thay đổi đó phụ thuộc vào thuốc như thế nào.",
+        "Hãy gợi ý học sinh suy nghĩ theo câu hỏi 'Nếu… thì…?': Nếu tăng nồng độ thuốc nhưng vẫn dùng số viên cũ? Nếu thêm nhiều viên nhưng giữ nồng độ thấp? Từ đó, các em có thể liên hệ đến tình huống thực tế như dùng kháng sinh liều cao, dùng kéo dài, hoặc dùng không đủ liều.",
+        "Cho học sinh liên hệ mô phỏng với đời sống: tại sao bác sĩ dặn phải uống đủ liều và đủ ngày? Điều gì có thể xảy ra nếu dừng thuốc sớm khi bệnh mới đỡ? Đây là lúc nhấn mạnh tác động của việc tạo điều kiện cho vi khuẩn kháng thuốc tồn tại và lan rộng.",
+        "Khuyến khích học sinh rút ra 2–3 nguyên tắc sử dụng kháng sinh an toàn dựa trên những gì quan sát được trong mô phỏng, chẳng hạn: không tự ý dùng kháng sinh, không bỏ dở liệu trình, không lạm dụng kháng sinh trong trường hợp không cần thiết (như bệnh do virus).",
+        "Cuối cùng, yêu cầu các em viết đoạn kết luận ngắn về mối liên hệ giữa kháng sinh và tiến hóa của vi khuẩn: kháng sinh không chỉ là công cụ điều trị mà còn là một yếu tố môi trường mạnh mẽ tạo áp lực chọn lọc, thúc đẩy sự xuất hiện và lan rộng của các dòng vi khuẩn kháng thuốc."
+      ],
+      "explain": [
+        "Mô phỏng minh họa rõ ràng khái niệm 'áp lực chọn lọc' của kháng sinh: trong quần thể ban đầu, vi khuẩn kháng thuốc xuất hiện với tần suất rất thấp. Khi thêm kháng sinh, các tế bào nhạy thuốc bị loại bỏ ưu tiên, còn các tế bào kháng thuốc có lợi thế sống sót và sinh trưởng, dẫn tới quần thể ngày càng giàu các dòng kháng thuốc.",
+        "Kháng sinh không tự tạo ra vi khuẩn kháng thuốc; chúng chỉ chọn lọc trong số các biến dị sẵn có. Tuy nhiên, việc dùng kháng sinh với tần suất cao, liều lượng không hợp lý hoặc trong thời gian dài có thể làm áp lực chọn lọc trở nên mạnh và liên tục, khiến các dòng kháng thuốc nhanh chóng trở nên phổ biến.",
+        "Mô phỏng cũng cho thấy rằng việc dừng thuốc hoặc bỏ thuốc không ngay lập tức làm quần thể 'trở lại bình thường'. Vùng đã chịu tác động mạnh của thuốc thường bị giảm mạnh vi khuẩn nhạy thuốc; khi thuốc giảm, chính các dòng kháng thuốc còn sống sót là nguồn gốc của quần thể mới, khiến tình hình điều trị sau này trở nên khó khăn hơn.",
+        "Từ góc độ sức khỏe cộng đồng, kháng thuốc không chỉ là vấn đề của một bệnh nhân mà là vấn đề của cả cộng đồng: vi khuẩn kháng thuốc có thể lây lan giữa người với người, khiến những thuốc vốn rất hiệu quả trở nên kém tác dụng, buộc chúng ta phải dùng đến các thuốc mạnh hơn, đắt hơn và nhiều tác dụng phụ hơn.",
+        "Ý nghĩa giáo dục: mô phỏng này giúp học sinh hiểu sâu hơn về cơ chế hình thành và lan rộng của vi khuẩn kháng kháng sinh, qua đó nhận thức được tầm quan trọng của việc sử dụng kháng sinh đúng chỉ định, đủ liều và đủ thời gian, cũng như vai trò của mỗi cá nhân trong việc hạn chế nguy cơ kháng thuốc."
+      ]
+    }
+  ]
+}
