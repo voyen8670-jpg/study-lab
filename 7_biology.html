@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mô phỏng lai Mendel – 2 gen (AaBb)</title>
+    <style>
+      :root {
+        --bg: #050816;
+        --card-bg: #0f172a;
+        --accent: #22c55e;
+        --accent-soft: #bbf7d0;
+        --border-subtle: #1e293b;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --danger: #f97373;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+        color: var(--text-main);
+        padding: 24px;
+      }
+
+      .shell {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #f9fafb;
+      }
+      header p {
+        margin-top: 8px;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .tagline {
+        margin-top: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(34, 197, 94, 0.08);
+        color: var(--accent-soft);
+        font-size: 12px;
+      }
+      .tagline-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 10px var(--accent);
+      }
+
+      main {
+        background: rgba(15, 23, 42, 0.9);
+        border-radius: 16px;
+        border: 1px solid rgba(51, 65, 85, 0.8);
+        padding: 18px 20px 22px;
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.9),
+          0 0 0 1px rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(16px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        gap: 18px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .card {
+        background: radial-gradient(circle at top left, #111827 0, #020617 70%);
+        border-radius: 14px;
+        border: 1px solid rgba(55, 65, 81, 0.7);
+        padding: 14px 16px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top right,
+          rgba(34, 197, 94, 0.15) 0,
+          transparent 55%
+        );
+        opacity: 0.7;
+        pointer-events: none;
+      }
+      .card-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card h2 span.icon {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(34, 197, 94, 0.16);
+        color: var(--accent);
+        font-size: 11px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      select,
+      input[type="number"] {
+        width: 100%;
+        padding: 6px 9px;
+        margin-bottom: 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(75, 85, 99, 0.9);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-main);
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      }
+      select:focus,
+      input[type="number"]:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.5);
+        background: #020617;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .btn-row {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      button {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: transform 0.14s ease, box-shadow 0.14s ease,
+          background 0.14s ease;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #22c55e, #4ade80);
+        color: #022c22;
+        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.35);
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.7);
+      }
+      button:active {
+        transform: translateY(0px) scale(0.98);
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.8);
+      }
+
+      .note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--text-muted);
+        line-height: 1.45;
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px dashed rgba(75, 85, 99, 0.7);
+      }
+      .note strong {
+        color: var(--accent-soft);
+      }
+
+      .results-block {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+      }
+      .results {
+        font-family: Consolas, Menlo, monospace;
+        font-size: 13px;
+        background: rgba(15, 23, 42, 0.98);
+        border-radius: 10px;
+        padding: 8px 10px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        white-space: pre-line;
+        min-height: 70px;
+      }
+      .results .label {
+        color: var(--accent-soft);
+        font-weight: 600;
+      }
+      .error {
+        color: var(--danger);
+      }
+
+      /* Bar chart: giữ giao diện, không dùng cụ thể cho dihybrid */
+      .bar-chart {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+      .bar-item {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .bar-label-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+      }
+      .bar {
+        height: 9px;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          rgba(148, 163, 184, 0.35),
+          rgba(55, 65, 81, 0.4)
+        );
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #22c55e, #4ade80);
+        width: 0%;
+      }
+      .bar-fill-aa {
+        background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      }
+      .bar-fill-aa-recessive {
+        background: linear-gradient(90deg, #f97316, #fb923c);
+      }
+
+      #peaDisplayWrapper h2 {
+        margin-top: 16px;
+        font-size: 17px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #peaDisplayWrapper h2 span {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-muted);
+      }
+
+      .pea-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+      .pea-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      #peaDisplay {
+        margin-top: 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(31, 41, 55, 0.95);
+        background: radial-gradient(
+          circle at top left,
+          #020617 0,
+          #020617 100%
+        );
+        padding: 10px;
+        max-height: 280px;
+        overflow-y: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .pea {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.18s ease, filter 0.18s ease;
+        cursor: default;
+      }
+      .pea:hover {
+        transform: translateY(-2px) scale(1.06);
+        filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.4));
+      }
+      #peaHint {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      #punnettTableTitle {
+        margin-top: 18px;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #punnettTable {
+        background: radial-gradient(circle at top, #020617 0, #020617 65%);
+        color: #e5e7eb;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        font-family: Consolas, monospace;
+        white-space: pre;
+        overflow-x: auto;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+
+      footer {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <h1>Mô phỏng lai Mendel – 2 cặp gen</h1>
+        <p>
+          Lai P → mô phỏng F₁ với 2 cặp gen (ví dụ AaBb × AaBb) → tạo F2 và
+          thống kê kiểu gen, kiểu hình.
+        </p>
+        <div class="tagline">
+          <span class="tagline-dot"></span>
+          <span>Study Lab • AaBb • thống kê F₁ & F₂</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="grid">
+          <!-- Thiết lập P -->
+          <article class="card">
+            <div class="card-inner">
+              <h2><span class="icon">P</span> Thiết lập lai giống</h2>
+
+              <label for="parent1">Kiểu gen bố (P₁):</label>
+              <select id="parent1">
+                <option value="AABB">AABB</option>
+                <option value="AaBB">AaBB</option>
+                <option value="AABb">AABb</option>
+                <option value="AaBb" selected>AaBb</option>
+                <option value="aaBB">aaBB</option>
+                <option value="aaBb">aaBb</option>
+                <option value="Aabb">Aabb</option>
+                <option value="aabb">aabb</option>
+              </select>
+
+              <label for="parent2">Kiểu gen mẹ (P₂):</label>
+              <select id="parent2">
+                <option value="AABB">AABB</option>
+                <option value="AaBB">AaBB</option>
+                <option value="AABb">AABb</option>
+                <option value="AaBb" selected>AaBb</option>
+                <option value="aaBB">aaBB</option>
+                <option value="aaBb">aaBb</option>
+                <option value="Aabb">Aabb</option>
+                <option value="aabb">aabb</option>
+              </select>
+
+              <label for="offspringCount">Số lượng cá thể F₁ mô phỏng:</label>
+              <input
+                type="number"
+                id="offspringCount"
+                value="400"
+                min="1"
+                max="5000"
+              />
+
+              <div class="btn-row">
+                <button id="btnF1" class="btn-primary">
+                  <span>▶</span><span>Tạo F₁</span>
+                </button>
+              </div>
+
+              <div class="note">
+                <strong>Gợi ý:</strong><br />
+                • A trội so với a (tính trạng 1), B trội so với b (tính trạng
+                2).<br />
+                • Lai cổ điển: AaBb × AaBb → tỉ lệ kiểu hình lý thuyết 9 : 3 : 3
+                : 1.<br />
+                • Tăng số cá thể để kết quả thực nghiệm gần với lý thuyết.
+              </div>
+            </div>
+          </article>
+
+          <!-- Kết quả F1 -->
+          <article class="card">
+            <div class="card-inner">
+              <h2><span class="icon">Σ</span> Kết quả & thống kê F₁</h2>
+              <div class="results-block">
+                <div class="results" id="genotypeResult">
+                  <span class="label">Kiểu gen:</span>
+                  <br />
+                  Chưa có dữ liệu. Hãy bấm “Tạo F₁”.
+                </div>
+                <div class="results" id="phenotypeResult">
+                  <span class="label">Kiểu hình:</span>
+                  <br />
+                  Chưa có dữ liệu. Hãy bấm “Tạo F₁”.
+                </div>
+              </div>
+
+              <!-- Bar chart: giữ cho đẹp -->
+              <div class="bar-chart" id="barChart">
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>Nhóm 1</span><span id="barAAValue">0%</span>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-fill bar-fill-aa"></div>
+                  </div>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>Nhóm 2</span><span id="barAaValue">0%</span>
+                  </div>
+                  <div class="bar"><div class="bar-fill"></div></div>
+                </div>
+                <div class="bar-item">
+                  <div class="bar-label-row">
+                    <span>Nhóm 3</span><span id="baraaValue">0%</span>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-fill bar-fill-aa-recessive"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- F2 section -->
+        <section class="card" style="margin-top: 18px">
+          <div class="card-inner">
+            <h2><span class="icon">F₂</span> Tạo đời F₂ từ F₁</h2>
+
+            <label for="f1Parent1">Chọn bố (F₁):</label>
+            <select id="f1Parent1"></select>
+
+            <label for="f1Parent2">Chọn mẹ (F₁):</label>
+            <select id="f1Parent2"></select>
+
+            <label for="f2Count">Số cá thể F₂ mô phỏng:</label>
+            <input type="number" id="f2Count" value="400" min="1" max="5000" />
+
+            <div class="btn-row">
+              <button id="btnF2" class="btn-primary">
+                <span>▶</span><span>Tạo F₂</span>
+              </button>
+            </div>
+
+            <div id="f2Results" class="results" style="margin-top: 12px">
+              Chưa có dữ liệu F₂. Hãy tạo F₁ rồi chọn bố mẹ F₁ ở trên.
+            </div>
+          </div>
+        </section>
+
+        <!-- Hạt đậu -->
+        <section id="peaDisplayWrapper">
+          <h2>
+            Hạt đậu mô phỏng
+            <span>(mỗi biểu tượng = 1 cá thể, tối đa 240 hạt hiển thị)</span>
+          </h2>
+          <div class="pea-legend">
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="110" rx="80" ry="60" fill="#facc15" />
+              </svg>
+              <span>A- B- (trội cả 2)</span>
+            </div>
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="110" rx="80" ry="60" fill="#f97316" />
+              </svg>
+              <span>A- bb (trội A, lặn B)</span>
+            </div>
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="110" rx="80" ry="60" fill="#22c55e" />
+              </svg>
+              <span>aa B- (lặn A, trội B)</span>
+            </div>
+            <div class="pea-legend-item">
+              <svg width="22" height="22" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="110" rx="80" ry="60" fill="#0ea5e9" />
+              </svg>
+              <span>aa bb (lặn cả 2)</span>
+            </div>
+          </div>
+
+          <div id="peaDisplay"></div>
+          <div id="peaHint">
+            Di chuột lên hạt đậu để xem kiểu gen & kiểu hình chi tiết.
+          </div>
+        </section>
+
+        <!-- Punnett -->
+        <section>
+          <div id="punnettTableTitle">
+            Bảng Punnett giao tử (AB, Ab, aB, ab)
+          </div>
+          <div id="punnettTable">
+            Chưa có dữ liệu. Hãy bấm “Tạo F₁” để xem bảng Punnett tương ứng P₁,
+            P₂.
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        Virtual Mendel Lab • Dihybrid (AaBb) – F₁ & F₂ simulation.
+      </footer>
+    </div>
+
+    <script>
+      // ----------------- XỬ LÝ GEN 2 LÔCUS A/a & B/b --------------------
+      function parseGenotype(gt) {
+        if (gt.length !== 4) {
+          return { A1: "A", A2: "a", B1: "B", B2: "b" };
+        }
+        return {
+          A1: gt[0],
+          A2: gt[1],
+          B1: gt[2],
+          B2: gt[3],
+        };
+      }
+
+      function normalizePair(a1, a2, upper, lower) {
+        if (a1 === upper && a2 === upper) return upper + upper;
+        if (a1 === lower && a2 === lower) return lower + lower;
+        return upper + lower; // dị hợp, trội đứng trước
+      }
+
+      function makeGenotype(A1, A2, B1, B2) {
+        const A = normalizePair(A1, A2, "A", "a");
+        const B = normalizePair(B1, B2, "B", "b");
+        return A + B;
+      }
+
+      // giao tử: mỗi gamete mang 1 alen cho A và 1 cho B
+      function makeGametes(parent) {
+        const As = [parent.A1, parent.A2];
+        const Bs = [parent.B1, parent.B2];
+        const gametes = [];
+        for (let i = 0; i < As.length; i++) {
+          for (let j = 0; j < Bs.length; j++) {
+            const g = As[i] + Bs[j]; // ví dụ "Ab"
+            if (!gametes.includes(g)) gametes.push(g);
+          }
+        }
+        return gametes;
+      }
+
+      function randomGamete(gametes) {
+        return gametes[Math.floor(Math.random() * gametes.length)];
+      }
+
+      function makeOffspring(p1, p2, n) {
+        const g1 = makeGametes(p1);
+        const g2 = makeGametes(p2);
+        const children = [];
+        for (let i = 0; i < n; i++) {
+          const gam1 = randomGamete(g1);
+          const gam2 = randomGamete(g2);
+          const A1 = gam1[0],
+            A2 = gam2[0];
+          const B1 = gam1[1],
+            B2 = gam2[1];
+          const gt = makeGenotype(A1, A2, B1, B2);
+          children.push(gt);
+        }
+        return children;
+      }
+
+      function countGenotypes(children) {
+        const counts = {};
+        children.forEach((gt) => {
+          counts[gt] = (counts[gt] || 0) + 1;
+        });
+        return counts;
+      }
+
+      function phenotypeFromGenotype(gt) {
+        const A = gt.slice(0, 2);
+        const B = gt.slice(2);
+        const hasA = A !== "aa";
+        const hasB = B !== "bb";
+        if (hasA && hasB) return "A- B- (trội cả 2 tính trạng)";
+        if (hasA && !hasB) return "A- bb (trội A, lặn B)";
+        if (!hasA && hasB) return "aa B- (lặn A, trội B)";
+        return "aa bb (lặn cả 2 tính trạng)";
+      }
+
+      function countPhenotypes(children) {
+        const counts = {
+          "A- B- (trội cả 2 tính trạng)": 0,
+          "A- bb (trội A, lặn B)": 0,
+          "aa B- (lặn A, trội B)": 0,
+          "aa bb (lặn cả 2 tính trạng)": 0,
+        };
+        children.forEach((gt) => {
+          counts[phenotypeFromGenotype(gt)]++;
+        });
+        return counts;
+      }
+
+      function getOffspringCount() {
+        const input = document.getElementById("offspringCount");
+        const n = parseInt(input.value, 10);
+        if (!isNaN(n) && n > 0 && n <= 5000) return n;
+        return 400;
+      }
+
+      // lưu F1 cho F2 dùng
+      let F1_children = [];
+
+      // ----------------- VẼ HẠT ĐẬU & PUNNETT ---------------------------
+      function peaSVG(gt) {
+        const A = gt.slice(0, 2);
+        const B = gt.slice(2);
+        const hasA = A !== "aa";
+        const hasB = B !== "bb";
+
+        let fillColor = "#cccccc";
+        if (hasA && hasB) fillColor = "#facc15"; // A- B-
+        else if (hasA && !hasB) fillColor = "#f97316"; // A- bb
+        else if (!hasA && hasB) fillColor = "#22c55e"; // aa B-
+        else fillColor = "#0ea5e9"; // aa bb
+
+        return `
+      <svg width="40" height="40" viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="grad${gt}" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="40%" stop-color="${fillColor}"/>
+            <stop offset="100%" stop-color="#3f3f46"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="100" cy="110" rx="80" ry="60" fill="url(#grad${gt})"/>
+      </svg>
+    `;
+      }
+
+      function drawPeas(children) {
+        const box = document.getElementById("peaDisplay");
+        box.innerHTML = "";
+        const maxShow = Math.min(children.length, 240);
+        for (let i = 0; i < maxShow; i++) {
+          const gt = children[i];
+          const div = document.createElement("div");
+          div.className = "pea";
+          div.title = `Kiểu gen: ${gt}\nKiểu hình: ${phenotypeFromGenotype(
+            gt
+          )}`;
+          div.innerHTML = peaSVG(gt);
+          box.appendChild(div);
+        }
+        if (children.length > maxShow) {
+          const more = document.createElement("div");
+          more.style.fontSize = "11px";
+          more.style.color = "#9ca3af";
+          more.style.marginTop = "4px";
+          more.textContent = `+ ${
+            children.length - maxShow
+          } cá thể nữa (ẩn bớt để giao diện nhẹ).`;
+          box.appendChild(more);
+        }
+      }
+
+      function showPunnettTable(p1, p2) {
+        const div = document.getElementById("punnettTable");
+
+        const g1 = makeGametes(p1); // giao tử P1 / bố
+        const g2 = makeGametes(p2); // giao tử P2 / mẹ
+
+        const order = ["AB", "Ab", "aB", "ab"];
+        const sortG = (gs) =>
+          gs.slice().sort((x, y) => order.indexOf(x) - order.indexOf(y));
+        const rowG = sortG(g1);
+        const colG = sortG(g2);
+
+        let txt = "          Giao tử mẹ (P₂)\n\n";
+        txt += "            ";
+        colG.forEach((g) => {
+          txt += g.padEnd(6, " ");
+        });
+        txt += "\n";
+        txt += "          " + "──────".repeat(colG.length) + "\n";
+
+        rowG.forEach((rg) => {
+          txt += `Giao tử bố ${rg} │ `;
+          colG.forEach((cg) => {
+            const A1 = rg[0],
+              A2 = cg[0];
+            const B1 = rg[1],
+              B2 = cg[1];
+            const childGt = makeGenotype(A1, A2, B1, B2);
+            txt += childGt.padEnd(6, " ");
+          });
+          txt += "\n";
+        });
+
+        div.textContent = txt;
+      }
+
+      // ----------------- HIỂN THỊ KẾT QUẢ & GẮN NÚT ---------------------
+      function onSimulateF1() {
+        const p1Str = document.getElementById("parent1").value;
+        const p2Str = document.getElementById("parent2").value;
+        const n = getOffspringCount();
+
+        const p1 = parseGenotype(p1Str);
+        const p2 = parseGenotype(p2Str);
+
+        const children = makeOffspring(p1, p2, n);
+        F1_children = children.slice(); // lưu cho F2
+
+        const genoCounts = countGenotypes(children);
+        const phenoCounts = countPhenotypes(children);
+
+        const total = children.length;
+
+        // Kiểu gen
+        let gtTxt = `F₁ từ lai ${p1Str} × ${p2Str}\n\nKiểu gen (tần số / %):\n`;
+        const allGeno = Object.keys(genoCounts).sort();
+        allGeno.forEach((gt) => {
+          const c = genoCounts[gt];
+          const pct = ((c * 100) / total).toFixed(1);
+          gtTxt += `  ${gt.padEnd(6)}: ${c.toString().padStart(4)} (${pct}%)\n`;
+        });
+        document.getElementById("genotypeResult").textContent = gtTxt;
+
+        // Kiểu hình
+        let phTxt = `F₁ – nhóm kiểu hình A-/aa & B-/bb:\n`;
+        Object.keys(phenoCounts).forEach((ph) => {
+          const c = phenoCounts[ph];
+          const pct = ((c * 100) / total).toFixed(1);
+          phTxt += `  ${ph.padEnd(32)}: ${c
+            .toString()
+            .padStart(4)} (${pct}%)\n`;
+        });
+        document.getElementById("phenotypeResult").textContent = phTxt;
+
+        // Hạt đậu + Punnett
+        drawPeas(children);
+        showPunnettTable(p1, p2);
+
+        // Bar chart – để 0% (không dùng cho dihybrid, nhưng giữ giao diện)
+        document.getElementById("barAAValue").textContent = "0%";
+        document.getElementById("barAaValue").textContent = "0%";
+        document.getElementById("baraaValue").textContent = "0%";
+
+        // Đổ danh sách F1 vào dropdown chọn bố mẹ F2
+        const sel1 = document.getElementById("f1Parent1");
+        const sel2 = document.getElementById("f1Parent2");
+        sel1.innerHTML = "";
+        sel2.innerHTML = "";
+
+        // CHỈ LẤY MỖI KIỂU GEN 1 LẦN, KÈM SỐ LƯỢNG CÁ THỂ F1
+        const genoCountsF1 = countGenotypes(F1_children);
+        const uniqueGenos = Object.keys(genoCountsF1).sort();
+
+        uniqueGenos.forEach((gt) => {
+          const count = genoCountsF1[gt];
+          const label = `${gt} – ${count} cá thể F₁`;
+
+          const opt1 = document.createElement("option");
+          opt1.value = gt; // giá trị là kiểu gen (vd: AaBb)
+          opt1.textContent = label;
+          sel1.appendChild(opt1);
+
+          const opt2 = opt1.cloneNode(true);
+          sel2.appendChild(opt2);
+        });
+
+        // Cập nhật gợi ý F2
+        document.getElementById("f2Results").textContent =
+          "Đã có F₁. Hãy chọn bố mẹ F₁ ở trên rồi bấm 'Tạo F₂'.";
+      }
+
+      function onSimulateF2() {
+        if (!F1_children || F1_children.length === 0) {
+          alert("Chưa có F₁! Hãy bấm 'Tạo F₁' trước.");
+          return;
+        }
+
+        const sel1 = document.getElementById("f1Parent1");
+        const sel2 = document.getElementById("f1Parent2");
+        if (!sel1.value || !sel2.value) {
+          alert("Hãy chọn bố và mẹ F₁.");
+          return;
+        }
+
+        const p1Str = sel1.value;
+        const p2Str = sel2.value;
+        const n = parseInt(document.getElementById("f2Count").value, 10) || 400;
+
+        const p1 = parseGenotype(p1Str);
+        const p2 = parseGenotype(p2Str);
+
+        const children = makeOffspring(p1, p2, n);
+        const genoCounts = countGenotypes(children);
+        const phenoCounts = countPhenotypes(children);
+        const total = children.length;
+
+        let txt = `F₂ từ F₁: ${p1Str} × ${p2Str}\n\n`;
+        txt += "Kiểu gen:\n";
+        Object.keys(genoCounts)
+          .sort()
+          .forEach((gt) => {
+            const c = genoCounts[gt];
+            const pct = ((c * 100) / total).toFixed(1);
+            txt += `  ${gt.padEnd(6)}: ${c} (${pct}%)\n`;
+          });
+
+        txt += "\nKiểu hình:\n";
+        Object.keys(phenoCounts).forEach((ph) => {
+          const c = phenoCounts[ph];
+          const pct = ((c * 100) / total).toFixed(1);
+          txt += `  ${ph}: ${c} (${pct}%)\n`;
+        });
+
+        document.getElementById("f2Results").textContent = txt;
+
+        // vẽ hạt đậu & Punnett cho F2
+        drawPeas(children);
+        showPunnettTable(p1, p2);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("btnF1")
+          .addEventListener("click", onSimulateF1);
+        document
+          .getElementById("btnF2")
+          .addEventListener("click", onSimulateF2);
+      });
+    </script>
+    <link rel="stylesheet" href="chatbox/chatbox.css?v=1" />
+    <script defer src="chatbox/chatbox.js?v=1"></script>
+  </body>
+</html>

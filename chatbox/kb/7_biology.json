@@ -1,0 +1,80 @@
+{
+  "topics": [
+    {
+      "patterns": [
+        "thao tác",
+        "làm sao",
+        "bước làm",
+        "cách dùng",
+        "hướng dẫn",
+        "quan sát",
+        "F1",
+        "F2",
+        "bấm nút",
+        "chọn kiểu gen",
+        "làm thí nghiệm",
+        "thực hiện",
+        "giải thích",
+        "AaBb",
+        "2 cặp gen",
+        "2 gen",
+        "dihybrid",
+        "9 3 3 1",
+        "tỉ lệ 9 3 3 1",
+        "bảng Punnett 4x4",
+        "giao tử AB Ab aB ab"
+      ],
+      "guide": [
+        "Bước 1: Ở phần P, chọn kiểu gen cho bố (P₁) và mẹ (P₂) ở cả hai cặp gen A/a và B/b. Ví dụ phép lai kinh điển: AaBb × AaBb, hoặc các trường hợp khác như AABb × aaBb, AABB × aabb...",
+        "Bước 2: Điều chỉnh số lượng cá thể F₁ mô phỏng (thường nên để từ 200–1000 cá thể để tỉ lệ quan sát mượt hơn). Sau đó nhấn nút \"Tạo F₁\".",
+        "Bước 3: Quan sát khối Kết quả & thống kê F₁:\n• Bảng \"Kiểu gen\" thống kê tất cả các kiểu gen F₁ (AABB, AABb, AaBB, AaBb, aaBB, aaBb, Aabb, aabb,...) kèm số lượng và tỉ lệ %.\n• Bảng \"Kiểu hình\" nhóm các kiểu gen theo 4 nhóm kiểu hình: A- B-, A- bb, aa B-, aa bb, kèm số lượng và tỉ lệ %.\n• Phần hạt đậu mô phỏng hiển thị tối đa 240 cá thể với 4 màu tương ứng 4 nhóm kiểu hình. Di chuột lên từng hạt để xem kiểu gen và kiểu hình chi tiết.",
+        "Bước 4: Quan sát bảng Punnett bên dưới (Bảng giao tử AB, Ab, aB, ab). Bảng này xây dựng từ các giao tử của P₁ và P₂, thể hiện tất cả tổ hợp lai có thể xảy ra và kiểu gen con tương ứng. Đây là cơ sở lý thuyết để so sánh với tỉ lệ F₁ thực nghiệm.",
+        "Bước 5: Sau khi F₁ đã được tạo, phần \"Tạo đời F₂ từ F₁\" sẽ được cập nhật. Hai ô chọn bố (F₁) và mẹ (F₁) được đổ danh sách tất cả các kiểu gen F₁ xuất hiện, mỗi dòng kèm số lượng cá thể F₁ có kiểu gen đó (ví dụ: \"AaBb – 210 cá thể F₁\"). Học sinh chọn một kiểu gen làm bố và một kiểu gen làm mẹ F₂ (có thể giống nhau nếu muốn tự thụ).",
+        "Bước 6: Chọn số cá thể F₂ mô phỏng rồi nhấn nút \"Tạo F₂\". Chương trình sẽ tạo đời con F₂ từ hai kiểu gen F₁ đã chọn, thống kê lại kiểu gen – kiểu hình F₂, vẽ lại dải hạt đậu và cập nhật bảng Punnett tương ứng với cặp F₁ vừa chọn.",
+        "Bước 7: Thay đổi lại kiểu gen P₁, P₂ hoặc số cá thể F₁, sau đó thực hiện lại các bước trên để so sánh nhiều kiểu lai 2 cặp gen khác nhau: dihybrid cổ điển (AaBb × AaBb), lai phân tích (AaBb × aabb), hoặc lai giữa các kiểu gen đồng hợp/trội/lặn khác."
+      ],
+      "explain": [
+        "Ý nghĩa mô phỏng: giúp người học thấy rõ cách các alen của hai cặp gen (A/a quy định tính trạng 1, B/b quy định tính trạng 2) tổ hợp trong lai P → F₁ → F₂, từ đó hiểu quy luật phân li và phân li độc lập của Mendel, cũng như cách từ 2 cặp gen tạo ra 4 nhóm kiểu hình khác nhau ở đời con.",
+        "Ở phép lai điển hình AaBb × AaBb, mỗi bố mẹ tạo ra 4 loại giao tử với tỉ lệ ngang nhau: AB, Ab, aB, ab. Khi kết hợp ngẫu nhiên, có 16 kiểu tổ hợp giao tử, tạo nên 16 ô trong bảng Punnett 4×4. Từ 16 ô này, nhóm lại thành 9 cá thể A- B-, 3 cá thể A- bb, 3 cá thể aa B-, và 1 cá thể aa bb → tỉ lệ kiểu hình lý thuyết 9 : 3 : 3 : 1.",
+        "Mỗi nhóm kiểu hình bao gồm nhiều kiểu gen khác nhau. Ví dụ, nhóm A- B- gồm các kiểu gen AABB, AABb, AaBB, AaBb; nhóm A- bb gồm AAbb, Aabb; nhóm aa B- gồm aaBB, aaBb; nhóm aa bb chỉ có aabb. Mô phỏng cho thấy: một kiểu hình không nhất thiết ứng với một kiểu gen duy nhất.",
+        "Bảng Punnett trong mô phỏng thể hiện trực tiếp quy luật phân li độc lập: hàng là các giao tử của P₁ (AB, Ab, aB, ab), cột là giao tử của P₂, ô giao nhau là kiểu gen F₁ tương ứng. Khi thay đổi kiểu gen P₁, P₂, các loại giao tử và phân bố trong bảng Punnett cũng thay đổi, cho tỉ lệ kiểu gen – kiểu hình khác nhau.",
+        "Khi tăng số cá thể mô phỏng F₁ hoặc F₂ (ví dụ lên 500–1000), tỉ lệ % quan sát được cho 4 nhóm kiểu hình sẽ tiến gần dần đến tỉ lệ lý thuyết (9:3:3:1 với AaBb × AaBb, hoặc tỉ lệ khác với các kiểu lai khác). Đây là minh họa trực quan cho quy luật số lớn trong thống kê sinh học.",
+        "Mô phỏng cũng cho phép học sinh thử nhiều tổ hợp F₁ khác nhau cho F₂. Ví dụ, nếu chọn F₁ đồng hợp trội AABB làm bố và mẹ, F₂ sẽ chỉ cho một kiểu gen AABB và một kiểu hình A- B-. Ngược lại, nếu chọn lai giữa AaBb và aabb, tỉ lệ kiểu hình sẽ khác hẳn so với phép lai AaBb × AaBb kinh điển."
+      ]
+    },
+    {
+      "patterns": [
+        "lỗi thường gặp",
+        "sai",
+        "không thấy",
+        "không ra F1",
+        "không ra F2",
+        "không hiện hạt",
+        "không hiện bảng",
+        "reset",
+        "đặt lại",
+        "bị lệch",
+        "tỉ lệ k lạ",
+        "tỉ lệ k lạ quá",
+        "không ra 9 3 3 1",
+        "không đúng 9 3 3 1",
+        "không đúng bảng Punnett"
+      ],
+      "guide": [
+        "Nếu bấm \"Tạo F₁\" mà không thấy kết quả, hãy kiểm tra: (1) đã chọn kiểu gen cho cả P₁ và P₂ chưa; (2) ô số lượng cá thể F₁ có giá trị lớn hơn 0 và không vượt quá giới hạn (1–5000). Sau đó thử bấm lại nút.",
+        "Nếu F₁ đã có nhưng bấm \"Tạo F₂\" mà bị báo lỗi hoặc không thay đổi, có thể bạn chưa chọn kiểu gen F₁ trong hai ô chọn bố (F₁) và mẹ (F₁). Hãy mở danh sách, chọn kiểu gen mong muốn (ví dụ AaBb – 210 cá thể F₁) cho cả hai ô rồi bấm lại \"Tạo F₂\".",
+        "Khi không thấy hạt đậu hiển thị, hãy kiểm tra lại số cá thể F₁/F₂: nếu để 0 hoặc giá trị rất nhỏ thì có thể chỉ có rất ít hạt được vẽ. Ngoài ra, hãy thử cuộn xuống dưới hoặc phóng to cửa sổ trình duyệt vì vùng hiển thị hạt đậu có thể nằm khuất.",
+        "Nếu không thấy bảng Punnett cập nhật, kiểm tra xem đã bấm \"Tạo F₁\" hoặc \"Tạo F₂\" chưa. Bảng Punnett luôn dựa trên cặp bố mẹ đang xét (P₁ × P₂ hoặc cặp F₁ đã chọn), nên chỉ thay đổi khi bạn chạy mô phỏng lại.",
+        "Nếu tỉ lệ kiểu hình không ra đúng 9 : 3 : 3 : 1, hãy kiểm tra: (1) bạn có đang dùng phép lai AaBb × AaBb hay không; (2) số cá thể mô phỏng có đủ lớn không. Các phép lai khác (ví dụ AaBb × aabb) sẽ cho tỉ lệ khác, và với số mẫu nhỏ, tỉ lệ luôn dao động quanh giá trị lý thuyết.",
+        "Khi muốn làm lại thí nghiệm với cặp P khác, chỉ cần đổi kiểu gen P₁, P₂ hoặc số cá thể F₁ rồi bấm \"Tạo F₁\" lại. Không cần tải lại trang; F₁ và F₂ cũ sẽ được thay thế bằng mô phỏng mới."
+      ],
+      "explain": [
+        "Một lỗi nhận thức phổ biến là nghĩ rằng mọi thí nghiệm 2 cặp gen đều phải cho tỉ lệ 9 : 3 : 3 : 1. Thực tế, tỉ lệ 9 : 3 : 3 : 1 chỉ đúng với phép lai AaBb × AaBb (trội hoàn toàn, các gen phân li độc lập). Nếu thay đổi kiểu gen P₁, P₂, tỉ lệ kiểu hình sẽ khác đi và điều đó là bình thường, không phải lỗi mô phỏng.",
+        "Ngay cả với phép lai AaBb × AaBb, tỉ lệ quan sát được trong mô phỏng không nhất thiết đúng chính xác 9 : 3 : 3 : 1 mà sẽ dao động xung quanh (ví dụ 8.7 : 3.2 : 3.1 : 1.0). Điều này phản ánh tính ngẫu nhiên của quá trình tạo giao tử và thụ tinh, và minh họa rõ vai trò của quy luật số lớn.",
+        "Học sinh thường nhầm giữa số kiểu gen và số kiểu hình. Với 2 cặp gen, có thể có tới 9 kiểu gen khác nhau nhưng chỉ gom lại thành 4 nhóm kiểu hình. Mô phỏng cho thấy rõ: nhiều ô trong bảng Punnett (tức nhiều kiểu gen) rơi vào cùng một nhóm kiểu hình.",
+        "Một nhầm lẫn khác là nghĩ rằng nếu bảng Punnett có 16 ô thì F₁ lúc nào cũng phải có đủ 16 kiểu gen. Thực tế, nhiều ô có cùng kiểu gen trùng nhau (ví dụ AaBb xuất hiện nhiều lần), nên số kiểu gen khác nhau ít hơn 16. Mô phỏng và thống kê kiểu gen giúp học sinh nhận ra điều đó.",
+        "Mô phỏng còn giúp phát hiện các trường hợp đặc biệt: nếu chọn P₁, P₂ đồng hợp ở cả hai cặp gen (AABB × aabb), F₁ chỉ có AaBb (100% dihybrid). Nếu tiếp tục chọn AaBb để tự thụ thì mới xuất hiện đủ 4 nhóm kiểu hình F₂. Điều này làm rõ vai trò của kiểu gen P trong kết quả đời con."
+      ]
+    }
+  ]
+}
